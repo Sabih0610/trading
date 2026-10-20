@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+data/
+mlruns/
+reports/**/*.parquet
+*.log
+.venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.cache/
+*.sqlite
+*.db
