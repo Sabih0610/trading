@@ -1,0 +1,23 @@
+{
+  "current_phase": "P00",
+  "phases": {
+    "P00": {"title": "Bootstrap", "status": "not_started"},
+    "P01": {"title": "Asset registry, Shariah gate, risk config", "status": "not_started"},
+    "P02": {"title": "Historical market data", "status": "not_started"},
+    "P03": {"title": "Calendar and news", "status": "not_started"},
+    "P04": {"title": "Silver cleaning", "status": "not_started"},
+    "P05": {"title": "Feature engine", "status": "not_started"},
+    "P06": {"title": "Backtester and risk manager", "status": "not_started", "human_gate": true},
+    "P07": {"title": "Strategies and scenarios", "status": "not_started"},
+    "P08": {"title": "ML models", "status": "not_started"},
+    "P09": {"title": "Decision ledger and AI arena", "status": "not_started", "human_gate": true},
+    "P10": {"title": "Dashboard", "status": "not_started"},
+    "P11": {"title": "Live data and paper trading", "status": "not_started"},
+    "P12": {"title": "Testnet execution", "status": "not_started", "human_gate": true, "needs_keys": ["BINANCE_TESTNET_API_KEY", "BINANCE_TESTNET_API_SECRET"]},
+    "P13": {"title": "Learning loop", "status": "not_started"},
+    "P14": {"title": "Demo month runbook", "status": "not_started"}
+  },
+  "allowed_status": ["not_started", "in_progress", "done", "blocked_on_keys", "blocked_on_review", "blocked_on_data", "failed"],
+  "background_jobs": [],
+  "last_updated_utc": null
+}

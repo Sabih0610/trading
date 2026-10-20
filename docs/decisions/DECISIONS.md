@@ -1,0 +1,11 @@
+# Decision log
+
+This log records project decisions when they are made so later phases can understand the tradeoffs without reconstructing them from code.
+
+| ID | Date (UTC) | Phase | Decision | Options considered | Reason | Evidence |
+|---|---|---|---|---|---|---|
+| D-0001 | 2026-10-20 | P00 | Use `E:\\trading bot` as the canonical repository root and copy the extracted development kit into it, while retaining and ignoring the source archive. | Work inside the nested kit; promote files to Git root. | `AGENTS.md`, P00, and the kit README all identify `E:\\trading bot` as the root; retaining the source is recoverable and non-destructive. | `README.md`; `docs/journal/P00-journal.md` |
+| D-0002 | 2026-10-20 | P00 | Use an installable uv application with a `src/tb` package and a committed cross-platform `uv.lock`. | Flat package; non-package scripts; installable src layout. | uv and pytest both recommend an installable src layout; it prevents accidental imports from the checkout and provides the `tb` entry point. | `docs/research/P00-research.md` |
+| D-0003 | 2026-10-20 | P00 | Use standard-library logging with a custom JSON formatter and redacting handler filter, plus Rich for the console. | structlog; stdlib-only console; stdlib + Rich. | It keeps the logging pipeline inspectable, integrates third-party logs, and applies the same redaction boundary to file and console handlers. | `docs/research/P00-research.md` |
+| D-0004 | 2026-10-20 | P00 | Let uv provision CPython 3.12 because the host only has Python 3.14. | Use host 3.14; require a manually installed 3.12; uv-managed 3.12. | The project mandates Python 3.12 and uv can create a local environment without changing the system interpreter. | `docs/research/P00-research.md` |
+| D-0005 | 2026-10-20 | P00 | Retain only five audited skills; quarantine P2P and the executable short-enabled backtester; do not substitute a broad Binance skill for missing spot-specific folders. | Keep all allowlisted installer output with warnings; rewrite third-party skills; quarantine incompatible copies. | The rejected copies directly conflict with read-only P2P, long-only trading, secret-handling, or endpoint constraints. Quarantine is recoverable and the source clones remain ignored for provenance. | `docs/skills.md` |
