@@ -1,9 +1,9 @@
 # Current handoff
 
-P01 is complete and ready to commit/tag. Its versioned policy registry, deterministic risk guards, 48 offline tests, pre-commit hooks, and hostile source scan are green.
+P01 is committed/tagged and P02 historical-data ingestion is in progress. P02 has loaded its prompt and is beginning current source/format/terms research before implementation.
 
-- Last completed step: P01 final quality gate, pre-commit, hostile review, and documentation completed.
-- Next step: commit `P01: enforce deterministic trading policy`, tag `phase-P01-done`, then initialize P02.
-- Exact next command: `git add --all; git commit -m "P01: enforce deterministic trading policy"; git tag phase-P01-done`.
-- Open problems: none. The missing spot-specific Binance skills are a documented non-blocking upstream gap.
-- Safety state: no keys were read or committed; no execution path exists; all order/risk checks fail closed; forbidden-code and final-test scans are clean.
+- Last completed step: P02 official-source research recorded with decisions D-0009–D-0011.
+- Next step: add pinned HTTP/Parquet dependencies and implement/test the shared atomic download, retry, manifest, partition, and disk-estimation core before source adapters.
+- Exact next command: update `pyproject.toml`, lock with uv, then add `src/tb/ingest/history/core.py` and offline tests.
+- Open problems: live FRED use is pending an owner/legal scope decision; Dukascopy’s current official bulk route is credentialed requester-pays, so the keyless public feed is treated as best-effort. Neither blocks fixture-backed core/Binance/Dukascopy implementation.
+- Safety state: P02 is public read-only ingestion; no keys or execution paths are in scope. The locked final period may be stored but must not be evaluated without the separate P07+ gate.
