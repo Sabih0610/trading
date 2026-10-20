@@ -5,7 +5,7 @@ The repository bootstrap is in progress. This file mirrors `docs/state/progress.
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
 | P00 | Bootstrap | done | 2026-10-20 22:29 | 2026-10-20 22:45 | `phase-P00-done` | [report](reports/phases/P00.md) | queued |
-| P01 | Asset registry, Shariah gate, risk config | not started | — | — | — | — | — |
+| P01 | Asset registry, Shariah gate, risk config | done | 2026-10-20 22:45 | 2026-10-20 22:52 | `phase-P01-done` | [report](reports/phases/P01.md) | queued |
 | P02 | Historical market data | not started | — | — | — | — | — | — |
 | P03 | Calendar and news | not started | — | — | — | — | — | — |
 | P04 | Silver cleaning | not started | — | — | — | — | — | — |

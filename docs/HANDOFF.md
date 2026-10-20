@@ -1,9 +1,9 @@
 # Current handoff
 
-P00 bootstrap is complete and ready for routine Claude review. The full gate passed, skills were audited, and all acceptance scenarios are recorded in `reports/phases/P00.md`.
+P01 is complete and ready to commit/tag. Its versioned policy registry, deterministic risk guards, 48 offline tests, pre-commit hooks, and hostile source scan are green.
 
-- Last completed step: P00 self-review gate and living-document updates.
-- Next step: commit/tag P00, then start P01 by reading `prompts/P01-registry-and-rules.md` and marking it in progress.
-- Exact next command: `git commit -m "P00: bootstrap typed offline project"; git tag phase-P00-done`.
+- Last completed step: P01 final quality gate, pre-commit, hostile review, and documentation completed.
+- Next step: commit `P01: enforce deterministic trading policy`, tag `phase-P01-done`, then initialize P02.
+- Exact next command: `git add --all; git commit -m "P01: enforce deterministic trading policy"; git tag phase-P01-done`.
 - Open problems: none. The missing spot-specific Binance skills are a documented non-blocking upstream gap.
-- Safety state: no keys were read or committed; no execution or trading path exists; forbidden-code and final-test scans are clean.
+- Safety state: no keys were read or committed; no execution path exists; all order/risk checks fail closed; forbidden-code and final-test scans are clean.

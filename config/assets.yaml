@@ -1,0 +1,197 @@
+schema_version: 1
+assets:
+  - symbol: XAUTUSDT
+    role: tradable
+    venue: binance_spot
+    shariah_status: approved
+    ruling_source: "project_policy:AGENTS.md#section-2"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [crypto_24x7]
+    weekend_trading: false
+    cost_model:
+      fee_bps: "10"
+      spread_bps_default: "8"
+      slippage_bps_default: "5"
+    allowed_strategies: [london_sweep_mss_fvg, xaut_catch_up, trend_vwap_pullback]
+    risk_overrides:
+      risk_per_trade_pct: "0.75"
+      max_trades_per_day_per_asset: 2
+    exchange_rules: null
+
+  - symbol: BTCUSDT
+    role: tradable
+    venue: binance_spot
+    shariah_status: approved
+    ruling_source: "project_policy:AGENTS.md#section-2"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [crypto_24x7]
+    weekend_trading: true
+    cost_model:
+      fee_bps: "10"
+      spread_bps_default: "2"
+      slippage_bps_default: "3"
+    allowed_strategies: [trend_vwap_pullback]
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: ETHUSDT
+    role: tradable
+    venue: binance_spot
+    shariah_status: approved
+    ruling_source: "project_policy:AGENTS.md#section-2"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [crypto_24x7]
+    weekend_trading: true
+    cost_model:
+      fee_bps: "10"
+      spread_bps_default: "3"
+      slippage_bps_default: "4"
+    allowed_strategies: [trend_vwap_pullback]
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: SOLUSDT
+    role: tradable
+    venue: binance_spot
+    shariah_status: approved
+    ruling_source: "project_policy:AGENTS.md#section-2"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [crypto_24x7]
+    weekend_trading: true
+    cost_model:
+      fee_bps: "10"
+      spread_bps_default: "5"
+      slippage_bps_default: "6"
+    allowed_strategies: [trend_vwap_pullback]
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: XAUUSD
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [london, new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: EURUSD
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [london, new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: USDJPY
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [london, new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: GBPUSD
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [london, new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: USDCAD
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [london, new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: USDSEK
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [london, new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: USDCHF
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [london, new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: WTI
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
+
+  - symbol: US10Y
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only instrument; never executable"
+    reviewed_on: 2026-10-20
+    phase: P01
+    sessions: [new_york]
+    weekend_trading: false
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null

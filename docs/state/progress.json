@@ -2,7 +2,7 @@
   "current_phase": "P01",
   "phases": {
     "P00": {"title": "Bootstrap", "status": "done", "started_utc": "2026-10-20 22:29 UTC", "completed_utc": "2026-10-20 22:45 UTC", "commit": "phase-P00-done", "report": "reports/phases/P00.md", "review": "queued"},
-    "P01": {"title": "Asset registry, Shariah gate, risk config", "status": "not_started"},
+    "P01": {"title": "Asset registry, Shariah gate, risk config", "status": "done", "started_utc": "2026-10-20 22:45 UTC", "completed_utc": "2026-10-20 22:52 UTC", "commit": "phase-P01-done", "report": "reports/phases/P01.md", "review": "queued"},
     "P02": {"title": "Historical market data", "status": "not_started"},
     "P03": {"title": "Calendar and news", "status": "not_started"},
     "P04": {"title": "Silver cleaning", "status": "not_started"},
@@ -19,5 +19,5 @@
   },
   "allowed_status": ["not_started", "in_progress", "done", "blocked_on_keys", "blocked_on_review", "blocked_on_data", "failed"],
   "background_jobs": [],
-  "last_updated_utc": "2026-10-20 22:45 UTC"
+  "last_updated_utc": "2026-10-20 22:52 UTC"
 }
