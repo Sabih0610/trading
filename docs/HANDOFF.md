@@ -1,9 +1,9 @@
 # Current handoff
 
-P02 historical-data ingestion is complete and ready for its routine Claude review. P03 calendar/news ingestion is the next phase.
+P02 is complete/tagged and P03 calendar/news ingestion is in progress. P03's current source/terms audit is recorded with decisions D-0013 through D-0015.
 
-- Last completed step: full P02 gate passed (Ruff, format, strict mypy, pre-commit, 87 tests with 3 live tests deselected) after validating 112 sample files and 12,671,061 rows with zero issues.
-- Next step: read `prompts/P03-calendar-news.md`, load prior-phase context and open review blockers, mark P03 in progress, then research current keyless calendar/news sources.
-- Exact next command: `Get-Content -LiteralPath .\prompts\P03-calendar-news.md`.
-- Open problems: live FRED use is pending owner/legal decision D-0011. The full P02 transfer needs 778.56 GB but the current volume has 117.97 GB free, so background job `full_history_download` is blocked on storage under D-0012. The verified sample is sufficient to build P03/P04 paths.
-- Safety state: P02 contains public read-only data only. Locked final-period rows are stored but have not been evaluated, and no secret or execution path was added.
+- Last completed step: verified official schedule contracts, Finance Calendar limits/attribution, GDELT terms/rate behavior, and live RSS endpoints; documented the comparison in `docs/research/P03-research.md`.
+- Next step: add strict `CalendarEvent` and `NewsItem` schemas, deterministic identity/deduplication, official-source reconciliation, and DST tests before source adapters.
+- Exact next command: create `src/tb/ingest/calendar/models.py`, `reconcile.py`, `src/tb/ingest/news/models.py`, and their unit/property tests.
+- Open problems: Fair Economy live storage is terms-gated under D-0015. The full P02 transfer remains blocked on storage under D-0012; live FRED remains pending D-0011.
+- Safety state: P03 sources are public read-only metadata. News ingestion will store headlines/links only, no article bodies; no source can create or modify a trade.
