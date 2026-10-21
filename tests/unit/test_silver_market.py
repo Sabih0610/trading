@@ -108,7 +108,16 @@ def test_resampling_excludes_unfinished_window_and_has_no_lookahead() -> None:
 
     first = resample_completed_bars(clean, "5m", cutoff=start + timedelta(minutes=7))
     extended = pl.concat(
-        [clean, clean.tail(1).with_columns(pl.col("timestamp_ns") + 60 * _MINUTE_NS)]
+        [
+            clean,
+            clean.tail(1).with_columns(
+                pl.col("timestamp_ns") + _MINUTE_NS,
+                (pl.col("timestamp_utc") + timedelta(minutes=1)).cast(
+                    pl.Datetime(time_unit="ns", time_zone="UTC")
+                ),
+                pl.lit(10_000.0).alias("close"),
+            ),
+        ]
     )
     second = resample_completed_bars(extended, "5m", cutoff=start + timedelta(minutes=7))
 
@@ -130,11 +139,36 @@ def test_xaut_basis_is_null_when_exact_xau_minute_is_absent() -> None:
     assert result["basis_bps"][1] is None
 
 
+def test_xaut_basis_is_null_on_tagged_weekend_even_if_xau_row_exists() -> None:
+    saturday = datetime(2026, 1, 3, 12, 0, tzinfo=UTC)
+    xaut = pl.DataFrame({"timestamp_utc": [saturday], "close": [2000.0]})
+    xau = pl.DataFrame({"timestamp_utc": [saturday], "close": [1990.0], "is_weekend": [True]})
+
+    result = align_xaut_xau_basis(xaut, xau)
+
+    assert result["basis_bps"].to_list() == [None]
+
+
 def test_invalid_ohlc_fails_closed() -> None:
     frame = _bars([_ns(datetime(2026, 1, 1, tzinfo=UTC))]).with_columns(pl.lit(50.0).alias("high"))
 
     with pytest.raises(SilverValidationError, match="OHLC"):
         clean_minute_bars(frame, market_kind="continuous")
+
+
+@pytest.mark.parametrize("bad_value", [float("nan"), float("inf"), -1.0])
+def test_invalid_numeric_values_fail_closed(bad_value: float) -> None:
+    frame = _bars([_ns(datetime(2026, 1, 1, tzinfo=UTC))]).with_columns(
+        pl.lit(bad_value).alias("close")
+    )
+
+    with pytest.raises(SilverValidationError):
+        clean_minute_bars(frame, market_kind="continuous")
+
+
+def test_empty_partition_fails_closed() -> None:
+    with pytest.raises(SilverValidationError, match="cannot be empty"):
+        clean_minute_bars(_bars([]), market_kind="continuous")
 
 
 def test_unpaired_dukascopy_sides_fail_closed() -> None:

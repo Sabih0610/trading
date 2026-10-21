@@ -91,6 +91,7 @@ def _past_only_spike_flags(
     window: int,
     minimum_history: int,
     threshold: float,
+    minimum_absolute_return: float,
 ) -> list[bool]:
     """Flag return outliers against prior returns only."""
 
@@ -104,8 +105,10 @@ def _past_only_spike_flags(
             mad = median(abs(value - center) for value in history)
             distance = abs(current_return - center)
             if mad > 0:
-                flagged = distance / (1.4826 * mad) > threshold
-            elif distance > 0:
+                flagged = (
+                    distance >= minimum_absolute_return and distance / (1.4826 * mad) > threshold
+                )
+            elif distance >= minimum_absolute_return:
                 flagged = True
         flags.append(flagged)
         history.append(current_return)
@@ -145,6 +148,7 @@ def clean_minute_bars(
     spike_window: int = 120,
     minimum_spike_history: int = 20,
     spike_threshold: float = 12.0,
+    minimum_absolute_return: float = 0.005,
 ) -> CleanResult:
     """Validate, order, deduplicate, and annotate canonical 1-minute bars."""
 
@@ -152,6 +156,8 @@ def clean_minute_bars(
         raise ValueError("Spike history bounds are invalid")
     if spike_threshold <= 0:
         raise ValueError("spike_threshold must be positive")
+    if minimum_absolute_return <= 0:
+        raise ValueError("minimum_absolute_return must be positive")
     _require_columns(frame, _REQUIRED_COLUMNS)
     _validate_canonical_values(frame)
     if frame["symbol"].n_unique() != 1 or frame["source"].n_unique() != 1:
@@ -187,6 +193,7 @@ def clean_minute_bars(
         window=spike_window,
         minimum_history=minimum_spike_history,
         threshold=spike_threshold,
+        minimum_absolute_return=minimum_absolute_return,
     )
     annotated = ordered.with_columns(
         pl.from_epoch("timestamp_ns", time_unit="ns")
@@ -275,15 +282,25 @@ def align_xaut_xau_basis(xaut: pl.DataFrame, xau: pl.DataFrame) -> pl.DataFrame:
 
     _require_columns(xaut, ("timestamp_utc", "close"))
     _require_columns(xau, ("timestamp_utc", "close"))
-    xaut_values = xaut.select("timestamp_utc", pl.col("close").cast(pl.Float64).alias("xaut_usd"))
-    xau_values = xau.select("timestamp_utc", pl.col("close").cast(pl.Float64).alias("xau_usd"))
+    xaut_values = xaut.select("timestamp_utc", pl.col("close").cast(pl.Float64).alias("xaut_usdt"))
+    if "is_weekend" in xau.columns:
+        xau_values = xau.select(
+            "timestamp_utc",
+            pl.when(~pl.col("is_weekend"))
+            .then(pl.col("close").cast(pl.Float64))
+            .otherwise(None)
+            .alias("xau_usd"),
+        )
+    else:
+        xau_values = xau.select("timestamp_utc", pl.col("close").cast(pl.Float64).alias("xau_usd"))
     return (
         xaut_values.join(xau_values, on="timestamp_utc", how="left", validate="1:1")
         .with_columns(
             pl.when(pl.col("xau_usd").is_not_null())
-            .then((pl.col("xaut_usd") / pl.col("xau_usd") - 1.0) * 10_000.0)
+            .then((pl.col("xaut_usdt") / pl.col("xau_usd") - 1.0) * 10_000.0)
             .otherwise(None)
             .alias("basis_bps")
         )
+        .with_columns(pl.lit("nominal USDT/USD parity").alias("quote_assumption"))
         .sort("timestamp_utc")
     )

@@ -1,0 +1,10 @@
+{
+  "processed_alignment_partitions": 0,
+  "processed_context_tables": 0,
+  "processed_market_partitions": 0,
+  "silver_files": 514,
+  "silver_rows": 167056,
+  "skipped_alignment_partitions": 7,
+  "skipped_context_tables": 3,
+  "skipped_market_partitions": 84
+}

@@ -1,0 +1,12 @@
+{
+  "coverage_pct": 100.0,
+  "dataset": "binance_spot/BTCUSDT/1m",
+  "duplicates_removed": 0,
+  "first_utc": "2026-10-13T00:00:00Z",
+  "flagged_spikes": 0,
+  "gap_count": 0,
+  "input_rows": 1440,
+  "last_utc": "2026-10-13T23:59:00Z",
+  "missing_minutes": 0,
+  "output_rows": 1440
+}

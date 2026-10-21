@@ -1,0 +1,8 @@
+{
+  "dataset": "aligned/XAUT_XAU/1m",
+  "exact_overlap_rows": 0,
+  "null_basis_rows": 1440,
+  "partition_date": "2026-10-17",
+  "quote_assumption": "nominal USDT/USD parity",
+  "rows": 1440
+}
