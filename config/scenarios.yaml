@@ -1,0 +1,40 @@
+schema_version: 1
+scenarios:
+  - id: crash_2020_03
+    label: March 2020 crash (outside project train start)
+    kind: fixed
+    start: 2020-03-01
+    end: 2020-03-31
+    expected_availability: unavailable_before_train
+  - id: rate_hike_pressure_2022
+    label: 2022 rate-hike pressure
+    kind: fixed
+    start: 2022-03-16
+    end: 2022-12-15
+    expected_availability: requires_full_history
+  - id: banking_stress_2023_03
+    label: March 2023 banking stress
+    kind: fixed
+    start: 2023-03-08
+    end: 2023-03-31
+    expected_availability: requires_full_history
+  - id: gold_rally_2024
+    label: 2024 gold rally
+    kind: fixed
+    start: 2024-01-01
+    end: 2024-12-31
+    validation_only: true
+    expected_availability: requires_full_history
+  - id: quiet_ranges
+    label: Lowest realized-volatility decile
+    kind: auto_low_vol
+    expected_availability: derived_when_history_exists
+  - id: scheduled_news
+    label: CPI, employment, and FOMC days
+    kind: event
+    event_types: [cpi, nfp, fomc]
+    expected_availability: derived_from_point_in_time_calendar
+  - id: thin_liquidity
+    label: Holidays and thin Asian-session observations
+    kind: thin_liquidity
+    expected_availability: derived_when_history_exists

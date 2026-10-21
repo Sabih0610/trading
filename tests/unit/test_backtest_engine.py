@@ -12,6 +12,7 @@ from tb.backtest.engine import (
     EntryOrderType,
     EntrySignal,
     ExitReason,
+    ExitSignal,
 )
 from tb.risk.config import PolicyBundle, SpotSymbolRules, load_policy_bundle
 from tb.risk.guards import OrderSide
@@ -328,3 +329,62 @@ def test_non_utc_inputs_are_rejected() -> None:
             initial_cash=Decimal("1000"),
             kill_switch_at=datetime(2024, 1, 1),
         )
+
+
+def test_strategy_exit_is_delayed_to_next_bar_open() -> None:
+    bars = [
+        _bar(0),
+        _bar(1, high="102"),
+        _bar(2, open_price="103", high="104", low="102", close="103"),
+    ]
+    exit_signal = ExitSignal(timestamp=_START + timedelta(minutes=1), symbol="BTCUSDT")
+
+    result = BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")).run(
+        bars,
+        [_signal(target_price=Decimal("120"))],
+        [exit_signal],
+    )
+
+    assert result.trades[0].exit_time == bars[2].timestamp
+    assert result.trades[0].exit_reason is ExitReason.STRATEGY
+    assert result.trades[0].exit_price == Decimal("102.9588")
+
+
+def test_time_stop_closes_at_future_bar_open() -> None:
+    bars = [_bar(0), _bar(1), _bar(2, open_price="102", high="103", low="101", close="102")]
+
+    result = BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")).run(
+        bars,
+        [_signal(target_price=Decimal("120"), max_holding_bars=1)],
+    )
+
+    assert result.trades[0].exit_reason is ExitReason.TIME_STOP
+    assert result.trades[0].exit_time == bars[2].timestamp
+
+
+def test_exit_signal_cancels_pending_or_logs_no_position() -> None:
+    limit = _signal(
+        order_type=EntryOrderType.LIMIT,
+        limit_price=Decimal("90"),
+        stop_price=Decimal("85"),
+        expires_after_bars=3,
+    )
+    at_one = ExitSignal(timestamp=_START + timedelta(minutes=1), symbol="BTCUSDT")
+    at_two = ExitSignal(timestamp=_START + timedelta(minutes=2), symbol="BTCUSDT")
+
+    result = BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")).run(
+        [_bar(0), _bar(1), _bar(2)], [limit], [at_one, at_two]
+    )
+
+    assert [item.reason_code for item in result.rejections] == ["entry_cancelled", "no_position"]
+
+
+def test_exit_signal_validation_fails_closed() -> None:
+    engine = BacktestEngine("BTCUSDT", initial_cash=Decimal("1000"))
+    unaligned = ExitSignal(timestamp=_START + timedelta(seconds=30), symbol="BTCUSDT")
+    wrong = ExitSignal(timestamp=_START, symbol="ETHUSDT")
+    with pytest.raises(ValueError, match="exit signal"):
+        engine.run([_bar(0)], [], [unaligned])
+
+    result = engine.run([_bar(0)], [], [wrong])
+    assert result.rejections[0].reason_code == "symbol_mismatch"

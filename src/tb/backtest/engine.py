@@ -30,6 +30,8 @@ class ExitReason(StrEnum):
     TARGET = "target"
     END_OF_DAY = "end_of_day"
     KILL_SWITCH = "kill_switch"
+    STRATEGY = "strategy"
+    TIME_STOP = "time_stop"
 
 
 class Bar(BaseModel):
@@ -69,6 +71,7 @@ class EntrySignal(BaseModel):
     requested_quantity: Decimal | None = Field(default=None, gt=0)
     participation_rate: Decimal = Field(default=Decimal("0.1"), gt=0, le=1)
     expires_after_bars: int = Field(default=1, ge=1, le=100)
+    max_holding_bars: int | None = Field(default=None, ge=1, le=10_000)
 
     @field_validator("timestamp")
     @classmethod
@@ -77,6 +80,24 @@ class EntrySignal(BaseModel):
 
         if value.utcoffset() != timedelta(0):
             raise ValueError("signal timestamp must use UTC")
+        return value
+
+
+class ExitSignal(BaseModel):
+    """Strategy close proposal observed after one completed bar."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    timestamp: AwareDatetime
+    symbol: str
+
+    @field_validator("timestamp")
+    @classmethod
+    def timestamp_is_utc(cls, value: datetime) -> datetime:
+        """Require the same UTC clock used by completed input bars."""
+
+        if value.utcoffset() != timedelta(0):
+            raise ValueError("exit timestamp must use UTC")
         return value
 
 
@@ -148,6 +169,8 @@ class _Position:
     entry_cash_out: Decimal
     stop_price: Decimal
     target_price: Decimal
+    entry_index: int
+    max_holding_bars: int | None
 
 
 class BacktestEngine:
@@ -159,6 +182,8 @@ class BacktestEngine:
         *,
         initial_cash: Decimal,
         stress_multiplier: Decimal = Decimal("1"),
+        extra_slippage_ticks: int = 0,
+        tick_size: Decimal | None = None,
         risk_manager: RiskManager | None = None,
         kill_switch_at: datetime | None = None,
     ) -> None:
@@ -170,7 +195,12 @@ class BacktestEngine:
         self.asset: AssetDefinition = asset
         self.symbol = asset.symbol
         self.initial_cash = initial_cash
-        self.costs = CostAssumptions.from_asset(asset, stress_multiplier=stress_multiplier)
+        self.costs = CostAssumptions.from_asset(
+            asset,
+            stress_multiplier=stress_multiplier,
+            extra_slippage_ticks=extra_slippage_ticks,
+            tick_size=tick_size,
+        )
         if kill_switch_at is not None and kill_switch_at.utcoffset() != timedelta(0):
             raise ValueError("kill_switch_at must use UTC")
         self.kill_switch_at = kill_switch_at
@@ -188,19 +218,31 @@ class BacktestEngine:
             ):
                 raise ValueError("OHLC bounds are inconsistent")
 
-    def run(self, bars: list[Bar], signals: list[EntrySignal]) -> BacktestResult:
+    def run(
+        self,
+        bars: list[Bar],
+        signals: list[EntrySignal],
+        exit_signals: list[ExitSignal] | None = None,
+    ) -> BacktestResult:
         """Run one symbol over completed bars without any external side effect."""
 
         self._validate_bars(bars)
         signal_by_time = {signal.timestamp: signal for signal in signals}
         if len(signal_by_time) != len(signals):
             raise ValueError("Only one entry signal per timestamp is supported")
+        active_exit_signals = [] if exit_signals is None else exit_signals
+        exit_by_time = {signal.timestamp: signal for signal in active_exit_signals}
+        if len(exit_by_time) != len(active_exit_signals):
+            raise ValueError("Only one exit signal per timestamp is supported")
         bar_timestamps = {bar.timestamp for bar in bars}
         if any(timestamp not in bar_timestamps for timestamp in signal_by_time):
             raise ValueError("Every entry signal must align with an input bar")
+        if any(timestamp not in bar_timestamps for timestamp in exit_by_time):
+            raise ValueError("Every exit signal must align with an input bar")
         cash = self.initial_cash
         position: _Position | None = None
         pending: _PendingEntry | None = None
+        pending_exit_index: int | None = None
         trades: list[TradeRecord] = []
         rejections: list[RejectionRecord] = []
         curve: list[EquityPoint] = []
@@ -220,7 +262,7 @@ class BacktestEngine:
             )
 
         def close_position(bar: Bar, raw_price: Decimal, reason: ExitReason) -> None:
-            nonlocal cash, position, realized_day
+            nonlocal cash, position, realized_day, pending_exit_index
             if position is None:
                 return
             self.risk_manager.validate_inventory_sale(
@@ -248,6 +290,7 @@ class BacktestEngine:
                 )
             )
             position = None
+            pending_exit_index = None
 
         def process_exit(bar: Bar) -> None:
             if position is None:
@@ -274,6 +317,17 @@ class BacktestEngine:
                 if pending is not None:
                     reject(bar.timestamp, "kill_switch", "Pending entry canceled by kill switch")
                     pending = None
+                pending_exit_index = None
+            if (
+                position is not None
+                and position.max_holding_bars is not None
+                and index - position.entry_index >= position.max_holding_bars
+            ):
+                close_position(bar, bar.open, ExitReason.TIME_STOP)
+            if pending_exit_index is not None and index >= pending_exit_index:
+                if position is not None:
+                    close_position(bar, bar.open, ExitReason.STRATEGY)
+                pending_exit_index = None
             process_exit(bar)
 
             if pending is not None and position is None and index >= pending.eligible_index:
@@ -318,6 +372,8 @@ class BacktestEngine:
                                 entry_cash_out=cash_out,
                                 stop_price=pending_signal.stop_price,
                                 target_price=pending_signal.target_price,
+                                entry_index=index,
+                                max_holding_bars=pending_signal.max_holding_bars,
                             )
                             entries_today += 1
                             pending = None
@@ -326,6 +382,18 @@ class BacktestEngine:
                             code = fill_decision.reason_code or RejectionCode.NO_CAPACITY
                             reject(bar.timestamp, code.value, fill_decision.detail or "No fill")
                             pending = None
+
+            proposed_exit = exit_by_time.get(bar.timestamp)
+            if proposed_exit is not None:
+                if proposed_exit.symbol.strip().upper() != self.symbol:
+                    reject(bar.timestamp, "symbol_mismatch", "Exit symbol differs from engine")
+                elif position is not None:
+                    pending_exit_index = index + 1
+                elif pending is not None:
+                    reject(bar.timestamp, "entry_cancelled", "Strategy exit canceled pending entry")
+                    pending = None
+                else:
+                    reject(bar.timestamp, "no_position", "Strategy exit has no owned inventory")
 
             proposed_signal = signal_by_time.get(bar.timestamp)
             if proposed_signal is not None:
@@ -386,6 +454,8 @@ class BacktestEngine:
             if next_day and pending is not None:
                 reject(bar.timestamp, "end_of_day_cancel", "Pending entry canceled at day end")
                 pending = None
+            if next_day:
+                pending_exit_index = None
             holdings = Decimal("0") if position is None else position.quantity
             exposure = holdings * bar.close
             curve.append(

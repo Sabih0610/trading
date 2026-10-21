@@ -38,3 +38,30 @@ def test_invalid_cost_inputs_fail_closed() -> None:
         costs.exit_price(Decimal("-1"))
     with pytest.raises(ValueError):
         costs.fee(Decimal("-1"))
+
+
+def test_extra_tick_slippage_is_adverse_on_both_sides() -> None:
+    asset = load_asset_registry().asset("BTCUSDT")
+    assert asset is not None
+    costs = CostAssumptions.from_asset(
+        asset,
+        extra_slippage_ticks=3,
+        tick_size=Decimal("0.01"),
+    )
+
+    assert costs.entry_price(Decimal("100")) == Decimal("100.07")
+    assert costs.exit_price(Decimal("100")) == Decimal("99.93")
+
+
+def test_tick_slippage_requires_tick_size_and_positive_exit() -> None:
+    asset = load_asset_registry().asset("BTCUSDT")
+    assert asset is not None
+    with pytest.raises(ValueError, match="tick_size"):
+        CostAssumptions.from_asset(asset, extra_slippage_ticks=1)
+    costs = CostAssumptions.from_asset(
+        asset,
+        extra_slippage_ticks=2,
+        tick_size=Decimal("100"),
+    )
+    with pytest.raises(ValueError, match="remain positive"):
+        costs.exit_price(Decimal("100"))
