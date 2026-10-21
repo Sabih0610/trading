@@ -1,8 +1,8 @@
 # Pending items
 
-- **Required before P07:** run the Claude review for P06 from `prompts/REVIEW_CLAUDE.md`, record
-  the result under `reports/reviews/`, and resolve every blocking finding. P06 is the mandatory
-  risk-manager gate.
+- **Deferred by explicit owner direction:** the independent Claude review for P06 remains open.
+  A Codex dependency audit found no blocker but is not approval. Record any later blocker in
+  `reports/reviews/P06-codex-dependency-audit.md` and fix it before relying on affected results.
 
 - Optional: run the Claude review for P00 from `prompts/REVIEW_CLAUDE.md`. P00 is queued but is not a mandatory stop gate.
 - Optional: run the Claude review for P01 from `prompts/REVIEW_CLAUDE.md`. P01 is queued but is not a mandatory stop gate.
