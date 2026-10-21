@@ -97,6 +97,15 @@ class BronzeManifest(BaseModel):
         return self
 
 
+class DownloadedFile(BaseModel):
+    """Integrity metadata for a successfully committed source file."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    byte_count: int = Field(ge=0)
+    sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
 def sha256_bytes(payload: bytes) -> str:
     """Return the lowercase SHA-256 digest for a source payload."""
 
@@ -219,6 +228,70 @@ def download_bytes(
 
         if attempt_index + 1 < active_policy.attempts:
             sleep(_retry_delay(response, attempt_index, active_policy, random_fn()))
+    raise DownloadError(
+        f"Download failed after {active_policy.attempts} attempts for {url}: {last_problem}"
+    )
+
+
+def download_file(
+    client: httpx.Client,
+    url: str,
+    destination: Path,
+    *,
+    expected_sha256: str | None = None,
+    policy: RetryPolicy | None = None,
+    sleep: Callable[[float], None] = time.sleep,
+    random_fn: Callable[[], float] = random.random,
+) -> DownloadedFile:
+    """Stream a public object to an atomic destination, retrying partial or corrupt transfers."""
+
+    active_policy = RetryPolicy() if policy is None else policy
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    last_problem = "unknown transient failure"
+    for attempt_index in range(active_policy.attempts):
+        response: httpx.Response | None = None
+        temporary = destination.with_name(f".{destination.name}.{uuid4().hex}.tmp")
+        try:
+            with client.stream("GET", url, timeout=active_policy.timeout_seconds) as response:
+                if response.status_code == 404:
+                    raise RemoteNotFound(f"Remote object not found: {url}")
+                if response.status_code != 200:
+                    if response.status_code != 429 and response.status_code < 500:
+                        raise DownloadError(f"HTTP {response.status_code} for {url}")
+                    last_problem = f"HTTP {response.status_code}"
+                else:
+                    content_length = response.headers.get("Content-Length")
+                    if content_length is not None and content_length.isdigit():
+                        require_disk_space(destination.parent, int(content_length) * 2)
+                    digest = hashlib.sha256()
+                    byte_count = 0
+                    with temporary.open("xb") as handle:
+                        for chunk in response.iter_bytes(chunk_size=1024 * 1024):
+                            handle.write(chunk)
+                            digest.update(chunk)
+                            byte_count += len(chunk)
+                        handle.flush()
+                        os.fsync(handle.fileno())
+                    actual = digest.hexdigest()
+                    if expected_sha256 is not None and actual != expected_sha256.casefold():
+                        last_problem = (
+                            f"SHA-256 mismatch: expected {expected_sha256.casefold()}, got {actual}"
+                        )
+                    else:
+                        os.replace(temporary, destination)
+                        return DownloadedFile(byte_count=byte_count, sha256=actual)
+        except httpx.TransportError as exc:
+            last_problem = f"{type(exc).__name__}: {exc}"
+        finally:
+            temporary.unlink(missing_ok=True)
+
+        if attempt_index + 1 < active_policy.attempts:
+            sleep(_retry_delay(response, attempt_index, active_policy, random_fn()))
+    if last_problem.startswith("SHA-256 mismatch"):
+        raise IntegrityError(
+            f"Download integrity failed after {active_policy.attempts} attempts for {url}: "
+            f"{last_problem}"
+        )
     raise DownloadError(
         f"Download failed after {active_policy.attempts} attempts for {url}: {last_problem}"
     )

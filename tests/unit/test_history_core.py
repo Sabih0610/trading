@@ -16,6 +16,7 @@ from tb.ingest.history.core import (
     atomic_write_bytes,
     atomic_write_json,
     download_bytes,
+    download_file,
     estimate_required_bytes,
     manifest_is_complete,
     parse_checksum,
@@ -116,6 +117,59 @@ def test_network_drop_retries_then_reports_attempt_count() -> None:
         with pytest.raises(DownloadError, match="after 3 attempts"):
             download_bytes(client, "https://data.example/file", policy=policy, sleep=lambda _: None)
     assert calls == 3
+
+
+def test_partial_stream_is_removed_and_retried(tmp_path: Path) -> None:
+    calls = 0
+
+    class BrokenStream(httpx.SyncByteStream):
+        def __iter__(self) -> object:
+            yield b"partial"
+            raise httpx.ReadError("connection dropped")
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            return httpx.Response(200, stream=BrokenStream(), request=request)
+        return httpx.Response(200, content=b"complete", request=request)
+
+    destination = tmp_path / "space path" / "archive.zip"
+    delays: list[float] = []
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        result = download_file(
+            client,
+            "https://data.example/archive.zip",
+            destination,
+            sleep=delays.append,
+            random_fn=lambda: 0,
+        )
+
+    assert calls == 2
+    assert result.byte_count == len(b"complete")
+    assert destination.read_bytes() == b"complete"
+    assert [path for path in destination.parent.iterdir() if path != destination] == []
+
+
+def test_checksum_mismatch_redownloads_then_fails_without_replacing(tmp_path: Path) -> None:
+    destination = tmp_path / "archive.zip"
+    destination.write_bytes(b"known-good-old-file")
+    policy = RetryPolicy(attempts=2, base_delay_seconds=1, jitter_seconds=0)
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, content=b"corrupt", request=request)
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        with pytest.raises(IntegrityError, match="after 2 attempts"):
+            download_file(
+                client,
+                "https://data.example/archive.zip",
+                destination,
+                expected_sha256=sha256_bytes(b"expected"),
+                policy=policy,
+                sleep=lambda _: None,
+            )
+    assert destination.read_bytes() == b"known-good-old-file"
 
 
 def test_permanent_and_missing_responses_do_not_retry() -> None:

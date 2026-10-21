@@ -49,7 +49,7 @@ warn_unused_configs = true
 packages = ["tb"]
 
 [tool.pytest.ini_options]
-addopts = "-ra --strict-config --strict-markers --import-mode=importlib"
+addopts = "-ra --strict-config --strict-markers --import-mode=importlib -m 'not live'"
 testpaths = ["tests"]
 markers = [
     "live: requires network access or external credentials and is skipped by default workflows",
