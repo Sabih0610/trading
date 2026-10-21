@@ -6,6 +6,7 @@ P03 is researching and building multi-source, terms-aware economic-calendar and 
 |---|---|---|---|---|---|
 | 2026-10-21 01:03 UTC | Context | Read P03, the P02 report, source seed list, state/handoff, and checked for review blockers. | `prompts/P03-calendar-and-news.md`, `reports/phases/P02.md` | P03 started; no blocking review exists. | — |
 | 2026-10-21 01:08 UTC | Research | Audited official BLS/BEA/Fed/EIA/ECB schedules, structured calendar candidates, GDELT, and live RSS endpoints. | `docs/research/P03-research.md` | Official-time precedence, metadata-only news, and terms-gated sources selected. | D-0013–D-0015 |
+| 2026-10-21 01:19 UTC | Build/test | Added strict calendar/news models, deterministic IDs, official-source reconciliation, BLS/ECB/Finance Calendar parsers, safe RSS/Atom parsing, and GDELT metadata parsing. | `src/tb/ingest/calendar/`, `src/tb/ingest/news/` | 11 focused tests pass; strict mypy clean across 36 source files. | D-0013–D-0015 |
 
 ## Problems and fixes
 

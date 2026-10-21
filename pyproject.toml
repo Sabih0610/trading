@@ -5,6 +5,7 @@ description = "Shariah-compliant, intraday, AI-assisted spot trading research sy
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "defusedxml==0.7.1",
     "httpx==0.28.1",
     "polars==2.0.0",
     "psutil==7.2.2",
@@ -73,4 +74,5 @@ dev = [
     "ruff==0.17.1",
     "types-psutil==7.2.2.20260906",
     "types-pyyaml==6.0.12.20260906",
+    "types-defusedxml==0.7.0.20260504",
 ]
