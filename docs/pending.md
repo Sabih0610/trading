@@ -12,3 +12,7 @@
 - P03 automated Fair Economy/Forex Factory storage is disabled pending a verifiable automated-use/reuse terms decision. The current-week endpoint is technically reachable, but P03 will not treat reachability as permission.
 - P03's full GDELT headline archive is waiting for the public DOC API cooldown after repeated HTTP 429 responses. Rerun the documented `download-news.ps1 -Sources gdelt ... -Resume` command without reducing its five-second request gate.
 - P04 exact DXY/USDX replication needs an owner/licensing decision. ICE's current official brochure says use of its formulation, components, weights, values, or calculation methods requires express written consent. Do not label a generic USD basket as DXY/USDX.
+- P07 empirical A/B/C and baseline results are blocked on authentic, lawful 2020-2024 XAUT history.
+  Only 2026 XAUT/XAU partitions exist locally, and they remain final-test locked. The reproducible
+  report records zero empirical trials and must be rerun if eligible history is later added; do not
+  substitute data-only XAUUSD as an executable asset.

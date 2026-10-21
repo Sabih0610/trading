@@ -1,18 +1,17 @@
 # Current handoff
 
-P07 is in progress under the owner's explicit direction to continue beyond the owner-deferred P06
-Claude review. A Codex dependency audit found no P06 blocker but is not approval; later findings
-must be recorded and fixed before affected results are relied upon.
+P07 is complete and tagged. Three long-only hypotheses, the scenario catalog, lead-lag and stress
+tools, and the reproducible evidence gate pass the full quality suite. The required empirical run
+is blocked on missing 2020-2024 XAUT history; this is documented rather than bypassed.
 
-- Last completed step: froze the P07 research decisions and sources for causal A/B/C plug-ins,
-  scenario selection, lead-lag measurement, and robustness testing.
-- Next step: implement the shared immutable feature-row strategy contract, then Strategy A with
-  synthetic trigger/non-trigger and future-poisoning tests.
-- Exact next command: `uv run pytest tests/unit/test_strategies.py -q` after the first plug-in slice.
-- Data constraint: the verified sample is seven days, and authentic Binance XAUT history starts in
-  the locked 2026 period. P07 can verify mechanics but must mark multi-year Strategy B evidence
-  unavailable rather than trade XAUUSD or unlock 2025+ data.
-- Review state: P06 independent Claude review is deferred by owner; see
-  `reports/reviews/P06-codex-dependency-audit.md`.
-- Safety state: strategies can only propose long entries; P06 risk remains final authority. No
-  execution surface, credential access, final-period read, or data-only trading path is introduced.
+- Last completed step: ran the P07 full gate (255 passed, 3 live deselected), hostile policy review,
+  and metadata-only strategy report. No 2025+ observation was opened.
+- Next phase: P08 ML models.
+- Exact next step: read `prompts/P08-ml-models.md`, research current leakage-safe time-series ML
+  practice, then create `docs/journal/P08-journal.md` and `reports/phases/P08.md`.
+- P07 data blocker: all A/B/C verdicts remain REWORK / NOT EVALUABLE with zero empirical trials;
+  see `reports/strategies/P07.md` and `docs/pending.md`.
+- Review state: P06 independent Claude review is deferred by owner; P07 is queued. Neither is
+  represented as approved.
+- Safety state: strategies only propose approved long entries; deterministic risk retains final
+  authority. No credential, execution, data-only trading, or final-period access path was added.

@@ -4,6 +4,30 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P07 — 2026-10-22
+
+### Added
+
+- Three allowlisted, completed-bar, long-only strategy plug-ins for London sweep, XAUT catch-up,
+  and trend/VWAP hypotheses, with strategy exits and time stops in the simulator.
+- Aligned and asynchronous lead-lag diagnostics, a locked-safe scenario catalog, adverse cost/tick
+  and entry-delay stresses, ±20% parameter surfaces, seeded drawdown reshuffling, and best-trade
+  removal.
+- A single-command metadata-only evidence gate and complete strategy/baseline/scenario report.
+
+### Validated
+
+- Full gate: 255 passed and 3 optional live tests deselected; focused modules reached 94% branch
+  coverage.
+- Synthetic trigger, non-trigger, London DST, causality, malformed input, and locked-range cases
+  pass.
+
+### Blocked
+
+- Empirical 2020-2024 strategy and baseline comparisons are not evaluable because no eligible XAUT
+  history exists locally. Only locked 2026 partitions were discovered, and their contents were not
+  opened. All strategies remain REWORK with zero empirical trials.
+
 ## P06 — 2026-10-21
 
 ### Added
