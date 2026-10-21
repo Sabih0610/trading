@@ -4,6 +4,30 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P04 — 2026-10-21
+
+### Added
+
+- Strict UTC Silver market schema with deterministic deduplication, gap accounting, past-only
+  robust spike flags, DST-aware sessions, weekend tags, and trading-day IDs.
+- Completed-window `5m`, `15m`, `1h`, `4h`, and `1d` bars derived from 1m only, with source-minute
+  completeness and no-lookahead tests.
+- Checksum-lineage incremental builder, atomic Parquet/manifests, per-partition quality reports, and
+  a PowerShell runner.
+- Exact-minute XAUT/XAU basis with null closed-market values and explicit USDT/USD parity assumption.
+- Point-in-time calendar/news tables and common timeline that do not backdate release values.
+- Silver operator guide, expanded data dictionary, and 18 focused unit/property/integration tests.
+
+### Validated
+
+- Seven-day sample: 514 Silver files, 167,056 rows, and 6.9 MB.
+- Market 1m: 84 partitions, 120,960 rows, 13 flagged observations, no duplicates or gaps.
+- Immediate resume skipped all 84 market, 3 context, and 7 alignment build units.
+
+### Blocked
+
+- Exact DXY/USDX replication remains gated by licensing decision D-0016; no substitute is mislabeled.
+
 ## P03 — 2026-10-21
 
 ### Added

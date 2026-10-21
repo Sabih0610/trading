@@ -6,3 +6,4 @@
 | P01 | queued | 2026-10-20 22:51 | [P01 report](../reports/phases/P01.md) | Deterministic policy boundary; routine review does not block P02. |
 | P02 | queued | 2026-10-21 01:04 | [P02 report](../reports/phases/P02.md) | Public read-only ingestion; storage and FRED constraints do not block P03. |
 | P03 | queued | 2026-10-21 01:20 | [P03 report](../reports/phases/P03.md) | Metadata-only ingestion; GDELT background history limitation does not block P04 sample work. |
+| P04 | queued | 2026-10-21 01:38 | [P04 report](../reports/phases/P04.md) | Deterministic cleaning and no-lookahead resampling; exact DXY remains separately gated under D-0016. |

@@ -98,3 +98,83 @@ The fixture-backed parser accepts `observation_date` plus one allowlisted series
 | `raw_hash` | SHA-256 string | Hash of the exact RSS entry or GDELT article object. |
 
 Topic tags are metadata only. They do not create, size, or approve a trade.
+
+## Silver market bars
+
+Silver market files use the same schema across approved crypto assets and data-only market
+references. Prices are midpoint values for Dukascopy and published kline values for Binance spot.
+
+| Field | Type / unit | Source and meaning |
+|---|---|---|
+| `timestamp_ns` | int64 nanoseconds | UTC bar opening time copied from normalized Bronze. |
+| `timestamp_utc` | UTC datetime (ns) | Human/query-friendly rendering of `timestamp_ns`. |
+| `symbol` | string | Normalized instrument symbol. |
+| `source` | string | `binance_spot` or `dukascopy`. |
+| `open`, `high`, `low`, `close` | float64, quote units | Published Binance OHLC, or midpoint of paired Dukascopy BID/ASK OHLC. |
+| `volume` | float64, source units | Published Binance base volume, or mean of Dukascopy BID/ASK side volumes. Values are not comparable across providers. |
+| `close_spread` | float64, quote units, Dukascopy only | ASK close minus BID close. |
+| `gap_minutes_before` | int64 minutes | Missing whole minutes since the preceding observed bar in the same partition. Zero means adjacent. |
+| `is_spike` | boolean | Return exceeded both a past-only 12 scaled-MAD score and a 0.5% absolute-return floor. The row is retained. |
+| `session_asia` | boolean | UTC time is in the project's 00:00–08:00 Asia research window. |
+| `session_london` | boolean | Europe/London local time is 08:00–16:30; DST comes from IANA tzdata. |
+| `session_new_york` | boolean | America/New_York local time is 09:30–16:00; DST comes from IANA tzdata. |
+| `session_overlap` | boolean | London and New York tags are both true. |
+| `is_weekend` | boolean | UTC calendar day is Saturday or Sunday. Rows are tagged, not removed. |
+| `trading_day_id` | `YYYY-MM-DD` string | UTC calendar date used for deterministic grouping. |
+| `market_kind` | enum string | `continuous` for crypto or `weekday` for market references. |
+
+### Resampled market bars
+
+The `5m`, `15m`, `1h`, `4h`, and `1d` folders are derived only from Silver `1m` bars. `open` is
+the first value, `high`/`low` are extrema, `close` is the last value, and `volume` is the sum.
+
+| Added/replaced field | Type / unit | Meaning |
+|---|---|---|
+| `timestamp_utc` | UTC datetime | Inclusive left edge of the bar. |
+| `bar_end_utc` | UTC datetime | Exclusive right edge. The row is not emitted before this instant. |
+| `timeframe` | string | `5m`, `15m`, `1h`, `4h`, or `1d`. |
+| `source_rows` | unsigned integer | Number of observed 1m rows used. |
+| `has_all_source_minutes` | boolean | True when `source_rows` equals the timeframe's expected minute count. |
+| `max_gap_minutes_before` | int64 minutes | Largest source gap marker among included rows. |
+| `is_spike` | boolean | True when any included 1m bar was flagged. |
+
+## Silver XAUT/XAU alignment
+
+| Field | Type / unit | Meaning |
+|---|---|---|
+| `timestamp_utc` | UTC datetime | Exact shared minute; rows are anchored on XAUTUSDT. |
+| `xaut_usdt` | float64 USDT per XAUT | Binance spot close. |
+| `xau_usd` | nullable float64 USD per troy ounce | Dukascopy midpoint close at exactly the same minute; null when absent or weekend-tagged. |
+| `basis_bps` | nullable float64 basis points | `(xaut_usdt / xau_usd - 1) × 10,000`; null whenever `xau_usd` is null. |
+| `quote_assumption` | string | Records that the comparison assumes nominal USDT/USD parity. |
+
+No value is forward-filled. Exact DXY/USDX is not produced while D-0016 is open.
+
+## Silver calendar, news, and common timeline
+
+Calendar schedule columns are `event_id`, `name`, `country`, `currency`, `importance`,
+`timestamp_utc`, `known_at`, `source`, `source_url`, `fetched_at`, and `time_conflict`.
+`timestamp_utc` and `known_at` both equal the scheduled UTC instant. Release values from Bronze are
+excluded because their first-publication time is not represented reliably.
+
+News columns are `id`, `headline`, `source`, `url`, `timestamp_utc`, `known_at`, `fetched_at`,
+`topics`, and `language`. `timestamp_utc` and `known_at` both equal `published_utc`.
+
+The common timeline uses:
+
+| Field | Type | Meaning |
+|---|---|---|
+| `timestamp_utc`, `known_at` | UTC datetime | Event time and earliest safe knowledge time. |
+| `record_type` | string | `calendar` or `news`. |
+| `record_id` | string | Source table's stable event/headline ID. |
+| `title` | string | Event name or headline. |
+| `source`, `url` | string | Provenance. |
+| `importance` | nullable string | Calendar importance; null for news. |
+| `topics_csv` | string | Comma-separated news topics; empty for calendar. |
+
+## Silver manifest and quality JSON
+
+Each Silver manifest has `schema_version`, `input_path`, `input_sha256`, `output_sha256`, `rows`,
+`byte_count`, `transformation_version`, and `generated_at`. A market quality JSON has `dataset`,
+input/output rows, `coverage_pct`, gap counts, missing minutes, flagged spikes, removed duplicates,
+and first/last UTC times. Alignment quality additionally reports exact overlap and null-basis rows.

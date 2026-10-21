@@ -102,13 +102,18 @@ def _silver_is_current(output_path: Path, *, input_sha256: str) -> bool:
         manifest = SilverManifest.model_validate_json(manifest_path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, ValueError):
         return False
-    return (
-        manifest.input_sha256 == input_sha256
-        and manifest.transformation_version == TRANSFORMATION_VERSION
-        and manifest.rows == pl.scan_parquet(output_path).select(pl.len()).collect().item()
-        and manifest.byte_count == output_path.stat().st_size
-        and manifest.output_sha256 == sha256_file(output_path)
-    )
+    if (
+        manifest.input_sha256 != input_sha256
+        or manifest.transformation_version != TRANSFORMATION_VERSION
+        or manifest.byte_count != output_path.stat().st_size
+        or manifest.output_sha256 != sha256_file(output_path)
+    ):
+        return False
+    try:
+        rows = pl.scan_parquet(output_path).select(pl.len()).collect().item()
+    except (OSError, ValueError, pl.exceptions.PolarsError):
+        return False
+    return bool(manifest.rows == rows)
 
 
 def _commit_silver(
@@ -206,7 +211,13 @@ def _process_market_partition(
     source, symbol = _market_identity(bronze_root, input_path)
     relative = input_path.relative_to(bronze_root)
     output_path = silver_root / relative
-    if _silver_is_current(output_path, input_sha256=bronze_manifest.parquet_sha256):
+    derived_paths = [_derived_path(output_path, timeframe) for timeframe in _DERIVED_TIMEFRAMES]
+    quality_path = report_root / relative.with_suffix(".json")
+    output_paths = [output_path, *derived_paths]
+    if quality_path.is_file() and all(
+        _silver_is_current(path, input_sha256=bronze_manifest.parquet_sha256)
+        for path in output_paths
+    ):
         return False
 
     bronze_frame = pl.read_parquet(input_path)
@@ -230,15 +241,14 @@ def _process_market_partition(
     if not isinstance(final_minute, datetime):
         raise ValueError("Cleaned partition has no final timestamp")
     cutoff = final_minute.astimezone(UTC) + timedelta(minutes=1)
-    for timeframe in _DERIVED_TIMEFRAMES:
+    for timeframe, derived_path in zip(_DERIVED_TIMEFRAMES, derived_paths, strict=True):
         resampled = resample_completed_bars(cleaned.frame, timeframe, cutoff=cutoff)
         _commit_silver(
-            _derived_path(output_path, timeframe),
+            derived_path,
             resampled,
             input_path=input_label,
             input_sha256=bronze_manifest.parquet_sha256,
         )
-    quality_path = report_root / relative.with_suffix(".json")
     atomic_write_json(quality_path, _quality_report(f"{source}/{symbol}/1m", cleaned))
     return True
 

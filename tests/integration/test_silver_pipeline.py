@@ -66,6 +66,21 @@ def test_incremental_build_skips_unchanged_partition(tmp_path: Path) -> None:
     assert quality.is_file()
 
 
+def test_incremental_build_repairs_a_corrupt_derived_partition(tmp_path: Path) -> None:
+    bronze = tmp_path / "bronze"
+    silver = tmp_path / "silver"
+    reports = tmp_path / "quality"
+    _write_bronze_partition(bronze)
+    build_silver(bronze, silver, reports)
+    derived = next((silver / "binance_spot/BTCUSDT/5m").rglob("*.parquet"))
+    derived.write_bytes(b"corrupt")
+
+    repaired = build_silver(bronze, silver, reports)
+
+    assert repaired.processed_market_partitions == 1
+    assert pl.read_parquet(derived).height == 1
+
+
 def test_calendar_schedule_does_not_claim_later_values_were_known() -> None:
     scheduled = datetime(2026, 1, 2, 13, 30, tzinfo=UTC)
     fetched = scheduled + timedelta(hours=2)
