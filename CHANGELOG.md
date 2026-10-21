@@ -4,6 +4,30 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P09 — 2026-10-22
+
+### Added
+
+- Append-only SQLite WAL tables for decisions, model calls, outcomes, hypotheses, and interventions,
+  with version/hash evidence, immutability triggers, and checksummed Gold Parquet exports.
+- Feature-only masked snapshots; frozen arena-answer/hypothesis schemas; Mock, Ollama,
+  OpenAI-compatible, Anthropic, and Jev-stub provider boundaries.
+- Independent and anonymized cross-review rounds, fixed-schema hypothesis queue, local TTL cache,
+  strict spend caps, Brier/log-loss calibration, Hedge weights, and herding/error-correlation tools.
+- A zero-key offline arena runner, machine-readable acceptance report, and operator guide.
+
+### Validated
+
+- Full gate: 315 passed and 3 optional live tests deselected.
+- Malformed/increase-size answers, timeout/down, cache hit/miss/expiry, cap exhaustion, herding,
+  snapshot masking, local-model limits, append-only rows, spaced paths, and Gold export all pass.
+
+### Pending
+
+- Paid providers remain policy-disabled until a human supplies current nonzero prices and caps.
+- AI skill/value metrics are NOT EVALUABLE while eligible XAUT setup/outcome evidence is absent.
+- Independent P09 Claude review is deferred by explicit owner direction; Codex audit is not approval.
+
 ## P08 — 2026-10-22
 
 ### Added

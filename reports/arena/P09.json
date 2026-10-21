@@ -1,0 +1,14 @@
+{
+  "cross_reviews": 1,
+  "decision_id": "527bf992b92247c3888d29cbe95dbf6e",
+  "exported_tables": 5,
+  "final_test_reads": 0,
+  "generated_at_utc": "2026-10-21T21:44:23.217678+00:00",
+  "herding": false,
+  "hypotheses_queued": 1,
+  "independent_answers": 1,
+  "mode": "offline_mock",
+  "paid_calls": 0,
+  "size_multiplier": 0.75,
+  "veto": false
+}

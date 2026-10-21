@@ -1,0 +1,60 @@
+schema_version: 1
+monthly_total_usd: 20.0
+cache_ttl_seconds: 86400
+providers:
+  mock:
+    enabled: true
+    daily_usd: 0.0
+    monthly_usd: 0.0
+    max_call_usd: 0.0
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0
+  ollama:
+    enabled: true
+    daily_usd: 0.0
+    monthly_usd: 0.0
+    max_call_usd: 0.0
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0
+  openai:
+    enabled: false
+    daily_usd: 1.0
+    monthly_usd: 8.0
+    max_call_usd: 0.25
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0
+  anthropic:
+    enabled: false
+    daily_usd: 1.0
+    monthly_usd: 8.0
+    max_call_usd: 0.25
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0
+  jev:
+    enabled: false
+    daily_usd: 0.0
+    monthly_usd: 0.0
+    max_call_usd: 0.0
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0
+  xai:
+    enabled: false
+    daily_usd: 1.0
+    monthly_usd: 4.0
+    max_call_usd: 0.25
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0
+  deepseek:
+    enabled: false
+    daily_usd: 1.0
+    monthly_usd: 4.0
+    max_call_usd: 0.25
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0
+  qwen:
+    enabled: false
+    daily_usd: 1.0
+    monthly_usd: 4.0
+    max_call_usd: 0.25
+    input_usd_per_million_tokens: 0.0
+    output_usd_per_million_tokens: 0.0

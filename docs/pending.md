@@ -4,6 +4,14 @@
   A Codex dependency audit found no blocker but is not approval. Record any later blocker in
   `reports/reviews/P06-codex-dependency-audit.md` and fix it before relying on affected results.
 
+- **Deferred by explicit owner direction:** the independent Claude review for P09 remains open.
+  The Codex dependency audit fixed the paid-price gate and vendor-key scanner conflict, then found
+  no remaining blocker. It is not approval. Record any later blocker in
+  `reports/reviews/P09-codex-dependency-audit.md` and fix it before relying on affected results.
+- Paid AI providers remain policy-disabled even when keys exist. Before any controlled paid trial,
+  a human must set current nonzero token prices and explicit daily/monthly/max-call caps in
+  `config/ai_budget.yaml`, then intentionally set that provider's `enabled` field to true.
+
 - Optional: run the Claude review for P00 from `prompts/REVIEW_CLAUDE.md`. P00 is queued but is not a mandatory stop gate.
 - Optional: run the Claude review for P01 from `prompts/REVIEW_CLAUDE.md`. P01 is queued but is not a mandatory stop gate.
 - Binance spot-specific skills were unavailable at the audited upstream revision. No action is required; later phases will use official documentation unless a compatible skill is reviewed.
@@ -20,3 +28,6 @@
   P07 data blocker. No model was trained on market data: training, calibration, validation, and
   final-test trial counts are all zero. Synthetic tests verify mechanics only. Rerun
   `.\scripts\run-ml-evaluation.ps1` after eligible lineage-validated candidate history exists.
+- P09 provider skill, veto value, hypothesis hit rate, and cost per useful decision are NOT
+  EVALUABLE until eligible pre-2025 setups and resolved shadow outcomes exist. The mock run proves
+  mechanics only and must not be cited as trading evidence.

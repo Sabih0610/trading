@@ -1,5 +1,5 @@
 {
-  "current_phase": "P09",
+  "current_phase": "P10",
   "phases": {
     "P00": {"title": "Bootstrap", "status": "done", "started_utc": "2026-10-20 22:29 UTC", "completed_utc": "2026-10-20 22:45 UTC", "commit": "phase-P00-done", "report": "reports/phases/P00.md", "review": "queued"},
     "P01": {"title": "Asset registry, Shariah gate, risk config", "status": "done", "started_utc": "2026-10-20 22:45 UTC", "completed_utc": "2026-10-20 22:52 UTC", "commit": "phase-P01-done", "report": "reports/phases/P01.md", "review": "queued"},
@@ -10,7 +10,7 @@
     "P06": {"title": "Backtester and risk manager", "status": "done", "started_utc": "2026-10-21 01:56 UTC", "completed_utc": "2026-10-21 12:30 UTC", "commit": "phase-P06-done", "report": "reports/phases/P06.md", "review": "deferred_by_owner", "human_gate": true},
     "P07": {"title": "Strategies and scenarios", "status": "done", "started_utc": "2026-10-21 20:46 UTC", "completed_utc": "2026-10-21 21:00 UTC", "commit": "phase-P07-done", "report": "reports/phases/P07.md", "review": "queued", "empirical_status": "blocked_on_data"},
     "P08": {"title": "ML models", "status": "done", "started_utc": "2026-10-21 21:02 UTC", "completed_utc": "2026-10-21 21:38 UTC", "commit": "phase-P08-done", "report": "reports/phases/P08.md", "review": "queued", "empirical_status": "blocked_on_data"},
-    "P09": {"title": "Decision ledger and AI arena", "status": "not_started", "human_gate": true},
+    "P09": {"title": "Decision ledger and AI arena", "status": "done", "started_utc": "2026-10-21 21:39 UTC", "completed_utc": "2026-10-21 23:19 UTC", "commit": "phase-P09-done", "report": "reports/phases/P09.md", "review": "deferred_by_owner", "human_gate": true, "empirical_status": "blocked_on_data"},
     "P10": {"title": "Dashboard", "status": "not_started"},
     "P11": {"title": "Live data and paper trading", "status": "not_started"},
     "P12": {"title": "Testnet execution", "status": "not_started", "human_gate": true, "needs_keys": ["BINANCE_TESTNET_API_KEY", "BINANCE_TESTNET_API_SECRET"]},
@@ -35,5 +35,5 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-21 21:38 UTC"
+  "last_updated_utc": "2026-10-21 23:19 UTC"
 }

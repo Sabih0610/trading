@@ -34,3 +34,4 @@ uv run pytest -q
 ```
 
 P00 currently provides project tooling, typed configuration, secret-redacting structured logs, UTC/DST helpers, the offline doctor command, and the package/folder skeleton. Trading and data features are introduced only in later reviewed phases.
+# trading
