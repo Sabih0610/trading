@@ -28,6 +28,9 @@ FEATURE_SPECS = (
     FeatureSpec("volatility", "1.0.0", ("high", "low", "close"), 20, 0, "native"),
     FeatureSpec("trend", "1.0.0", ("close",), 50, 0, "native"),
     FeatureSpec("confirmed_structure", "1.0.0", ("high", "low", "close"), 7, 3, "native"),
+    FeatureSpec("liquidity_sweep", "1.0.0", ("high", "low", "close"), 10, 3, "native"),
+    FeatureSpec("price_gap", "1.0.0", ("high", "low", "atr14"), 3, 0, "native"),
+    FeatureSpec("order_block_proxy", "1.0.0", ("open", "high", "low", "close"), 10, 0, "native"),
     FeatureSpec("session_vwap", "1.0.0", ("high", "low", "close", "volume"), 1, 0, "native"),
 )
 
@@ -67,6 +70,10 @@ class FeatureEngine:
         self._last_swing_high: float | None = None
         self._last_swing_low: float | None = None
         self._structure_direction = 0
+        self._recent_bars: deque[dict[str, float]] = deque(maxlen=10)
+        self._pending_sweeps: list[tuple[str, float, int]] = []
+        self._active_bullish_gap: tuple[float, float] | None = None
+        self._active_bearish_gap: tuple[float, float] | None = None
         self._day: str | None = None
         self._vwap_numerator = 0.0
         self._vwap_volume = 0.0
@@ -86,6 +93,10 @@ class FeatureEngine:
         self._last_swing_high = None
         self._last_swing_low = None
         self._structure_direction = 0
+        self._recent_bars.clear()
+        self._pending_sweeps.clear()
+        self._active_bullish_gap = None
+        self._active_bearish_gap = None
 
     def _reset_day(self, day: str) -> None:
         self._day = day
@@ -127,6 +138,7 @@ class FeatureEngine:
             self._reset_day(day)
 
         previous_close = self._previous_close
+        atr_before = self._atr14
         true_range = values["high"] - values["low"]
         log_return: float | None = None
         if previous_close is not None:
@@ -172,6 +184,30 @@ class FeatureEngine:
                 confirmed_low = center_low
                 self._last_swing_low = center_low
 
+        sweep_event: str | None = None
+        remaining_sweeps: list[tuple[str, float, int]] = []
+        for direction, level, age in self._pending_sweeps:
+            reclaimed = (direction == "high" and values["close"] < level) or (
+                direction == "low" and values["close"] > level
+            )
+            if reclaimed:
+                sweep_event = f"{direction}_reclaimed"
+            elif age < 3:
+                remaining_sweeps.append((direction, level, age + 1))
+        self._pending_sweeps = remaining_sweeps
+        swing_high_before = self._last_swing_high
+        swing_low_before = self._last_swing_low
+        if swing_high_before is not None and values["high"] > swing_high_before:
+            if values["close"] < swing_high_before:
+                sweep_event = "high_reclaimed"
+            else:
+                self._pending_sweeps.append(("high", swing_high_before, 1))
+        if swing_low_before is not None and values["low"] < swing_low_before:
+            if values["close"] > swing_low_before:
+                sweep_event = "low_reclaimed"
+            else:
+                self._pending_sweeps.append(("low", swing_low_before, 1))
+
         structure_event: str | None = None
         if self._last_swing_high is not None and values["close"] > self._last_swing_high:
             structure_event = "bos_up" if self._structure_direction >= 0 else "choch_up"
@@ -181,6 +217,53 @@ class FeatureEngine:
             structure_event = "bos_down" if self._structure_direction <= 0 else "choch_down"
             self._structure_direction = -1
             self._last_swing_low = None
+
+        order_block_low: float | None = None
+        order_block_high: float | None = None
+        if structure_event is not None:
+            wants_down_candle = structure_event.endswith("up")
+            candidate = next(
+                (
+                    prior
+                    for prior in reversed(self._recent_bars)
+                    if (prior["close"] < prior["open"]) == wants_down_candle
+                ),
+                None,
+            )
+            if candidate is not None:
+                order_block_low = candidate["low"]
+                order_block_high = candidate["high"]
+
+        fvg_fill_event: str | None = None
+        if self._active_bullish_gap is not None:
+            lower, upper = self._active_bullish_gap
+            if values["low"] <= lower:
+                fvg_fill_event = "bullish_full"
+                self._active_bullish_gap = None
+            elif values["low"] < upper:
+                fvg_fill_event = "bullish_partial"
+        if self._active_bearish_gap is not None:
+            lower, upper = self._active_bearish_gap
+            if values["high"] >= upper:
+                fvg_fill_event = "bearish_full"
+                self._active_bearish_gap = None
+            elif values["high"] > lower:
+                fvg_fill_event = "bearish_partial"
+        fvg_direction: str | None = None
+        fvg_lower: float | None = None
+        fvg_upper: float | None = None
+        if len(self._recent_bars) >= 2 and atr_before is not None:
+            two_back = list(self._recent_bars)[-2]
+            bullish_size = values["low"] - two_back["high"]
+            bearish_size = two_back["low"] - values["high"]
+            if bullish_size >= 0.25 * atr_before:
+                fvg_direction = "bullish"
+                fvg_lower, fvg_upper = two_back["high"], values["low"]
+                self._active_bullish_gap = (fvg_lower, fvg_upper)
+            elif bearish_size >= 0.25 * atr_before:
+                fvg_direction = "bearish"
+                fvg_lower, fvg_upper = values["high"], two_back["low"]
+                self._active_bearish_gap = (fvg_lower, fvg_upper)
 
         typical = (values["high"] + values["low"] + values["close"]) / 3
         self._vwap_numerator += typical * values["volume"]
@@ -200,6 +283,7 @@ class FeatureEngine:
 
         self._previous_time = timestamp
         self._previous_close = values["close"]
+        self._recent_bars.append(values)
         return {
             "timestamp_utc": timestamp,
             "input_gap": input_gap,
@@ -215,6 +299,17 @@ class FeatureEngine:
             "confirmed_swing_low": confirmed_low,
             "structure_event": structure_event,
             "structure_direction": self._structure_direction,
+            "sweep_event": sweep_event,
+            "fvg_direction": fvg_direction,
+            "fvg_lower": fvg_lower,
+            "fvg_upper": fvg_upper,
+            "fvg_fill_event": fvg_fill_event,
+            "active_fvg_count": int(self._active_bullish_gap is not None)
+            + int(self._active_bearish_gap is not None),
+            "order_block_low": order_block_low,
+            "order_block_high": order_block_high,
+            "htf_structure_direction": bar.get("htf_structure_direction"),
+            "htf_structure_available": bar.get("htf_structure_direction") is not None,
             "session_vwap": vwap,
             "asia_range_high": self._asia_high,
             "asia_range_low": self._asia_low,

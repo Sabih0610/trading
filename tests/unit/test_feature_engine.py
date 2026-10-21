@@ -3,6 +3,7 @@
 from datetime import UTC, datetime, timedelta
 
 import polars as pl
+import pytest
 
 from tb.features.engine import FeatureEngine, compute_features_batch
 
@@ -82,3 +83,38 @@ def test_pivot_is_visible_only_after_three_right_bars() -> None:
 
     assert all(row["confirmed_swing_high"] is None for row in outputs[:6])
     assert outputs[6]["confirmed_swing_high"] == 10.0
+
+
+def test_confirmed_level_wick_and_reclaim_emits_sweep() -> None:
+    bars = _bars(7).with_columns(
+        pl.Series("high", [2.0, 3.0, 4.0, 10.0, 4.0, 3.0, 2.0]),
+        pl.Series("low", [1.0] * 7),
+        pl.Series("open", [1.5] * 7),
+        pl.Series("close", [1.5] * 7),
+    )
+    engine = FeatureEngine()
+    for row in bars.to_dicts():
+        engine.update(row)
+    sweep = bars.tail(1).to_dicts()[0]
+    sweep.update(
+        timestamp_utc=bars["timestamp_utc"][-1] + timedelta(minutes=1),
+        high=11.0,
+        low=8.0,
+        open=9.0,
+        close=9.0,
+    )
+
+    result = engine.update(sweep)
+
+    assert result["sweep_event"] == "high_reclaimed"
+
+
+def test_atr_filtered_three_bar_gap_is_created_causally() -> None:
+    bars = _bars(16)
+    rows = bars.to_dicts()
+    rows[-1].update(open=110.0, high=111.0, low=109.0, close=110.0)
+    engine = FeatureEngine()
+    outputs = [engine.update(row) for row in rows]
+
+    assert outputs[-1]["fvg_direction"] == "bullish"
+    assert outputs[-1]["fvg_lower"] == pytest.approx(rows[-3]["high"])
