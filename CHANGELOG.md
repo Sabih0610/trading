@@ -4,6 +4,31 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P08 — 2026-10-22
+
+### Added
+
+- Adverse triple-barrier candidate labels plus future-known feature rejection, purged/embargoed,
+  expanding, and combinatorial validation folds.
+- Logistic/ridge baselines; deterministic CPU LightGBM, sigmoid/isotonic calibration and SHAP;
+  bounded rolling GPR; recursive ridge and dynamic fair-value filters; Gaussian HMM; and
+  persistence, HAR-RV, and GARCH volatility forecasts.
+- Calibration and regime-shift diagnostics, a deterministic `[0, 1]` sizing multiplier, local
+  SQLite MLflow logging, and named-human champion/challenger aliases with auto-deployment disabled.
+- A reproducible metadata-only ML evidence report and operator guide.
+
+### Validated
+
+- Full gate: 294 passed and 3 optional live tests deselected.
+- Leakage canary, imbalance, calibration drift, regime shift, tiny sample, Windows spaced-path
+  tracking, deterministic model, and locked-data cases pass.
+
+### Blocked
+
+- P07 provides zero eligible candidate setups, so model-vs-baseline metrics and filtered-vs-plain
+  validation results are NOT EVALUABLE. No market model was fitted and the final period stayed
+  locked.
+
 ## P07 — 2026-10-22
 
 ### Added

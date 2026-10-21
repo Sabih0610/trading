@@ -1,7 +1,8 @@
 # Build progress
 
-P07 is complete with empirical results blocked on eligible XAUT history. P08 is in progress under
-the same fail-closed evidence policy. This file mirrors `docs/state/progress.json` for human readers.
+P08 is complete under the fail-closed evidence policy. Its model mechanics pass, while empirical
+value-add is blocked on eligible XAUT candidates. P09 is next. This file mirrors
+`docs/state/progress.json` for human readers.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -13,7 +14,7 @@ the same fail-closed evidence policy. This file mirrors `docs/state/progress.jso
 | P05 | Feature engine | done | 2026-10-21 01:39 | 2026-10-21 01:55 | `phase-P05-done` | [report](reports/phases/P05.md) | queued |
 | P06 | Backtester and risk manager | done | 2026-10-21 01:56 | 2026-10-21 12:30 | `phase-P06-done` | [report](reports/phases/P06.md) | deferred by owner; audit has no blocker |
 | P07 | Strategies and scenarios | done | 2026-10-21 20:46 | 2026-10-21 21:00 | `phase-P07-done` | [report](reports/phases/P07.md) | queued; empirical data blocked |
-| P08 | ML models | in progress | 2026-10-21 21:02 | — | — | [report](reports/phases/P08.md) | — |
+| P08 | ML models | done | 2026-10-21 21:02 | 2026-10-21 21:38 | `phase-P08-done` | [report](reports/phases/P08.md) | queued; empirical data blocked |
 | P09 | Decision ledger and AI arena | not started | — | — | — | — | human gate |
 | P10 | Dashboard | not started | — | — | — | — | — | — |
 | P11 | Live data and paper trading | not started | — | — | — | — | — | — |

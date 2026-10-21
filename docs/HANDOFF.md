@@ -1,17 +1,17 @@
 # Current handoff
 
-P07 is complete and tagged. P08 is in progress, beginning with leakage-safe labels, interval-aware
-purging/embargo, and deterministic score-to-size reduction. Its empirical value-add comparison is
-blocked on the same missing 2020-2024 XAUT candidate history and will not be fabricated.
+P08 is complete and ready to tag. Leakage-safe labels/splits, bounded model families, deterministic
+size reduction, explanations, and local MLflow tracking pass the full gate. Empirical value-add is
+NOT ESTABLISHED because eligible XAUT candidates remain unavailable.
 
-- Last completed step: committed the leakage-safe validation core, pinned/installed the CPU model
-  stack, and added deterministic recursive-ridge and dynamic fair-value filters (29 ML tests pass).
-- Next step: implement bounded logistic/ridge and LightGBM calibration wrappers, then rolling GPR,
-  Gaussian HMM, GARCH/HAR, SHAP summaries, and SQLite-backed MLflow tracking.
-- Exact next command after the wrapper slice: `uv run pytest tests/unit -k "ml_" -q`.
+- Last completed step: ran the P08 full gate (294 passed, 3 live deselected), generated the
+  metadata-only ML report, and confirmed zero market-data trials/final-period reads.
+- Next phase: P09 decision ledger and AI arena.
+- Exact next step: read `prompts/P09-ledger-and-ai-arena.md`, research append-only decision evidence
+  and constrained ensemble arbitration, then create the P09 journal/research/report plan.
 - P07 data blocker: all A/B/C verdicts remain REWORK / NOT EVALUABLE with zero empirical trials;
   see `reports/strategies/P07.md` and `docs/pending.md`.
-- Review state: P06 independent Claude review is deferred by owner; P07 is queued. Neither is
+- Review state: P06 independent Claude review is deferred by owner; P07/P08 are queued. None is
   represented as approved.
 - Safety state: strategies only propose approved long entries; deterministic risk retains final
   authority. No credential, execution, data-only trading, or final-period access path was added.

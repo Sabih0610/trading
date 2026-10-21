@@ -16,3 +16,7 @@
   Only 2026 XAUT/XAU partitions exist locally, and they remain final-test locked. The reproducible
   report records zero empirical trials and must be rerun if eligible history is later added; do not
   substitute data-only XAUUSD as an executable asset.
+- P08 empirical model comparisons and the filtered-vs-unfiltered validation backtest inherit the
+  P07 data blocker. No model was trained on market data: training, calibration, validation, and
+  final-test trial counts are all zero. Synthetic tests verify mechanics only. Rerun
+  `.\scripts\run-ml-evaluation.ps1` after eligible lineage-validated candidate history exists.
