@@ -4,6 +4,26 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P03 — 2026-10-21
+
+### Added
+
+- Official-precedence calendar reconciliation for BLS/ECB plus recent global Finance Calendar breadth, with UTC/DST-safe schedules and conflict evidence.
+- Headline-only RSS/Atom and GDELT metadata ingestion with deterministic normalized-text deduplication and transparent topic tags.
+- Immutable raw content storage, manifested normalized snapshots, conditional caching, isolated source failures, and monthly gap/source-mix coverage reports.
+- PowerShell calendar/news downloaders and disabled-by-default keyed news capability reporting.
+- Research, operator guide, data dictionary additions, offline fixtures, integration fallbacks, and 19 new tests since the P02 gate.
+
+### Validated
+
+- Calendar: 522 reconciled events covering every month from 2020-10 through 2026-10.
+- News: 56 unique live headlines from four independent RSS sources for the sample day.
+- Unified Bronze: 125 Parquet files and 12,673,099 rows with zero validation issues.
+
+### Pending
+
+- Six-year GDELT headline history is waiting for public DOC API cooldown after HTTP 429; the daily-window resume command is documented.
+
 ## P02 — 2026-10-21
 
 ### Added

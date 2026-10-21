@@ -66,3 +66,35 @@ Tick rows are stored only for XAUUSD and only for completed hours in the trailin
 ## FRED fixture schema
 
 The fixture-backed parser accepts `observation_date` plus one allowlisted series (`DGS10`, `DFII10`, or `DTWEXBGS`) and derives typed `date` and nullable `value` fields. No live FRED Bronze dataset is permitted while D-0011 remains open.
+
+## Calendar events
+
+| Field | Type | Meaning |
+|---|---|---|
+| `event_id` | SHA-256 string | Stable identity from normalized name, country, currency, and UTC date. |
+| `name` | string | Canonical displayed event name. |
+| `country` | string | Uppercase country/region code. |
+| `currency` | 3-letter string | Currency associated with the event. |
+| `importance` | enum | `low`, `medium`, `high`, `holiday`, or `unknown`. |
+| `scheduled_utc` | UTC datetime | Authoritative or best available scheduled time. |
+| `actual`, `forecast`, `previous` | nullable string | Source-published values, units preserved. |
+| `source`, `source_url` | string | Winning source and provenance URL. |
+| `fetched_at` | UTC datetime | Payload retrieval time. |
+| `source_aliases` | list of strings | All reconciled contributing sources. |
+| `time_conflict` | boolean | True when sources disagreed on the scheduled UTC time. |
+| `conflicting_times_utc` | list of UTC datetimes | Every distinct observed time when a conflict exists. |
+
+## News items
+
+| Field | Type | Meaning |
+|---|---|---|
+| `id` | SHA-256 string | Hash of Unicode/case/punctuation-normalized headline text. |
+| `headline` | string | Syndicated headline only; article text is excluded. |
+| `source` | string | Publisher/feed name or GDELT domain. |
+| `url` | string | Link to the publisher item. |
+| `published_utc`, `fetched_at` | UTC datetime | Publication/discovery and retrieval times. |
+| `topics` | list of strings | Transparent keyword tags for gold, central banks, inflation, oil, or crypto. |
+| `language` | 2–3 letter string | Feed/GDELT language code; `und` means unknown. |
+| `raw_hash` | SHA-256 string | Hash of the exact RSS entry or GDELT article object. |
+
+Topic tags are metadata only. They do not create, size, or approve a trade.

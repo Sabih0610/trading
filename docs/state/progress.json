@@ -1,10 +1,10 @@
 {
-  "current_phase": "P03",
+  "current_phase": "P04",
   "phases": {
     "P00": {"title": "Bootstrap", "status": "done", "started_utc": "2026-10-20 22:29 UTC", "completed_utc": "2026-10-20 22:45 UTC", "commit": "phase-P00-done", "report": "reports/phases/P00.md", "review": "queued"},
     "P01": {"title": "Asset registry, Shariah gate, risk config", "status": "done", "started_utc": "2026-10-20 22:45 UTC", "completed_utc": "2026-10-20 22:52 UTC", "commit": "phase-P01-done", "report": "reports/phases/P01.md", "review": "queued"},
     "P02": {"title": "Historical market data", "status": "done", "started_utc": "2026-10-20 22:54 UTC", "completed_utc": "2026-10-21 01:02 UTC", "commit": "phase-P02-done", "report": "reports/phases/P02.md", "review": "queued"},
-    "P03": {"title": "Calendar and news", "status": "in_progress", "started_utc": "2026-10-21 01:03 UTC"},
+    "P03": {"title": "Calendar and news", "status": "done", "started_utc": "2026-10-21 01:03 UTC", "completed_utc": "2026-10-21 01:20 UTC", "commit": "phase-P03-done", "report": "reports/phases/P03.md", "review": "queued"},
     "P04": {"title": "Silver cleaning", "status": "not_started"},
     "P05": {"title": "Feature engine", "status": "not_started"},
     "P06": {"title": "Backtester and risk manager", "status": "not_started", "human_gate": true},
@@ -26,7 +26,14 @@
       "required_bytes": 778560000000,
       "free_bytes": 117969121280,
       "command": "pwsh -NoProfile -File .\\scripts\\download-history.ps1 -Sources binance,dukascopy -From 2020-10-01 -To 2026-10-21 -Resume -BronzeRoot F:\\trading-data\\bronze"
+    },
+    {
+      "phase": "P03",
+      "name": "gdelt_headline_history",
+      "status": "blocked_on_data",
+      "reason": "Public DOC API returned HTTP 429 after bounded retries; wait for provider cooldown",
+      "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-21 01:03 UTC"
+  "last_updated_utc": "2026-10-21 01:20 UTC"
 }
