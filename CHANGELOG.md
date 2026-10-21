@@ -4,6 +4,26 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P02 — 2026-10-21
+
+### Added
+
+- Resumable keyless Binance spot archive/REST and Dukascopy M1/recent-XAU-tick ingestion into immutable partitioned Bronze Parquet.
+- Published Binance SHA-256 verification, atomic writes, bounded retries/backoff, source-wide Dukascopy rate limiting, disk preflight, manifests, and a JSONL outcome log.
+- Fixture-backed FRED CSV parsing with a fail-closed live-use terms gate.
+- Reusable Bronze validator for manifest integrity, checksums, row counts, ordering, and exact duplicates.
+- PowerShell sample/full orchestration with external data-volume support, offline scenarios, opt-in live tests, an ADR, operator guide, and data dictionary.
+
+### Validated
+
+- Seven-day public sample: 112 Parquet files, 12,671,061 rows, 193,559,795 bytes, zero validation issues.
+- Full offline gate: 87 tests passed and 3 live tests were excluded by default.
+
+### Blocked
+
+- Full six-year transfer needs about 778.56 GB; the current volume has about 117.97 GB free.
+- Live FRED use remains pending owner/legal decision D-0011.
+
 ## P01 — 2026-10-20
 
 ### Added

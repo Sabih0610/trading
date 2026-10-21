@@ -17,6 +17,7 @@ P02 is building offline-testable, resumable public-data ingestion into immutable
 | 2026-10-21 00:51 UTC | Validate | Checked all sample manifests, checksums, row counts, ordering, and duplicates. | `python -m tb.ingest.history.validation data/bronze` | 112 Parquet files, 12,671,061 rows, 193,559,795 bytes; zero issues. | — |
 | 2026-10-21 00:59 UTC | Build/test | Added trailing-365-day XAUUSD hourly ticks and a reusable Bronze validator. | Pipeline, CLI, offline integration/unit tests | Targeted gate passed; a new live Dukascopy probe hit a temporary provider-wide HTTP 429 after the earlier sample. | D-0010 |
 | 2026-10-21 00:59 UTC | Capacity | Calculated the conservative six-year footprint before starting the full transfer. | `estimate_history_bytes(...)`, `shutil.disk_usage(...)` | Need 778.56 GB; only 117.97 GB free (660.59 GB deficit), so the full job was not started. | D-0012 |
+| 2026-10-21 01:02 UTC | Final gate | Ran the full offline quality gate, pre-commit hooks, and hostile safety scans. | Ruff, format, mypy, pytest, pre-commit, `rg` | 87 tests passed, 3 live tests deselected; 29 source files type-clean; no prohibited exchange product path or secret found. | — |
 
 ## Problems and fixes
 

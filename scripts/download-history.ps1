@@ -6,7 +6,8 @@ param(
     [Parameter(Mandatory = $true)]
     [datetime]$To,
     [switch]$Resume,
-    [switch]$Sample
+    [switch]$Sample,
+    [string]$BronzeRoot
 )
 
 $ErrorActionPreference = "Stop"
@@ -22,6 +23,9 @@ if ($Resume) {
 }
 if ($Sample) {
     $arguments += "--sample"
+}
+if ($BronzeRoot) {
+    $arguments += @("--bronze-root", $BronzeRoot)
 }
 
 Push-Location -LiteralPath $repoRoot

@@ -1,9 +1,9 @@
 {
-  "current_phase": "P02",
+  "current_phase": "P03",
   "phases": {
     "P00": {"title": "Bootstrap", "status": "done", "started_utc": "2026-10-20 22:29 UTC", "completed_utc": "2026-10-20 22:45 UTC", "commit": "phase-P00-done", "report": "reports/phases/P00.md", "review": "queued"},
     "P01": {"title": "Asset registry, Shariah gate, risk config", "status": "done", "started_utc": "2026-10-20 22:45 UTC", "completed_utc": "2026-10-20 22:52 UTC", "commit": "phase-P01-done", "report": "reports/phases/P01.md", "review": "queued"},
-    "P02": {"title": "Historical market data", "status": "in_progress", "started_utc": "2026-10-20 22:54 UTC"},
+    "P02": {"title": "Historical market data", "status": "done", "started_utc": "2026-10-20 22:54 UTC", "completed_utc": "2026-10-21 01:02 UTC", "commit": "phase-P02-done", "report": "reports/phases/P02.md", "review": "queued"},
     "P03": {"title": "Calendar and news", "status": "not_started"},
     "P04": {"title": "Silver cleaning", "status": "not_started"},
     "P05": {"title": "Feature engine", "status": "not_started"},
@@ -18,6 +18,15 @@
     "P14": {"title": "Demo month runbook", "status": "not_started"}
   },
   "allowed_status": ["not_started", "in_progress", "done", "blocked_on_keys", "blocked_on_review", "blocked_on_data", "failed"],
-  "background_jobs": [],
-  "last_updated_utc": "2026-10-20 22:54 UTC"
+  "background_jobs": [
+    {
+      "phase": "P02",
+      "name": "full_history_download",
+      "status": "blocked_on_data",
+      "required_bytes": 778560000000,
+      "free_bytes": 117969121280,
+      "command": "pwsh -NoProfile -File .\\scripts\\download-history.ps1 -Sources binance,dukascopy -From 2020-10-01 -To 2026-10-21 -Resume -BronzeRoot F:\\trading-data\\bronze"
+    }
+  ],
+  "last_updated_utc": "2026-10-21 01:02 UTC"
 }

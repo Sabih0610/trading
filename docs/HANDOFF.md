@@ -1,9 +1,9 @@
 # Current handoff
 
-P01 is committed/tagged and P02 historical-data ingestion is in progress. The source adapters, orchestrator, recent XAUUSD tick path, reusable validator, and seven-day real sample are implemented.
+P02 historical-data ingestion is complete and ready for its routine Claude review. P03 calendar/news ingestion is the next phase.
 
-- Last completed step: validated 112 sample Parquet files (12,671,061 rows, 193,559,795 bytes) with zero manifest, checksum, ordering, or duplicate issues; added offline-tested trailing-year XAUUSD ticks.
-- Next step: finish P02 documentation, run the full gate and hostile review, commit/tag the phase, then initialize P03.
-- Exact next command: `uv run ruff check .; uv run ruff format --check .; uv run mypy src; uv run pytest -q`.
-- Open problems: live FRED use is pending owner/legal decision D-0011. The full six-year transfer needs 778.56 GB but the current volume has 117.97 GB free, so it is blocked on storage under D-0012. Dukascopy temporarily returned HTTP 429 after the completed sample; the adapter fails loudly and retains a global one-request-per-second gate.
-- Safety state: P02 is public read-only ingestion; no keys or execution paths are in scope. The locked final period may be stored but must not be evaluated without the separate P07+ gate.
+- Last completed step: full P02 gate passed (Ruff, format, strict mypy, pre-commit, 87 tests with 3 live tests deselected) after validating 112 sample files and 12,671,061 rows with zero issues.
+- Next step: read `prompts/P03-calendar-news.md`, load prior-phase context and open review blockers, mark P03 in progress, then research current keyless calendar/news sources.
+- Exact next command: `Get-Content -LiteralPath .\prompts\P03-calendar-news.md`.
+- Open problems: live FRED use is pending owner/legal decision D-0011. The full P02 transfer needs 778.56 GB but the current volume has 117.97 GB free, so background job `full_history_download` is blocked on storage under D-0012. The verified sample is sufficient to build P03/P04 paths.
+- Safety state: P02 contains public read-only data only. Locked final-period rows are stored but have not been evaluated, and no secret or execution path was added.
