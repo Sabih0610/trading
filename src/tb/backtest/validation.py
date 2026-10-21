@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import NamedTuple
 
@@ -129,9 +129,12 @@ class WalkForwardRunner:
         final_test: bool = False,
         final_test_log: Path = Path("reports/final_test_log.md"),
         run_id: str,
+        purge: timedelta = timedelta(0),
     ) -> tuple[WalkForwardResult, ...]:
         """Run non-empty folds, authorizing any locked window before reading its bars."""
 
+        if purge < timedelta(0):
+            raise ValueError("purge must not be negative")
         selected_windows = default_walk_forward_windows() if windows is None else tuple(windows)
         results: list[WalkForwardResult] = []
         for window in selected_windows:
@@ -141,8 +144,9 @@ class WalkForwardRunner:
                 log_path=final_test_log,
                 run_id=run_id,
             )
+            training_cutoff = min(window.train_end, window.evaluate_start - purge)
             training = tuple(
-                bar for bar in bars if window.train_start <= bar.timestamp <= window.train_end
+                bar for bar in bars if window.train_start <= bar.timestamp <= training_cutoff
             )
             evaluation = tuple(
                 bar for bar in bars if window.evaluate_start <= bar.timestamp <= window.evaluate_end

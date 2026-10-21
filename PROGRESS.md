@@ -1,6 +1,7 @@
 # Build progress
 
-P05 is complete and P06 backtester/risk-manager work is in progress. This file mirrors `docs/state/progress.json` for human readers and is updated at each phase boundary.
+P06 is complete and the build is paused at its mandatory Claude-review gate before P07. This file
+mirrors `docs/state/progress.json` for human readers and is updated at each phase boundary.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -10,7 +11,7 @@ P05 is complete and P06 backtester/risk-manager work is in progress. This file m
 | P03 | Calendar and news | done | 2026-10-21 01:03 | 2026-10-21 01:20 | `phase-P03-done` | [report](reports/phases/P03.md) | queued |
 | P04 | Silver cleaning | done | 2026-10-21 01:22 | 2026-10-21 01:38 | `phase-P04-done` | [report](reports/phases/P04.md) | queued |
 | P05 | Feature engine | done | 2026-10-21 01:39 | 2026-10-21 01:55 | `phase-P05-done` | [report](reports/phases/P05.md) | queued |
-| P06 | Backtester and risk manager | in progress | 2026-10-21 01:56 | — | — | — | human gate |
+| P06 | Backtester and risk manager | done | 2026-10-21 01:56 | 2026-10-21 12:30 | `phase-P06-done` | [report](reports/phases/P06.md) | required before P07 |
 | P07 | Strategies and scenarios | not started | — | — | — | — | — |
 | P08 | ML models | not started | — | — | — | — | — | — |
 | P09 | Decision ledger and AI arena | not started | — | — | — | — | human gate |

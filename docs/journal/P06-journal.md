@@ -14,6 +14,7 @@ to real execution.
 | 2026-10-21 12:20 UTC | Metrics and artifacts | Added trade/risk/exposure metrics, deflated-Sharpe diagnostic, immutable seven-file run bundles, and an offline smoke runner. | `src/tb/backtest/metrics.py`, `reporting.py`, `smoke.py`, `scripts/run-backtest-smoke.ps1` | 63 focused tests passed; risk manager remains 100% statement/branch covered. | D-0019 |
 | 2026-10-21 12:24 UTC | Fill hardening | Routed volume-limited quantities back through the risk manager for market/limit step, quantity, and notional enforcement; required UTC inputs and bar-aligned signals. | `risk/manager.py`, `backtest/engine.py` | 71 focused tests passed; risk manager remains 100% statement/branch covered. | D-0019 |
 | 2026-10-21 12:25 UTC | Smoke report | Ran the offline ×1.5 cost-stress example and wrote the complete immutable artifact bundle. | `reports/backtests/P06-toy-20261021/` | Seven expected files written; one profitable toy trade, no rejections. | — |
+| 2026-10-21 12:30 UTC | Full gate and review | Ran repository lint/format/type/test gates, risk coverage, forbidden-surface scan, secret-pattern review, and locked-period search; wrote phase/living docs. | full repository; `reports/phases/P06.md` | 212 passed, 3 live deselected; risk manager 100% statement/branch; hostile review clean. | — |
 
 ## Problems and fixes
 

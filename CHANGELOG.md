@@ -4,6 +4,29 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P06 — 2026-10-21
+
+### Added
+
+- Pessimistic next-event Spot simulator with market/limit entries, adverse OCO/gap behavior,
+  volume-limited partial fills, end-of-day flattening, and kill-switch handling.
+- Deterministic risk manager for stop-distance sizing, hard portfolio/day/session limits, structured
+  rejection reasons, and post-partial-fill exchange-rule enforcement.
+- Registry-derived friction with ×1.5/×2/×3 stress, chronological walk-forward folds, configurable
+  purge, and an append-logged lock on all 2025+ evaluation.
+- Inactivity, passive diagnostic, prior-day trend, and seeded-random baselines plus auditable
+  performance metrics and immutable seven-file run bundles.
+- Offline smoke runner, committed example report, operator guide, and hand-calculated scenarios.
+
+### Validated
+
+- Full gate: 212 passed and 3 optional live tests deselected.
+- Risk manager: 100% statement and branch coverage (142 statements, 40 branches).
+
+### Pending
+
+- Mandatory Claude review of P06 before strategy work begins in P07.
+
 ## P05 — 2026-10-21
 
 ### Added

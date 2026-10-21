@@ -143,3 +143,40 @@ def test_walk_forward_rejects_signal_outside_evaluation() -> None:
     runner = WalkForwardRunner(lambda: BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")))
     with pytest.raises(ValueError, match="pre-evaluation"):
         runner.run(bars, build, windows=[window], run_id="leak")
+
+
+def test_walk_forward_purge_removes_near_boundary_training_rows() -> None:
+    window = EvaluationWindow(
+        name="purged",
+        train_start=datetime(2023, 1, 1, tzinfo=UTC),
+        train_end=datetime(2023, 12, 31, 23, 59, tzinfo=UTC),
+        evaluate_start=datetime(2024, 1, 1, tzinfo=UTC),
+        evaluate_end=datetime(2024, 12, 31, tzinfo=UTC),
+    )
+    old = _bar(datetime(2023, 12, 20, tzinfo=UTC))
+    near = _bar(datetime(2023, 12, 31, tzinfo=UTC))
+    evaluation = _bar(datetime(2024, 1, 1, tzinfo=UTC))
+    seen: list[tuple[Bar, ...]] = []
+
+    def build(training: tuple[Bar, ...], _: tuple[Bar, ...]) -> list[EntrySignal]:
+        seen.append(training)
+        return []
+
+    runner = WalkForwardRunner(lambda: BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")))
+    runner.run(
+        [old, near, evaluation],
+        build,
+        windows=[window],
+        run_id="purged",
+        purge=timedelta(days=2),
+    )
+
+    assert seen == [(old,)]
+    with pytest.raises(ValueError, match="purge"):
+        runner.run(
+            [old, evaluation],
+            build,
+            windows=[window],
+            run_id="bad-purge",
+            purge=timedelta(seconds=-1),
+        )
