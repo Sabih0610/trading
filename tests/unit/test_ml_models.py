@@ -4,8 +4,10 @@ import pytest
 from tb.ml.models import (
     fit_lightgbm_meta,
     fit_logistic_baseline,
+    fit_probability_calibrator,
     fit_ridge_baseline,
     fit_rolling_gpr,
+    mean_absolute_shap,
 )
 from tb.ml.policy import InsufficientSampleError
 
@@ -49,3 +51,31 @@ def test_model_factories_fail_closed() -> None:
         broken = features.copy()
         broken[0, 0] = np.nan
         fit_ridge_baseline(broken, labels)
+
+
+def test_class_imbalance_calibration_and_shap_are_finite() -> None:
+    features = np.column_stack((np.linspace(-2, 2, 1_000), np.arange(1_000) % 7))
+    labels = np.zeros(1_000, dtype=int)
+    labels[-25:] = 1
+    tree = fit_lightgbm_meta(features, labels)
+    raw = tree.predict_proba(features)[:, 1]
+
+    isotonic = fit_probability_calibrator(raw, labels, method="isotonic")
+    calibrated = isotonic.predict(raw[:10])
+    summary = mean_absolute_shap(tree, features[:25], ["trend", "cycle"])
+
+    assert np.all((calibrated >= 0) & (calibrated <= 1))
+    assert set(summary) == {"trend", "cycle"}
+    assert all(np.isfinite(value) and value >= 0 for value in summary.values())
+
+
+def test_sigmoid_calibration_detects_invalid_inputs() -> None:
+    scores = np.linspace(0.01, 0.99, 200)
+    labels = np.tile([0, 1], 100)
+    calibrator = fit_probability_calibrator(scores, labels, method="sigmoid")
+
+    assert calibrator.predict([0.5]).shape == (1,)
+    with pytest.raises(ValueError, match="finite"):
+        calibrator.predict([np.nan])
+    with pytest.raises(InsufficientSampleError):
+        fit_probability_calibrator(scores, labels, method="isotonic")

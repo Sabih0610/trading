@@ -4,8 +4,11 @@ from decimal import Decimal
 import pytest
 
 from tb.ml.policy import (
+    CalibrationMetrics,
     InsufficientSampleError,
+    calibration_drift_detected,
     calibration_metrics,
+    expected_calibration_error,
     require_calibration_sample,
     require_training_sample,
     size_multiplier,
@@ -37,6 +40,26 @@ def test_minimum_sample_and_isotonic_gates() -> None:
     with pytest.raises(InsufficientSampleError, match="at least 1000"):
         require_calibration_sample(999, method="isotonic")
     require_calibration_sample(200, method="sigmoid")
+
+
+def test_calibration_drift_is_detected_from_reliability_error() -> None:
+    reference = CalibrationMetrics(
+        brier_score=Decimal("0.1"),
+        log_loss=Decimal("0.3"),
+        reliability=((Decimal("0.2"), Decimal("0.2"), 100),),
+    )
+    current = CalibrationMetrics(
+        brier_score=Decimal("0.2"),
+        log_loss=Decimal("0.5"),
+        reliability=((Decimal("0.8"), Decimal("0.5"), 100),),
+    )
+
+    assert expected_calibration_error(reference) == 0
+    assert calibration_drift_detected(reference, current)
+    with pytest.raises(ValueError, match="empty"):
+        expected_calibration_error(
+            CalibrationMetrics(brier_score=Decimal("0"), log_loss=Decimal("0"), reliability=())
+        )
 
 
 @pytest.mark.parametrize(

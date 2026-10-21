@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from datetime import datetime, timedelta
+from itertools import combinations
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 
@@ -101,3 +102,49 @@ def expanding_purged_folds(
         for fold in purged_kfold(samples, n_splits=n_splits, embargo=embargo)
         if fold.test_indices[0] > 0
     )
+
+
+def combinatorial_purged_folds(
+    samples: Sequence[ModelSample],
+    *,
+    n_groups: int,
+    test_groups: int,
+    embargo: timedelta,
+) -> tuple[PurgedFold, ...]:
+    """Return every declared group combination with interval purge and embargo."""
+
+    assert_leakage_free(samples)
+    if n_groups < 2 or n_groups > len(samples):
+        raise ValueError("n_groups must be between two and the sample count")
+    if test_groups < 1 or test_groups >= n_groups:
+        raise ValueError("test_groups must be between one and n_groups - 1")
+    if embargo < timedelta(0):
+        raise ValueError("embargo cannot be negative")
+    base, remainder = divmod(len(samples), n_groups)
+    groups: list[tuple[int, ...]] = []
+    cursor = 0
+    for group_number in range(n_groups):
+        width = base + int(group_number < remainder)
+        groups.append(tuple(range(cursor, cursor + width)))
+        cursor += width
+    folds: list[PurgedFold] = []
+    for selected_groups in combinations(range(n_groups), test_groups):
+        test_indices = tuple(index for group in selected_groups for index in groups[group])
+        test_intervals = tuple(
+            (
+                samples[groups[group][0]].starts_at,
+                max(samples[index].ends_at for index in groups[group]),
+            )
+            for group in selected_groups
+        )
+        train_indices = tuple(
+            index
+            for index, sample in enumerate(samples)
+            if index not in test_indices
+            and all(
+                sample.ends_at < test_start or sample.starts_at > test_end + embargo
+                for test_start, test_end in test_intervals
+            )
+        )
+        folds.append(PurgedFold(train_indices=train_indices, test_indices=test_indices))
+    return tuple(folds)

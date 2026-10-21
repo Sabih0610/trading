@@ -6,6 +6,7 @@ from tb.ml.validation import (
     LeakageDetectedError,
     ModelSample,
     assert_leakage_free,
+    combinatorial_purged_folds,
     expanding_purged_folds,
     purged_kfold,
 )
@@ -51,6 +52,23 @@ def test_expanding_folds_never_train_on_future_rows() -> None:
     )
 
 
+def test_combinatorial_folds_cover_every_group_choice_and_purge() -> None:
+    samples = [_sample(index, duration=1) for index in range(8)]
+
+    folds = combinatorial_purged_folds(samples, n_groups=4, test_groups=2, embargo=timedelta())
+
+    assert len(folds) == 6
+    assert all(len(fold.test_indices) == 4 for fold in folds)
+    for fold in folds:
+        assert not set(fold.train_indices) & set(fold.test_indices)
+        assert all(
+            samples[train].ends_at < samples[test].starts_at
+            or samples[train].starts_at > samples[test].ends_at
+            for train in fold.train_indices
+            for test in fold.test_indices
+        )
+
+
 def test_validation_inputs_fail_closed() -> None:
     with pytest.raises(LeakageDetectedError, match="strictly ordered"):
         assert_leakage_free([_sample(1), _sample(0)])
@@ -58,3 +76,10 @@ def test_validation_inputs_fail_closed() -> None:
         purged_kfold([_sample(0)], n_splits=2, embargo=timedelta())
     with pytest.raises(ValueError, match="embargo"):
         purged_kfold([_sample(0), _sample(1)], n_splits=2, embargo=timedelta(days=-1))
+    with pytest.raises(ValueError, match="test_groups"):
+        combinatorial_purged_folds(
+            [_sample(0), _sample(1)],
+            n_groups=2,
+            test_groups=2,
+            embargo=timedelta(),
+        )

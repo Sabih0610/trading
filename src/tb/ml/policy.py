@@ -23,6 +23,35 @@ class CalibrationMetrics(BaseModel):
     reliability: tuple[tuple[Decimal, Decimal, int], ...]
 
 
+def expected_calibration_error(metrics: CalibrationMetrics) -> Decimal:
+    """Return count-weighted absolute reliability error."""
+
+    total = sum(count for _, _, count in metrics.reliability)
+    if total == 0:
+        raise ValueError("reliability bins cannot be empty")
+    weighted = sum(
+        (
+            abs(predicted - observed) * Decimal(count)
+            for predicted, observed, count in metrics.reliability
+        ),
+        Decimal("0"),
+    )
+    return weighted / Decimal(total)
+
+
+def calibration_drift_detected(
+    reference: CalibrationMetrics,
+    current: CalibrationMetrics,
+    *,
+    tolerance: Decimal = Decimal("0.05"),
+) -> bool:
+    """Flag deterioration in expected calibration error beyond tolerance."""
+
+    if tolerance < 0:
+        raise ValueError("tolerance cannot be negative")
+    return expected_calibration_error(current) - expected_calibration_error(reference) > tolerance
+
+
 def require_training_sample(sample_count: int, *, minimum: int = 200) -> None:
     """Refuse model fitting below the declared minimum labeled setup count."""
 
