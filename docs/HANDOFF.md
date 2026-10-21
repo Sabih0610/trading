@@ -1,10 +1,12 @@
 # Current handoff
 
-P04 is complete and ready for routine Claude review. The verified Bronze sample now has deterministic,
-UTC-aligned Silver market, context, and alignment datasets with checksum lineage and quality reports.
+P04 is complete/tagged and P05 feature-engine research is in progress. The verified Bronze sample
+has deterministic, UTC-aligned Silver inputs with checksum lineage and quality reports.
 
-- Last completed step: full P04 gate passed with 125 tests, 3 live deselected; hostile scans were clean.
-- Next step: start P05 research and define versioned causal feature contracts shared by batch and streaming APIs.
-- Exact next command: read `prompts/P05-feature-engine.md`, initialize its journal/report/state, then browse official/reputable sources for causal swing confirmation, streaming indicators, and order-book definitions.
+- Last completed step: initialized P05 and began current-source research for causal rolling windows,
+  confirmed pivots, streaming parity, and Binance spot order-book inputs.
+- Next step: finish `docs/research/P05-research.md`, record the feature-contract decision, then write tests for a shared streaming state machine before its batch adapter.
+- Exact next command: create `tests/unit/test_feature_engine.py` with warmup, confirmed-pivot, gap,
+  and batch/stream equality cases, then implement `src/tb/features/engine.py`.
 - Open problems: exact DXY is gated under D-0016; P05 macro features must represent it as unavailable rather than fabricate it. GDELT history awaits cooldown; full P02 history lacks storage; live FRED remains pending D-0011.
 - Safety state: P04 is offline transformation only. It creates no orders, changes no risk limit, grants no AI authority, reads no secret, and proves completed-bar causality.
