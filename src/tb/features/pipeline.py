@@ -21,12 +21,12 @@ from tb.features.context import (
     add_historical_book_placeholders,
     add_unavailable_macro,
 )
-from tb.features.engine import FEATURE_SPECS, compute_features_batch
+from tb.features.engine import FEATURE_SPECS, FeatureEngine, compute_features_batch
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.risk.config import AssetRole, ShariahStatus, load_asset_registry
 from tb.silver.pipeline import SilverManifest
 
-FEATURE_SET_VERSION = "gold-features-v2-htf"
+FEATURE_SET_VERSION = "gold-features-v3-continuous-state"
 _TIMEFRAMES = {
     "1m": timedelta(minutes=1),
     "5m": timedelta(minutes=5),
@@ -108,6 +108,7 @@ def build_feature_frame(
     calendar: pl.DataFrame | None = None,
     basis: pl.DataFrame | None = None,
     higher_timeframe: pl.DataFrame | None = None,
+    engine: FeatureEngine | None = None,
 ) -> pl.DataFrame:
     """Build one causal Gold partition from completed Silver bars and known context."""
 
@@ -134,7 +135,9 @@ def build_feature_frame(
             pl.lit(None, dtype=pl.Int64).alias("htf_structure_direction")
         )
     timestamp_dtype = prepared.schema["timestamp_utc"]
-    calculated = compute_features_batch(prepared, timeframe=_TIMEFRAMES[timeframe]).with_columns(
+    calculated = compute_features_batch(
+        prepared, timeframe=_TIMEFRAMES[timeframe], engine=engine
+    ).with_columns(
         pl.col("timestamp_utc").cast(timestamp_dtype),
         pl.col("htf_structure_direction").cast(pl.Int64),
     )
@@ -244,6 +247,8 @@ def build_gold(silver_root: Path, gold_root: Path) -> GoldBuildSummary:
     calendar, calendar_hash = _optional_frame(silver_root / "calendar/events.parquet")
     processed = 0
     skipped = 0
+    engines: dict[tuple[str, str], FeatureEngine] = {}
+    prior_lineage: dict[tuple[str, str], str] = {}
     for input_path in _silver_inputs(silver_root):
         relative = input_path.relative_to(silver_root / "binance_spot")
         symbol, timeframe = relative.parts[:2]
@@ -269,22 +274,33 @@ def build_gold(silver_root: Path, gold_root: Path) -> GoldBuildSummary:
                 higher_hash = hashlib.sha256(
                     "|".join(sha256_file(path) for path in higher_paths).encode()
                 ).hexdigest()
+        key = (symbol, timeframe)
+        predecessor = prior_lineage.get(key, "start")
         lineage = hashlib.sha256(
             "|".join(
-                (silver_manifest.output_sha256, calendar_hash, basis_hash, higher_hash)
+                (
+                    predecessor,
+                    silver_manifest.output_sha256,
+                    calendar_hash,
+                    basis_hash,
+                    higher_hash,
+                )
             ).encode()
         ).hexdigest()
+        prior_lineage[key] = lineage
         output_path = gold_root / "features" / relative
-        if _current(output_path, lineage):
-            skipped += 1
-            continue
+        engine = engines.setdefault(key, FeatureEngine(timeframe=_TIMEFRAMES[timeframe]))
         result = build_feature_frame(
             pl.read_parquet(input_path),
             timeframe=timeframe,
             calendar=calendar,
             basis=basis,
             higher_timeframe=higher,
+            engine=engine,
         )
+        if _current(output_path, lineage):
+            skipped += 1
+            continue
         _commit(
             output_path,
             result,

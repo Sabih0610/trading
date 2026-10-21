@@ -319,13 +319,18 @@ class FeatureEngine:
 
 
 def compute_features_batch(
-    frame: pl.DataFrame, *, timeframe: timedelta = timedelta(minutes=1)
+    frame: pl.DataFrame,
+    *,
+    timeframe: timedelta = timedelta(minutes=1),
+    engine: FeatureEngine | None = None,
 ) -> pl.DataFrame:
     """Replay the streaming engine over a sorted Polars frame."""
 
     missing = sorted(set(_REQUIRED).difference(frame.columns))
     if missing:
         raise FeatureInputError(f"Missing feature inputs: {', '.join(missing)}")
-    engine = FeatureEngine(timeframe=timeframe)
-    records = [engine.update(row) for row in frame.sort("timestamp_utc").to_dicts()]
+    active_engine = FeatureEngine(timeframe=timeframe) if engine is None else engine
+    if active_engine.timeframe != timeframe:
+        raise ValueError("Provided engine timeframe does not match batch timeframe")
+    records = [active_engine.update(row) for row in frame.sort("timestamp_utc").to_dicts()]
     return pl.DataFrame(records, infer_schema_length=None)

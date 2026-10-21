@@ -178,3 +178,42 @@ Each Silver manifest has `schema_version`, `input_path`, `input_sha256`, `output
 `byte_count`, `transformation_version`, and `generated_at`. A market quality JSON has `dataset`,
 input/output rows, `coverage_pct`, gap counts, missing minutes, flagged spikes, removed duplicates,
 and first/last UTC times. Alignment quality additionally reports exact overlap and null-basis rows.
+
+## Gold features
+
+Gold retains its Silver columns and adds the following causal fields. Null means the declared
+warmup/confirmation is not complete or the source input is unavailable.
+
+| Field | Unit/type | Definition and availability |
+|---|---|---|
+| `input_gap` | boolean | True when elapsed time differs from the native timeframe; continuity state resets on this row. |
+| `log_return` | natural-log return | `ln(close / previous_close)`; null on first row or after a gap. |
+| `true_range` | quote units | Maximum of high-low and distances from prior close. |
+| `atr14` | quote units | Mean of first 14 true ranges, then Wilder recurrence; 13-row warmup. |
+| `realized_vol20` | per-bar log-return standard deviation | Sample standard deviation of the latest 20 returns. |
+| `ema20`, `ema50` | quote units | Recursive EMA seeded by the first close, alpha `2/(n+1)`. |
+| `ema20_slope`, `ema50_slope` | decimal change/bar | Current EMA divided by previous EMA minus one. |
+| `confirmed_swing_high`, `confirmed_swing_low` | quote units | Strict 3-left/3-right pivot reported only on its confirmation bar. |
+| `structure_event` | nullable enum | `bos_up/down` for continuation or `choch_up/down` for first opposite close beyond a confirmed swing. |
+| `structure_direction` | -1/0/1 | Most recently confirmed break direction. |
+| `sweep_event` | nullable enum | Confirmed high/low wick breach followed by close reclaim within at most three completed bars. |
+| `fvg_direction`, `fvg_lower`, `fvg_upper` | enum / quote units | Three-bar wick non-overlap at least 0.25 of prior ATR; a price-pattern label only. |
+| `fvg_fill_event`, `active_fvg_count` | enum / count | Subsequent partial/full range contact and active directional-gap count. |
+| `order_block_low`, `order_block_high` | quote units | Last opposite-color candle in the prior ten bars when structure breaks; explicitly an approximation. |
+| `htf_structure_direction`, `htf_structure_available` | -1/0/1, boolean | Latest higher-timeframe direction whose `bar_end_utc` is at or before this bar. |
+| `session_vwap` | quote units | Cumulative daily typical-price × volume divided by volume. |
+| `asia_range_high`, `asia_range_low` | quote units | Running Asia range; values freeze after the session. |
+| `london_open`, `new_york_open` | quote units | First observed open in each local/DST-aware session. |
+| `minutes_to_high_impact_event` | minutes | Nonnegative time to the next high-impact schedule already known; otherwise null. |
+| `basis_bps`, `basis_zscore` | bps / z-score | Exact-time nominal XAUT/XAU basis and trailing 60-observation z-score. |
+| `usd_index_change`, `yield_change` | nullable decimal change | Null while licensed/approved source inputs are unavailable. |
+| `usd_index_available`, `yield_available` | boolean | False for the current gated macro inputs. |
+| `book_available` | boolean | False in historical Gold; true only for a synchronized live Spot book. |
+| `spread_bps` | basis points | Best-ask minus best-bid divided by midpoint. |
+| `top_book_imbalance` | ratio [0,1] | Best-bid quantity divided by total best bid/ask quantity. |
+| `weighted_quote` | quote units | Best quotes weighted by opposite-side touch quantity; not a model-estimated microprice. |
+| `trade_flow_imbalance` | ratio [-1,1] | Buyer minus seller quantity divided by their sum. |
+| `bid_depth_*bps`, `ask_depth_*bps` | base quantity | Displayed depth within 5, 10, or 25 bps of midpoint. |
+
+The Gold manifest fields are `schema_version`, `input_path`, `lineage_sha256`, `output_sha256`,
+`rows`, `byte_count`, `feature_set_version`, `feature_versions`, and `generated_at`.

@@ -4,6 +4,28 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P05 — 2026-10-21
+
+### Added
+
+- One versioned causal state machine shared by Polars batch and bar-by-bar streaming callers.
+- Volatility, trend, confirmed structure, sweep, three-bar gap/fill, order-block proxy, session,
+  VWAP, completed higher-timeframe, event, basis, macro-availability, and book feature contracts.
+- Approved-asset Gold builder with cross-partition state, chained lineage, atomic writes, manifests,
+  PowerShell runner, operator guide, and full data dictionary.
+- Exact batch/stream, random future-poisoning, three-month, partition-boundary, warmup, gap, and
+  completed-HTF timing tests.
+
+### Validated
+
+- Seven-day sample: 168 Gold partitions, 51,940 rows, about 8.1 MB.
+- Immediate repeat replayed causal state and skipped all 168 unchanged file writes.
+
+### Pending
+
+- DXY/yield and historical order-book features remain explicitly unavailable under existing source
+  gates; no values are fabricated.
+
 ## P04 — 2026-10-21
 
 ### Added

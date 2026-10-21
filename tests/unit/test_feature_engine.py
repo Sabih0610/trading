@@ -39,6 +39,22 @@ def test_batch_and_streaming_are_identical() -> None:
     assert batch.equals(streamed)
 
 
+def test_partitioned_replay_matches_one_continuous_batch() -> None:
+    bars = _bars(80)
+    expected = compute_features_batch(bars)
+    engine = FeatureEngine()
+
+    observed = pl.concat(
+        [
+            compute_features_batch(bars.head(40), engine=engine),
+            compute_features_batch(bars.tail(40), engine=engine),
+        ],
+        how="vertical_relaxed",
+    )
+
+    assert observed.equals(expected)
+
+
 def test_future_poisoning_cannot_change_past_features() -> None:
     bars = _bars(40)
     past = compute_features_batch(bars)
