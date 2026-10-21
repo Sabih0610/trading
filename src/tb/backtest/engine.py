@@ -3,15 +3,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import StrEnum
 from itertools import pairwise
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator
 
 from tb.backtest.costs import CostAssumptions
-from tb.risk.config import AssetDefinition, load_asset_registry
+from tb.risk.config import AssetDefinition
 from tb.risk.guards import OrderSide, assert_tradable
 from tb.risk.manager import EntryRequest, RejectionCode, RiskManager, RiskState
 
@@ -37,12 +37,21 @@ class Bar(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
 
-    timestamp: datetime
+    timestamp: AwareDatetime
     open: Decimal = Field(gt=0)
     high: Decimal = Field(gt=0)
     low: Decimal = Field(gt=0)
     close: Decimal = Field(gt=0)
     volume: Decimal = Field(ge=0)
+
+    @field_validator("timestamp")
+    @classmethod
+    def timestamp_is_utc(cls, value: datetime) -> datetime:
+        """Keep session and day boundaries unambiguous."""
+
+        if value.utcoffset() != timedelta(0):
+            raise ValueError("bar timestamp must use UTC")
+        return value
 
 
 class EntrySignal(BaseModel):
@@ -50,7 +59,7 @@ class EntrySignal(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
 
-    timestamp: datetime
+    timestamp: AwareDatetime
     symbol: str
     side: OrderSide = OrderSide.BUY
     order_type: EntryOrderType = EntryOrderType.MARKET
@@ -60,6 +69,15 @@ class EntrySignal(BaseModel):
     requested_quantity: Decimal | None = Field(default=None, gt=0)
     participation_rate: Decimal = Field(default=Decimal("0.1"), gt=0, le=1)
     expires_after_bars: int = Field(default=1, ge=1, le=100)
+
+    @field_validator("timestamp")
+    @classmethod
+    def timestamp_is_utc(cls, value: datetime) -> datetime:
+        """Require the same UTC clock used by completed input bars."""
+
+        if value.utcoffset() != timedelta(0):
+            raise ValueError("signal timestamp must use UTC")
+        return value
 
 
 class TradeRecord(BaseModel):
@@ -146,13 +164,15 @@ class BacktestEngine:
     ) -> None:
         if initial_cash <= 0:
             raise ValueError("initial_cash must be positive")
-        registry = load_asset_registry()
+        self.risk_manager = RiskManager() if risk_manager is None else risk_manager
+        registry = self.risk_manager.bundle.registry
         asset = assert_tradable(symbol, registry)
         self.asset: AssetDefinition = asset
         self.symbol = asset.symbol
         self.initial_cash = initial_cash
         self.costs = CostAssumptions.from_asset(asset, stress_multiplier=stress_multiplier)
-        self.risk_manager = RiskManager() if risk_manager is None else risk_manager
+        if kill_switch_at is not None and kill_switch_at.utcoffset() != timedelta(0):
+            raise ValueError("kill_switch_at must use UTC")
         self.kill_switch_at = kill_switch_at
 
     @staticmethod
@@ -175,6 +195,9 @@ class BacktestEngine:
         signal_by_time = {signal.timestamp: signal for signal in signals}
         if len(signal_by_time) != len(signals):
             raise ValueError("Only one entry signal per timestamp is supported")
+        bar_timestamps = {bar.timestamp for bar in bars}
+        if any(timestamp not in bar_timestamps for timestamp in signal_by_time):
+            raise ValueError("Every entry signal must align with an input bar")
         cash = self.initial_cash
         position: _Position | None = None
         pending: _PendingEntry | None = None
@@ -272,8 +295,17 @@ class BacktestEngine:
                         fee_rate = self.costs.stressed_fee_bps / Decimal("10000")
                         cash_quantity = cash / (fill_price * (Decimal("1") + fee_rate))
                         volume_quantity = bar.volume * pending_signal.participation_rate
-                        quantity = min(pending.approved_quantity, cash_quantity, volume_quantity)
-                        if quantity > 0:
+                        proposed_quantity = min(
+                            pending.approved_quantity, cash_quantity, volume_quantity
+                        )
+                        fill_decision = self.risk_manager.constrain_fill(
+                            self.symbol,
+                            proposed_quantity,
+                            fill_price,
+                            market_order=pending_signal.order_type is EntryOrderType.MARKET,
+                        )
+                        if fill_decision.approved:
+                            quantity = fill_decision.quantity
                             notional = quantity * fill_price
                             entry_fee = self.costs.fee(notional)
                             cash_out = notional + entry_fee
@@ -291,7 +323,8 @@ class BacktestEngine:
                             pending = None
                             process_exit(bar)
                         else:
-                            reject(bar.timestamp, "no_fill_capacity", "No cash or bar volume")
+                            code = fill_decision.reason_code or RejectionCode.NO_CAPACITY
+                            reject(bar.timestamp, code.value, fill_decision.detail or "No fill")
                             pending = None
 
             proposed_signal = signal_by_time.get(bar.timestamp)
@@ -308,6 +341,12 @@ class BacktestEngine:
                     )
                     if reference is None:
                         reject(bar.timestamp, "limit_price_missing", "Limit entry needs a price")
+                    elif proposed_signal.target_price <= reference:
+                        reject(
+                            bar.timestamp,
+                            "target_invalid",
+                            "Long entry target must be above the reference price",
+                        )
                     else:
                         equity = cash
                         decision = self.risk_manager.evaluate_entry(

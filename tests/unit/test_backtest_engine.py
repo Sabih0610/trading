@@ -4,6 +4,7 @@ from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 
 import pytest
+from pydantic import ValidationError
 
 from tb.backtest.engine import (
     BacktestEngine,
@@ -286,3 +287,44 @@ def test_data_only_asset_is_refused_and_symbol_is_normalized() -> None:
 
     engine = BacktestEngine("btcusdt", initial_cash=Decimal("1000"))
     assert engine.symbol == "BTCUSDT"
+
+
+def test_partial_fill_cannot_bypass_exchange_minimum() -> None:
+    manager = _manager_with_rules(SpotSymbolRules(min_qty=Decimal("2")))
+    result = BacktestEngine("BTCUSDT", initial_cash=Decimal("1000"), risk_manager=manager).run(
+        [_bar(0), _bar(1, volume="1")],
+        [_signal(participation_rate=Decimal("0.1"))],
+    )
+
+    assert result.trades == ()
+    assert result.rejections[0].reason_code == "quantity_filter"
+
+
+def test_unaligned_signal_and_invalid_target_fail_closed() -> None:
+    unaligned = _signal(timestamp=_START + timedelta(seconds=30))
+    with pytest.raises(ValueError, match="align"):
+        BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")).run([_bar(0), _bar(1)], [unaligned])
+
+    invalid_target = _signal(target_price=Decimal("90"))
+    result = BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")).run(
+        [_bar(0), _bar(1)], [invalid_target]
+    )
+    assert result.rejections[0].reason_code == "target_invalid"
+
+
+def test_non_utc_inputs_are_rejected() -> None:
+    with pytest.raises(ValidationError, match="timezone"):
+        Bar(
+            timestamp=datetime(2024, 1, 1),
+            open=100,
+            high=101,
+            low=99,
+            close=100,
+            volume=10,
+        )
+    with pytest.raises(ValueError, match="UTC"):
+        BacktestEngine(
+            "BTCUSDT",
+            initial_cash=Decimal("1000"),
+            kill_switch_at=datetime(2024, 1, 1),
+        )

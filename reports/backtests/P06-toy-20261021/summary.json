@@ -1,0 +1,22 @@
+{
+  "caveats": [
+    "Sharpe and Sortino use bar-to-bar marked equity and depend on the chosen annualization.",
+    "Deflated Sharpe is diagnostic; its benchmark must reflect all strategy trials.",
+    "Profit factor is undefined because there are no losing trades.",
+    "Risk-adjusted metrics are unstable with fewer than 30 return observations."
+  ],
+  "deflated_sharpe_probability": "0.9213500015860612",
+  "ending_equity": "10045.695045",
+  "expectancy": "45.695045",
+  "exposure_time_pct": "0E+1",
+  "max_drawdown_pct": "0",
+  "net_pnl": "45.695045",
+  "profit_factor": null,
+  "return_pct": "0.4569504500",
+  "sharpe": "724.9827584156743",
+  "sortino": null,
+  "starting_equity": "10000",
+  "trade_count": 1,
+  "trial_count": 1,
+  "win_rate_pct": "100"
+}

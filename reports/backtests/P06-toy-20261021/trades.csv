@@ -1,0 +1,2 @@
+symbol,entry_time,exit_time,quantity,entry_price,exit_price,entry_fee,exit_fee,pnl,exit_reason
+BTCUSDT,2024-01-02T14:01:00Z,2024-01-02T14:01:00Z,10.0,100.0600,104.9370,1.500900,1.574055,45.695045,target

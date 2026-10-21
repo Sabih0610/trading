@@ -121,6 +121,64 @@ def test_maximum_filters_tighten_quantity() -> None:
     assert decision.risk_amount == Decimal("20")
 
 
+def test_partial_fill_is_rounded_and_capped_by_market_rules() -> None:
+    rules = SpotSymbolRules(
+        step_size=Decimal("1"),
+        market_step_size=Decimal("0.1"),
+        max_qty=Decimal("50"),
+        market_max_qty=Decimal("2.05"),
+        max_notional=Decimal("190"),
+    )
+    manager = RiskManager(_bundle_with_rules(rules))
+
+    market = manager.constrain_fill("BTCUSDT", Decimal("3"), Decimal("100"), market_order=True)
+    limit = manager.constrain_fill("BTCUSDT", Decimal("60"), Decimal("100"), market_order=False)
+
+    assert market.approved and market.quantity == Decimal("1.9")
+    assert limit.approved and limit.quantity == Decimal("1")
+
+
+@pytest.mark.parametrize(
+    ("rules", "quantity", "reason"),
+    [
+        (SpotSymbolRules(step_size=Decimal("1")), Decimal("0.1"), RejectionCode.NO_CAPACITY),
+        (
+            SpotSymbolRules(min_qty=Decimal("2")),
+            Decimal("1"),
+            RejectionCode.QUANTITY_FILTER,
+        ),
+        (
+            SpotSymbolRules(min_notional=Decimal("200")),
+            Decimal("1"),
+            RejectionCode.NOTIONAL_FILTER,
+        ),
+    ],
+)
+def test_partial_fill_rejections_are_stable(
+    rules: SpotSymbolRules, quantity: Decimal, reason: RejectionCode
+) -> None:
+    decision = RiskManager(_bundle_with_rules(rules)).constrain_fill(
+        "BTCUSDT", quantity, Decimal("100"), market_order=False
+    )
+
+    assert not decision.approved
+    assert decision.reason_code is reason
+
+
+def test_partial_fill_handles_no_rules_bad_asset_and_zero_capacity() -> None:
+    manager = RiskManager()
+
+    passthrough = manager.constrain_fill(
+        "BTCUSDT", Decimal("1.25"), Decimal("100"), market_order=False
+    )
+    bad_asset = manager.constrain_fill("XAUUSD", Decimal("1"), Decimal("100"), market_order=False)
+    empty = manager.constrain_fill("BTCUSDT", Decimal("0"), Decimal("100"), market_order=False)
+
+    assert passthrough.approved and passthrough.quantity == Decimal("1.25")
+    assert bad_asset.reason_code is RejectionCode.ASSET_POLICY
+    assert empty.reason_code is RejectionCode.NO_CAPACITY
+
+
 def test_zero_after_exchange_cap_is_rejected() -> None:
     rules = SpotSymbolRules(step_size=Decimal("1"), max_notional=Decimal("50"))
 

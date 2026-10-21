@@ -182,6 +182,63 @@ class RiskManager:
             return _reject(RejectionCode.NO_CAPACITY, "Exchange caps leave no executable quantity")
         return RiskDecision(approved=True, quantity=quantity, risk_amount=risk_amount)
 
+    def constrain_fill(
+        self,
+        symbol: str,
+        proposed_quantity: Decimal,
+        price: Decimal,
+        *,
+        market_order: bool,
+    ) -> RiskDecision:
+        """Round and cap a partial fill so it still satisfies exchange rules."""
+
+        if proposed_quantity <= 0:
+            return _reject(RejectionCode.NO_CAPACITY, "No cash or bar volume")
+        try:
+            asset = assert_tradable(symbol, self.bundle.registry)
+        except RiskViolation as exc:
+            return _reject(RejectionCode.ASSET_POLICY, str(exc))
+        rules = asset.exchange_rules
+        if rules is None:
+            return RiskDecision(
+                approved=True,
+                quantity=proposed_quantity,
+                risk_amount=Decimal("0"),
+            )
+        step_size = (
+            rules.market_step_size
+            if market_order and rules.market_step_size is not None
+            else rules.step_size
+        )
+        maximum_quantity = (
+            rules.market_max_qty
+            if market_order and rules.market_max_qty is not None
+            else rules.max_qty
+        )
+        minimum_quantity = (
+            rules.market_min_qty
+            if market_order and rules.market_min_qty is not None
+            else rules.min_qty
+        )
+        quantity = proposed_quantity
+        if maximum_quantity is not None:
+            quantity = min(quantity, maximum_quantity)
+        if rules.max_notional is not None:
+            quantity = min(quantity, rules.max_notional / price)
+        if step_size is not None:
+            steps = (quantity / step_size).to_integral_value(rounding=ROUND_DOWN)
+            quantity = steps * step_size
+        if quantity <= 0:
+            return _reject(RejectionCode.NO_CAPACITY, "Exchange rounding leaves no fill quantity")
+        if minimum_quantity is not None and quantity < minimum_quantity:
+            return _reject(RejectionCode.QUANTITY_FILTER, "Partial fill is below the minimum")
+        notional = quantity * price
+        if rules.min_notional is not None and notional < rules.min_notional:
+            return _reject(
+                RejectionCode.NOTIONAL_FILTER, "Partial fill notional is below the minimum"
+            )
+        return RiskDecision(approved=True, quantity=quantity, risk_amount=Decimal("0"))
+
     @staticmethod
     def validate_inventory_sale(symbol: str, quantity: Decimal, holdings: Decimal) -> None:
         """Reject an inventory sale beyond owned quantity."""
