@@ -68,7 +68,8 @@ def test_finance_calendar_parser_preserves_values_and_rejects_schema_change() ->
                     "actual": "3.4%",
                     "consensus": "3.1%",
                     "prior": "3.0%",
-                    "source_url": "https://www.bls.gov/cpi/",
+                    "source_url": None,
+                    "url": None,
                 }
             ]
         }
@@ -78,6 +79,7 @@ def test_finance_calendar_parser_preserves_values_and_rejects_schema_change() ->
 
     assert events[0].actual == "3.4%"
     assert events[0].currency == "USD"
+    assert events[0].source_url == "https://www.financecalendar.com/api/"
     with pytest.raises(ValueError, match="events list"):
         parse_finance_calendar(b"{}", fetched_at=FETCHED)
 

@@ -1,0 +1,19 @@
+{
+  "dataset": "news",
+  "missing_months": [],
+  "months": [
+    {
+      "count": 56,
+      "month": "2026-10"
+    }
+  ],
+  "requested_from": "2026-10-20",
+  "requested_to": "2026-10-20",
+  "source_mix": {
+    "coindesk": 13,
+    "cointelegraph": 26,
+    "decrypt": 16,
+    "ecb": 1
+  },
+  "total": 56
+}

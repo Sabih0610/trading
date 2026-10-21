@@ -35,7 +35,7 @@ def _manifest_path(data_path: Path) -> Path:
 
 def _timestamp_column(frame: pl.LazyFrame) -> str:
     names = frame.collect_schema().names()
-    for candidate in ("timestamp_ns", "open_time_ns"):
+    for candidate in ("timestamp_ns", "open_time_ns", "scheduled_utc", "published_utc"):
         if candidate in names:
             return candidate
     raise ValueError("no supported nanosecond timestamp column")

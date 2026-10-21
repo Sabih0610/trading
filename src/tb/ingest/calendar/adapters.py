@@ -215,9 +215,11 @@ def parse_finance_calendar(payload: bytes, *, fetched_at: datetime) -> list[Cale
         )
         scheduled = datetime.fromisoformat(raw_time.replace("Z", "+00:00"))
         name = str(item.get("name") or item.get("title") or "").strip()
-        source_url = str(item.get("source_url") or item.get("url") or "").strip()
-        if not name or not source_url:
-            raise ValueError("Finance Calendar event is missing name or source URL")
+        source_url = str(
+            item.get("source_url") or item.get("url") or "https://www.financecalendar.com/api/"
+        ).strip()
+        if not name:
+            raise ValueError("Finance Calendar event is missing its name")
         events.append(
             build_calendar_event(
                 name=name,
