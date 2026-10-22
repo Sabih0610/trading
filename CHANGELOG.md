@@ -4,6 +4,19 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P10 — 2026-10-22 UTC
+
+- Added a local read-only Streamlit dashboard with five views, explicit evidence/account/currency
+  modes, unavailable-data states, actual configuration display and masked journal projections.
+- Added WAL-aware mode=ro SQLite reads, bound/keyset filters, streaming outcome totals, bounded
+  manifested Parquet charts and full-export drawdown; reserved rows cannot enter real charts.
+- Added a separate reproducible fixture exporter reusing P09.5 tools, seven isolated synthetic
+  accounts, typed archived risk observations, no-key AppTest coverage and actual desktop/mobile screenshots.
+- Pinned Streamlit 1.66.1; added the Windows startup guide/script, updated obsolete P10 prompt,
+  documented a conditional future Python/EA choice with one sender, and preserved P11 as unstarted.
+- Validation: 378 passed, 3 optional live deselected, 23 existing warnings; Ruff/format/MyPy clean.
+  P09.5 smoke passed. No external orders, paid API calls, credentials or ledger writes from the UI.
+
 ## P09.5 — 2026-10-22
 
 - Verified the supplied archive audit against the clone; retained its original text and documented

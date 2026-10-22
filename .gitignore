@@ -20,6 +20,7 @@ trading-bot-dev-kit.zip
 logs/
 dist/
 work/
+reports/dashboard/P10-demo/
 *.egg-info/
 *.sqlite
 *.db

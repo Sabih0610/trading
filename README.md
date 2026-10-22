@@ -32,8 +32,9 @@ uv run mypy src
 uv run pytest -q
 ```
 
-P00-P09.5 provide ingestion/cleaning, shared features, Spot backtesting, strategy/ML libraries,
-the restricted AI arena, append-only evidence and local contract simulation. Empirical trading
-value remains unproven. Start with the [offline alignment simulation](docs/how-to/alignment-simulation.md)
-and the [integration roadmap](docs/P09.5-integration-spec.md). The dashboard and continuous feed/runner
-remain future phases.
+P00-P10 provide ingestion/cleaning, shared features, Spot backtesting, strategy/ML libraries,
+the restricted AI arena, append-only evidence, local contract simulation and a read-only dashboard.
+Empirical trading value remains unproven. Open the [dashboard guide](docs/how-to/dashboard.md),
+[offline alignment simulation](docs/how-to/alignment-simulation.md) or
+[integration roadmap](docs/P09.5-integration-spec.md). Continuous feeds, persistent paper operation
+and external gateways remain future work.

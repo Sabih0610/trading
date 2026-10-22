@@ -1,9 +1,9 @@
 # Build progress
 
-P09.5 is complete: the supplied audit was verified, local gold/FX contract research was added,
-and account/fill safety was hardened. Final gate: 352 passed, 3 live deselected; Ruff/MyPy clean.
-Independent review remains queued. P10 is a separate read-only dashboard phase; work stops here.
-This file mirrors `docs/state/progress.json` for human readers.
+P10 is complete on `codex/p10-read-only-dashboard`: five read-only views, explicit synthetic
+evidence, bounded WAL/Parquet readers and offline fixtures. Full gate: 378 passed, 3 live
+deselected; Ruff/format/MyPy clean. Desktop/mobile inspected. Independent review is queued.
+Work stops here; P11 requires a new instruction.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -18,7 +18,7 @@ This file mirrors `docs/state/progress.json` for human readers.
 | P08 | ML models | done | 2026-10-21 21:02 | 2026-10-21 21:38 | `phase-P08-done` | [report](reports/phases/P08.md) | queued; empirical data blocked |
 | P09 | Decision ledger and AI arena | done | 2026-10-21 21:39 | 2026-10-21 23:19 | `phase-P09-done` | [report](reports/phases/P09.md) | deferred by owner; audit has no blocker |
 | P09.5 | Architecture alignment and safety hardening | done | 2026-10-22 17:36 | 2026-10-22 18:01 | `phase-P09.5-done` | [report](reports/phases/P09.5.md) | queued; empirical value unproven |
-| P10 | Read-only evidence dashboard | not started | — | — | — | — | — |
+| P10 | Read-only evidence dashboard | done | 2026-10-22 18:36 | 2026-10-22 19:10 | `phase-P10-done` | [report](reports/phases/P10.md) | queued |
 | P11 | Read-only MT5 feed and persistent local paper soak | not started | — | — | — | — | — |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | — | — | — | — | — |

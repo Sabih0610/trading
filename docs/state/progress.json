@@ -1,5 +1,5 @@
 {
-  "current_phase": "P09.5",
+  "current_phase": "P10",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -114,7 +114,18 @@
     },
     "P10": {
       "title": "Read-only evidence dashboard",
-      "status": "not_started"
+      "status": "done",
+      "started_utc": "2026-10-22 18:36 UTC",
+      "report": "reports/phases/P10.md",
+      "completed_utc": "2026-10-22 19:10 UTC",
+      "commit": "phase-P10-done",
+      "review": "queued",
+      "tests": {
+        "passed": 378,
+        "live_deselected": 3,
+        "warnings": 23
+      },
+      "external_orders_enabled": false
     },
     "P11": {
       "title": "Read-only MT5 feed and persistent local paper soak",
@@ -161,6 +172,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-22 18:01 UTC",
-  "next_phase": "P10"
+  "last_updated_utc": "2026-10-22 19:10 UTC",
+  "next_phase": "P11"
 }

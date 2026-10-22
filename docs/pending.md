@@ -42,3 +42,11 @@
   determination is attached. All external demo/live eligibility remains false.
 - MT5/Alpaca contract metadata, verified demo identity, licensed feeds, persistent reconciliation,
   continuous monitoring/notifications and a 30+ day forward run remain future work.
+
+- P10 is read-only; an independent dashboard review is queued. Actual account/feed health,
+  calibration, market-trained models and qualified strategy trials remain unavailable/unproven.
+- Dashboard manifests preserve declared checksums; ingestion/export release must verify actual
+  large-file integrity. No UI action loads raw locked data or recalculates an empirical strategy.
+- Current Binance Spot execution policy does not authorize MT5 contract demo routing. The hybrid
+  Python/EA recommendation is conditional on a separately approved P12 scope/policy and safety
+  review. P11a may implement only a read-only market feed under a new owner instruction.
