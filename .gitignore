@@ -19,6 +19,7 @@ trading-bot-dev-kit/
 trading-bot-dev-kit.zip
 logs/
 dist/
+work/
 *.egg-info/
 *.sqlite
 *.db

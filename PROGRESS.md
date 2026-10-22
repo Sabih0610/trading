@@ -1,8 +1,9 @@
 # Build progress
 
-P09 is complete: its append-only ledger and keyless veto/reduction-only arena pass the full gate.
-Its independent review is deferred by explicit owner direction; P10 is next. This file mirrors
-`docs/state/progress.json` for human readers.
+P09.5 is complete: the supplied audit was verified, local gold/FX contract research was added,
+and account/fill safety was hardened. Final gate: 352 passed, 3 live deselected; Ruff/MyPy clean.
+Independent review remains queued. P10 is a separate read-only dashboard phase; work stops here.
+This file mirrors `docs/state/progress.json` for human readers.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -16,8 +17,9 @@ Its independent review is deferred by explicit owner direction; P10 is next. Thi
 | P07 | Strategies and scenarios | done | 2026-10-21 20:46 | 2026-10-21 21:00 | `phase-P07-done` | [report](reports/phases/P07.md) | queued; empirical data blocked |
 | P08 | ML models | done | 2026-10-21 21:02 | 2026-10-21 21:38 | `phase-P08-done` | [report](reports/phases/P08.md) | queued; empirical data blocked |
 | P09 | Decision ledger and AI arena | done | 2026-10-21 21:39 | 2026-10-21 23:19 | `phase-P09-done` | [report](reports/phases/P09.md) | deferred by owner; audit has no blocker |
-| P10 | Dashboard | not started | — | — | — | — | — | — |
-| P11 | Live data and paper trading | not started | — | — | — | — | — | — |
-| P12 | Testnet execution | not started | — | — | — | — | human gate; keys later |
-| P13 | Learning loop | not started | — | — | — | — | — |
-| P14 | Demo month runbook | not started | — | — | — | — | — | — |
+| P09.5 | Architecture alignment and safety hardening | done | 2026-10-22 17:36 | 2026-10-22 18:01 | `phase-P09.5-done` | [report](reports/phases/P09.5.md) | queued; empirical value unproven |
+| P10 | Read-only evidence dashboard | not started | — | — | — | — | — |
+| P11 | Read-only MT5 feed and persistent local paper soak | not started | — | — | — | — | — |
+| P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |
+| P13 | Controlled offline learning and AI value evaluation | not started | — | — | — | — | — |
+| P14 | 30+ day forward paper/demo evaluation | not started | — | — | — | — | — |

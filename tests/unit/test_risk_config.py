@@ -93,18 +93,18 @@ def test_stricter_asset_override_is_effective() -> None:
 
     assert xaut is not None
     effective = effective_risk_limits(xaut, global_limits)
-    assert effective.risk_per_trade_pct == Decimal("0.75")
+    assert effective.risk_per_trade_pct == Decimal("0.25")
     assert effective.max_trades_per_day_per_asset == 2
-    assert effective.daily_loss_limit_pct == Decimal("3.0")
+    assert effective.daily_loss_limit_pct == Decimal("2.0")
 
 
 def test_override_cannot_be_looser_than_active_global_limit() -> None:
     registry = load_asset_registry()
     configured = load_risk_config()
-    strict_limits = configured.limits.model_copy(update={"risk_per_trade_pct": Decimal("0.5")})
+    strict_limits = configured.limits.model_copy(update={"risk_per_trade_pct": Decimal("0.1")})
     strict_config = configured.model_copy(update={"limits": strict_limits})
 
-    with pytest.raises(ValidationError, match=r"XAUTUSDT override risk_per_trade_pct=0\.75"):
+    with pytest.raises(ValidationError, match=r"XAUTUSDT override risk_per_trade_pct=0\.25"):
         PolicyBundle(registry=registry, risk=strict_config)
 
 

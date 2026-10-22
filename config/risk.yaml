@@ -1,8 +1,10 @@
 schema_version: 1
 limits:
-  risk_per_trade_pct: "1.0"
+  risk_per_trade_pct: "0.5"
   max_total_exposure_multiple: "1.0"
-  daily_loss_limit_pct: "3.0"
+  daily_loss_limit_pct: "2.0"
+  max_peak_drawdown_pct: "5.0"
+  max_open_positions: 1
   max_trades_per_day_per_asset: 3
   flat_by_end_of_day: true
   allow_xaut_weekend_entries: false

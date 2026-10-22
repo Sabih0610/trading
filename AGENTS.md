@@ -1,11 +1,19 @@
 # AGENTS.md — Project rules for every coding agent (Codex, Claude Code)
 
-Project root: `E:\trading bot` (Windows 11, PowerShell 7). The path contains a SPACE: always quote paths
+Resolve the project root from the checkout (Windows 11, PowerShell 7). Paths may contain a SPACE: always quote paths
 in PowerShell, Python, configs and docs. Never hard-code absolute paths; resolve from the repo root.
 
 ## 1. What this project is
 A Shariah-compliant, intraday, AI-assisted trading system. It is research-first: nothing trades real money
 until it has passed backtests, scenario tests, and at least 30 days of paper trading.
+
+P09.5 owner direction (2026-10-22): one modular research/paper platform, initially XAUUSD and
+EURUSD local contract simulation, retaining Binance Spot research. Contract simulations are fully
+funded accounting exercises, not owned physical gold/FX or Shariah certification. Data-only
+instruments may enter only the explicitly enabled research/local simulation boundary; existing
+Spot execution guards remain mandatory. No external demo or live orders are authorized in P09.5.
+Research/paper defaults tighten to 0.5% all-in planned risk, 2% daily net equity loss, 5% peak equity
+drawdown, at most 1x exposure and one position. Never move the 2025+ final holdout to manufacture history.
 
 ## 2. Non-negotiable trading rules (enforce in code AND tests)
 - Venue for execution: Binance **spot only**. No futures, perpetuals, options, margin, borrowing,

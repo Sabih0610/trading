@@ -9,7 +9,6 @@ of each UTC day, and writes immutable run folders. It cannot submit a real order
 From the repository root:
 
 ```powershell
-Set-Location -LiteralPath "E:\trading bot"
 $uvExecutable = Get-ChildItem -LiteralPath "$env:LOCALAPPDATA\Microsoft\WinGet\Packages" -Filter uv.exe -Recurse | Select-Object -First 1 -ExpandProperty FullName
 $env:Path = "$(Split-Path -Parent $uvExecutable);$env:Path"
 & .\scripts\run-backtest-smoke.ps1 -RunId "my-smoke-run" -Stress "1.5"
@@ -44,7 +43,7 @@ strategy evidence.
   checks. Non-null synchronized exchange rules are enforced; unknown values are not guessed.
 - If stop and target are both touched, the stop wins. A gap through a stop exits at the worse open.
 - Only owned inventory can be sold. Open inventory is closed on the final bar of each UTC day.
-- Kill switch, daily loss, session, trade-count, exposure, cash, and 1% risk limits reject entries
+- Kill switch, daily/peak equity loss, session, trade-count, exposure, cash, and configured 0.5% all-in risk limits reject entries
   with stable codes.
 
 ## Walk-forward use
@@ -53,6 +52,11 @@ strategy evidence.
 training bars and evaluation bars. The default folds expand from October 2020 and evaluate 2021,
 2022, 2023, then the reserved 2024 validation year. An optional `purge` removes observations near
 the evaluation boundary.
+
+These generic folds must be intersected with venue inception and verified coverage. Binance
+XAUT began after the 2025 lock, so it has no pre-lock discovery/validation window. The
+`config/research.yaml` assessment refuses that impossible design; do not substitute XAUUSD or
+move the lock. Gold/FX have a separate [fully funded simulation guide](alignment-simulation.md).
 
 The period beginning 2025-01-01 is locked. A run touching it raises `FinalTestLockedError` before
 reading the window unless the caller sets `final_test=True`; successful authorization first appends

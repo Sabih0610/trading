@@ -1,0 +1,16 @@
+schema_version: 1
+instruments:
+  - symbol: XAUTUSDT
+    venue: binance_spot
+    market_inception: 2026-03-26T13:30:00Z
+    inception_source: https://www.binance.com/en/support/announcement/detail/20861b38a9c246ff92db218bae2e83fa
+  - symbol: BTCUSDT
+    venue: binance_spot
+  - symbol: ETHUSDT
+    venue: binance_spot
+  - symbol: SOLUSDT
+    venue: binance_spot
+  - symbol: XAUUSD
+    venue: external_reference
+  - symbol: EURUSD
+    venue: external_reference

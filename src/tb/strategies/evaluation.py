@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from tb.backtest.baselines import BaselineName
+from tb.backtest.research import assess_research, load_research_policies
 from tb.core.config import repo_root
 from tb.strategies.scenarios import load_scenarios
 
@@ -87,16 +88,17 @@ def assess_strategies(coverage: tuple[DatasetCoverage, ...]) -> tuple[StrategyEv
         ("C — trend pullback to session VWAP", ("XAUTUSDT 5m features",)),
     )
     assessments: list[StrategyEvidence] = []
+    xaut_research = assess_research(load_research_policies().policy("XAUTUSDT"), None)
     for name, labels in requirements:
         present = set.intersection(*(set(by_label[label].eligible_years) for label in labels))
         missing = tuple(sorted(_ALLOWED_YEARS - present))
-        if missing:
+        if missing or xaut_research.status == "INSUFFICIENT_HISTORY":
             assessments.append(
                 StrategyEvidence(
                     name=name,
                     required_datasets=labels,
                     verdict="REWORK",
-                    status="NOT EVALUABLE — required history unavailable",
+                    status="NOT EVALUABLE — insufficient venue history before locked holdout",
                     missing_years=missing,
                 )
             )
@@ -154,8 +156,10 @@ All three hypotheses therefore remain **REWORK / not evaluable**, with zero empi
 |---|---|---|---|
 {coverage_rows}
 
-Required development period: 2020-2023. Required validation period: 2024. The final-test boundary
-starts at 2025-01-01.
+Legacy discovery dates were 2020-2023 / validation 2024. Binance XAUT/USDT began on
+2026-03-26 13:30 UTC, after the existing 2025-01-01 final-test lock. Its pre-lock training and
+validation windows are empty. They cannot be repaired by acquiring nonexistent Binance history.
+Instrument-specific policies live in `config/research.yaml`; the holdout remains untouched.
 
 ## Strategy verdicts
 
@@ -163,9 +167,9 @@ starts at 2025-01-01.
 |---|---|---|---|
 {strategy_rows}
 
-`REWORK` means acquire lawful, authentic, point-in-time pre-2025 XAUT evidence and rerun. It does
-not mean that a performance test failed. XAUUSD remains reference data only and was not treated as
-an executable substitute.
+`REWORK` means redesign prospectively and collect forward evidence under a separately frozen
+protocol. It does not mean that a performance test failed. XAUUSD may be researched separately in
+the local contract simulator; it is never a substitute for executable Binance XAUT history.
 
 ## Baselines
 

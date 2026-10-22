@@ -40,6 +40,30 @@ class AssetRole(StrEnum):
     DATA_ONLY = "data_only"
 
 
+class Eligibility(PolicyModel):
+    """Separate research permissions from currently disabled external order permissions."""
+
+    reference_data: bool = True
+    historical_research: bool = False
+    local_simulation: bool = False
+    broker_demo: Literal[False] = False
+    live: Literal[False] = False
+    independent_shariah_source: str | None = None
+
+    @model_validator(mode="after")
+    def no_self_certification(self) -> Self:
+        """Reject project policy as independent certification."""
+
+        source = self.independent_shariah_source
+        if source is not None and (
+            len(source.strip()) < 8
+            or "project_policy" in source.casefold()
+            or "agents.md" in source.casefold()
+        ):
+            raise ValueError("Independent approval must not cite project policy")
+        return self
+
+
 class ShariahStatus(StrEnum):
     """Human-governed eligibility status."""
 
@@ -141,20 +165,27 @@ class AssetDefinition(PolicyModel):
     allowed_strategies: tuple[str, ...]
     risk_overrides: RiskOverride = Field(default_factory=RiskOverride)
     exchange_rules: SpotSymbolRules | None = None
+    eligibility: Eligibility = Field(default_factory=Eligibility)
+    instrument_type: Literal["spot", "gold_contract", "fx_contract", "reference"] = "reference"
 
     @model_validator(mode="after")
     def role_is_coherent(self) -> Self:
         """Ensure data-only records can never masquerade as executable assets."""
 
         if self.role is AssetRole.TRADABLE:
+            if self.instrument_type != "spot":
+                raise ValueError("tradable Binance assets must retain spot instrument type")
             if self.venue != "binance_spot":
                 raise ValueError("tradable assets must use the binance_spot venue")
             if not self.allowed_strategies:
                 raise ValueError("tradable assets require at least one allowed strategy")
             if self.cost_model.round_trip_entry_cost_bps <= 0:
                 raise ValueError("tradable assets require a non-zero pessimistic cost model")
-        elif self.allowed_strategies:
-            raise ValueError("data-only instruments cannot have executable strategies")
+        else:
+            if self.instrument_type == "spot":
+                raise ValueError("data-only instruments cannot masquerade as spot")
+            if self.allowed_strategies:
+                raise ValueError("data-only instruments cannot have executable strategies")
         return self
 
 
@@ -190,6 +221,8 @@ class RiskLimits(PolicyModel):
     max_trades_per_day_per_asset: int = Field(gt=0)
     flat_by_end_of_day: bool
     allow_xaut_weekend_entries: bool
+    max_peak_drawdown_pct: Decimal = Field(default=Decimal("5"), gt=0, le=5)
+    max_open_positions: int = Field(default=1, ge=1, le=1)
 
     @model_validator(mode="after")
     def cannot_widen_hard_rules(self) -> Self:

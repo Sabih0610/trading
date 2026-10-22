@@ -4,6 +4,21 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P09.5 — 2026-10-22
+
+- Verified the supplied archive audit against the clone; retained its original text and documented
+  environment-specific corrections and the verified Binance XAUT inception date.
+- Added separate reference/research/local-simulation permissions with external demo/live disabled,
+  explicit contract/currency metadata, funded gold/FX accounting and next-quote journalled replay.
+- Tightened research/paper defaults to 0.5% all-in planned risk, 2% daily net-equity halt, 5% latched
+  peak drawdown and one position; recheck actual fills, reserve costs and mark liquidation equity.
+- Added inception-aware insufficient-history assessment without moving the existing holdout;
+  corrected P07/P08 reports' impossible acquisition remedy.
+- Reused the feature engine, Spot simulator, advisory AI schema and append-only ledger; added
+  synthetic smoke examples, future interface contracts, revised roadmap and read-only P10 prompt.
+- Final verification: 352 passed, 3 optional live deselected; Ruff/format and strict MyPy clean.
+  Existing dependency warnings remain. No market profitability, external orders or live eligibility.
+
 ## P09 — 2026-10-22
 
 ### Added

@@ -39,7 +39,7 @@ def test_missing_history_is_rework_not_a_performance_verdict(tmp_path: Path) -> 
     assert 2026 not in assessments[0].missing_years
 
 
-def test_complete_metadata_marks_ready_but_does_not_invent_results(tmp_path: Path) -> None:
+def test_fabricated_preinception_partitions_cannot_mark_xaut_ready(tmp_path: Path) -> None:
     xaut = tmp_path / "data" / "gold" / "features" / "XAUTUSDT" / "5m"
     xau = tmp_path / "data" / "silver" / "dukascopy" / "XAUUSD" / "5m"
     for year in range(2020, 2025):
@@ -48,7 +48,7 @@ def test_complete_metadata_marks_ready_but_does_not_invent_results(tmp_path: Pat
 
     assessments = assess_strategies(collect_coverage(tmp_path))
 
-    assert all(item.status == "READY FOR EMPIRICAL EVALUATION" for item in assessments)
+    assert all("insufficient venue history" in item.status for item in assessments)
     assert all(item.verdict == "REWORK" for item in assessments)
 
 
@@ -67,5 +67,5 @@ def test_report_discloses_zero_trials_and_locked_exclusion(tmp_path: Path) -> No
     assert result == destination
     assert "Empirical configurations tried: **0**" in rendered
     assert "2026 | none | 2026" in rendered
-    assert "XAUUSD remains reference data only" in rendered
+    assert "never a substitute for executable Binance XAUT history" in rendered
     assert render_report(tmp_path) == rendered
