@@ -40,8 +40,9 @@
   not approvals; resolve blocking findings before any broker-routing phase.
 - No independent instrument-specific Shariah approval source or current legal eligibility
   determination is attached. All external demo/live eligibility remains false.
-- MT5/Alpaca contract metadata, verified demo identity, licensed feeds, persistent reconciliation,
-  continuous monitoring/notifications and a 30+ day forward run remain future work.
+- P11a verifies MT5 demo identity and basic contract metadata; genuine quote time/availability and
+  complete sizing/session facts remain unresolved. Alpaca, data-rights review, persistent paper
+  reconciliation/notifications and a 30+ day forward run remain future work.
 
 - P10 is read-only; an independent dashboard review is queued. Actual account/feed health,
   calibration, market-trained models and qualified strategy trials remain unavailable/unproven.
@@ -50,3 +51,15 @@
 - Current Binance Spot execution policy does not authorize MT5 contract demo routing. The hybrid
   Python/EA recommendation is conditional on a separately approved P12 scope/policy and safety
   review. P11a may implement only a read-only market feed under a new owner instruction.
+
+- P11a: resolve actual EURUSD source epoch approximately three hours ahead of receipt UTC. No
+  inferred offset is allowed; verify broker/source convention and receipt clocks before forward use.
+- P11a: show the verified XAUUSD contract manually in Market Watch if gold quotes are wanted.
+  GOLD is a stock on this server. No automatic selection or symbol substitution is authorized.
+- Disable native MT5 AI/MCP Trading and dangerous shell operations in terminal settings; the raw
+  native MCP permission remains enabled although the installed Codex proxy denies those tools.
+- Restart Codex to load the installed project read-only MCP config. MetaEditor and hosted Market
+  Data authenticated tool availability remain unverified and are not required for the collector.
+- Review P11a independently. Broker-specific sessions, costs, pip/conversion facts, source rights,
+  retention/supervision and a separately authorized 24h local paper soak are P11b prerequisites.
+  P11b proposal only; no paper loop or future broker-order route has started.

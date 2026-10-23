@@ -26,6 +26,11 @@ dependencies = [
 [project.scripts]
 tb = "tb.cli:app"
 
+[project.optional-dependencies]
+mt5 = [
+    "metatrader5==5.0.6231 ; sys_platform == 'win32'",
+]
+
 [build-system]
 requires = ["uv_build>=0.13.3,<0.14.0"]
 build-backend = "uv_build"

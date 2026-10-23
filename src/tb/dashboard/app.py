@@ -17,6 +17,7 @@ from tb.backtest.research import assess_research, load_research_policies
 from tb.core.config import ConfigLoadError, repo_root
 from tb.core.contracts import DashboardSnapshot
 from tb.dashboard.components import decisions_table, equity_chart, metric_grid, price_chart
+from tb.dashboard.feed import market_feed_view
 from tb.dashboard.models import (
     DecisionPage,
     EvidenceSource,
@@ -49,6 +50,7 @@ VIEWS = (
     "Trades & Decisions",
     "Risk & System Health",
     "AI & Model Research",
+    "Market Feed",
 )
 
 
@@ -349,7 +351,7 @@ def _implementation_status(root: Path) -> None:
 
 
 def main() -> None:
-    """Render five read-only views with explicit empty and incomplete evidence states."""
+    """Render read-only evidence views with explicit empty and incomplete states."""
 
     st.set_page_config(
         page_title="Trading Research | Evidence Review", page_icon="◈", layout="wide"
@@ -387,6 +389,9 @@ def main() -> None:
     st.sidebar.caption(
         "Filters change this view only. No account actions or policy edits are available."
     )
+    if view == "Market Feed":
+        market_feed_view(root, zone)
+        return
     if source is not None:
         st.warning(
             "SYNTHETIC FIXTURE · No genuine performance or AI accuracy"

@@ -217,3 +217,20 @@ warmup/confirmation is not complete or the source input is unavailable.
 
 The Gold manifest fields are `schema_version`, `input_path`, `lineage_sha256`, `output_sha256`,
 `rows`, `byte_count`, `feature_set_version`, `feature_versions`, and `generated_at`.
+
+## P11a market-feed evidence
+
+Raw JSON/Parquet and BronzeManifest live in `data/bronze/mt5_feed/<session>/<batch>/`;
+validated records mirror into `data/silver/mt5_feed/`. The session/checkpoint ledger is separate
+from trading journals. Records retain canonical/broker symbol, quote/tick/candle kind, timeframe,
+source/receipt UTC, bid/ask or OHLC, source volume/spread/flags and explicit evidence classification.
+Candle tick volume is broker activity; quote/tick trade-volume semantics remain unverified.
+`forward_observed`, `historical_backfill`, `historical_research` and `synthetic` are distinct.
+Completed forward candles also record coverage_started_at. Old source facts deduplicate without
+using receipt time or evidence labels as identity. No gap filling or guessed broker time correction.
+
+Batch commit records bind file hashes, source code version, immutable session start, origin,
+receipt and row/duplicate/evidence counts. Only database-committed batches advance checkpoints.
+Small pointer/checksum-verified exports under `reports/market_feed/genuine` or `synthetic` drive
+read-only monitoring and never combine with account P&L. Current quote admission remains failed
+for the inspected genuine source; diagnostics are not historical research or trading evidence.

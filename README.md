@@ -32,9 +32,11 @@ uv run mypy src
 uv run pytest -q
 ```
 
-P00-P10 provide ingestion/cleaning, shared features, Spot backtesting, strategy/ML libraries,
-the restricted AI arena, append-only evidence, local contract simulation and a read-only dashboard.
+P00-P11a provide ingestion/cleaning, shared features, Spot backtesting, strategy/ML libraries,
+the restricted AI arena, append-only evidence, local contract simulation, a read-only dashboard
+and an optional read-only MT5 data collector with a constrained native MCP inspection proxy.
 Empirical trading value remains unproven. Open the [dashboard guide](docs/how-to/dashboard.md),
 [offline alignment simulation](docs/how-to/alignment-simulation.md) or
-[integration roadmap](docs/P09.5-integration-spec.md). Continuous feeds, persistent paper operation
-and external gateways remain future work.
+[integration roadmap](docs/P09.5-integration-spec.md). See the [MT5 feed guide](docs/how-to/mt5-market-feed.md)
+for setup and actual limitations: current EURUSD timestamps are refused and hidden XAUUSD quotes
+are unavailable. Persistent paper operation and external gateways remain future work.

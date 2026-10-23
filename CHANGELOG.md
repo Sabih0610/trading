@@ -236,3 +236,17 @@ All notable project changes are documented here. The project follows Keep a Chan
 - Offline `tb doctor`, Windows setup, local pre-commit gate, architecture/test skeleton, and 19 tests.
 - Audited project skills with incompatible P2P-write and short-selling packages quarantined.
 - Research, decisions, journal, phase report, and operator how-to documentation.
+
+## P11a — 2026-10-23 UTC
+
+- Add optional official MT5 read-only adapter, explicit running-demo identity/path pinning,
+  bounded deterministic data polling, raw/Silver manifests and dedup/restart/health checkpoints.
+- Discover 107 native MCP schemas and install a four-read proxy/config with private .env token,
+  default-deny operations, fixed loopback transport and sanitized identity/market projections.
+- Add separate read-only Market Feed dashboard, prospective coverage/checksum boundaries,
+  offline fixtures, setup/collection scripts, actual diagnostics and rendered screenshots.
+- Verify genuine demo identity/native MCP but reject EURUSD future epochs and unavailable hidden
+  XAUUSD quotes. Zero qualified forward data; no guessed timezone correction or order capability.
+- Add 67 tests: final 445 pass, 3 live deselected, 23 existing warnings. Ruff/format/MyPy clean.
+  Core passed without SDK; optional Windows dependency restored after verification.
+- Preserve risk/eligibility/historical locks; document P11b proposal without implementing it.

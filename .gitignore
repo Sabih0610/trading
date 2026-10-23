@@ -21,6 +21,7 @@ logs/
 dist/
 work/
 reports/dashboard/P10-demo/
+reports/market_feed/
 *.egg-info/
 *.sqlite
 *.db

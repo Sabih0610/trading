@@ -1,9 +1,10 @@
 # Build progress
 
-P10 is complete on `codex/p10-read-only-dashboard`: five read-only views, explicit synthetic
-evidence, bounded WAL/Parquet readers and offline fixtures. Full gate: 378 passed, 3 live
-deselected; Ruff/format/MyPy clean. Desktop/mobile inspected. Independent review is queued.
-Work stops here; P11 requires a new instruction.
+P11a is complete on `codex/p11a-mt5-read-only`: optional deterministic MT5 acquisition,
+four-tool native MCP proxy, verified Bronze/Silver batches and separate read-only feed monitoring.
+Full gate: 445 passed, 3 live deselected; Ruff/format/MyPy clean. Genuine demo identity/native MCP
+verified, but zero qualified forward quotes: EURUSD clock mismatch and unavailable hidden XAUUSD
+quotes. P11b remains unstarted. Independent review queued.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -19,7 +20,8 @@ Work stops here; P11 requires a new instruction.
 | P09 | Decision ledger and AI arena | done | 2026-10-21 21:39 | 2026-10-21 23:19 | `phase-P09-done` | [report](reports/phases/P09.md) | deferred by owner; audit has no blocker |
 | P09.5 | Architecture alignment and safety hardening | done | 2026-10-22 17:36 | 2026-10-22 18:01 | `phase-P09.5-done` | [report](reports/phases/P09.5.md) | queued; empirical value unproven |
 | P10 | Read-only evidence dashboard | done | 2026-10-22 18:36 | 2026-10-22 19:10 | `phase-P10-done` | [report](reports/phases/P10.md) | queued |
-| P11 | Read-only MT5 feed and persistent local paper soak | not started | — | — | — | — | — |
+| P11a | Read-only MT5 feed and forward evidence | done | 2026-10-23 00:55 | 2026-10-23 01:36 | `phase-P11a-done` | [report](reports/phases/P11a.md) | queued; genuine quotes refused |
+| P11b | Continuous local paper runtime | not started | — | — | — | [proposal](docs/P11b-proposal.md) | no orders |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | — | — | — | — | — |
 | P14 | 30+ day forward paper/demo evaluation | not started | — | — | — | — | — |

@@ -1,5 +1,5 @@
 {
-  "current_phase": "P10",
+  "current_phase": "P11a",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -127,10 +127,6 @@
       },
       "external_orders_enabled": false
     },
-    "P11": {
-      "title": "Read-only MT5 feed and persistent local paper soak",
-      "status": "not_started"
-    },
     "P12": {
       "title": "Separately reviewed demo-only gateways; optional stock paper",
       "status": "not_started",
@@ -143,6 +139,29 @@
     },
     "P14": {
       "title": "30+ day forward paper/demo evaluation",
+      "status": "not_started"
+    },
+    "P11a": {
+      "title": "Read-only MT5 feed and forward evidence",
+      "status": "done",
+      "started_utc": "2026-10-23 00:55 UTC",
+      "report": "reports/phases/P11a.md",
+      "external_orders_enabled": false,
+      "genuine_quote_status": "rejected_future_epoch; XAUUSD_quote_unavailable",
+      "completed_utc": "2026-10-23 01:36 UTC",
+      "commit": "phase-P11a-done",
+      "review": "queued",
+      "tests": {
+        "passed": 445,
+        "live_deselected": 3,
+        "warnings": 23
+      },
+      "native_mcp_verified": true,
+      "genuine_demo_identity_verified": true,
+      "qualified_forward_quotes": 0
+    },
+    "P11b": {
+      "title": "Continuous local paper runtime",
       "status": "not_started"
     }
   },
@@ -172,6 +191,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-22 19:10 UTC",
-  "next_phase": "P11"
+  "last_updated_utc": "2026-10-23 01:36 UTC",
+  "next_phase": "P11b"
 }

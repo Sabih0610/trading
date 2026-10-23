@@ -1,0 +1,99 @@
+{
+  "diagnostic_only": true,
+  "external_orders_enabled": false,
+  "generated_at": "2026-10-23T01:34:52.947528+00:00",
+  "genuine_terminal_verified": true,
+  "identity": {
+    "broker": "MetaQuotes Ltd.",
+    "currency": "USD",
+    "environment": "demo",
+    "fingerprint": "2699de315a804b2779e7c994d2593d921086999d55c8d8f659cf838a25248e8d",
+    "server": "MetaQuotes-Demo",
+    "terminal_build": 6281,
+    "verified_at": "2026-10-23T01:34:53.118095Z"
+  },
+  "native_marketwatch": {
+    "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+  },
+  "native_mcp_verified": true,
+  "native_terminal": {
+    "build": 6281,
+    "connection": {
+      "state": "synchronized"
+    },
+    "native_mcp_trading_permission": true,
+    "proxy_trading_enabled": false
+  },
+  "native_time": {
+    "daylight_saving_time": false,
+    "local_time": "2026-10-23T06:34:53",
+    "local_utc_offset_minutes": 0,
+    "trade_server_last_known_time": "2026-10-23T04:34:53",
+    "utc_time": "2026-10-23T01:34:53Z"
+  },
+  "native_tool_count": 107,
+  "publication_notice": "Public diagnostic summary only; raw genuine market observations remain local. No new acquisition or qualification.",
+  "python_instruments": {
+    "EURUSD": {
+      "facts": {
+        "account_currency": "USD",
+        "base_currency": "EUR",
+        "broker_symbol": "EURUSD",
+        "contract_size": "100000.0",
+        "conversion_required": false,
+        "description": "Euro vs US Dollar",
+        "digits": 5,
+        "observed_at": "2026-10-23T01:34:53.144260Z",
+        "point": "0.00001",
+        "quote_currency": "USD",
+        "reported_spread_points": 0,
+        "session_schedule": "unavailable",
+        "sizing_usable": false,
+        "source": "mt5_demo",
+        "symbol": "EURUSD",
+        "tick_size": "0.00001",
+        "tick_value": "1.0",
+        "trade_mode": 4,
+        "volume_max": "500.0",
+        "volume_min": "0.01",
+        "volume_step": "0.01"
+      },
+      "metadata_verified": true,
+      "quote_validation_passed": false,
+      "reason": "Quote timestamp is in the future",
+      "received_utc": "2026-10-23T01:34:53.154780+00:00",
+      "source_epoch_as_utc": "2026-10-23T04:34:52.316000+00:00",
+      "source_minus_receipt_seconds": 10799.161
+    },
+    "XAUUSD": {
+      "facts": {
+        "account_currency": "USD",
+        "base_currency": "XAU",
+        "broker_symbol": "XAUUSD",
+        "contract_size": "100.0",
+        "conversion_required": false,
+        "description": "Gold vs US Dollar",
+        "digits": 2,
+        "observed_at": "2026-10-23T01:34:53.126111Z",
+        "point": "0.01",
+        "quote_currency": "USD",
+        "reported_spread_points": 0,
+        "session_schedule": "unavailable",
+        "sizing_usable": false,
+        "source": "mt5_demo",
+        "symbol": "XAUUSD",
+        "tick_size": "0.01",
+        "tick_value": "0.1",
+        "trade_mode": 4,
+        "volume_max": "100.0",
+        "volume_min": "0.01",
+        "volume_step": "0.01"
+      },
+      "metadata_verified": true,
+      "quote_validation_passed": false,
+      "reason": "Native market-data facts unavailable"
+    }
+  },
+  "qualified_forward_quotes": 0,
+  "status": "identity_and_native_reads_verified; per-instrument validation recorded separately"
+}

@@ -1,27 +1,36 @@
 # Current handoff
 
-P10 is complete on `codex/p10-read-only-dashboard`, based on verified P09.5 c35d7c7.
-Local phase tag: `phase-P10-done`. The original user-supplied audit is unchanged/untracked.
-No dashboard action writes trading evidence, loads credentials or calls brokers/providers.
+P11a is complete on codex/p11a-mt5-read-only from verified P10 a553490.
+Local phase tag: phase-P11a-done. Stop here: P11b is not started; proposal only.
 
-- Final gate: Ruff/format clean; strict MyPy clean on 93 files; full pytest **378 passed, 3 live
-  deselected, 23 existing warnings in 35.30s**. Exact P09.5 safety smoke passed. Existing protections
-  remain unchanged. A stale 351-count note in the P09.5 handoff was corrected by baseline verification.
-- Actual browser review: all five views, desktop 1440x1000 and mobile 390x844; no horizontal page
-  overflow. Stored-value chart domains fixed transient Vega warnings; fresh console has 0 errors/warnings.
-- Local server is running at http://127.0.0.1:8501. Choose Synthetic demo in the sidebar to inspect
-  seven isolated fixture accounts. Default Workspace records has no actual dataset and shows unavailable.
-- Run `.\scripts\run-dashboard.ps1` if stopped. The script finds uv on PATH or the local bootstrap.
-  Fresh checkout: generate once using `uv run --locked python -m tb.dashboard.fixtures`.
-  Existing fixture roots are intentionally not overwritten. Guide: docs/how-to/dashboard.md.
-- Read reports/phases/P10.md for changed files, actual gates, screenshots, fixture outcomes,
-  source/metric validation, remaining limits and the recommended P11a plan.
-- Dependencies: Streamlit 1.66.1 is pinned; no existing dependency constraints were loosened.
-- UI reads only indexed exports with bounded/cached projections and mode/currency validation.
-  Real 2025+ chart rows are excluded/refused; no final-test switch or raw-volume scan is present.
-- Current feed/account/latch health, empirical strategies/models and calibration remain unavailable.
-  Archived synthetic latches/version IDs do not establish a running trading process or market skill.
-- P10 and P09.5 independent reviews are queued. Prior P06/P09 deferrals are not approvals.
-- ADR 0006 recommends a conditional future hybrid with one minimal EA sender, after separately
-  approved policy/eligibility/reconciliation gates. No EA or order pathway is implemented.
-- **Stop here.** P11a read-only MT5 work requires a new instruction; P11/P12 are not started.
+- Final gates: exact uv sync --locked passed and removed optional MT5 SDK. Full tests without it:
+  **445 passed, 3 live deselected, 23 existing warnings, 62.39s**. Ruff/format clean (279 files),
+  strict MyPy clean (106 source files), P09.5 smoke passed. Optional SDK 5.0.6231 restored afterward.
+- Native Terminal MCP Build 6281 and MetaQuotes demo identity verified. 107 captured native input
+  schemas, sanitized diagnostic JSON and phase report are in reports/mt5/ and reports/phases/P11a.md.
+  MetaEditor not listening; hosted Market Data returned unauthenticated HTTP 401. Their authenticated
+  tools remain unverified. Do not reuse the terminal token for a different endpoint.
+- Installed ignored .codex/config.toml exposes exactly four reads through fixed stdio proxy.
+  Restart Codex to attach; current chat catalog is not hot-reloaded. Real proxy tool list/time
+  read passed. Token, demo pins and executable path only in ignored .env, current-user ACL.
+- Native MT5 MCP trading permission is still true. The proxy cannot forward trading/shell/account
+  changes; owner should also disable native AI/MCP Trading and dangerous shell operations in MT5.
+  No native setting, account, symbol visibility or order was changed during this phase.
+- Genuine EURUSD metadata is verified, but source epoch is about +3h relative to receipt UTC.
+  Quotes are rejected/raw-only quarantined, not shifted. XAUUSD metadata identifies a real XAU/USD
+  contract but hidden quotes are unavailable. GOLD is stock on this server. Zero qualified forward
+  quotes/candles; no price reliability or strategy performance claim.
+- Data-only collector is finite and stopped. Read-only dashboard runs at http://127.0.0.1:8501;
+  select Market Feed, then genuine or explicitly synthetic evidence. Account P&L stays separate.
+- Read docs/how-to/mt5-market-feed.md and docs/P11b-proposal.md before future work. Reuse shared
+  features/risk only after source clock, metadata/cost/session/eligibility and review gaps resolve.
+  Historical 2025+ protections remain unchanged; forward namespace is isolated from old ingestion.
+- Current acquisition commands from repo root:
+  uv run --locked python -m tb.ingest.mt5.smoke
+  .\scripts\collect-mt5.ps1 -Polls 2
+  .\scripts\collect-mt5.ps1 -Offline -Polls 2
+  .\scripts\run-dashboard.ps1
+- No 24/7 job or P11b paper runtime installed. Capacity/retention and native-call hang supervision
+  need measured review before a separately authorized soak. No external orders or paid AI calls.
+- Original supplied audit remains untouched/untracked. P11a independent review is queued;
+  previous reviews/deferrals are not broker-routing approval. No push or PR was requested.
