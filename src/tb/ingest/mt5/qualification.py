@@ -11,6 +11,7 @@ from uuid import uuid4
 
 import httpx
 
+from tb.ingest.clock_profiles import ClockState
 from tb.ingest.mt5.adapter import MT5Feed
 from tb.ingest.mt5.mcp import ReadOnlyMCP
 from tb.ingest.mt5.models import AdmissionCheck, FeedUnavailable
@@ -152,8 +153,17 @@ class AdmissionMonitor:
         except (FeedUnavailable, KeyError, TypeError, ValueError):
             clock_ok = False
             reasons.append("native_utc_unverified")
+        instruments: dict[str, bool] = {}
+        instrument_reasons: dict[str, tuple[str, ...]] = {}
         for symbol in self.feed.config.symbols:
             try:
+                if not self.feed.synthetic and (
+                    self.feed.clock_profile is None
+                    or self.feed.clock_profile.validation_environment != "genuine"
+                    or self.feed.clock_profile.effective_state(self.feed.clock())
+                    != ClockState.VERIFIED
+                ):
+                    raise FeedUnavailable("source_clock_profile_not_verified")
                 facts = self.feed.metadata(symbol)
                 if facts.visible is not True or facts.selected is not True:
                     raise FeedUnavailable("visibility_unverified")
@@ -161,9 +171,13 @@ class AdmissionMonitor:
                 lag = (quote.received_at - quote.source_at).total_seconds()
                 if not 0 <= lag <= self.feed.config.max_tick_age_seconds:
                     raise FeedUnavailable("source_not_fresh")
+                instruments[symbol] = True
             except (FeedUnavailable, ValueError, ArithmeticError):
-                reasons.append(f"{symbol}_source_or_identity_invalid")
-                clock_ok = False
+                instruments[symbol] = False
+                instrument_reasons[symbol] = ("source_clock_profile_or_quote_invalid",)
+        clock_ok = clock_ok and any(instruments.values())
+        if not any(instruments.values()):
+            reasons.append("no_instrument_passed_source_qualification")
         return AdmissionCheck(
             checked_at=self.feed.clock(),
             identity_fingerprint=identity.fingerprint,
@@ -172,6 +186,8 @@ class AdmissionMonitor:
             reasons=tuple(sorted(set(reasons))),
             native_trading_allowed=native,
             dangerous_shell_tool_available=shell,
+            instruments=instruments,
+            instrument_reasons=instrument_reasons,
         )
 
 

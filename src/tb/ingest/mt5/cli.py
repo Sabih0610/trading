@@ -13,6 +13,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from tb.core.config import repo_root
+from tb.ingest.clock_profiles import load_profiles
 from tb.ingest.mt5.adapter import MT5Feed, PythonReader
 from tb.ingest.mt5.collector import Collector
 from tb.ingest.mt5.fake import FakeReader
@@ -93,6 +94,14 @@ def main() -> None:
                 terminal_path=settings.terminal_path,
                 login=settings.demo_login.get_secret_value(),
                 server=settings.demo_server,
+                clock_profile=next(
+                    (
+                        p
+                        for p in load_profiles(project / "config/source_clocks.yaml")
+                        if p.provider == "mt5_demo" and p.server == settings.demo_server
+                    ),
+                    None,
+                ),
             )
             mcp = ReadOnlyMCP(
                 settings.mcp_token.get_secret_value(),

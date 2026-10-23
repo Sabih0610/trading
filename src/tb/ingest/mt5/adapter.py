@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib
+import json
 import time
 from collections.abc import Callable, Iterator
 from datetime import UTC, datetime, timedelta
@@ -14,6 +15,7 @@ from typing import Any, Literal, Protocol, cast
 import psutil
 
 from tb.core.instruments import ContractSpec, MarketQuote
+from tb.ingest.clock_profiles import ClockProfile, ClockRefused, ClockSequence, ClockStamp
 from tb.ingest.mt5.models import (
     TIMEFRAMES,
     DemoIdentity,
@@ -131,10 +133,14 @@ class MT5Feed:
         login: str,
         server: str,
         clock: Callable[[], datetime] | None = None,
+        clock_profile: ClockProfile | None = None,
     ) -> None:
         self.client, self.config = client, config
         self.path, self.login, self.server = terminal_path, login, server
         self.clock = clock or (lambda: datetime.now(UTC))
+        self.clock_profile = clock_profile
+        self.provider = "mt5_demo"
+        self.clock_sequences: dict[str, ClockSequence] = {}
         self.identity_record: DemoIdentity | None = None
         self.latest_raw: dict[str, Any] = {}
         self.last_read_received_at: datetime | None = None
@@ -266,11 +272,13 @@ class MT5Feed:
         # Refuse a future millisecond clock even when the paired seconds field is inconsistent.
         # Then require the two fields to agree before accepting any observation.
         millis = raw.get("time_msc")
-        if type(millis) is int and millis > 0:
+        if self.clock_profile is None and type(millis) is int and millis > 0:
             millis_at = parse_tick_epoch({"time": millis // 1000, "time_msc": millis})
             if (millis_at - received).total_seconds() > self.config.future_tolerance_seconds:
                 raise FeedUnavailable("Quote timestamp is in the future")
         at = parse_tick_epoch(raw)
+        stamp = self.normalize_clock(at, raw, symbol, "quote", received)
+        at = stamp.normalized_at if stamp else at
         if (at - received).total_seconds() > self.config.future_tolerance_seconds:
             raise FeedUnavailable("Quote timestamp is in the future")
         observation = Observation(
@@ -279,6 +287,7 @@ class MT5Feed:
             kind="quote",
             timeframe="tick",
             source_at=at,
+            clock_stamp=stamp,
             received_at=received,
             evidence="synthetic" if self.synthetic else "historical_backfill",
             bid=raw.get("bid"),
@@ -288,6 +297,8 @@ class MT5Feed:
             flags=raw.get("flags"),
             spread_points=facts.reported_spread_points,
         )
+        if stamp:
+            self.clock_sequences.setdefault(symbol, ClockSequence()).observe(at, received)
         return observation, raw
 
     def quotes(self, symbol: str) -> Iterator[MarketQuote]:
@@ -320,6 +331,8 @@ class MT5Feed:
             value = as_dict(item)
             raw.append(value)
             at = parse_tick_epoch({"time": value.get("time")})
+            stamp = self.normalize_clock(at, {"time": value.get("time")}, symbol, "candle", now)
+            at = stamp.normalized_at if stamp else at
             if (at - now).total_seconds() > self.config.future_tolerance_seconds:
                 raise FeedUnavailable(
                     "Broker candle clock is in the future; no time shift is inferred"
@@ -333,6 +346,7 @@ class MT5Feed:
                     kind="candle",
                     timeframe=timeframe,
                     source_at=at,
+                    clock_stamp=stamp,
                     received_at=now,
                     evidence="synthetic" if self.synthetic else "historical_backfill",
                     open=value.get("open"),
@@ -359,6 +373,8 @@ class MT5Feed:
         for item in rows[: self.config.max_rows]:
             value = as_dict(item)
             at = parse_tick_epoch(value)
+            stamp = self.normalize_clock(at, value, symbol, "tick", now)
+            at = stamp.normalized_at if stamp else at
             if not start <= at <= now:
                 continue
             raw.append(value)
@@ -369,6 +385,7 @@ class MT5Feed:
                     kind="tick",
                     timeframe="tick",
                     source_at=at,
+                    clock_stamp=stamp,
                     received_at=now,
                     evidence="synthetic" if self.synthetic else "historical_backfill",
                     bid=value.get("bid"),
@@ -379,6 +396,38 @@ class MT5Feed:
                 )
             )
         return out, raw
+
+    def normalize_clock(
+        self, raw_at: datetime, raw: dict[str, Any], symbol: str, kind: str, now: datetime
+    ) -> ClockStamp | None:
+        """Only an explicit verified source profile may alter a native timestamp."""
+        if self.clock_profile is None:
+            if not self.synthetic:
+                raise FeedUnavailable("source_clock_profile_unavailable")
+            return (
+                None  # Legacy raw UTC interpretation; genuine admission still requires a profile.
+            )
+        identity = self.verify()
+        try:
+            if not self.synthetic and self.clock_profile.validation_environment != "genuine":
+                raise ClockRefused("fixture_clock_profile_cannot_normalize_genuine_data")
+            return self.clock_profile.normalize(
+                raw_at,
+                raw_representation=json.dumps(
+                    {k: raw[k] for k in ("time", "time_msc") if k in raw}, sort_keys=True
+                ),
+                provider=self.provider,
+                broker=identity.broker,
+                server=identity.server,
+                environment=identity.environment,
+                instrument=symbol,
+                build=identity.terminal_build,
+                identity_fingerprint=identity.fingerprint,
+                now=now,
+                kind=kind,
+            )
+        except ClockRefused as exc:
+            raise FeedUnavailable(str(exc)) from None
 
     def close(self) -> None:
         """Release only this Python IPC connection, without changing terminal identity."""

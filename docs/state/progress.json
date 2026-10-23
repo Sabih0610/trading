@@ -183,6 +183,26 @@
         "live_deselected": 3,
         "warnings": 23
       }
+    },
+    "P11a.2": {
+      "title": "MT5 source-clock profiles and alternative data qualification",
+      "status": "done",
+      "started_utc": "2026-10-23 16:36 UTC",
+      "report": "reports/phases/P11a.2.md",
+      "external_orders_enabled": false,
+      "data_qualified": false,
+      "completed_utc": "2026-10-23 17:06 UTC",
+      "commit": "phase-P11a.2-done",
+      "review": "queued",
+      "p11b_by_instrument": {
+        "EURUSD": "NO-GO",
+        "XAUUSD": "NO-GO"
+      },
+      "tests": {
+        "passed": 523,
+        "live_deselected": 3,
+        "warnings": 23
+      }
     }
   },
   "allowed_status": [
@@ -211,6 +231,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-23 12:10 UTC",
-  "next_phase": "blocked_on_data; P11b not authorized"
+  "last_updated_utc": "2026-10-23 17:06 UTC",
+  "next_phase": "blocked_on_source_evidence; P11b not authorized"
 }

@@ -53,9 +53,19 @@
   review. P11a may implement only a read-only market feed under a new owner instruction.
 
 - P11a.1: both EURUSD and XAUUSD source epochs remain approximately three hours ahead of verified host UTC. Obtain provider-supported UTC/DST semantics or separately review a UTC-explicit data-only Practice source. Do not infer an offset or change old observations.
-- Owner completed native trading/dangerous-shell disablement and exact XAUUSD visibility. Verified native trading false and shell-tool absence; no further manual visibility/security request is pending. Recheck before each genuine run.
+- Owner completed native trading/dangerous-shell disablement and exact XAUUSD visibility. Verified native trading false and shell-tool absence in that phase. P11a.2 later found XAUUSD hidden again; see current evidence section below. Recheck before each genuine run.
 - Windows Time service was stopped; independent HTTPS clocks agreed with host UTC. Owner may review host synchronization separately; no automatic time/service changes were made.
 - Complete pip/cost/session/holiday/stop constraints and reconcile XAUUSD tick-value arithmetic. Minimum broker lots indicatively exceed $100 at 1x; sizing remains blocked.
 - Sustained genuine acquisition, two consecutive qualified M5 intervals and genuine restart reliability remain unverified. Current admission refuses extended collection.
 - Codex's four read-only MCP tools were used earlier. Two existing-session calls refused at handoff while a fresh constrained client and SDK identity succeeded; investigate session renewal before relying on long-lived MCP inspection. Hosted Market Data and MetaEditor availability remain unverified and are unnecessary for this collector.
 - Independent P11a/P11a.1 reviews remain queued. P11b is NO-GO and unstarted; no paper runtime, scheduler, soak, broker sender or EA is authorized. Future work requires separate scope and verified data.
+
+## P11a.2 external evidence needed
+
+- Obtain authoritative MetaQuotes-Demo exact-server/build SDK seconds/milliseconds, tick/candle and historical DST/effective-period semantics. No installed conversion rule; stable+3h alone cannot verify it.
+- XAUUSD is currently selected=true but visible=false with no quote. Earlier owner Show action was confirmed; current state changed. Owner may manually show the same exact XAUUSD again if quote inspection is wanted. No automatic selection or GOLD substitution.
+- Current independent Microsoft UTC agreed; Cloudflare reference unavailable and W32Time stopped. A verified profile needs repeated measurements with two independent UTC references; no sync/service edits are automated.
+- OANDA Practice credentials are absent. Current Pakistan/division/API/metals/no-funding/storage/AI rights are unverified; v20 explicitly excludes Global Markets/TMS. Do not request a token or create/fund an account before provider access/rights are confirmed.
+- Conditionally prioritize provider confirmation for a separate Pepperstone MT5 demo: current Pakistan data-only demo/SDK access, exact server/build clock/DST, instruments, expiry and storage/reuse rights. Dated official affiliate material is not current approval. No broker message or registration was sent.
+- Costs/pip/session/holiday/stop/conversion and XAUUSD tick-value consistency remain incomplete. Broker minimum lots do not fit$100 at1x on prior indicative prices; current gold price is unavailable. No sizing permission.
+- Independent P11a.2 review queued. No genuine source qualified or sustained/M5/restart soak measured. P11b remains NO-GO per instrument and not started; no new notification, paid AI, EA or order bridge.

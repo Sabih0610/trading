@@ -4,6 +4,15 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11a.2 — 2026-10-23 UTC
+
+- Added exact-source versioned clock profiles with authoritative evidence, reviewer, repeated UTC validation, effective periods/DST, expiry and immutable raw/normalized lineage. Unverified or unchecked-copy profiles cannot qualify data.
+- Reused existing finite acquisition/storage/checkpoint/manifest pipeline for an optional GET-only OANDA Practice adapter; fixture evidence stays synthetic and genuine access requires region/API/no-funding/rights confirmation.
+- Added independent instrument admission, provider namespaces, raw-source dedup across profile versions and read-only source-clock/readiness diagnostics.
+- Actual EURUSD: five future-epoch rejects; XAUUSD: five missing quotes, currently selected but hidden. MetaQuotes profile UNVERIFIED; alternatives unconnected. No guessed offsets, orders or P11b.
+- Final gates:523 tests passed,3 live deselected,23 existing warnings; Ruff/format/strict MyPy clean, safety smoke passed. P11b NO-GO per instrument.
+
+
 ## P11a.1 — 2026-10-23 UTC
 
 - Added immutable coordinated SDK/MCP/Windows/independent UTC diagnostics and instrument readiness reports.

@@ -12,6 +12,7 @@ import yaml
 from pydantic import AwareDatetime, Field, StrictBool, field_validator, model_validator
 
 from tb.core.instruments import MarketQuote
+from tb.ingest.clock_profiles import ClockStamp
 from tb.risk.config import PolicyModel
 
 TIMEFRAMES = {"M1": 60, "M5": 300, "M15": 900, "H1": 3600, "H4": 14400}
@@ -80,7 +81,7 @@ class DemoIdentity(PolicyModel):
     currency: str
     terminal_build: int
     verified_at: AwareDatetime
-    environment: Literal["demo"] = "demo"
+    environment: Literal["demo", "practice"] = "demo"
 
 
 class InstrumentFacts(PolicyModel):
@@ -101,7 +102,7 @@ class InstrumentFacts(PolicyModel):
     trade_mode: int | None
     reported_spread_points: int | None
     observed_at: AwareDatetime
-    source: Literal["mt5_demo", "synthetic"]
+    source: Literal["mt5_demo", "oanda_practice", "synthetic"]
     session_schedule: Literal["unavailable"] = "unavailable"
     # Price access never establishes costs, eligibility, conversion or a sizing permission.
     sizing_usable: Literal[False] = False
@@ -136,6 +137,10 @@ class AdmissionCheck(PolicyModel):
     reasons: tuple[str, ...] = ()
     native_trading_allowed: StrictBool | None = None
     dangerous_shell_tool_available: StrictBool | None = None
+    provider: Literal["mt5_demo", "oanda_practice"] = "mt5_demo"
+    source_authorized: StrictBool = False
+    instruments: dict[str, bool] = Field(default_factory=dict)
+    instrument_reasons: dict[str, tuple[str, ...]] = Field(default_factory=dict)
 
     def allows(self, now: datetime, identity: str) -> bool:
         age = (now - self.checked_at).total_seconds()
@@ -145,8 +150,19 @@ class AdmissionCheck(PolicyModel):
             and not self.reasons
             and self.identity_fingerprint == identity
             and 0 <= age <= 60
-            and self.native_trading_allowed is False
-            and self.dangerous_shell_tool_available is False
+            and (
+                (
+                    self.provider == "mt5_demo"
+                    and self.native_trading_allowed is False
+                    and self.dangerous_shell_tool_available is False
+                )
+                or (
+                    self.provider == "oanda_practice"
+                    and self.source_authorized
+                    and self.native_trading_allowed is None
+                    and self.dangerous_shell_tool_available is None
+                )
+            )
         )
 
 
@@ -169,6 +185,7 @@ class Observation(PolicyModel):
     spread_points: int | None = Field(default=None, ge=0)
     flags: int | None = None
     coverage_started_at: AwareDatetime | None = None
+    clock_stamp: ClockStamp | None = None
 
     @field_validator("source_at", "received_at")
     @classmethod
@@ -177,6 +194,8 @@ class Observation(PolicyModel):
 
     @model_validator(mode="after")
     def valid_prices(self) -> Self:
+        if self.clock_stamp and self.clock_stamp.normalized_at != self.source_at:
+            raise ValueError("Normalized source time disagrees with clock provenance")
         if self.kind in {"quote", "tick"}:
             if self.bid is None or self.ask is None:
                 raise ValueError("Both quote sides required")

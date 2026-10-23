@@ -32,3 +32,7 @@ Quote counts distinguish received, valid, rejected, missing, duplicates, source 
 If connected with zero qualified quotes, compare raw seconds/milliseconds with receipt and independent UTC. Never subtract three hours, assume naive server text is UTC, modify old observations or automatically change system time. W32Time was stopped, while independent references agreed with host UTC within clock/network uncertainty. Obtain provider timezone/DST evidence or separately review a replacement data source.
 
 See [findings](../../reports/phases/P11a.1.md), [research](../research/P11a.1-research.md) and [P11b proposal](../P11b-proposal.md). These commands do not authorize P11b, an EA, paid AI, or broker orders.
+
+## P11a.2 source profiles
+
+Use [source-clock profiles and assessment](source-clock-profiles.md) for the current entrypoint. Genuine acquisition additionally requires a verified profile; MetaQuotes-Demo remains UNVERIFIED and XAUUSD is currently hidden again. Existing finite collector/storage/safety boundaries remain, with independent symbol admission. No guessed offset or P11b runtime.

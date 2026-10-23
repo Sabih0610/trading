@@ -29,7 +29,7 @@ from tb.risk.config import PolicyModel
 
 class FeedExport(PolicyModel):
     schema_version: Literal[1]
-    source: Literal["mt5_demo", "synthetic"]
+    source: Literal["mt5_demo", "oanda_practice", "synthetic"]
     session_id: str
     session_started: AwareDatetime
     generated_at: AwareDatetime
@@ -49,6 +49,9 @@ class FeedExport(PolicyModel):
     admission: AdmissionCheck | None = None
     connection_status: str = "unverified"
     coverage_kind: str = "coverage_unverified"
+    clock_profiles: dict[str, dict[str, str]] = Field(default_factory=dict)
+    clock_diagnostics: list[dict[str, Any]] = Field(default_factory=list, max_length=10)
+    readiness: dict[str, dict[str, Any]] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def prospective_only(self) -> FeedExport:
@@ -72,6 +75,22 @@ class FeedExport(PolicyModel):
         if any(f.source != self.source for f in self.facts):
             raise ValueError("Feed metadata provenance mismatch")
         for row in [*self.quotes, *self.candles]:
+            if self.source != "synthetic" and self.clock_profiles:
+                profile = self.clock_profiles.get(row.symbol, {})
+                if (
+                    profile.get("state") != "VERIFIED"
+                    or row.clock_stamp is None
+                    or profile.get("digest") != row.clock_stamp.profile_digest
+                ):
+                    raise ValueError("Unverified source-clock price projection refused")
+            if row.clock_stamp and self.source != "synthetic":
+                identity = DemoIdentity.model_validate(self.identity)
+                if (
+                    row.clock_stamp.provider != self.source
+                    or row.clock_stamp.server != identity.server
+                    or row.clock_stamp.identity_fingerprint != identity.fingerprint
+                ):
+                    raise ValueError("Cross-provider clock provenance refused")
             if self.source == "synthetic":
                 if row.evidence != "synthetic":
                     raise ValueError("Synthetic provenance mismatch")
@@ -87,7 +106,7 @@ class FeedExport(PolicyModel):
                 and row.source_at + timedelta(seconds=TIMEFRAMES[row.timeframe]) > row.received_at
             ):
                 raise ValueError("Unfinished candle refused")
-            if self.source == "mt5_demo" and row.kind == "candle":
+            if self.source != "synthetic" and row.kind == "candle":
                 end = row.source_at + timedelta(seconds=TIMEFRAMES[row.timeframe])
                 if (
                     row.coverage_started_at is None
@@ -124,6 +143,15 @@ def market_feed_view(root: Path, zone: Literal["UTC", "Asia/Karachi"]) -> None:
     )
     synthetic = collection == "Synthetic feed fixture"
     folder = root / "reports/market_feed" / ("synthetic" if synthetic else "genuine")
+    expected_source = "mt5_demo"
+    if not synthetic:
+        sources = {"MT5 demo": folder}
+        alternative = root / "reports/market_feed/oanda_practice"
+        if (alternative / "current.json").is_file():
+            sources["OANDA Practice"] = alternative
+        if len(sources) > 1:
+            folder = sources[st.selectbox("Configured market provider", list(sources))]
+            expected_source = "oanda_practice" if folder == alternative else "mt5_demo"
     st.caption(
         "Data acquisition only · External orders disabled · Independent eligibility unchanged"
     )
@@ -131,13 +159,45 @@ def market_feed_view(root: Path, zone: Literal["UTC", "Asia/Karachi"]) -> None:
         export = read_feed_export(folder)
         if (export.source == "synthetic") != synthetic:
             raise EvidenceUnavailable("Collection provenance mismatch")
+        if not synthetic and export.source != expected_source:
+            raise EvidenceUnavailable("Provider selection provenance mismatch")
     except EvidenceUnavailable:
         st.info("Market feed unavailable. No verified collection snapshot is attached.")
         return
     if synthetic:
         st.warning("SYNTHETIC feed fixture. These prices are generated for software testing.")
     else:
-        st.info("Source: MT5 demo market observations. This is a data feed; trading is disabled.")
+        st.info(
+            f"Source: {'OANDA Practice' if export.source == 'oanda_practice' else 'MT5 demo'} observations. Data feed only; trading disabled."
+        )
+    if export.clock_profiles:
+        st.write("Source clock qualification")
+        st.dataframe(
+            [
+                {
+                    "Market": s,
+                    "Profile": p.get("profile_id", "unavailable"),
+                    "Clock status": p.get("state", "UNVERIFIED"),
+                    "P11b": export.readiness.get(s, {}).get(
+                        "p11b", "NO-GO: further evidence required"
+                    ),
+                    "Sizing": "blocked; complete contract/cost evidence required",
+                    "Strategy ready": False,
+                }
+                for s, p in export.clock_profiles.items()
+            ],
+            hide_index=True,
+            width="stretch",
+        )
+        st.caption(
+            "Connection, verified clock, instrument data and strategy readiness are separate checks. This table reports recorded evidence."
+        )
+    if export.clock_diagnostics:
+        st.write("Raw and normalized source timestamps")
+        st.dataframe(export.clock_diagnostics, hide_index=True, width="stretch")
+        st.caption(
+            "Raw epoch interpretation is diagnostic only. Unverified profiles have no normalized UTC value; no offset is guessed."
+        )
     st.write(
         "Collector:",
         "last reported running; liveness unverified" if export.collector_running else "stopped",

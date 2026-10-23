@@ -17,3 +17,5 @@
 | P11a | queued | 2026-10-23 01:36 | [P11a report](../reports/phases/P11a.md) | Review native MCP default-deny boundary, demo/path pinning, atomic provenance/recovery, protected history isolation and actual clock/availability refusals. 445 tests pass; no P11b or external orders. |
 
 | P11a.1 | queued | 2026-10-23 12:10 | [P11a.1 report](../reports/phases/P11a.1.md) | Review fresh security/UTC admission, exact epoch/clock-step rejection, normalized receipt counters and raw-only diagnostics. 483 tests pass. Native security closed; genuine data NOT qualified; P11b NO-GO. |
+
+| P11a.2 | queued | 2026-10-23 17:06 | [P11a.2 report](../reports/phases/P11a.2.md) | Review clock evidence/effective periods/DST, unchecked-copy refusal, genuine/fixture separation, raw-profile dedup, independent symbol admission and Practice GET boundary.523 tests pass; no genuine source qualified; P11b NO-GO. |

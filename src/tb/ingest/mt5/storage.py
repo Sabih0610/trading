@@ -7,7 +7,7 @@ import sqlite3
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 from uuid import uuid4
 
 import polars as pl
@@ -29,6 +29,13 @@ def record_id(row: Observation, identity: str) -> str:
     payload = row.model_dump(
         mode="json", exclude={"received_at", "evidence", "coverage_started_at"}
     )
+    stamp = payload.pop("clock_stamp", None)
+    if stamp:
+        # A new conversion/profile version cannot make the same raw fact new evidence.
+        payload.pop("source_at")
+        payload["raw_source_clock"] = {
+            k: stamp[k] for k in ("provider", "server", "raw_representation")
+        }
     return sha256_bytes((identity + json.dumps(payload, sort_keys=True)).encode())
 
 
@@ -42,9 +49,18 @@ def parquet_bytes(frame: pl.DataFrame) -> bytes:
 class FeedStore:
     """One writer transaction per bounded batch; only committed SQLite entries are visible."""
 
-    def __init__(self, root: Path, config: FeedConfig, *, code_version: str) -> None:
+    def __init__(
+        self,
+        root: Path,
+        config: FeedConfig,
+        *,
+        code_version: str,
+        provider: Literal["mt5_demo", "oanda_practice"] = "mt5_demo",
+    ) -> None:
         self.root, self.config, self.code_version = root.resolve(), config, code_version
-        state = self.root / "data/mt5_feed"
+        self.provider = provider
+        self.namespace = "mt5_feed" if provider == "mt5_demo" else "oanda_practice"
+        state = self.root / "data" / self.namespace
         state.mkdir(parents=True, exist_ok=True)
         self.db_path = state / "checkpoint.sqlite"
         self.db = sqlite3.connect(self.db_path, timeout=1)
@@ -62,7 +78,7 @@ class FeedStore:
 
     def session(self, identity: str, now: datetime, *, synthetic: bool) -> tuple[str, datetime]:
         """Resume the immutable same-identity collection session; never backdate its start."""
-        origin = "synthetic" if synthetic else "mt5_demo"
+        origin = "synthetic" if synthetic else self.provider
         row = self.db.execute(
             "SELECT id,started FROM sessions WHERE identity=? AND origin=? ORDER BY rowid DESC LIMIT 1",
             (identity, origin),
@@ -79,8 +95,8 @@ class FeedStore:
     def _check_quota(self, reserve_bytes: int = 0) -> None:
         # The bounded file population is checked without reading observations into RAM.
         roots = (
-            self.root / "data/bronze/mt5_feed",
-            self.root / "data/silver/mt5_feed",
+            self.root / "data/bronze" / self.namespace,
+            self.root / "data/silver" / self.namespace,
             self.db_path.parent,
             self.root / "reports/market_feed",
         )
@@ -117,13 +133,18 @@ class FeedStore:
             raise StorageRefused("Mixed market batch refused")
         for row in rows:
             if row.evidence == "forward_observed" and (
-                origin != "mt5_demo" or row.source_at < datetime.fromisoformat(started)
+                origin != self.provider or row.source_at < datetime.fromisoformat(started)
             ):
                 raise StorageRefused(
                     "Historical or synthetic record cannot claim prospective evidence"
                 )
             if origin == "synthetic" and row.evidence != "synthetic":
                 raise StorageRefused("Synthetic session evidence mismatch")
+            if row.clock_stamp and (
+                row.clock_stamp.provider != self.provider
+                or row.clock_stamp.identity_fingerprint != identity
+            ):
+                raise StorageRefused("Provider/profile/session identity mismatch")
         self.db.execute("BEGIN IMMEDIATE")
         try:
             unique: list[Observation] = []
@@ -158,7 +179,7 @@ class FeedStore:
                 unique.append(row)
             seq = int(self.db.execute("SELECT COALESCE(MAX(seq),0)+1 FROM batches").fetchone()[0])
             batch_id = f"{seq:012d}-{uuid4().hex}"
-            relative = Path("mt5_feed") / session / batch_id
+            relative = Path(self.namespace) / session / batch_id
             bronze = self.root / "data/bronze" / relative
             silver = self.root / "data/silver" / relative
             raw_bytes = (json.dumps(raw, sort_keys=True, default=str) + "\n").encode()
@@ -176,10 +197,12 @@ class FeedStore:
             atomic_write_bytes(bronze / "source.json", raw_bytes)
             atomic_write_bytes(bronze / "observations.parquet", bronze_bytes)
             manifest = BronzeManifest(
-                source="mt5_demo" if origin == "mt5_demo" else "mt5_fixture",
+                source=self.provider if origin != "synthetic" else "mt5_fixture",
                 symbol=rows[0].symbol if rows else "UNAVAILABLE",
                 timeframe=rows[0].timeframe if rows else "tick",
-                source_url="mt5://pinned-demo/read-only",
+                source_url="mt5://pinned-demo/read-only"
+                if self.provider == "mt5_demo"
+                else "https://api-fxpractice.oanda.com/read-only",
                 requested_from=received_at,
                 requested_to=received_at,
                 actual_from=min((r.source_at for r in rows), default=None),
@@ -246,7 +269,7 @@ class FeedStore:
             {
                 **row.model_dump(mode="python"),
                 "timestamp_ns": datetime_to_ns(row.source_at),
-                "source": "mt5_fixture" if row.evidence == "synthetic" else "mt5_demo",
+                "source": "mt5_fixture" if row.evidence == "synthetic" else self.provider,
                 "volume_kind": "broker_tick_count"
                 if row.kind == "candle"
                 else "source_trade_volume_unverified",

@@ -9,8 +9,8 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
+from tb.ingest.feed_protocol import AcquisitionFeed
 from tb.ingest.history.core import atomic_write_json, sha256_file
-from tb.ingest.mt5.adapter import MT5Feed
 from tb.ingest.mt5.models import (
     TIMEFRAMES,
     AdmissionCheck,
@@ -57,7 +57,7 @@ class Collector:
 
     def __init__(
         self,
-        feed: MT5Feed,
+        feed: AcquisitionFeed,
         store: FeedStore,
         export_root: Path,
         *,
@@ -178,6 +178,28 @@ class Collector:
                     self.feed.latest_raw = {}
                     self._count(symbol, attempts=1)
                     quote_counted = False
+                    if self.admission_result and not self.admission_result.instruments.get(
+                        symbol, True
+                    ):
+                        self.coverage.pop(symbol, None)
+                        self._count(symbol, rejected=1)
+                        reasons = dict(self.counts[symbol].rejected_by_reason)
+                        reasons["instrument_not_admitted"] = (
+                            reasons.get("instrument_not_admitted", 0) + 1
+                        )
+                        self.counts[symbol] = self.counts[symbol].model_copy(
+                            update={"rejected_by_reason": reasons}
+                        )
+                        states.append(
+                            Health(
+                                symbol=symbol,
+                                state=FeedState.INSTRUMENT_UNAVAILABLE,
+                                checked_at=self.clock(),
+                                reason="Instrument failed independent preflight",
+                            )
+                        )
+                        warnings.append(f"{symbol}_independent_admission_refused")
+                        continue
                     try:
                         self.feed.verify()
                         metadata = self.feed.metadata(symbol)
@@ -436,7 +458,7 @@ class Collector:
     ) -> dict[str, Any]:
         snapshot: dict[str, Any] = {
             "schema_version": 1,
-            "source": "synthetic" if self.feed.synthetic else "mt5_demo",
+            "source": "synthetic" if self.feed.synthetic else self.feed.provider,
             "session_id": session,
             "session_started": started.isoformat(),
             "generated_at": self.clock().isoformat(),
@@ -464,6 +486,16 @@ class Collector:
             if not running
             else "pinned_demo_connected",
             "coverage_kind": "sampled_polling; complete_tick_coverage_unverified",
+            "clock_profiles": {
+                s: {
+                    "profile_id": self.feed.clock_profile.profile_id,
+                    "state": self.feed.clock_profile.effective_state(self.clock()).value,
+                    "digest": self.feed.clock_profile.digest,
+                }
+                for s in self.feed.config.symbols
+            }
+            if self.feed.clock_profile
+            else {},
         }
         self.export_root.mkdir(parents=True, exist_ok=True)
         # Unique payload first, atomic pointer last: a crash never mixes old data and new checksum.

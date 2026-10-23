@@ -4,6 +4,14 @@ Proposal only; no P11b trading loop, scheduler, background soak or execution gat
 P11a supplies a data-only reader, immutable evidence batches, health records and a read-only
 dashboard. It does not prove eligible data, strategy edge, costs or long-running reliability.
 
+## P11a.2 decision — 2026-10-23
+
+**EURUSD NO-GO; XAUUSD NO-GO.** Evidence-bound clock profiles, independent instrument admission and an optional mocked Practice reader are implemented. MetaQuotes-Demo profile remains UNVERIFIED; no server timezone/DST contract and no normalized genuine UTC series. Latest EURUSD samples are about+10800s; XAUUSD is selected but hidden/quote unavailable. No alternative is connected: OANDA v20 excludes Global Markets/TMS and applicable Pakistan API access/rights are unverified; separate Pepperstone demo access is a conditional next verification candidate, not approved access.
+
+Prerequisites are provider-authoritative exact-server tick/candle conversion evidence, genuinely repeated independent UTC validation, current native safety/identity, provider data rights and independently valid instruments. One passing symbol may qualify without a failing sibling. Do not apply another broker's +2/+3 schedule to MetaQuotes or auto-promote a profile from offset stability. Historical profile applicability is period-specific; raw data and holdouts remain immutable.
+
+After separate P11b authorization: independent supervised collector with profile-refresh/identity/security/host-clock gates → committed provider-scoped Silver events → persistent local-paper consumer reusing causal features/deterministic risk → atomic accounting/dedup/reconciliation/latches → failure/supervisor/retention acceptance → supervised qualification/two M5 intervals → separately authorized24h soak. MCP stays development/inspection only. No EA or external sender is approved. See [P11a.2 report](../reports/phases/P11a.2.md), [research/comparison](research/P11a.2-research.md), [ADR0009](adr/0009-versioned-source-clock-profiles.md).
+
 ## P11a.1 measured status — 2026-10-23
 
 **NO-GO.** Native trading is false, dangerous shell absent from the catalogue, exact XAUUSD visible with changing quotes; owner-manual closure is complete. Both instruments still emit approximately +10800-second epochs. Independent UTC agrees with the host; W32Time is stopped. Eight explicit diagnostic quote samples across two runs were rejected; zero qualified quotes/M5 intervals. The guarded 1800-second request refused before extended collection. This is not sustained reliability evidence.
