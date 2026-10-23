@@ -18,6 +18,7 @@ from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from tb.ingest.mt5.models import FeedUnavailable
+from tb.ingest.rights import DataRights
 
 SYMBOLS = {"EURUSD": "EUR/USD", "XAUUSD": "XAU/USD"}
 HOST = "https://api.twelvedata.com"
@@ -53,7 +54,10 @@ class Reply:
 class CreditBudget:
     """Crash-safe reservations, actual usage anchors, account scope and UTC reset windows."""
 
-    def __init__(self, path: Path, scope: str) -> None:
+    def __init__(self, path: Path, scope: str, *, daily_ceiling: int = 800) -> None:
+        if not 1 <= daily_ceiling <= 800:
+            raise FeedUnavailable("twelve_data_daily_ceiling_refused")
+        self.daily_ceiling = daily_ceiling
         path.parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(path, timeout=3)
         self.scope = scope
@@ -64,6 +68,8 @@ class CreditBudget:
             CREATE TABLE IF NOT EXISTS cooldown(scope TEXT PRIMARY KEY, until_at TEXT);
             CREATE TABLE IF NOT EXISTS cache(scope TEXT, key TEXT, payload TEXT, receipt TEXT,
                 http_date TEXT, PRIMARY KEY(scope,key));
+            CREATE TABLE IF NOT EXISTS m5_slots(scope TEXT, close_at TEXT, symbol TEXT,
+                PRIMARY KEY(scope,close_at,symbol));
         """)
         self.db.commit()
 
@@ -92,7 +98,7 @@ class CreditBudget:
             )
             for start, field, default in (
                 (minute, "plan_limit", 8),
-                (day, "plan_daily_limit", 800),
+                (day, "plan_daily_limit", self.daily_ceiling),
             ):
                 used = int(
                     self.db.execute(
@@ -215,6 +221,20 @@ class CreditBudget:
     def close(self) -> None:
         self.db.close()
 
+    def claim_m5(self, close_at: datetime, symbol: str, now: datetime) -> bool:
+        """Claim one persisted post-close slot; missed windows cannot become live polls."""
+        lag = (now - close_at).total_seconds()
+        if symbol not in SYMBOLS or close_at.minute % 5 or close_at.second or not 120 <= lag <= 180:
+            return False
+        if now.weekday() >= 5 or (now.weekday() == 4 and now.hour >= 21):
+            return False
+        with self.db:
+            result = self.db.execute(
+                "INSERT OR IGNORE INTO m5_slots VALUES(?,?,?)",
+                (self.scope, close_at.isoformat(), symbol),
+            )
+        return result.rowcount == 1
+
 
 class TwelveDataClient:
     """Only usage, reference rates and two M1 time series can reach the network."""
@@ -227,12 +247,14 @@ class TwelveDataClient:
         transport: httpx.BaseTransport | None = None,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
         monotonic: Callable[[], float] = time.monotonic,
+        rights: DataRights | None = None,
     ) -> None:
         self._key, self.budget = settings.api_key, budget
         expected_scope = hashlib.sha256(self._key.get_secret_value().encode()).hexdigest()
         if self._key.get_secret_value() and budget.scope != expected_scope:
             raise FeedUnavailable("twelve_data_credit_account_scope_mismatch")
         self.clock, self.monotonic = clock, monotonic
+        self.rights = rights
         self._synthetic = transport is not None
         self._http = httpx.Client(
             timeout=httpx.Timeout(10), follow_redirects=False, trust_env=False, transport=transport
@@ -248,10 +270,16 @@ class TwelveDataClient:
     def credential_scope(self) -> str:
         return hashlib.sha256(self._key.get_secret_value().encode()).hexdigest()
 
-    def get(self, endpoint: str, symbol: str | None = None) -> Reply:
+    @property
+    def source_identity(self) -> str:
+        return hashlib.sha256(("twelve_data:" + self.credential_scope).encode()).hexdigest()
+
+    def get(self, endpoint: str, symbol: str | None = None, *, timeframe: str = "M1") -> Reply:
         """No arbitrary method, host, headers, params or query keys are accepted."""
         if endpoint not in {"api_usage", "exchange_rate", "time_series"}:
             raise FeedUnavailable("twelve_data_read_allowlist_refused")
+        if timeframe not in {"M1", "M5"} or (endpoint != "time_series" and timeframe != "M1"):
+            raise FeedUnavailable("twelve_data_timeframe_refused")
         if (endpoint == "api_usage" and symbol is not None) or (
             endpoint != "api_usage" and symbol not in SYMBOLS
         ):
@@ -260,12 +288,26 @@ class TwelveDataClient:
             raise FeedUnavailable("Twelve Data disabled: TWELVE_DATA_API_KEY missing")
         if endpoint != "api_usage" and not self.plan_confirmed:
             raise FeedUnavailable("twelve_data_actual_plan_check_required")
+        if not self.synthetic:
+            if self.rights is None:
+                raise FeedUnavailable("data_rights_approval_required; genuine retrieval disabled")
+            self.rights.require(
+                ("retrieval", "raw_cache"),
+                provider="twelve_data",
+                identity=self.source_identity,
+                symbol=symbol or "EURUSD",
+                now=self.clock(),
+            )
         params = {"timezone": "UTC"}
         if symbol:
             params["symbol"] = SYMBOLS[symbol]
         if endpoint == "time_series":
-            params.update(interval="1min", outputsize="3", order="asc")
+            params.update(
+                interval="5min" if timeframe == "M5" else "1min", outputsize="3", order="asc"
+            )
         cache_key = endpoint + ":" + (symbol or "")
+        if timeframe == "M5":
+            cache_key += ":M5"
         cached = self.budget.cached(cache_key, self.clock(), 45 if symbol else 10)
         if cached:
             if endpoint == "api_usage":
@@ -322,6 +364,14 @@ class TwelveDataClient:
                     self.budget.usage(payload, receipt)
                     self.plan_confirmed = True
                 self.budget.header_remaining(response.headers.get("api-credits-left"), receipt)
+                if (
+                    timeframe == "M5"
+                    and not self.synthetic
+                    and response.headers.get("api-credits-used") != "1"
+                ):
+                    self.budget.retry_after(receipt, None, daily=True)
+                    self.plan_confirmed = False
+                    raise FeedUnavailable("M5_endpoint_credit_weight_unverified; review required")
                 self.budget.remember(cache_key, reply)
                 return reply
         except (

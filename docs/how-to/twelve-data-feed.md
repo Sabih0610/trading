@@ -4,7 +4,16 @@ This optional component records bounded read-only EUR/USD and XAU/USD midpoint M
 It uses no broker account, trading endpoint, MCP tool or EA. A timestamped midpoint rate is
 an optional diagnostic; it is never an executable bid/ask quote or fill.
 
-## Configure and run
+## Current P11b.0 rights restriction
+
+The earlier bounded M1 run below is historical. The current client requires affirmative scoped
+retrieval/cache approval before any genuine request or cache read. `config/data_rights.yaml`
+contains no such approvals; the old CLI therefore refuses new genuine collection. API access
+and a configured key do not clear the retention gate. Do not rerun it to bypass shadow approval.
+For owned offline replay, delayed M5 design and the conditional future trial, read
+[the shadow guide](shadow-research.md) and [trial/remediation procedure](../P11b.0-supervised-trial-plan.md).
+
+## Configure and run (after separately verified rights)
 
 From the checkout root in PowerShell, set TWELVE_DATA_API_KEY in the ignored root `.env`.
 Do not put its value in commands, screenshots, tickets or version control. Empty/missing key

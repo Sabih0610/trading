@@ -1,0 +1,12 @@
+schema_version: 1
+version: "1.0.0"
+post_close_seconds: 120
+maximum_publication_seconds: 180
+maximum_processing_seconds: 30
+daily_credit_ceiling: 600
+max_storage_mb: 64
+minimum_free_bytes: 1048576
+strategy_version: reference-compatibility-1.0.0
+feature_version: shared-price-only-1.0.0
+orders_enabled: false
+price_display_enabled: false

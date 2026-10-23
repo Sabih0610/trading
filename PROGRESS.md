@@ -1,9 +1,10 @@
 # Build progress
 
-P11a.2 software/research diagnostics complete on codex/p11a-2-clock-profiles.
-523 tests passed,3 live deselected; Ruff/format/strict MyPy and safety smoke passed.
-MetaQuotes-Demo clock profile remains UNVERIFIED; alternative genuine access unverified.
-EURUSD and XAUUSD remain NOT data-qualified; P11b NO-GO and not started. Independent review queued.
+P11b.0 software is complete on `codex/p11b-0-shadow-research`, from `9d5c777`.
+641 tests pass; Ruff, formatting, strict MyPy and paper safety smoke passed.
+Owned fixture replay: 128 events, 512 WAIT decisions; restart suppressed 128 duplicates.
+Genuine M5 collection is blocked by usage rights. Prior bounded M1 qualification is preserved.
+Executable bid/ask and realistic paper fills remain unqualified; P11b.1 is unstarted.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -23,7 +24,8 @@ EURUSD and XAUUSD remain NOT data-qualified; P11b NO-GO and not started. Indepen
 | P11a.1 | MT5 recovery and qualification | done; NOT data-qualified | 2026-10-23 11:39 | 2026-10-23 12:10 | `phase-P11a.1-done` | [report](reports/phases/P11a.1.md) | queued; P11b NO-GO |
 | P11a.2 | Source-clock profiles and alternative feed qualification | done; NOT data-qualified | 2026-10-23 16:36 | 2026-10-23 17:06 | `phase-P11a.2-done` | [report](reports/phases/P11a.2.md) | queued; per-instrument NO-GO |
 | P11a.3 | Twelve Data Basic reference feed | done; bounded M1 qualified for EUR/USD and XAU/USD | 2026-10-23 18:00 | 2026-10-23 18:29 | `phase-P11a.3-done` | [report](reports/phases/P11a.3.md) | queued; no executable quotes or P11b |
-| P11b | Continuous local paper runtime | not started | — | — | — | [proposal](docs/P11b-proposal.md) | no orders |
+| P11b.0 | Reference shadow research engine | done offline; genuine rights blocked | 2026-10-23 18:56 | 2026-10-23 19:43 | `phase-P11b.0-done` | [report](reports/phases/P11b.0.md) | queued; no fills or orders |
+| P11b.1 | Executable data, contract and cost boundary | not started | — | — | — | [design](docs/P11b.1-design.md) | separately authorized scope required |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | — | — | — | — | — |
 | P14 | 30+ day forward paper/demo evaluation | not started | — | — | — | — | — |

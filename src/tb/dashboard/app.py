@@ -51,6 +51,7 @@ VIEWS = (
     "Risk & System Health",
     "AI & Model Research",
     "Market Feed",
+    "Shadow Research",
 )
 
 
@@ -391,6 +392,11 @@ def main() -> None:
     )
     if view == "Market Feed":
         market_feed_view(root, zone)
+        return
+    if view == "Shadow Research":
+        from tb.dashboard.shadow import shadow_view
+
+        shadow_view(root)
         return
     if source is not None:
         st.warning(

@@ -1,63 +1,61 @@
-# Current handoff — P11a.3
+# Current handoff — P11b.0
 
-P11a.3 is complete. Twelve Data Basic EUR/USD and XAU/USD each qualified four prospective
-completed M1 midpoint candles. This is bounded source-data qualification only. No executable
-bid/ask, realistic paper fills, permanent archive/display license or 24h reliability is qualified.
-P11b remains unstarted; no external orders, EA, paid upgrade, new MT5 account or MCP expansion.
+P11b.0 is complete offline. The independent reference shadow engine and delayed M5 acquisition
+extension are implemented, but genuine mode is blocked by unverified usage/retention rights.
+Owned fixtures produced 128 events and 512 WAIT decisions, including 384 strategy blockers and
+128 controls. No fills, positions, balances, P&L, training or broker orders were created.
 
-- Branch codex/p11a-3-twelve-data, parent44a4c4d, local completion tag phase-P11a.3-done.
-- Baseline523 tests preserved. Final582 passed,3 live deselected,23 existing warnings in63.03s.
-  Ruff/313 formatted files/strict MyPy119 source files clean; paper safety smoke passed.
-- Actual Basic access confirmed independently for EUR/USD Physical Currency and XAU/USD
-  Precious Metal. No paid upgrade. Forex metadata omitted exchange_timezone; preserve null,
-  explicit UTC request and raw bar-open strings. No offset/profile promotion.
-- Bounded run2026-10-23 18:13:23-18:18:46 UTC, six polls, now stopped. Each symbol18 parsed
-  rows,10 duplicates,8 unique:4 original backfill and4 newly completed forward M1 openings
-  18:14-18:17 UTC. Publication/receipt lag41.879-102.683s after end. Finality/revisions unknown.
-- Initial exchange_rate timestamps were~114-116s old and rejected as point observations.
-  No executable bid/ask, spread, commission, volume or broker sizing facts manufactured.
-- Final Cloudflare/Microsoft UTC checks passed. Closing official usage18:20:51 UTC reported
-  Basic 8/minute,800/day; current_usage1,daily_usage20. Local conservative reservations21.
-- Optional SecretStr TWELVE_DATA_API_KEY exists ONLY in ignored root .env with current-user
-  ACL. Do not print it. No key in URLs/logs/reports; no price data in committed docs.
-- New GET-only client allows only fixed-host usage, timestamped reference-rate and bounded
-  M1 time-series shapes for two exact symbols. Persistent credits/cache/cooldown survive
-  restart; no inline retries, redirects, inherited proxy, scheduler, or write endpoint.
-- Existing FeedStore/classifier/lease/manifests/atomic recovery reused. New coverage per run;
-  dedup resumes. Incomplete intervals labeled/backfill, missing volume stays unavailable.
-  Legacy IDs and old files untouched. Source-specific copies revalidated before storing.
-- Dashboard localhost8501 -> Market Feed -> Genuine market observations -> Twelve Data Basic
-  (reference). Price field withheld under Basic non-display policy; UTC/freshness/counts/status
-  shown independently from account P&L. Restart Streamlit after schema changes if hot reload
-  retains old classes. Current dashboard restarted; collector remains stopped.
-- Original MT5/OANDA config and MetaQuotes-Demo UNVERIFIED profile unchanged. Default locked
-  sync removed optional MT5 SDK for offline checks; SDK5.0.6231 restored afterward with the
-  existing locked extra (uv sync --locked --extra mt5), preserving baseline MT5 availability.
-  Historical2025+ holdout stays locked; no history evaluation or model training occurred.
-- Remaining: independent review; confirm raw retention, private display and any commercial/ML
-  data rights. Basic cannot support two M1 calls/minute continuously (2880/day >800).
-  Future reference M5 budgeting could fit576/day plus checks, but is not implemented.
-- Recommended next authorized step: supervised reference shadow consumer of committed Silver
-  events with causal features/risk veto logging and durable failure/restart tests. No fills/P&L
-  until licensed broker bid/ask and contract/cost/session/funded eligibility are established.
-  Do not begin P11b without a new owner request. No push/PR; original audit remains untracked.
+- Branch `codex/p11b-0-shadow-research`, parent `9d5c777`, completion tag `phase-P11b.0-done`.
+  Baseline 582 tests verified; final 641 passed, 3 optional live deselected, 23 existing warnings
+  in 89.53s. Ruff, 338-file format check, strict MyPy on 133 sources and paper smoke passed.
+- Current data-rights policy has no affirmative genuine approvals or account fingerprint.
+  Retrieval is documented capability only; Basic raw display/commercial use remain prohibited
+  under configured policy. Cache, history, AI, ML, derived storage and persistence are unverified.
+  Genuine collection/watch refuses before key/new raw reads or storage. No API call was made.
+- Existing P11a.3 genuine M1 records remain unchanged: four qualified prospective completed
+  midpoint candles per symbol. All 16 committed batch manifests/files and original snapshot
+  hash were verified. This is neither M5 evidence nor permission for perpetual retention.
+- Original genuine snapshot: `reports/market_feed/twelve_data/snapshot-3a2b0458a507481491eeff47a34ac1dd.json`,
+  SHA256 `c532e116087779fadd4ac3b0514c9b722042b91cd14ee38f5c99c5d06b95da78`.
+- Final owned replay snapshot: `reports/shadow/fixture/runtime/snapshots/snapshot-0dbc3fba9ede4a9c9c8cecfd794739dc.json`,
+  SHA256 `1c77d5402ff2f5023d527525268fdb88e6cd91e9d2220a7d29b19791ddcfa025`.
+  A second process replay kept decisions frozen and recorded 128 suppressed duplicates.
+- Delayed M5: one durable slot/symbol, close +120s, maximum publication lag 180s, processing
+  within 30s, three-bar lookback. Current interval needs new-run forward coverage. No cached,
+  backfilled, missed-downtime or revised event becomes a new signal. Real M5 weights/latency
+  are unmeasured; genuine responses must validate one credit/symbol or fail closed.
+- Daily plan: 576 scheduled credits, local cap 600, plan 800, minute limit 8; 24 internal
+  headroom and 200 for other account use. Account-wide usage was not fetched this phase.
+- Shared price-only features retain missing volume/session/HTF/cost inputs as unavailable.
+  Existing London sweep, VWAP and XAUT catch-up lack eligible inputs/asset mapping. The
+  do-nothing definition is a WAIT control; no substitute strategy or directional metric exists.
+- Single-writer SHADOW journal reuses DecisionLedger with atomic input/decision/checkpoint,
+  append-only triggers, WAL/FULL, source/version hashes, streaming recovery and 64 MiB limit.
+  Lock contention/loss, before/after commit crash, missing/corrupt state and disk failure pass.
+- Dashboard localhost8501 -> Shadow Research -> Owned fixture replay / Genuine shadow
+  (permission gated). Screenshots are in `reports/screenshots/P11b.0/`. The UI has no raw price,
+  key, policy edit or trading control. Dashboard is running; collector and consumer are stopped.
+- Optional locked MetaTrader5 SDK 5.0.6231 restored after the default locked gates. No MT5
+  initialization or native MCP expansion. Risk/assets, clock profiles, OANDA and holdout unchanged.
+  Every key remains only in ignored root `.env`; never print or pass it in a command/report.
+- Next exact step is documentary rights/retention review and independent P11b.0 review.
+  Follow `docs/P11b.0-supervised-trial-plan.md`; do not run a genuine trial under current policy.
+  Existing files must not be automatically deleted or copied into new research/training studies.
+- P11b.1 is design only in `docs/P11b.1-design.md`; no executable data integration, local paper
+  account runtime, EA, unattended task, live/demo order or 24h soak is authorized. No push/PR.
+  The original repository audit remains untracked. Stop after the phase completion report.
 
-Read reports/phases/P11a.3.md; docs/research/P11a.3-research.md;
-docs/adr/0010-reference-market-data-boundary.md; docs/how-to/twelve-data-feed.md;
-docs/journal/P11a.3-journal.md; docs/P11b-proposal.md.
-
-Genuine evidence remains ignored/local: reports/market_feed/twelve_data/
-snapshot-3a2b0458a507481491eeff47a34ac1dd.json, SHA256
-c532e116087779fadd4ac3b0514c9b722042b91cd14ee38f5c99c5d06b95da78.
-Raw/checkpoint/credits under data/*/twelve_data; no public redistribution permission inferred.
-
-From repository root in PowerShell:
+Safe local mechanics command from the repository root in PowerShell:
 
 ```powershell
-& '.\work\tooling\Scripts\uv.exe' run --locked pytest -q
-& '.\work\tooling\Scripts\uv.exe' run --locked python -m tb.ingest.twelve_data.collect --polls 6
+& '.\work\tooling\Scripts\uv.exe' run --locked python -m tb.shadow.cli replay --bars 64
 .\scripts\run-dashboard.ps1
 ```
 
-Collection consumes credits and starts new forward coverage; downloading history cannot
-recreate this sample's qualification. Missing key cleanly disables the component. Stop here.
+Repeating replay adds duplicate health records, not decisions. Default uv sync can omit optional
+MT5; restore the existing extra when preserving that environment with `uv sync --locked --extra mt5`.
+The original M1 genuine command is now also blocked by unapproved retrieval/cache rights.
+
+Read [completion report](../reports/phases/P11b.0.md), [research](research/P11b.0-research.md),
+[ADR0011](adr/0011-reference-shadow-journal-and-rights.md), [how-to](how-to/shadow-research.md),
+[journal](journal/P11b.0-journal.md), [pending](pending.md) and [review queue](review_queue.md).

@@ -159,7 +159,9 @@ class FeedStore:
                     and (
                         row.coverage_started_at is None
                         or row.coverage_started_at > row.source_at
-                        or not 60 <= (row.received_at - row.source_at).total_seconds() <= 180
+                        or not TIMEFRAMES[row.timeframe]
+                        <= (row.received_at - row.source_at).total_seconds()
+                        <= TIMEFRAMES[row.timeframe] + (180 if row.timeframe == "M5" else 120)
                     )
                 ):
                     raise StorageRefused("Reference completed forward coverage invalid")

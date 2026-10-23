@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11a.3",
+  "current_phase": "P11b.0",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -162,8 +162,14 @@
       "terminal_current_status": "not_running_at_2026-10-23T01:41Z"
     },
     "P11b": {
-      "title": "Continuous local paper runtime",
-      "status": "not_started"
+      "title": "Reference shadow research and future executable-data boundary",
+      "status": "in_progress",
+      "completed_subphases": [
+        "P11b.0"
+      ],
+      "external_orders_enabled": false,
+      "genuine_shadow_status": "blocked_on_data_rights",
+      "next_subphase": "P11b.1 not_started; design only; separate authorization required"
     },
     "P11a.1": {
       "title": "MT5 feed recovery, security closure and data qualification",
@@ -231,6 +237,51 @@
         "live_deselected": 3,
         "warnings": 23
       }
+    },
+    "P11b.0": {
+      "title": "Continuous reference-market shadow research engine",
+      "status": "done",
+      "started_utc": "2026-10-23 18:56 UTC",
+      "completed_utc": "2026-10-23 19:43 UTC",
+      "baseline_commit": "9d5c777b0e3fb8ca9df670b9d81d184904684645",
+      "branch": "codex/p11b-0-shadow-research",
+      "commit": "phase-P11b.0-done",
+      "report": "reports/phases/P11b.0.md",
+      "review": "queued",
+      "external_orders_enabled": false,
+      "genuine_collection_started": false,
+      "genuine_shadow_status": "blocked_on_data_rights",
+      "fixture_replay": {
+        "events": 128,
+        "decisions": 512,
+        "WAIT": 512,
+        "BUY": 0,
+        "SELL": 0,
+        "blocked": 384,
+        "controls": 128,
+        "recovery_duplicates": 128,
+        "directional_samples": 0
+      },
+      "account_fills_created": 0,
+      "positions_created": 0,
+      "models_trained": 0,
+      "tests": {
+        "passed": 641,
+        "live_deselected": 3,
+        "warnings": 23,
+        "duration_seconds": 89.53
+      },
+      "quality_gates": "ruff/format/strict_mypy/full_pytest/paper_smoke_passed",
+      "optional_mt5_sdk_restored": "5.0.6231",
+      "unattended_task_installed": false,
+      "p11b1_started": false
+    },
+    "P11b.1": {
+      "title": "Executable bid/ask, contract and cost integration",
+      "status": "not_started",
+      "design": "docs/P11b.1-design.md",
+      "external_orders_enabled": false,
+      "human_gate": true
     }
   },
   "allowed_status": [
@@ -259,6 +310,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-23 18:29 UTC",
-  "next_phase": "P11b reference shadow proposal only; requires separate owner authorization and data rights/budget review"
+  "last_updated_utc": "2026-10-23 19:43 UTC",
+  "next_phase": "Stop: rights/retention and independent review; conditional supervised trial needs separate approval. P11b.1 design only, not authorized."
 }

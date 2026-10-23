@@ -268,3 +268,38 @@ for the inspected genuine source; diagnostics are not historical research or tra
 `Observation.clock_stamp`: original representation/raw interpretation, normalized UTC, profile ID/content digest, conversion rule, provider/server/public identity. Legacy records default null and are never rewritten. Raw-source dedup excludes mutable profile/result fields, so profile changes do not manufacture new observations. `AdmissionCheck.instruments` independently masks each symbol; common security/host-clock/identity failure blocks all. Practice authorization is separate from native MT5 permission fields.
 
 `oanda_practice` namespace reuses Bronze/Silver/checkpoints/manifests but stays outside historical ingestion and MT5 namespaces. OANDA unit constraints are not MT5 lot metadata. OANDA bid candles use broker price-update activity volume, not global market volume. Mock adapter rows remain synthetic. Read-only snapshots add clock_profiles, clock_diagnostics and instrument readiness; provider selection appears only for indexed configured data.
+
+## P11b.0 reference shadow evidence
+
+`DataRights` has policy/schema versions, exact provider/account fingerprint/instruments, reviewed
+UTC time and per-usage status (`confirmed`, `unverified`, `prohibited`, `expired`). Status and
+approval are distinct: an admitted usage needs explicit approval, reviewer, evidence and finite
+unexpired expiry. `SHADOW_USAGES` covers retrieval, raw cache, history, derived storage and
+persistent collection. AI analysis and ML training are separate unused gates. Policy digest is
+part of the immutable study pin; no credential value is stored in the public policy or pin.
+
+`SourcePin` binds owned-fixture/genuine mode, provider, public identity, producer/consumer code,
+config and rights hashes. `ShadowEvent` binds exact M5 midpoint evidence ID, committed source
+manifest path/hash and original Observation. Its interval identity ignores later receipt/price
+changes so revisions cannot replace a frozen interval decision.
+
+| ResearchDecision field | Meaning |
+|---|---|
+| `source_open_at`, `source_close_at` | UTC M5 interval endpoints; never decision availability. |
+| `received_at`, `information_available_at` | Actual source receipt and admitted availability. |
+| `decision_at` | Processing/decision UTC at or after receipt, including measured computation. |
+| `signal`, `status`, `reasons` | BUY/SELL/WAIT research direction; candidate/blocked/control and explicit reasons. No order instruction. |
+| `features`, `features_sha256` | Frozen causal price-only inputs and hash; missing volume/session/HTF remain unavailable. |
+| `strategy_version`, `feature_version`, `source_version`, `consumer_version`, `rights_digest` | Exact reproducibility and permission lineage. |
+| `execution_eligible`, `risk_sizing`, `advisory` | Fixed false / unavailable executable facts / disabled model. |
+| `runtime_milliseconds` | Measured local processing duration; not provider or execution latency. |
+
+The isolated shadow SQLite journal appends event, decisions and hash-linked checkpoint in one
+transaction. Health includes run start/stop/recovery, duplicates/revisions, refusal and heartbeat.
+Later labels append fixed same-source future reference direction without altering original inputs;
+WAIT controls are not directional samples. This schema has no balances, positions, fills or P&L.
+
+`ShadowSnapshot` is a bounded price-free projection: provenance, source readiness, latest UTC
+candle/receipt/decision, counts, blockers, health, quota projection, observation/runtime lag,
+versions and unavailable outcomes. `snapshots/current.json` names an immutable file and SHA256.
+Fixture and genuine exports remain distinct; the dashboard never reads raw feature inputs.

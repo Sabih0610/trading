@@ -107,23 +107,29 @@ class FeatureEngine:
         self._london_open = None
         self._new_york_open = None
 
-    def update(self, bar: dict[str, Any]) -> dict[str, Any]:
+    def update(self, bar: dict[str, Any], *, reference_only: bool = False) -> dict[str, Any]:
         """Consume one completed bar and return features knowable at that bar close."""
 
-        missing = sorted(set(_REQUIRED).difference(bar))
+        required = _REQUIRED[:5] if reference_only else _REQUIRED
+        missing = sorted(set(required).difference(bar))
         if missing:
             raise FeatureInputError(f"Missing feature inputs: {', '.join(missing)}")
         timestamp = bar["timestamp_utc"]
         if not isinstance(timestamp, datetime) or timestamp.tzinfo is None:
             raise FeatureInputError("timestamp_utc must be timezone-aware")
-        values = {name: float(bar[name]) for name in ("open", "high", "low", "close", "volume")}
+        fields = (
+            ("open", "high", "low", "close")
+            if reference_only
+            else ("open", "high", "low", "close", "volume")
+        )
+        values = {name: float(bar[name]) for name in fields}
         if not all(math.isfinite(value) for value in values.values()):
             raise FeatureInputError("Feature inputs must be finite")
         if values["high"] < max(values["open"], values["close"], values["low"]):
             raise FeatureInputError("OHLC bounds are inconsistent")
         if values["low"] > min(values["open"], values["close"], values["high"]):
             raise FeatureInputError("OHLC bounds are inconsistent")
-        if values["volume"] < 0:
+        if not reference_only and values["volume"] < 0:
             raise FeatureInputError("volume cannot be negative")
 
         input_gap = False
@@ -133,7 +139,7 @@ class FeatureEngine:
             input_gap = timestamp - self._previous_time != self.timeframe
             if input_gap:
                 self._reset_continuity()
-        day = str(bar["trading_day_id"])
+        day = timestamp.date().isoformat() if reference_only else str(bar["trading_day_id"])
         if day != self._day:
             self._reset_day(day)
 
@@ -266,19 +272,24 @@ class FeatureEngine:
                 self._active_bearish_gap = (fvg_lower, fvg_upper)
 
         typical = (values["high"] + values["low"] + values["close"]) / 3
-        self._vwap_numerator += typical * values["volume"]
-        self._vwap_volume += values["volume"]
-        vwap = self._vwap_numerator / self._vwap_volume if self._vwap_volume > 0 else None
-        if bool(bar["session_asia"]):
+        if not reference_only:
+            self._vwap_numerator += typical * values["volume"]
+            self._vwap_volume += values["volume"]
+        vwap = (
+            self._vwap_numerator / self._vwap_volume
+            if self._vwap_volume > 0 and not reference_only
+            else None
+        )
+        if not reference_only and bool(bar["session_asia"]):
             self._asia_high = (
                 values["high"] if self._asia_high is None else max(self._asia_high, values["high"])
             )
             self._asia_low = (
                 values["low"] if self._asia_low is None else min(self._asia_low, values["low"])
             )
-        if bool(bar["session_london"]) and self._london_open is None:
+        if not reference_only and bool(bar["session_london"]) and self._london_open is None:
             self._london_open = values["open"]
-        if bool(bar["session_new_york"]) and self._new_york_open is None:
+        if not reference_only and bool(bar["session_new_york"]) and self._new_york_open is None:
             self._new_york_open = values["open"]
 
         self._previous_time = timestamp
@@ -308,13 +319,16 @@ class FeatureEngine:
             + int(self._active_bearish_gap is not None),
             "order_block_low": order_block_low,
             "order_block_high": order_block_high,
-            "htf_structure_direction": bar.get("htf_structure_direction"),
-            "htf_structure_available": bar.get("htf_structure_direction") is not None,
+            "htf_structure_direction": None
+            if reference_only
+            else bar.get("htf_structure_direction"),
+            "htf_structure_available": not reference_only
+            and bar.get("htf_structure_direction") is not None,
             "session_vwap": vwap,
-            "asia_range_high": self._asia_high,
-            "asia_range_low": self._asia_low,
-            "london_open": self._london_open,
-            "new_york_open": self._new_york_open,
+            "asia_range_high": None if reference_only else self._asia_high,
+            "asia_range_low": None if reference_only else self._asia_low,
+            "london_open": None if reference_only else self._london_open,
+            "new_york_open": None if reference_only else self._new_york_open,
         }
 
 

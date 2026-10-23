@@ -22,6 +22,7 @@ dist/
 work/
 reports/dashboard/P10-demo/
 reports/market_feed/
+reports/shadow/
 *.egg-info/
 *.sqlite
 *.db

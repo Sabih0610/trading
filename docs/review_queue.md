@@ -2,6 +2,7 @@
 
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|
+| P11b.0 | queued | 2026-10-23 19:38 | [P11b.0 report](../reports/phases/P11b.0.md) | Review rights before key/cache/recovery, exact delayed M5 slots/credits, causal features and blockers, atomic journal/lock/corruption/disk recovery, future labels and price-free UI. 641 tests pass; 128 owned events/512 WAIT; no genuine trial, fills or P11b.1. |
 | P11a.3 | queued | 2026-10-23 18:29 | [P11a.3 report](../reports/phases/P11a.3.md) | Review reference/bid-ask boundary, true forward M1 provenance, persistent credits/cache/429, private usage rights and source-independent decisions.582 tests pass; both M1 feeds bounded-qualified; no execution or P11b. |
 | P00 | queued | 2026-10-20 22:45 | [P00 report](../reports/phases/P00.md) | Routine review; does not block P01. |
 | P01 | queued | 2026-10-20 22:51 | [P01 report](../reports/phases/P01.md) | Deterministic policy boundary; routine review does not block P02. |

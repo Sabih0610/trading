@@ -136,6 +136,7 @@ class DecisionLedger:
         row_id: str | None = None,
         created_at: datetime | None = None,
         call_fields: Mapping[str, object] | None = None,
+        connection: sqlite3.Connection | None = None,
     ) -> str:
         identifier = uuid4().hex if row_id is None else row_id
         created = _utc_text(created_at)
@@ -186,12 +187,35 @@ class DecisionLedger:
             base_columns.extend(names)
             values.extend(call_fields[name] for name in names)
         placeholders = ", ".join("?" for _ in values)
-        with self.connect() as connection:
-            connection.execute(
-                f"INSERT INTO {table} ({', '.join(base_columns)}) VALUES ({placeholders})",
-                values,
-            )
+        statement = f"INSERT INTO {table} ({', '.join(base_columns)}) VALUES ({placeholders})"
+        if connection is None:
+            with self.connect() as active:
+                active.execute(statement, values)
+        else:
+            connection.execute(statement, values)
         return identifier
+
+    def append_atomic_decision(
+        self,
+        connection: sqlite3.Connection,
+        payload: Mapping[str, object],
+        versions: LedgerVersions,
+        *,
+        row_id: str,
+        created_at: datetime,
+    ) -> str:
+        """Join the caller's same-database transaction without committing its checkpoint."""
+        database = connection.execute("PRAGMA database_list").fetchone()[2]
+        if not connection.in_transaction or Path(database).resolve() != self.path.resolve():
+            raise ValueError("Atomic evidence requires an active same-database transaction")
+        return self._append(
+            "decisions",
+            payload,
+            versions,
+            row_id=row_id,
+            created_at=created_at,
+            connection=connection,
+        )
 
     def append_decision(
         self, payload: Mapping[str, object], versions: LedgerVersions, *, row_id: str | None = None

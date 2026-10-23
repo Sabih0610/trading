@@ -84,9 +84,10 @@ class TwelveDataFeed:
         self, symbol: str, timeframe: str = "M1"
     ) -> tuple[list[Observation], list[dict[str, Any]]]:
         symbol_value = canonical(symbol)
-        if timeframe != "M1":
-            raise FeedUnavailable("twelve_data_bounded_M1_only")
-        reply = self.client.get("time_series", symbol)
+        if timeframe not in {"M1", "M5"}:
+            raise FeedUnavailable("twelve_data_bounded_timeframe_only")
+        duration = 300 if timeframe == "M5" else 60
+        reply = self.client.get("time_series", symbol, timeframe=timeframe)
         value = reply.payload
         self.latest_raw = self._raw(reply, "time_series", symbol)
         meta, values = value.get("meta"), value.get("values")
@@ -94,7 +95,7 @@ class TwelveDataFeed:
             value.get("status") != "ok"
             or not isinstance(meta, dict)
             or meta.get("symbol") != SYMBOLS[symbol]
-            or meta.get("interval") != "1min"
+            or meta.get("interval") != ("5min" if timeframe == "M5" else "1min")
             or meta.get("type") != ("Physical Currency" if symbol == "EURUSD" else "Precious Metal")
             or not isinstance(values, list)
             or not 1 <= len(values) <= 3
@@ -112,16 +113,20 @@ class TwelveDataFeed:
             if not isinstance(bar, dict) or not isinstance(bar.get("datetime"), str):
                 raise FeedUnavailable("twelve_data_bar_datetime_refused")
             source = datetime.strptime(bar["datetime"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=UTC)
-            if source.second != 0 or source > reply.received_at + timedelta(seconds=2):
+            if (
+                source.second != 0
+                or source.minute % (5 if timeframe == "M5" else 1)
+                or source > reply.received_at + timedelta(seconds=2)
+            ):
                 raise FeedUnavailable("twelve_data_candle_clock_or_alignment_refused")
-            complete = source + timedelta(minutes=1) <= reply.received_at
+            complete = source + timedelta(seconds=duration) <= reply.received_at
             # Incomplete OHLC stays in raw Bronze and is labeled in Silver, never in forward UI.
             rows.append(
                 Observation(
                     symbol=symbol_value,
                     broker_symbol=SYMBOLS[symbol],
                     kind="candle",
-                    timeframe="M1",
+                    timeframe=timeframe,
                     source_at=source,
                     received_at=reply.received_at,
                     evidence="synthetic" if self.synthetic else "historical_backfill",
@@ -141,7 +146,9 @@ class TwelveDataFeed:
             raise FeedUnavailable("twelve_data_duplicate_bar_in_response")
         if not any(
             row.interval_complete
-            and 0 <= (reply.received_at - row.source_at).total_seconds() - 60 <= 120
+            and 0
+            <= (reply.received_at - row.source_at).total_seconds() - duration
+            <= (180 if timeframe == "M5" else 120)
             for row in rows
         ):
             raise FeedUnavailable("twelve_data_completed_candle_stale_or_missing")

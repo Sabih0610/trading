@@ -1,10 +1,29 @@
-# P11b proposal — deterministic continuous local paper runtime
+# P11b scope and design history
 
-Proposal only; no P11b trading loop, scheduler, background soak or execution gateway is built.
-P11a supplies a data-only reader, immutable evidence batches, health records and a read-only
-dashboard. It does not prove eligible data, strategy edge, costs or long-running reliability.
+P11b.0 is complete offline: reference shadow decisions, delayed M5 collection gates and durable
+recovery are implemented. Genuine use is blocked by unverified rights; no paper account, fills,
+balances or P&L were created. P11b.1 remains unstarted and requires a separate owner scope.
+The sections below retain earlier provider-specific decisions as historical context.
 
-## P11a.3 current decision — 2026-10-23
+## P11b.0 current decision — 2026-10-23
+
+The owned replay produced 128 events and 512 WAIT decisions; restart suppressed 128 duplicates.
+Existing directional definitions are blocked by missing mapping/session/volume/contract inputs;
+the existing do-nothing baseline is a WAIT control. Shared causal price features, exact receipt
+availability and append-only atomic input/decision/checkpoint records are implemented without
+execution capability. The independent finite consumer does not depend on an interactive agent.
+
+Twelve Data M5 reuses the existing read-only pipeline, persistent slots/reservations and UTC
+schema: one request/symbol at close +120s, bounded lookback, 576 scheduled credits/day, local cap
+600 within Basic 800/day and 8/minute. Actual M5 weights/publication remain unmeasured live.
+All genuine approvals are false; cache/history/derived/persistent rights need confirmation.
+Original bounded genuine M1 evidence and unverified MT5 profiles remain unchanged.
+
+Read [P11b.0 completion](../reports/phases/P11b.0.md), [how-to](how-to/shadow-research.md),
+[conditional supervised trial and remediation](P11b.0-supervised-trial-plan.md) and
+[P11b.1 design only](P11b.1-design.md). No trial, task, EA, broker sender or P11b.1 was started.
+
+## P11a.3 historical decision — 2026-10-23
 
 Both Twelve Data Basic feeds have **bounded completed M1 midpoint qualification**: EUR/USD and
 XAU/USD four prospective bars each. Broker execution, point quotes, realistic paper P&L, permanent
@@ -37,7 +56,12 @@ Before P11b, resolve a supported source timezone/DST contract or separately revi
 
 Implementation sequence after separate authorization: supervised data-only Python process → admitted Silver event consumer → shared causal features/strategies/risk → atomic local-paper accounting/dedup/reconciliation → failure/restart/supervisor tests → separately authorized 24h monitored soak. Native blocking-call isolation and hard supervisor kill limits must be measured before claiming 24/7 reliability. MCP remains inspection-only; no EA or broker sender.
 
-## Preconditions
+## Historical broader-paper proposal — not authorized by P11b.0
+
+The remaining sections describe later conditional paper/execution work. None of these account,
+scheduler or soak steps was implemented or authorized by the offline reference-shadow phase.
+
+### Preconditions
 
 1. Resolve current genuine price timestamp failures without inventing offsets. Verify the exact
    broker's epoch/time convention, receipt clock, DST and completed candle boundaries. Record
@@ -50,7 +74,7 @@ Implementation sequence after separate authorization: supervised data-only Pytho
 4. Freeze a prospective research protocol and independent eligibility/data-rights decisions.
    Preserve all 2025+ historical restrictions and keep forward and historical evidence distinct.
 
-## Proposed software boundaries
+### Proposed software boundaries
 
 Run one Windows-supervised deterministic Python data collector, independently of Codex and LLMs.
 Use the official SDK data whitelist, bounded IPC timeout/backoff, explicit demo identity checks,
@@ -69,7 +93,7 @@ clock-invalid data, restart catch-up bars or sparse polling as continuous tick c
 identity, fresh data, metadata, reconciliation or journal capacity must stop new simulated entries.
 Model exit costs and gap risk with existing pessimistic accounting; risk cannot be widened by AI.
 
-## Acceptance and operating work
+### Acceptance and operating work
 
 - Exercise restart mid-commit, duplicate delivery, two writers, clock rollback/DST, broker/server
   switch, disconnect/reconnect, corrupt manifests, exhausted disk quota, stale bars and missing sessions.

@@ -11,6 +11,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from typing import BinaryIO
 
 from tb.core.config import repo_root
 from tb.ingest.clock_profiles import load_profiles
@@ -25,7 +26,7 @@ from tb.ingest.mt5.storage import FeedStore
 
 
 @contextmanager
-def collector_lease(path: Path) -> Iterator[None]:
+def collector_lease(path: Path) -> Iterator[BinaryIO]:
     """OS-held process lock releases on interruption; no stale PID file bypass."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a+b") as handle:
@@ -44,9 +45,11 @@ def collector_lease(path: Path) -> Iterator[None]:
         except OSError:
             raise FeedUnavailable("Another market-data collector holds this workspace") from None
         try:
-            yield
+            yield handle
         finally:
-            if os.name == "nt":
+            if handle.closed:
+                pass
+            elif os.name == "nt":
                 handle.seek(0)
                 msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
             else:

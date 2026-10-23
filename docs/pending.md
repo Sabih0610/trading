@@ -1,10 +1,23 @@
 # Pending items
 
+- **P11b.0 completed offline:** 641 tests pass; owned replay 128 events/512 WAIT decisions,
+  recovery 128 duplicate suppressions. Independent review is queued. Genuine M5 collection/watch
+  stays blocked by exact usage/retention approvals. Resolve cache/history/derived/persistent,
+  AI/ML and display/commercial scope independently; current policy has no genuine approval.
+  Follow [rights remediation and conditional trial plan](P11b.0-supervised-trial-plan.md) before
+  any new genuine retention. Do not automatically delete prior records or contact a provider.
+- **Genuine trial not run:** verify actual M5 headers/weights, source entitlement/finality,
+  independent UTC, gaps/restart and finite supervised shutdown only after rights and a new owner
+  approval. No raw-price UI, directional skill, P&L or 24h reliability is established.
+- **P11b.1 not started:** executable bid/ask, contract/cost/session/funding and minimum-lot
+  affordability remain NO-GO; [design only](P11b.1-design.md). No broker order, EA, account
+  runtime, paid upgrade, training, autonomous promotion or unattended Windows task is authorized.
+
 - **P11a.3:** EUR/USD and XAU/USD Basic completed M1 midpoint data passed bounded qualification;
   executable bid/ask and realistic paper fills remain NO-GO. No new key is pending for Twelve Data.
   Confirm exact personal display, raw-retention duration, commercial/ML-use rights before a
   growing archive, raw price UI or wider use. Basic M1 collection for two symbols exceeds daily
-  credits if continuous. Independent review and separate P11b authorization remain pending.
+  credits if continuous. Independent review and verified genuine-use rights remain pending. P11b.0 was later authorized and completed offline; P11b.1 remains unstarted.
   See [P11a.3 report](../reports/phases/P11a.3.md); no paid upgrade or external order is authorized.
 
 - **Deferred by explicit owner direction:** the independent Claude review for P06 remains open.
@@ -65,7 +78,7 @@
 - Complete pip/cost/session/holiday/stop constraints and reconcile XAUUSD tick-value arithmetic. Minimum broker lots indicatively exceed $100 at 1x; sizing remains blocked.
 - Sustained genuine acquisition, two consecutive qualified M5 intervals and genuine restart reliability remain unverified. Current admission refuses extended collection.
 - Codex's four read-only MCP tools were used earlier. Two existing-session calls refused at handoff while a fresh constrained client and SDK identity succeeded; investigate session renewal before relying on long-lived MCP inspection. Hosted Market Data and MetaEditor availability remain unverified and are unnecessary for this collector.
-- Independent P11a/P11a.1 reviews remain queued. P11b is NO-GO and unstarted; no paper runtime, scheduler, soak, broker sender or EA is authorized. Future work requires separate scope and verified data.
+- Independent P11a/P11a.1 reviews remain queued. MT5-backed executable simulation remains NO-GO. Later P11b.0 is offline reference research only; no paper account runtime, scheduler, soak, broker sender or EA is authorized.
 
 ## P11a.2 external evidence needed
 
@@ -75,4 +88,4 @@
 - OANDA Practice credentials are absent. Current Pakistan/division/API/metals/no-funding/storage/AI rights are unverified; v20 explicitly excludes Global Markets/TMS. Do not request a token or create/fund an account before provider access/rights are confirmed.
 - Conditionally prioritize provider confirmation for a separate Pepperstone MT5 demo: current Pakistan data-only demo/SDK access, exact server/build clock/DST, instruments, expiry and storage/reuse rights. Dated official affiliate material is not current approval. No broker message or registration was sent.
 - Costs/pip/session/holiday/stop/conversion and XAUUSD tick-value consistency remain incomplete. Broker minimum lots do not fit$100 at1x on prior indicative prices; current gold price is unavailable. No sizing permission.
-- Independent P11a.2 review queued. No genuine source qualified or sustained/M5/restart soak measured. P11b remains NO-GO per instrument and not started; no new notification, paid AI, EA or order bridge.
+- Independent P11a.2 review queued. No MT5/OANDA genuine source qualified in that phase, and no sustained M5/restart soak was measured. Later P11a.3 bounded Twelve Data M1 and offline P11b.0 do not clear those provider-specific gates. No new notification, paid AI, EA or order bridge.

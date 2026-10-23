@@ -4,6 +4,23 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11b.0 — 2026-10-23 UTC
+
+- Added explicit versioned usage-rights approvals, expiry and source/account/instrument scope;
+  unresolved genuine cache/history/derived/persistent rights now block new market retention.
+- Extended the existing Twelve Data pipeline to delayed completed M5 slots with persistent
+  reservations, 600/day application cap and actual-weight validation before genuine admission.
+- Added an independent bounded reference shadow consumer, shared price-only causal features,
+  strategy compatibility, append-only atomic input/decision/checkpoint recovery and future labels.
+- Owned replay produced 128 events and 512 WAIT decisions; recovery suppressed 128 duplicate
+  inputs. Existing directional definitions remain blocked; no orders, fills, positions or P&L.
+- Added a read-only Shadow Research view, price-free exports and owned/genuine permission separation.
+- 641 tests pass (59 added); Ruff/format/strict MyPy and paper smoke clean. Prior genuine M1
+  evidence, risk, holdout, native MCP and MT5/OANDA profiles preserved; optional SDK restored.
+- Documented rights remediation, a conditional two-hour trial procedure and P11b.1 design only.
+  No genuine request, trial, unattended task, paid upgrade, training or P11b.1 work was started.
+
+
 ## P11a.3 — 2026-10-23 UTC
 
 - Added optional GET-only Twelve Data Basic reference adapter, persistent minute/day credits,
