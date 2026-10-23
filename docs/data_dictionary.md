@@ -1,5 +1,27 @@
 # Data dictionary
 
+## P11a.3 reference market data
+
+Provider namespace `twelve_data` reuses the existing immutable Bronze/Silver/checkpoint schema;
+`twelve_data_synthetic` is a separate dashboard fixture namespace. No historical reader or final
+holdout authorization is expanded. Raw payloads and numeric price exports remain Git-ignored.
+
+`Observation.kind=reference` carries `reference_price`, never bid/ask. All Twelve Data rows use
+`source_provider=twelve_data`, `price_type=reference_midpoint`, `source_timezone=UTC`, preserved
+`raw_source_time` (rate Unix timestamp or M1 open string), and optional
+`source_metadata_timezone` (null when the actual Forex metadata omits it). No broker clock stamp.
+M1 `interval_complete` is elapsed interval completion at receipt, not a provider finality claim.
+Incomplete rows stay backfill; completed forward rows require new run coverage and timely receipt.
+`volume_kind=unavailable`: tick/real volume, spread and broker quote sides remain null.
+
+`ReferenceIdentity` identifies a Basic reference-data source, not a demo brokerage account.
+`ReferenceExport` records independent instrument counts/readiness, references/completed bars,
+collection/session times, stopped/running status, actual usage and UTC checks. Qualification
+requires at least three distinct prospective completed M1 openings spanning 120s; exported claims
+must contain that evidence. `price_display_authorized=false` and
+`long_term_storage_authorized=false` are explicit limits. Recorded qualification and current
+freshness differ. No execution, contract sizing, model approval or P&L is inferred.
+
 This dictionary describes the P02 Bronze contracts. Bronze preserves published values wherever possible and adds only an explicit nanosecond UTC time field. P04 will create cleaned and aligned Silver schemas without modifying these files.
 
 ## Common manifest (`*_manifest.json`)

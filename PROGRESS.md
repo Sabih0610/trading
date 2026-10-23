@@ -22,6 +22,7 @@ EURUSD and XAUUSD remain NOT data-qualified; P11b NO-GO and not started. Indepen
 | P11a | Read-only MT5 feed and forward evidence | done | 2026-10-23 00:55 | 2026-10-23 01:36 | `phase-P11a-done` | [report](reports/phases/P11a.md) | queued; genuine quotes refused |
 | P11a.1 | MT5 recovery and qualification | done; NOT data-qualified | 2026-10-23 11:39 | 2026-10-23 12:10 | `phase-P11a.1-done` | [report](reports/phases/P11a.1.md) | queued; P11b NO-GO |
 | P11a.2 | Source-clock profiles and alternative feed qualification | done; NOT data-qualified | 2026-10-23 16:36 | 2026-10-23 17:06 | `phase-P11a.2-done` | [report](reports/phases/P11a.2.md) | queued; per-instrument NO-GO |
+| P11a.3 | Twelve Data Basic reference feed | done; bounded M1 qualified for EUR/USD and XAU/USD | 2026-10-23 18:00 | 2026-10-23 18:29 | `phase-P11a.3-done` | [report](reports/phases/P11a.3.md) | queued; no executable quotes or P11b |
 | P11b | Continuous local paper runtime | not started | — | — | — | [proposal](docs/P11b-proposal.md) | no orders |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | — | — | — | — | — |

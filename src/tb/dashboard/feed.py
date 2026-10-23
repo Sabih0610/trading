@@ -138,7 +138,7 @@ def market_feed_view(root: Path, zone: Literal["UTC", "Asia/Karachi"]) -> None:
     st.subheader("Market Feed")
     collection = st.radio(
         "Market evidence",
-        ["Genuine MT5 demo observations", "Synthetic feed fixture"],
+        ["Genuine market observations", "Synthetic feed fixture"],
         horizontal=True,
     )
     synthetic = collection == "Synthetic feed fixture"
@@ -146,12 +146,20 @@ def market_feed_view(root: Path, zone: Literal["UTC", "Asia/Karachi"]) -> None:
     expected_source = "mt5_demo"
     if not synthetic:
         sources = {"MT5 demo": folder}
+        reference_folder = root / "reports/market_feed/twelve_data"
+        if (reference_folder / "current.json").is_file():
+            sources["Twelve Data Basic (reference)"] = reference_folder
         alternative = root / "reports/market_feed/oanda_practice"
         if (alternative / "current.json").is_file():
             sources["OANDA Practice"] = alternative
         if len(sources) > 1:
             folder = sources[st.selectbox("Configured market provider", list(sources))]
             expected_source = "oanda_practice" if folder == alternative else "mt5_demo"
+        if folder == reference_folder:
+            from tb.dashboard.reference_feed import reference_feed_view
+
+            reference_feed_view(folder, zone)
+            return
     st.caption(
         "Data acquisition only · External orders disabled · Independent eligibility unchanged"
     )

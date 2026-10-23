@@ -33,11 +33,15 @@ def classify_forward(
     if row.evidence in {"synthetic", "historical_research"}:
         return row
     evidence = "historical_backfill"
-    if row.kind == "quote":
+    if row.kind in {"quote", "reference"}:
         age = (row.received_at - row.source_at).total_seconds()
         if row.source_at >= started and 0 <= age <= maximum_lag:
             evidence = "forward_observed"
-    elif row.kind == "candle" and coverage_start is not None:
+    elif (
+        row.kind == "candle"
+        and coverage_start is not None
+        and (row.source_provider != "twelve_data" or row.interval_complete is True)
+    ):
         end = row.source_at + timedelta(seconds=TIMEFRAMES[row.timeframe])
         lag = (row.received_at - end).total_seconds()
         if row.source_at >= max(started, coverage_start) and 0 <= lag <= maximum_lag:

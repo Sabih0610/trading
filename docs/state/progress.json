@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11a",
+  "current_phase": "P11a.3",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -203,6 +203,34 @@
         "live_deselected": 3,
         "warnings": 23
       }
+    },
+    "P11a.3": {
+      "title": "Twelve Data Basic read-only reference market feed",
+      "status": "done",
+      "started_utc": "2026-10-23 18:00 UTC",
+      "completed_utc": "2026-10-23 18:29 UTC",
+      "commit": "phase-P11a.3-done",
+      "report": "reports/phases/P11a.3.md",
+      "review": "queued",
+      "external_orders_enabled": false,
+      "p11b_started": false,
+      "source_data_by_instrument": {
+        "EURUSD": "QUALIFIED_BOUNDED_M1_REFERENCE",
+        "XAUUSD": "QUALIFIED_BOUNDED_M1_REFERENCE"
+      },
+      "qualified_forward_M1": {
+        "EURUSD": 4,
+        "XAUUSD": 4
+      },
+      "executable_bid_ask_available": false,
+      "realistic_paper_trading": "NO-GO",
+      "actual_plan": "basic",
+      "last_observed_daily_credits": 20,
+      "tests": {
+        "passed": 582,
+        "live_deselected": 3,
+        "warnings": 23
+      }
     }
   },
   "allowed_status": [
@@ -231,6 +259,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-23 17:06 UTC",
-  "next_phase": "blocked_on_source_evidence; P11b not authorized"
+  "last_updated_utc": "2026-10-23 18:29 UTC",
+  "next_phase": "P11b reference shadow proposal only; requires separate owner authorization and data rights/budget review"
 }

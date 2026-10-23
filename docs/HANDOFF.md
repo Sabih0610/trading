@@ -1,28 +1,63 @@
-# Current handoff — P11a.2
+# Current handoff — P11a.3
 
-P11a.2 is complete as software/research/diagnostic work, NOT DATA-QUALIFIED.
-Branch codex/p11a-2-clock-profiles; parent35cf719; local tag phase-P11a.2-done.
-EURUSD NO-GO; XAUUSD NO-GO. Stop: P11b unstarted. No orders/EA/paid AI/funding/accounts.
+P11a.3 is complete. Twelve Data Basic EUR/USD and XAU/USD each qualified four prospective
+completed M1 midpoint candles. This is bounded source-data qualification only. No executable
+bid/ask, realistic paper fills, permanent archive/display license or 24h reliability is qualified.
+P11b remains unstarted; no external orders, EA, paid upgrade, new MT5 account or MCP expansion.
 
-- Final quality:523 passed,3 optional live deselected,23 existing warnings in60.62s; Ruff/format clean, strict MyPy113 source files, paper safety smoke passed. uv sync --locked removed optional SDK for tests; SDK5.0.6231 restored afterward with uv sync --locked --extra mt5.
-- Configured MetaQuotes-Demo profile is UNVERIFIED with no offset/DST rule. Clock framework includes exact source/build/instrument scope, authoritative evidence/reviewer, repeated UTC validation, effective periods/history range, DST gap/fold rejection and expiry. Revalidates unchecked-copy state changes before normalization. No automatic profile promotion.
-- Normalized observations preserve raw representation/time plus UTC/profile digest/rule/public identity. Old files untouched; raw-based dedup prevents profile-version replay. Existing collector/store/checkpoint/manifest/health are reused, with independent instrument masks and provider namespaces.
-- Actual diagnostic2026-10-23 16:51:02–16:51:47 UTC, Build6281/SDK5.0.6231, MetaQuotes-Demo/USD/fingerprint2699de315a80. Native trading false, shell absent, same four MCP tools. EURUSD five raw changing quotes, all+~10800s rejected, zero qualified. XAUUSD selected=true/visible=false, zero raw quotes/five missing attempts. Ten M1 bars per instrument raw-only backfill; no valid M5/continuous coverage or genuine restart reliability proof.
-- Microsoft external UTC agrees (+.236522s); Cloudflare unavailable this run; W32Time service/sync unverified. No automatic clock/service edits. SDK/native wall components agree within sequential precision; no authoritative exact-server UTC/DST mapping, controlled build or seasonal test. Do not apply another broker's schedule.
-- Optional OANDA Practice GET-only adapter is offline-tested, not genuinely connected. Credentials absent; current Pakistan/division/API/metals/no-funding/storage rights unverified. v20 excludes Global Markets/TMS. Genuine construction requires independent approval evidence and genuine clock proof; fixture transport remains synthetic. No extra dependency.
-- Conditional next provider verification candidate: separate Pepperstone MT5 demo, because of published seasonal server-clock and dated official Pakistan affiliate material. Current demo/data-only region/entity/SDK/storage approval, exact server/time contract, rates and coverage remain unverified. No registration/contact/funding was automated.
-- Read-only dashboard at http://127.0.0.1:8501 → Market Feed, genuine/synthetic separate. Shows recorded clock state/raw-vs-normalized diagnostics and per-instrument NO-GO; zero invalid price rows. Alternative selection only for actually indexed configured data. Collector stopped. Screenshots reports/screenshots/P11a.2/.
-- Costs/pip/session/holidays/stop/conversion and XAUUSD tick-value consistency remain incomplete. EUR minimum funded notional indicatively$1119.58 from rejected ask; current gold price unavailable, prior indicative notional>$100. No sizing or strategy approval;1x/risk/eligibility unchanged.
-- Every prior test retained. Existing 2025+ holdout protected; provider forward namespaces excluded from historical readers. Original supplied audit untouched/untracked. Independent review queued; no push/PR.
+- Branch codex/p11a-3-twelve-data, parent44a4c4d, local completion tag phase-P11a.3-done.
+- Baseline523 tests preserved. Final582 passed,3 live deselected,23 existing warnings in63.03s.
+  Ruff/313 formatted files/strict MyPy119 source files clean; paper safety smoke passed.
+- Actual Basic access confirmed independently for EUR/USD Physical Currency and XAU/USD
+  Precious Metal. No paid upgrade. Forex metadata omitted exchange_timezone; preserve null,
+  explicit UTC request and raw bar-open strings. No offset/profile promotion.
+- Bounded run2026-10-23 18:13:23-18:18:46 UTC, six polls, now stopped. Each symbol18 parsed
+  rows,10 duplicates,8 unique:4 original backfill and4 newly completed forward M1 openings
+  18:14-18:17 UTC. Publication/receipt lag41.879-102.683s after end. Finality/revisions unknown.
+- Initial exchange_rate timestamps were~114-116s old and rejected as point observations.
+  No executable bid/ask, spread, commission, volume or broker sizing facts manufactured.
+- Final Cloudflare/Microsoft UTC checks passed. Closing official usage18:20:51 UTC reported
+  Basic 8/minute,800/day; current_usage1,daily_usage20. Local conservative reservations21.
+- Optional SecretStr TWELVE_DATA_API_KEY exists ONLY in ignored root .env with current-user
+  ACL. Do not print it. No key in URLs/logs/reports; no price data in committed docs.
+- New GET-only client allows only fixed-host usage, timestamped reference-rate and bounded
+  M1 time-series shapes for two exact symbols. Persistent credits/cache/cooldown survive
+  restart; no inline retries, redirects, inherited proxy, scheduler, or write endpoint.
+- Existing FeedStore/classifier/lease/manifests/atomic recovery reused. New coverage per run;
+  dedup resumes. Incomplete intervals labeled/backfill, missing volume stays unavailable.
+  Legacy IDs and old files untouched. Source-specific copies revalidated before storing.
+- Dashboard localhost8501 -> Market Feed -> Genuine market observations -> Twelve Data Basic
+  (reference). Price field withheld under Basic non-display policy; UTC/freshness/counts/status
+  shown independently from account P&L. Restart Streamlit after schema changes if hot reload
+  retains old classes. Current dashboard restarted; collector remains stopped.
+- Original MT5/OANDA config and MetaQuotes-Demo UNVERIFIED profile unchanged. Default locked
+  sync removed optional MT5 SDK for offline checks; SDK5.0.6231 restored afterward with the
+  existing locked extra (uv sync --locked --extra mt5), preserving baseline MT5 availability.
+  Historical2025+ holdout stays locked; no history evaluation or model training occurred.
+- Remaining: independent review; confirm raw retention, private display and any commercial/ML
+  data rights. Basic cannot support two M1 calls/minute continuously (2880/day >800).
+  Future reference M5 budgeting could fit576/day plus checks, but is not implemented.
+- Recommended next authorized step: supervised reference shadow consumer of committed Silver
+  events with causal features/risk veto logging and durable failure/restart tests. No fills/P&L
+  until licensed broker bid/ask and contract/cost/session/funded eligibility are established.
+  Do not begin P11b without a new owner request. No push/PR; original audit remains untracked.
 
-Read reports/phases/P11a.2.md; docs/research/P11a.2-research.md; docs/adr/0009-versioned-source-clock-profiles.md; docs/how-to/source-clock-profiles.md; docs/P11b-proposal.md. Genuine evidence: reports/mt5/P11a.2-20261023T165147Z-64c15adb.json, including public working-source/config hash and immutable raw/checksum facts.
+Read reports/phases/P11a.3.md; docs/research/P11a.3-research.md;
+docs/adr/0010-reference-market-data-boundary.md; docs/how-to/twelve-data-feed.md;
+docs/journal/P11a.3-journal.md; docs/P11b-proposal.md.
+
+Genuine evidence remains ignored/local: reports/market_feed/twelve_data/
+snapshot-3a2b0458a507481491eeff47a34ac1dd.json, SHA256
+c532e116087779fadd4ac3b0514c9b722042b91cd14ee38f5c99c5d06b95da78.
+Raw/checkpoint/credits under data/*/twelve_data; no public redistribution permission inferred.
 
 From repository root in PowerShell:
 
 ```powershell
 & '.\work\tooling\Scripts\uv.exe' run --locked pytest -q
-& '.\work\tooling\Scripts\uv.exe' run --locked --extra mt5 python -m tb.ingest.assessment --samples 5
+& '.\work\tooling\Scripts\uv.exe' run --locked python -m tb.ingest.twelve_data.collect --polls 6
 .\scripts\run-dashboard.ps1
 ```
 
-Assessment success means a diagnostic report, not qualification. Smallest external action: provider-authoritative exact-server SDK UTC/DST evidence, or current no-funding regional data-only demo/API/storage confirmation from a candidate provider. Owner may manually show exact XAUUSD again if quote inspection wanted. No new development or P11b until separately requested.
+Collection consumes credits and starts new forward coverage; downloading history cannot
+recreate this sample's qualification. Missing key cleanly disables the component. Stop here.

@@ -1,5 +1,12 @@
 # Pending items
 
+- **P11a.3:** EUR/USD and XAU/USD Basic completed M1 midpoint data passed bounded qualification;
+  executable bid/ask and realistic paper fills remain NO-GO. No new key is pending for Twelve Data.
+  Confirm exact personal display, raw-retention duration, commercial/ML-use rights before a
+  growing archive, raw price UI or wider use. Basic M1 collection for two symbols exceeds daily
+  credits if continuous. Independent review and separate P11b authorization remain pending.
+  See [P11a.3 report](../reports/phases/P11a.3.md); no paid upgrade or external order is authorized.
+
 - **Deferred by explicit owner direction:** the independent Claude review for P06 remains open.
   A Codex dependency audit found no blocker but is not approval. Record any later blocker in
   `reports/reviews/P06-codex-dependency-audit.md` and fix it before relying on affected results.

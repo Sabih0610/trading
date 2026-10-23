@@ -29,6 +29,18 @@ def record_id(row: Observation, identity: str) -> str:
     payload = row.model_dump(
         mode="json", exclude={"received_at", "evidence", "coverage_started_at"}
     )
+    if row.source_provider is None:
+        # Preserve pre-P11a.3 record IDs when optional reference fields are absent.
+        for name in (
+            "source_provider",
+            "reference_price",
+            "price_type",
+            "source_timezone",
+            "source_metadata_timezone",
+            "raw_source_time",
+            "interval_complete",
+        ):
+            payload.pop(name, None)
     stamp = payload.pop("clock_stamp", None)
     if stamp:
         # A new conversion/profile version cannot make the same raw fact new evidence.
@@ -55,11 +67,13 @@ class FeedStore:
         config: FeedConfig,
         *,
         code_version: str,
-        provider: Literal["mt5_demo", "oanda_practice"] = "mt5_demo",
+        provider: Literal["mt5_demo", "oanda_practice", "twelve_data"] = "mt5_demo",
     ) -> None:
         self.root, self.config, self.code_version = root.resolve(), config, code_version
+        if provider not in {"mt5_demo", "oanda_practice", "twelve_data"}:
+            raise StorageRefused("Unsupported provider storage namespace")
         self.provider = provider
-        self.namespace = "mt5_feed" if provider == "mt5_demo" else "oanda_practice"
+        self.namespace = "mt5_feed" if provider == "mt5_demo" else provider
         state = self.root / "data" / self.namespace
         state.mkdir(parents=True, exist_ok=True)
         self.db_path = state / "checkpoint.sqlite"
@@ -132,6 +146,23 @@ class FeedStore:
         if rows and len({(r.symbol, r.kind, r.timeframe) for r in rows}) != 1:
             raise StorageRefused("Mixed market batch refused")
         for row in rows:
+            if (row.source_provider == "twelve_data") != (self.provider == "twelve_data"):
+                raise StorageRefused("Reference provider/storage mismatch")
+            if self.provider == "twelve_data":
+                try:
+                    Observation.model_validate(row.model_dump())
+                except (ValueError, ArithmeticError, OverflowError):
+                    raise StorageRefused("Reference observation contract invalid") from None
+                if (
+                    row.evidence == "forward_observed"
+                    and row.kind == "candle"
+                    and (
+                        row.coverage_started_at is None
+                        or row.coverage_started_at > row.source_at
+                        or not 60 <= (row.received_at - row.source_at).total_seconds() <= 180
+                    )
+                ):
+                    raise StorageRefused("Reference completed forward coverage invalid")
             if row.evidence == "forward_observed" and (
                 origin != self.provider or row.source_at < datetime.fromisoformat(started)
             ):
@@ -159,6 +190,8 @@ class FeedStore:
                     continue
                 ids.add(key)
                 watermark_key = f"{identity}:{row.symbol}:{row.kind}:{row.timeframe}"
+                if row.source_provider == "twelve_data" and row.interval_complete is False:
+                    watermark_key += ":forming"
                 previous = self.db.execute(
                     "SELECT source_at FROM watermarks WHERE key=?", (watermark_key,)
                 ).fetchone()
@@ -202,7 +235,11 @@ class FeedStore:
                 timeframe=rows[0].timeframe if rows else "tick",
                 source_url="mt5://pinned-demo/read-only"
                 if self.provider == "mt5_demo"
-                else "https://api-fxpractice.oanda.com/read-only",
+                else (
+                    "https://api.twelvedata.com/read-only"
+                    if self.provider == "twelve_data"
+                    else "https://api-fxpractice.oanda.com/read-only"
+                ),
                 requested_from=received_at,
                 requested_to=received_at,
                 actual_from=min((r.source_at for r in rows), default=None),
@@ -270,14 +307,20 @@ class FeedStore:
                 **row.model_dump(mode="python"),
                 "timestamp_ns": datetime_to_ns(row.source_at),
                 "source": "mt5_fixture" if row.evidence == "synthetic" else self.provider,
-                "volume_kind": "broker_tick_count"
+                "volume_kind": "unavailable"
+                if row.source_provider == "twelve_data"
+                else "broker_tick_count"
                 if row.kind == "candle"
                 else "source_trade_volume_unverified",
             }
             for row in rows
         ]
         frame = pl.DataFrame(values).sort("timestamp_ns")
-        if rows[0].kind == "candle" and rows[0].timeframe == "M1":
+        if (
+            rows[0].kind == "candle"
+            and rows[0].timeframe == "M1"
+            and self.provider != "twelve_data"
+        ):
             if any(row.tick_volume is None for row in rows):
                 raise StorageRefused("Missing broker tick volume; candle batch quarantined")
             frame = clean_minute_bars(

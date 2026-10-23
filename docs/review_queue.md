@@ -2,6 +2,7 @@
 
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|
+| P11a.3 | queued | 2026-10-23 18:29 | [P11a.3 report](../reports/phases/P11a.3.md) | Review reference/bid-ask boundary, true forward M1 provenance, persistent credits/cache/429, private usage rights and source-independent decisions.582 tests pass; both M1 feeds bounded-qualified; no execution or P11b. |
 | P00 | queued | 2026-10-20 22:45 | [P00 report](../reports/phases/P00.md) | Routine review; does not block P01. |
 | P01 | queued | 2026-10-20 22:51 | [P01 report](../reports/phases/P01.md) | Deterministic policy boundary; routine review does not block P02. |
 | P02 | queued | 2026-10-21 01:04 | [P02 report](../reports/phases/P02.md) | Public read-only ingestion; storage and FRED constraints do not block P03. |

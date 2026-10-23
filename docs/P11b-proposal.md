@@ -4,7 +4,24 @@ Proposal only; no P11b trading loop, scheduler, background soak or execution gat
 P11a supplies a data-only reader, immutable evidence batches, health records and a read-only
 dashboard. It does not prove eligible data, strategy edge, costs or long-running reliability.
 
-## P11a.2 decision — 2026-10-23
+## P11a.3 current decision — 2026-10-23
+
+Both Twelve Data Basic feeds have **bounded completed M1 midpoint qualification**: EUR/USD and
+XAU/USD four prospective bars each. Broker execution, point quotes, realistic paper P&L, permanent
+archive/display rights and continuous reliability remain unqualified. P11b is unstarted and
+requires a new owner request. Original MetaQuotes-Demo clock profile remains UNVERIFIED; OANDA
+genuine access remains unconfigured. These provider-specific decisions must stay separate.
+
+Recommended first P11b step after authorization: supervised budgeted reference-only shadow
+consumer of committed Silver events, shared causal features, deterministic risk/veto logs,
+durable IDs and restart/failure acceptance. No executable fills/P&L until separately licensed
+broker bid/ask, contract/session/cost/funded-eligibility evidence exists. Two M1 calls/minute
+need 2880 credits/day and cannot run continuously on Basic 800/day. A future two-symbol completed
+M5 design at five-minute cadence needs576 market credits/day plus checks; current P11a.3 adapter
+intentionally allows M1 only and has no scheduler. Resolve retention/use rights first. No EA,
+external sender or24h soak was built or started. [P11a.3 report](../reports/phases/P11a.3.md).
+
+## P11a.2 historical decision — 2026-10-23
 
 **EURUSD NO-GO; XAUUSD NO-GO.** Evidence-bound clock profiles, independent instrument admission and an optional mocked Practice reader are implemented. MetaQuotes-Demo profile remains UNVERIFIED; no server timezone/DST contract and no normalized genuine UTC series. Latest EURUSD samples are about+10800s; XAUUSD is selected but hidden/quote unavailable. No alternative is connected: OANDA v20 excludes Global Markets/TMS and applicable Pakistan API access/rights are unverified; separate Pepperstone demo access is a conditional next verification candidate, not approved access.
 

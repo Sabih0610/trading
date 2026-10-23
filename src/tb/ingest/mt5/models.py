@@ -169,7 +169,7 @@ class AdmissionCheck(PolicyModel):
 class Observation(PolicyModel):
     symbol: Literal["XAUUSD", "EURUSD"]
     broker_symbol: str
-    kind: Literal["quote", "tick", "candle"]
+    kind: Literal["quote", "tick", "candle", "reference"]
     timeframe: str
     source_at: AwareDatetime
     received_at: AwareDatetime
@@ -186,6 +186,14 @@ class Observation(PolicyModel):
     flags: int | None = None
     coverage_started_at: AwareDatetime | None = None
     clock_stamp: ClockStamp | None = None
+    # Reference feeds cannot enter MarketQuote or imply broker fills/costs.
+    source_provider: Literal["twelve_data"] | None = None
+    reference_price: Decimal | None = Field(default=None, gt=0, allow_inf_nan=False)
+    price_type: Literal["bid_ask", "reference_midpoint"] = "bid_ask"
+    source_timezone: Literal["UTC"] | None = None
+    source_metadata_timezone: str | None = None
+    raw_source_time: str | int | None = None
+    interval_complete: bool | None = None
 
     @field_validator("source_at", "received_at")
     @classmethod
@@ -196,13 +204,56 @@ class Observation(PolicyModel):
     def valid_prices(self) -> Self:
         if self.clock_stamp and self.clock_stamp.normalized_at != self.source_at:
             raise ValueError("Normalized source time disagrees with clock provenance")
-        if self.kind in {"quote", "tick"}:
+        if self.source_provider == "twelve_data":
+            if (
+                self.price_type != "reference_midpoint"
+                or self.source_timezone != "UTC"
+                or self.bid is not None
+                or self.ask is not None
+                or self.kind not in {"reference", "candle"}
+                or self.clock_stamp is not None
+                or self.raw_source_time is None
+                or self.tick_volume is not None
+                or self.real_volume is not None
+                or self.spread_points is not None
+            ):
+                raise ValueError(
+                    "Reference feed cannot claim broker quotes, volume or clock mapping"
+                )
+            if self.kind == "reference":
+                if type(
+                    self.raw_source_time
+                ) is not int or self.source_at != datetime.fromtimestamp(self.raw_source_time, UTC):
+                    raise ValueError("Reference UTC epoch provenance mismatch")
+            else:
+                if not isinstance(self.raw_source_time, str) or self.source_at != datetime.strptime(
+                    self.raw_source_time, "%Y-%m-%d %H:%M:%S"
+                ).replace(tzinfo=UTC):
+                    raise ValueError("Reference UTC candle provenance mismatch")
+                complete = (
+                    self.source_at.timestamp() + TIMEFRAMES.get(self.timeframe, 0)
+                    <= self.received_at.timestamp()
+                )
+                if self.interval_complete is not complete:
+                    raise ValueError("Reference interval completion mismatch")
+                if self.evidence == "forward_observed" and not complete:
+                    raise ValueError("Incomplete reference candle cannot be forward evidence")
+        elif self.kind == "reference" or self.price_type != "bid_ask":
+            raise ValueError("Reference observations require explicit provider identity")
+        if self.kind == "reference":
+            if self.reference_price is None or any(
+                v is not None for v in (self.open, self.high, self.low, self.close)
+            ):
+                raise ValueError("Reference price required without fabricated OHLC")
+        elif self.kind in {"quote", "tick"}:
             if self.bid is None or self.ask is None:
                 raise ValueError("Both quote sides required")
             MarketQuote(symbol=self.symbol, timestamp=self.source_at, bid=self.bid, ask=self.ask)
         else:
             values = (self.open, self.high, self.low, self.close)
-            if self.timeframe not in TIMEFRAMES or any(v is None or v <= 0 for v in values):
+            if self.timeframe not in TIMEFRAMES or any(
+                v is None or not v.is_finite() or v <= 0 for v in values
+            ):
                 raise ValueError("Complete positive candle required")
             assert self.high is not None and self.low is not None
             assert self.open is not None and self.close is not None

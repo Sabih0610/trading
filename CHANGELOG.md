@@ -4,6 +4,19 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11a.3 — 2026-10-23 UTC
+
+- Added optional GET-only Twelve Data Basic reference adapter, persistent minute/day credits,
+  usage/cadence cache, masked failures and bounded per-instrument collection.
+- Reused Bronze/Silver/checkpoints/manifests/dedup/atomic recovery; reference midpoints cannot
+  become executable bid/ask, volume, contract/cost facts or paper fills.
+- Actual Basic access passed for EUR/USD and XAU/USD; four genuine prospective completed M1
+  candles each. Point-rate timestamps stayed rejected; broker execution remains unqualified.
+- Added read-only provider/status/UTC/counts/qualification UI. Basic price display and permanent
+  archive rights unconfirmed; numeric market data stays local and Git-ignored.
+- 582 tests pass (59 added), Ruff/format/MyPy and paper safety smoke clean. MT5/OANDA, original
+  UNVERIFIED profiles, risk and holdout preserved. Collector stopped; P11b unstarted.
+
 ## P11a.2 — 2026-10-23 UTC
 
 - Added exact-source versioned clock profiles with authoritative evidence, reviewer, repeated UTC validation, effective periods/DST, expiry and immutable raw/normalized lineage. Unverified or unchecked-copy profiles cannot qualify data.
