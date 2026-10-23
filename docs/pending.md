@@ -63,3 +63,5 @@
 - Review P11a independently. Broker-specific sessions, costs, pip/conversion facts, source rights,
   retention/supervision and a separately authorized 24h local paper soak are P11b prerequisites.
   P11b proposal only; no paper loop or future broker-order route has started.
+- Final P11a handoff: MT5 is no longer running. Open the pinned demo terminal manually before
+  repeating genuine diagnostics; the adapter intentionally refuses to launch/authenticate it.

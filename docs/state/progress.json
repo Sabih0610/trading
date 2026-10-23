@@ -158,7 +158,8 @@
       },
       "native_mcp_verified": true,
       "genuine_demo_identity_verified": true,
-      "qualified_forward_quotes": 0
+      "qualified_forward_quotes": 0,
+      "terminal_current_status": "not_running_at_2026-10-23T01:41Z"
     },
     "P11b": {
       "title": "Continuous local paper runtime",
@@ -191,6 +192,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-23 01:36 UTC",
+  "last_updated_utc": "2026-10-23 01:41 UTC",
   "next_phase": "P11b"
 }

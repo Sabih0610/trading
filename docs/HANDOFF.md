@@ -6,6 +6,9 @@ Local phase tag: phase-P11a-done. Stop here: P11b is not started; proposal only.
 - Final gates: exact uv sync --locked passed and removed optional MT5 SDK. Full tests without it:
   **445 passed, 3 live deselected, 23 existing warnings, 62.39s**. Ruff/format clean (279 files),
   strict MyPy clean (106 source files), P09.5 smoke passed. Optional SDK 5.0.6231 restored afterward.
+- Latest check at 2026-10-23 01:41 UTC: MT5 is no longer running (zero terminal64.exe processes).
+  Adapter refused implicit launch and exported disconnected startup health; reopen the pinned
+  demo terminal manually before another genuine smoke. Earlier diagnostic successes are archived.
 - Native Terminal MCP Build 6281 and MetaQuotes demo identity verified. 107 captured native input
   schemas, sanitized diagnostic JSON and phase report are in reports/mt5/ and reports/phases/P11a.md.
   MetaEditor not listening; hosted Market Data returned unauthenticated HTTP 401. Their authenticated

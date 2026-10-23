@@ -38,3 +38,7 @@
   Added repeated-clock immutable snapshot coverage. Optional SDK restored after core absence test;
   real smoke repeated with verified identity/MCP but zero qualified forward quotes. Two rendered
   feed screenshots inspected. Report/comparison/guide/P11b proposal and living docs completed.
+- 2026-10-23 01:41 UTC: After implementation commit 657a29e, final runtime check found no MT5
+  process. One finite data-only attempt refused automatic terminal launch and exported disconnected
+  startup health; checkpoint still verifies, no new source batch/forward quote. Recorded current
+  unavailability separately from timestamped earlier genuine diagnostics. No P11b process started.
