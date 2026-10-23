@@ -13,10 +13,12 @@ from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ingest.mt5.adapter import MT5Feed
 from tb.ingest.mt5.models import (
     TIMEFRAMES,
+    AdmissionCheck,
     FeedState,
     FeedUnavailable,
     Health,
     IdentityRefused,
+    InstrumentCounts,
     Observation,
     StorageRefused,
     quote_health,
@@ -61,14 +63,37 @@ class Collector:
         *,
         clock: Callable[[], datetime] | None = None,
         sleep: Callable[[float], None] = time.sleep,
+        admission: Callable[[], AdmissionCheck] | None = None,
     ) -> None:
         self.feed, self.store, self.export_root = feed, store, export_root
         self.clock = clock or (lambda: datetime.now(UTC))
         self.sleep = sleep
+        self.admission = admission
+        self.admission_result: AdmissionCheck | None = None
+        self.counts = {s: InstrumentCounts() for s in feed.config.symbols}
+        self.run_started: datetime | None = None
         self.coverage: dict[str, datetime] = {}
         self.last_poll: dict[str, datetime] = {}
         self.recent: dict[str, Observation] = {}
         self.recent_candles: dict[str, Observation] = {}
+
+    def _admit(self) -> None:
+        if self.feed.synthetic:
+            return
+        if self.admission is None:
+            raise FeedUnavailable(
+                "Fresh security and UTC admission required for genuine collection"
+            )
+        self.admission_result = self.admission()
+        identity = self.feed.verify()
+        if not self.admission_result.allows(self.clock(), identity.fingerprint):
+            raise FeedUnavailable("Genuine collection admission failed")
+
+    def _count(self, symbol: str, **increments: int) -> None:
+        current = self.counts[symbol]
+        self.counts[symbol] = current.model_copy(
+            update={key: getattr(current, key) + value for key, value in increments.items()}
+        )
 
     def _connect(self) -> None:
         for attempt in range(self.feed.config.reconnect_attempts):
@@ -82,15 +107,31 @@ class Collector:
                     raise
                 self.sleep(min(2**attempt, 16))
 
-    def run(self, *, max_polls: int | None = None, tick_history: bool = False) -> dict[str, Any]:
+    def run(
+        self,
+        *,
+        max_polls: int | None = None,
+        tick_history: bool = False,
+        duration_seconds: int | None = None,
+    ) -> dict[str, Any]:
         """Bounded data collection only; returns after the explicitly configured poll count."""
         polls = self.feed.config.max_polls if max_polls is None else max_polls
         if not 1 <= polls <= self.feed.config.max_polls:
             raise FeedUnavailable("Requested polls exceed configured bound")
+        if duration_seconds is not None and not 1 <= duration_seconds <= 2700:
+            raise FeedUnavailable("Collection duration exceeds bound")
+        deadline = time.monotonic() + duration_seconds if duration_seconds else None
+        self.run_started = self.clock()
+        self.coverage.clear()
+        self.last_poll.clear()
+        self.recent.clear()
+        self.recent_candles.clear()
+        self.counts = {s: InstrumentCounts() for s in self.feed.config.symbols}
         try:
             self.store.last_commit()
             self._connect()
             identity = self.feed.verify()
+            self._admit()
         except FeedUnavailable:
             self._export(
                 "unverified",
@@ -126,17 +167,25 @@ class Collector:
         result: dict[str, Any] = {}
         try:
             for index in range(polls):
+                if deadline is not None and time.monotonic() >= deadline:
+                    break
+                self._admit()
                 before = self.clock()
                 states: list[Health] = []
                 warnings: list[str] = []
                 facts = []
                 for symbol in self.feed.config.symbols:
+                    self.feed.latest_raw = {}
+                    self._count(symbol, attempts=1)
+                    quote_counted = False
                     try:
                         self.feed.verify()
                         metadata = self.feed.metadata(symbol)
                         facts.append(metadata.model_dump(mode="json"))
                         self.feed.latest_raw = {}
                         observation, raw = self.feed.quote(symbol)
+                        self._count(symbol, received=1, valid=1)
+                        quote_counted = True
                         now = self.clock()
                         previous = self.last_poll.get(symbol)
                         if (
@@ -153,10 +202,17 @@ class Collector:
                             coverage_start=None,
                             maximum_lag=self.feed.config.max_tick_age_seconds,
                         )
-                        self.store.commit(
+                        receipt = self.store.commit(
                             session, [observation], [raw], received_at=now, warnings=[]
                         )
-                        self.recent[symbol] = observation
+                        self._count(
+                            symbol,
+                            duplicates=receipt["duplicates"],
+                            qualified_forward=receipt["evidence_counts"]["forward_observed"],
+                            quote_updates=receipt["rows"],
+                        )
+                        for accepted in receipt["_accepted_rows"]:
+                            self.recent[symbol] = accepted
                         states.append(
                             quote_health(
                                 symbol,
@@ -180,14 +236,14 @@ class Collector:
                                         )
                                         for r in rows
                                     ]
-                                    self.store.commit(
+                                    candle_receipt = self.store.commit(
                                         session,
                                         classified,
                                         raw_rows,
                                         received_at=self.clock(),
                                         warnings=[],
                                     )
-                                    for row in classified:
+                                    for row in candle_receipt["_accepted_rows"]:
                                         if row.evidence in {"forward_observed", "synthetic"}:
                                             self.recent_candles[
                                                 f"{symbol}:{timeframe}:{row.source_at.isoformat()}"
@@ -195,15 +251,24 @@ class Collector:
                                     self.recent_candles = dict(
                                         list(self.recent_candles.items())[-100:]
                                     )
-                                except StorageRefused:
+                                except (StorageRefused, IdentityRefused):
                                     raise
                                 except FeedUnavailable:
                                     warnings.append(f"{symbol}_{timeframe}_candles_unavailable")
                             if tick_history:
-                                rows, raw_rows = self.feed.ticks(symbol)
-                                self.store.commit(
-                                    session, rows, raw_rows, received_at=self.clock(), warnings=[]
-                                )
+                                try:
+                                    rows, raw_rows = self.feed.ticks(symbol)
+                                    self.store.commit(
+                                        session,
+                                        rows,
+                                        raw_rows,
+                                        received_at=self.clock(),
+                                        warnings=[],
+                                    )
+                                except (StorageRefused, IdentityRefused):
+                                    raise
+                                except FeedUnavailable:
+                                    warnings.append(f"{symbol}_tick_history_unavailable")
                     except StorageRefused:
                         raise
                     except IdentityRefused:
@@ -226,6 +291,25 @@ class Collector:
                         )
                         raise
                     except (FeedUnavailable, ValueError, ArithmeticError, KeyError) as problem:
+                        if quote_counted:
+                            raise FeedUnavailable("Post-validation collection failure") from None
+                        self._count(
+                            symbol,
+                            rejected=1,
+                            received=int(bool(self.feed.latest_raw)),
+                            missing=int(not bool(self.feed.latest_raw)),
+                        )
+                        reason_key = (
+                            "future_timestamp"
+                            if "future" in str(problem)
+                            else "invalid_or_missing_quote"
+                        )
+                        counts = self.counts[symbol]
+                        reasons = dict(counts.rejected_by_reason)
+                        reasons[reason_key] = reasons.get(reason_key, 0) + 1
+                        self.counts[symbol] = counts.model_copy(
+                            update={"rejected_by_reason": reasons}
+                        )
                         self.coverage.pop(symbol, None)
                         warnings.append(f"{symbol}_invalid_or_unavailable_observation")
                         if self.feed.latest_raw:
@@ -296,9 +380,15 @@ class Collector:
                 )
                 if index + 1 < polls:
                     self.sleep(
-                        max(
-                            0,
-                            self.feed.config.poll_seconds - (self.clock() - before).total_seconds(),
+                        min(
+                            max(
+                                0,
+                                self.feed.config.poll_seconds
+                                - (self.clock() - before).total_seconds(),
+                            ),
+                            max(0, deadline - time.monotonic())
+                            if deadline
+                            else self.feed.config.poll_seconds,
                         )
                     )
             return result
@@ -364,6 +454,16 @@ class Collector:
             "external_orders_enabled": False,
             "poll_seconds": self.feed.config.poll_seconds,
             "collector_running": running,
+            "collection_started_at": (self.run_started or started).isoformat(),
+            "collection_ended_at": None if running else self.clock().isoformat(),
+            "counts": {s: c.model_dump(mode="json") for s, c in self.counts.items()},
+            "admission": self.admission_result.model_dump(mode="json")
+            if self.admission_result
+            else None,
+            "connection_status": "not_currently_observed"
+            if not running
+            else "pinned_demo_connected",
+            "coverage_kind": "sampled_polling; complete_tick_coverage_unverified",
         }
         self.export_root.mkdir(parents=True, exist_ok=True)
         # Unique payload first, atomic pointer last: a crash never mixes old data and new checksum.

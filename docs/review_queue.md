@@ -15,3 +15,5 @@
 | P09.5 | queued | 2026-10-22 18:01 | [P09.5 report](../reports/phases/P09.5.md) | Review separate research eligibility, funded contract arithmetic, equity/peak latches, fill-gap sizing and inception/holdout rules before broker routing. 352 tests pass; this is not independent approval. |
 | P10 | queued | 2026-10-22 19:10 | [P10 report](../reports/phases/P10.md) | Review read-only WAL/Parquet boundary, mode/currency/metric integrity, masking and UI absence of trading controls. 378 tests pass; desktop/mobile inspected; no independent approval claimed. |
 | P11a | queued | 2026-10-23 01:36 | [P11a report](../reports/phases/P11a.md) | Review native MCP default-deny boundary, demo/path pinning, atomic provenance/recovery, protected history isolation and actual clock/availability refusals. 445 tests pass; no P11b or external orders. |
+
+| P11a.1 | queued | 2026-10-23 12:10 | [P11a.1 report](../reports/phases/P11a.1.md) | Review fresh security/UTC admission, exact epoch/clock-step rejection, normalized receipt counters and raw-only diagnostics. 483 tests pass. Native security closed; genuine data NOT qualified; P11b NO-GO. |

@@ -164,6 +164,25 @@
     "P11b": {
       "title": "Continuous local paper runtime",
       "status": "not_started"
+    },
+    "P11a.1": {
+      "title": "MT5 feed recovery, security closure and data qualification",
+      "status": "done",
+      "started_utc": "2026-10-23 11:39 UTC",
+      "report": "reports/phases/P11a.1.md",
+      "external_orders_enabled": false,
+      "data_qualified": false,
+      "completed_utc": "2026-10-23 12:10 UTC",
+      "commit": "phase-P11a.1-done",
+      "review": "queued",
+      "p11b_go": false,
+      "security_qualified": true,
+      "qualified_forward_quotes": 0,
+      "tests": {
+        "passed": 483,
+        "live_deselected": 3,
+        "warnings": 23
+      }
     }
   },
   "allowed_status": [
@@ -192,6 +211,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-23 01:41 UTC",
-  "next_phase": "P11b"
+  "last_updated_utc": "2026-10-23 12:10 UTC",
+  "next_phase": "blocked_on_data; P11b not authorized"
 }

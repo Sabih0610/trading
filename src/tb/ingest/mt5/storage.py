@@ -232,7 +232,9 @@ class FeedStore:
                 (seq, session, str(commit_path.relative_to(self.root)), sha256_file(commit_path)),
             )
             self.db.commit()
-            return commit
+            # Ephemeral receipt: callers must display only normalized, unique committed rows.
+            # This list is never serialized into the immutable commit manifest.
+            return {**commit, "_accepted_rows": unique}
         except BaseException:
             self.db.rollback()
             raise

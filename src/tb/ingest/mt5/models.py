@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Literal, Self
 
 import yaml
-from pydantic import AwareDatetime, Field, field_validator, model_validator
+from pydantic import AwareDatetime, Field, StrictBool, field_validator, model_validator
 
 from tb.core.instruments import MarketQuote
 from tb.risk.config import PolicyModel
@@ -106,6 +106,48 @@ class InstrumentFacts(PolicyModel):
     # Price access never establishes costs, eligibility, conversion or a sizing permission.
     sizing_usable: Literal[False] = False
     conversion_required: bool
+    visible: bool | None = None
+    selected: bool | None = None
+    profit_currency: str | None = None
+    calculation_mode: int | None = None
+
+
+class InstrumentCounts(PolicyModel):
+    """Attempt/receipt/validity counts are separate from unique admitted source facts."""
+
+    attempts: int = Field(default=0, ge=0)
+    received: int = Field(default=0, ge=0)
+    valid: int = Field(default=0, ge=0)
+    rejected: int = Field(default=0, ge=0)
+    missing: int = Field(default=0, ge=0)
+    duplicates: int = Field(default=0, ge=0)
+    qualified_forward: int = Field(default=0, ge=0)
+    quote_updates: int = Field(default=0, ge=0)
+    rejected_by_reason: dict[str, int] = Field(default_factory=dict)
+
+
+class AdmissionCheck(PolicyModel):
+    """Fresh, account-bound acquisition evidence; never a broker or risk authorization."""
+
+    checked_at: AwareDatetime
+    identity_fingerprint: str
+    security_passed: StrictBool
+    clock_passed: StrictBool
+    reasons: tuple[str, ...] = ()
+    native_trading_allowed: StrictBool | None = None
+    dangerous_shell_tool_available: StrictBool | None = None
+
+    def allows(self, now: datetime, identity: str) -> bool:
+        age = (now - self.checked_at).total_seconds()
+        return (
+            self.security_passed
+            and self.clock_passed
+            and not self.reasons
+            and self.identity_fingerprint == identity
+            and 0 <= age <= 60
+            and self.native_trading_allowed is False
+            and self.dangerous_shell_tool_available is False
+        )
 
 
 class Observation(PolicyModel):

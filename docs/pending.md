@@ -52,16 +52,10 @@
   Python/EA recommendation is conditional on a separately approved P12 scope/policy and safety
   review. P11a may implement only a read-only market feed under a new owner instruction.
 
-- P11a: resolve actual EURUSD source epoch approximately three hours ahead of receipt UTC. No
-  inferred offset is allowed; verify broker/source convention and receipt clocks before forward use.
-- P11a: show the verified XAUUSD contract manually in Market Watch if gold quotes are wanted.
-  GOLD is a stock on this server. No automatic selection or symbol substitution is authorized.
-- Disable native MT5 AI/MCP Trading and dangerous shell operations in terminal settings; the raw
-  native MCP permission remains enabled although the installed Codex proxy denies those tools.
-- Restart Codex to load the installed project read-only MCP config. MetaEditor and hosted Market
-  Data authenticated tool availability remain unverified and are not required for the collector.
-- Review P11a independently. Broker-specific sessions, costs, pip/conversion facts, source rights,
-  retention/supervision and a separately authorized 24h local paper soak are P11b prerequisites.
-  P11b proposal only; no paper loop or future broker-order route has started.
-- Final P11a handoff: MT5 is no longer running. Open the pinned demo terminal manually before
-  repeating genuine diagnostics; the adapter intentionally refuses to launch/authenticate it.
+- P11a.1: both EURUSD and XAUUSD source epochs remain approximately three hours ahead of verified host UTC. Obtain provider-supported UTC/DST semantics or separately review a UTC-explicit data-only Practice source. Do not infer an offset or change old observations.
+- Owner completed native trading/dangerous-shell disablement and exact XAUUSD visibility. Verified native trading false and shell-tool absence; no further manual visibility/security request is pending. Recheck before each genuine run.
+- Windows Time service was stopped; independent HTTPS clocks agreed with host UTC. Owner may review host synchronization separately; no automatic time/service changes were made.
+- Complete pip/cost/session/holiday/stop constraints and reconcile XAUUSD tick-value arithmetic. Minimum broker lots indicatively exceed $100 at 1x; sizing remains blocked.
+- Sustained genuine acquisition, two consecutive qualified M5 intervals and genuine restart reliability remain unverified. Current admission refuses extended collection.
+- Codex's four read-only MCP tools were used earlier. Two existing-session calls refused at handoff while a fresh constrained client and SDK identity succeeded; investigate session renewal before relying on long-lived MCP inspection. Hosted Market Data and MetaEditor availability remain unverified and are unnecessary for this collector.
+- Independent P11a/P11a.1 reviews remain queued. P11b is NO-GO and unstarted; no paper runtime, scheduler, soak, broker sender or EA is authorized. Future work requires separate scope and verified data.

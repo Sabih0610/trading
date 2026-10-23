@@ -16,7 +16,9 @@ from tb.core.config import repo_root
 from tb.ingest.mt5.adapter import MT5Feed, PythonReader
 from tb.ingest.mt5.collector import Collector
 from tb.ingest.mt5.fake import FakeReader
+from tb.ingest.mt5.mcp import ReadOnlyMCP
 from tb.ingest.mt5.models import FeedUnavailable, load_feed_config
+from tb.ingest.mt5.qualification import AdmissionMonitor
 from tb.ingest.mt5.settings import MT5Settings
 from tb.ingest.mt5.storage import FeedStore
 
@@ -58,6 +60,7 @@ def main() -> None:
     parser.add_argument("--tick-history", action="store_true")
     parser.add_argument("--root", type=Path)
     args = parser.parse_args()
+    mcp = None
     project = repo_root()
     root = (args.root or project).resolve()
     config = load_feed_config(project / "config/mt5_feed.yaml")
@@ -91,6 +94,12 @@ def main() -> None:
                 login=settings.demo_login.get_secret_value(),
                 server=settings.demo_server,
             )
+            mcp = ReadOnlyMCP(
+                settings.mcp_token.get_secret_value(),
+                login=settings.demo_login.get_secret_value(),
+                server=settings.demo_server,
+                symbols=config.symbols,
+            )
         version = subprocess.check_output(
             ["git", "rev-parse", "--short", "HEAD"], cwd=project, text=True
         ).strip()
@@ -103,6 +112,7 @@ def main() -> None:
                     store,
                     export,
                     clock=fake_clock if args.offline else None,
+                    admission=AdmissionMonitor(feed, mcp) if mcp else None,
                     **({"sleep": fake_sleep} if args.offline else {}),
                 )
                 result = collector.run(max_polls=args.polls, tick_history=args.tick_history)
@@ -129,6 +139,9 @@ def main() -> None:
             "Market feed unavailable/refused; no collection success claimed. Check the local setup guide."
         )
         raise SystemExit(2) from None
+    finally:
+        if mcp:
+            mcp.close()
 
 
 if __name__ == "__main__":

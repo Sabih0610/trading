@@ -140,3 +140,7 @@ uv run --locked python -m tb.paper.smoke
 
 All default tests are offline. Missing optional package/token/terminal disables genuine features;
 it is not a successful genuine test. No external order, account switch or paid AI call is needed.
+
+## P11a.1 recovery and qualification
+
+Native security and exact XAUUSD visibility recovered, but both source clocks remain invalid for UTC qualification. Use the new [qualification guide](mt5-feed-qualification.md) and [report](../../reports/phases/P11a.1.md). The genuine collector now requires fresh security/UTC admission and refuses the current source. P11b remains unstarted.

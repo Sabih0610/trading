@@ -4,6 +4,14 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11a.1 — 2026-10-23 UTC
+
+- Added immutable coordinated SDK/MCP/Windows/independent UTC diagnostics and instrument readiness reports.
+- Added fresh demo-bound security/time admission, hidden-symbol refusal, exact epochs, clock-step detection and guarded bounded collection.
+- Fixed monitoring to consume actual unique normalized commits; added quote counts and focused no-data/safety/connection UI.
+- Owner manually closed native trading/shell and restored exact XAUUSD visibility; measured source UTC+3 still blocks data qualification. No time shifts or orders.
+- 483 tests passed, 3 live deselected, 23 existing warnings; Ruff/format/MyPy and safety/offline smoke passed. P11b NO-GO, not started.
+
 ## P10 — 2026-10-22 UTC
 
 - Added a local read-only Streamlit dashboard with five views, explicit evidence/account/currency

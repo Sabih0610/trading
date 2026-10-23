@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib
+import time
 from collections.abc import Callable, Iterator
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal
@@ -22,6 +23,7 @@ from tb.ingest.mt5.models import (
     InstrumentFacts,
     Observation,
 )
+from tb.ingest.mt5.timestamps import parse_tick_epoch
 
 PYTHON_READS = frozenset(
     {
@@ -135,6 +137,8 @@ class MT5Feed:
         self.clock = clock or (lambda: datetime.now(UTC))
         self.identity_record: DemoIdentity | None = None
         self.latest_raw: dict[str, Any] = {}
+        self.last_read_received_at: datetime | None = None
+        self.last_read_elapsed_seconds: float | None = None
         if not terminal_path.is_absolute() or not login or not server:
             raise IdentityRefused("Explicit terminal path and demo identity pins required")
 
@@ -179,7 +183,19 @@ class MT5Feed:
 
     def _read(self, name: str, *args: object, **kwargs: object) -> Any:
         self.verify()
+        before_wall = self.clock()
+        before_mono = time.monotonic()
         result = self.client.read(name, *args, **kwargs)
+        self.last_read_received_at = self.clock()
+        self.last_read_elapsed_seconds = time.monotonic() - before_mono
+        if (
+            abs(
+                (self.last_read_received_at - before_wall).total_seconds()
+                - self.last_read_elapsed_seconds
+            )
+            > 2
+        ):
+            raise FeedUnavailable("receipt_clock_changed_during_read")
         self.verify()
         return result
 
@@ -226,6 +242,10 @@ class MT5Feed:
             observed_at=self.clock(),
             source="synthetic" if self.synthetic else "mt5_demo",
             conversion_required=identity.currency != "USD",
+            visible=info.get("visible"),
+            selected=info.get("select"),
+            profit_currency=info.get("currency_profit"),
+            calculation_mode=info.get("trade_calc_mode"),
         )
 
     def contract(self, symbol: str) -> ContractSpec:
@@ -238,11 +258,19 @@ class MT5Feed:
     def quote(self, symbol: str) -> tuple[Observation, dict[str, Any]]:
         """Return actual millisecond source time and local receipt time, never midpoint fills."""
         facts = self.metadata(symbol)
+        if facts.visible is False or facts.selected is False:
+            raise FeedUnavailable("Exact broker symbol hidden; owner must show it manually")
         raw = as_dict(self._read("symbol_info_tick", facts.broker_symbol))
         self.latest_raw = raw
-        received = self.clock()
-        millis = int(raw.get("time_msc", 0))
-        at = datetime.fromtimestamp(millis / 1000 if millis else int(raw["time"]), UTC)
+        received = self.last_read_received_at or self.clock()
+        # Refuse a future millisecond clock even when the paired seconds field is inconsistent.
+        # Then require the two fields to agree before accepting any observation.
+        millis = raw.get("time_msc")
+        if type(millis) is int and millis > 0:
+            millis_at = parse_tick_epoch({"time": millis // 1000, "time_msc": millis})
+            if (millis_at - received).total_seconds() > self.config.future_tolerance_seconds:
+                raise FeedUnavailable("Quote timestamp is in the future")
+        at = parse_tick_epoch(raw)
         if (at - received).total_seconds() > self.config.future_tolerance_seconds:
             raise FeedUnavailable("Quote timestamp is in the future")
         observation = Observation(
@@ -291,7 +319,7 @@ class MT5Feed:
         for item in rows[: self.config.max_rows]:
             value = as_dict(item)
             raw.append(value)
-            at = datetime.fromtimestamp(int(value["time"]), UTC)
+            at = parse_tick_epoch({"time": value.get("time")})
             if (at - now).total_seconds() > self.config.future_tolerance_seconds:
                 raise FeedUnavailable(
                     "Broker candle clock is in the future; no time shift is inferred"
@@ -330,9 +358,7 @@ class MT5Feed:
         raw: list[dict[str, Any]] = []
         for item in rows[: self.config.max_rows]:
             value = as_dict(item)
-            at = datetime.fromtimestamp(
-                int(value.get("time_msc", value["time"] * 1000)) / 1000, UTC
-            )
+            at = parse_tick_epoch(value)
             if not start <= at <= now:
                 continue
             raw.append(value)

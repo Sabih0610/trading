@@ -4,6 +4,14 @@ Proposal only; no P11b trading loop, scheduler, background soak or execution gat
 P11a supplies a data-only reader, immutable evidence batches, health records and a read-only
 dashboard. It does not prove eligible data, strategy edge, costs or long-running reliability.
 
+## P11a.1 measured status — 2026-10-23
+
+**NO-GO.** Native trading is false, dangerous shell absent from the catalogue, exact XAUUSD visible with changing quotes; owner-manual closure is complete. Both instruments still emit approximately +10800-second epochs. Independent UTC agrees with the host; W32Time is stopped. Eight explicit diagnostic quote samples across two runs were rejected; zero qualified quotes/M5 intervals. The guarded 1800-second request refused before extended collection. This is not sustained reliability evidence.
+
+Before P11b, resolve a supported source timezone/DST contract or separately review a UTC-explicit Practice pricing source, then pass the guarded ~30-minute qualification with integrity/restart and two completed M5 intervals where possible. Reconcile XAUUSD tick value, pip/cost/session facts and broker minimum-lot affordability under funded 1x exposure. No guessed offset, smaller invented lot or widened risk can clear these gates. See [P11a.1 report](../reports/phases/P11a.1.md), [guide](how-to/mt5-feed-qualification.md) and [ADR 0008](adr/0008-mt5-clock-and-security-admission.md).
+
+Implementation sequence after separate authorization: supervised data-only Python process → admitted Silver event consumer → shared causal features/strategies/risk → atomic local-paper accounting/dedup/reconciliation → failure/restart/supervisor tests → separately authorized 24h monitored soak. Native blocking-call isolation and hard supervisor kill limits must be measured before claiming 24/7 reliability. MCP remains inspection-only; no EA or broker sender.
+
 ## Preconditions
 
 1. Resolve current genuine price timestamp failures without inventing offsets. Verify the exact

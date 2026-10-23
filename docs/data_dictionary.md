@@ -234,3 +234,7 @@ receipt and row/duplicate/evidence counts. Only database-committed batches advan
 Small pointer/checksum-verified exports under `reports/market_feed/genuine` or `synthetic` drive
 read-only monitoring and never combine with account P&L. Current quote admission remains failed
 for the inspected genuine source; diagnostics are not historical research or trading evidence.
+
+## P11a.1 acquisition diagnostics
+
+`reports/mt5/P11a.1-*.json` stores timestamped demo fingerprint, raw integer seconds/milliseconds and exact UTC interpretations, receipt/monotonic duration, independent UTC references, native safety and unqualified M1 tails. These are diagnostic facts, not admitted market history. Quote counts are per explicit sampling run: attempts, received, valid, rejected, missing, duplicate, source updates and unique qualified forward quotes; admission probes are excluded. `rejected_by_reason` gives rejection counts. `AdmissionCheck` is strict boolean, fingerprint-bound and fresh for at most 60s. Dashboard snapshots add collection start/end, counts, admission, observed connection and coverage label; older snapshots default to unverified. Full market tick coverage is never implied. Ephemeral `_accepted_rows` exist only in a commit return value, not its immutable manifest.

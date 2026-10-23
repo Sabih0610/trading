@@ -59,6 +59,7 @@ class ReadOnlyMCP:
         )
         self._session: str | None = None
         self._id = 0
+        self.dangerous_shell_tool_available: bool | None = None
 
     def _rpc(self, method: str, params: dict[str, Any]) -> dict[str, Any]:
         if method not in {"initialize", "notifications/initialized", "tools/list", "tools/call"}:
@@ -92,7 +93,11 @@ class ReadOnlyMCP:
                         raise FeedUnavailable("Native MCP response exceeds read limit")
                 self._session = response.headers.get("mcp-session-id", self._session)
             value = json.loads(data)
-            if "error" in value or not isinstance(value.get("result"), dict):
+            if (
+                not isinstance(value, dict)
+                or "error" in value
+                or not isinstance(value.get("result"), dict)
+            ):
                 raise FeedUnavailable("Native MCP returned an error")
             return dict(value["result"])
         except (httpx.HTTPError, ValueError) as exc:
@@ -112,7 +117,13 @@ class ReadOnlyMCP:
         )
         self._http.headers["MCP-Protocol-Version"] = "2025-03-26"
         self._rpc("notifications/initialized", {})
-        return list(self._rpc("tools/list", {}).get("tools", []))
+        catalog = self._rpc("tools/list", {}).get("tools")
+        if not isinstance(catalog, list) or any(
+            not isinstance(t, dict) or not isinstance(t.get("name"), str) for t in catalog
+        ):
+            raise FeedUnavailable("Native MCP catalog shape unavailable")
+        self.dangerous_shell_tool_available = any("shell" in t["name"].lower() for t in catalog)
+        return list(catalog)
 
     def _read(self, name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         if name not in MCP_READ_TOOLS:
@@ -122,19 +133,24 @@ class ReadOnlyMCP:
             raise FeedUnavailable("Native MCP facts unavailable")
         if isinstance(result.get("structuredContent"), dict):
             return dict(result["structuredContent"])
-        for block in result.get("content", []):
-            if block.get("type") == "text":
+        content = result.get("content", [])
+        if not isinstance(content, list):
+            raise FeedUnavailable("Native MCP content shape unavailable")
+        for block in content:
+            if isinstance(block, dict) and block.get("type") == "text":
                 try:
-                    value = json.loads(block["text"])
+                    value = json.loads(block.get("text", ""))
                     if isinstance(value, dict):
                         return value
-                except ValueError:
+                except (ValueError, TypeError):
                     pass
         raise FeedUnavailable("Native MCP result shape unavailable")
 
     def _identity(self) -> dict[str, Any]:
         payload = self._read("get_trading_account_info", {})
         account = payload.get("account", {})
+        if not isinstance(account, dict):
+            raise IdentityRefused("Native MCP demo identity unavailable")
         if (
             account.get("type") != "demo"
             or str(account.get("login")) != self._login
@@ -168,10 +184,16 @@ class ReadOnlyMCP:
         self._identity()
         if name == "terminal_get_info":
             terminal = result.get("terminal", {})
+            if not isinstance(terminal, dict) or not isinstance(terminal.get("connection"), dict):
+                raise FeedUnavailable("Native terminal shape unavailable")
+            permission = terminal.get("mcp_trade_allowed")
+            if type(permission) is not bool:
+                permission = None
             return {
                 "build": terminal.get("build"),
                 "connection": {"state": terminal.get("connection", {}).get("state")},
-                "native_mcp_trading_permission": terminal.get("mcp_trade_allowed"),
+                "native_mcp_trading_permission": permission,
+                "dangerous_shell_tool_available": self.dangerous_shell_tool_available,
                 "proxy_trading_enabled": False,
             }
         if name == "get_time_information":
