@@ -1,4 +1,22 @@
-# Current handoff — P11b.0.1
+# Current handoff — third-party adoption audit
+
+Audit completed 2026-10-24 02:23 UTC on `codex/third-party-adoption-audit`, from application baseline
+`e537d563c151f548bdf983652cf25114172e5ac2` (P11b.0.1). Requested P11b.0 baseline
+`45a6d5f7c94e619313e9c7c4c43a04a2c82d931d` was compared explicitly; no rollback.
+
+- Read [adoption audit](../reports/reviews/third-party-repository-adoption.md),
+  [evidence pins](../reports/reviews/third-party-repository-evidence.json) and
+  [prioritized backlog](third-party-adoption-backlog.md). Ten upstreams inspected;101 source files pinned for targeted reading.
+- Recommend only A1 Windows offline CI and A2 bounded local source map, both pending review.
+  No source reuse, package/platform installation, recommendation implementation or provider connection.
+- Actual local verification: Ruff/354-file formatting/strict MyPy137 pass;685 pytest pass,
+  3 optional live deselected,23 existing warnings in123.74s; owned paper safety smoke passes.
+- Next exact step: owner/independent review of the report and two-item backlog. Stop; do not start
+  A1/A2, P11b.1, broker orders, new data collection or any paid service automatically.
+- All runtime/risk/rights/MCP/holdout state is unchanged. Original owner audit remains untracked.
+  Prior platform details below remain the operational handoff; no new collector/task was launched.
+
+## Retained P11b.0.1 platform handoff
 
 Completed offline 2026-10-24 02:07 UTC. EMA trend and price-channel hypotheses now produce reference BUY/SELL/
 WAIT in the existing durable shadow engine. Ten owned scenarios produced2556 events and15336

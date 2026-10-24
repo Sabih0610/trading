@@ -1,5 +1,10 @@
 # Pending items
 
+- **Third-party adoption audit review:** [report](../reports/reviews/third-party-repository-adoption.md)
+  and [backlog](third-party-adoption-backlog.md) are complete. Only A1 offline Windows CI and A2
+  bounded local source map are proposed. Neither is implemented; no full-framework migration,
+  provider/stock integration, webhook endpoint or order authority is authorized by this audit.
+
 - **P11b.0.1 completed offline:** two price-only reference hypotheses now work on ten owned
   scenarios;685 tests pass. Independent review is queued. Original execution-dependent strategies
   remain blocked. Synthetic direction labels are not market skill, fills or P&L.

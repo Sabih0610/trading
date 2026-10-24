@@ -349,6 +349,31 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-24 02:07 UTC",
-  "next_phase": "Stop: independent review and provider rights; two-hour genuine trial would be warm-up only. Longer finite signal trial and P11b.1 require separate owner scope; neither started."
+  "last_updated_utc": "2026-10-24 02:24 UTC",
+  "next_phase": "Stop: review third-party adoption audit and proposed A1/A2 backlog; neither implemented. Existing independent phase/provider-rights reviews remain open. P11b.1 and longer genuine trial require separate owner scope.",
+  "audits": {
+    "third_party_repository_adoption": {
+      "status": "done",
+      "completed_utc": "2026-10-24 02:24 UTC",
+      "review": "queued",
+      "branch": "codex/third-party-adoption-audit",
+      "requested_baseline": "45a6d5f7c94e619313e9c7c4c43a04a2c82d931d",
+      "source_baseline": "e537d563c151f548bdf983652cf25114172e5ac2",
+      "report": "reports/reviews/third-party-repository-adoption.md",
+      "backlog": "docs/third-party-adoption-backlog.md",
+      "upstreams_inspected": 10,
+      "next_phase_proposals": [
+        "A1 offline Windows CI",
+        "A2 bounded local source map"
+      ],
+      "recommendations_implemented": false,
+      "tests_passed": 685,
+      "live_deselected": 3,
+      "warnings": 23,
+      "pytest_seconds": 123.74,
+      "orders_authorized": false,
+      "paid_services_used": false,
+      "source_files_pinned": 101
+    }
+  }
 }

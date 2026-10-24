@@ -1,5 +1,9 @@
 # Build progress
 
+Third-party source adoption audit completed 2026-10-24 UTC; [report](reports/reviews/third-party-repository-adoption.md)
+and [two-item proposed backlog](docs/third-party-adoption-backlog.md) await review. No recommendations implemented;
+application phase stays P11b.0.1 and P11b.1 stays unstarted. Local685 tests pass in123.74s.
+
 P11b.0.1 is complete offline on `codex/p11b-0-1-price-only`, from45a6d5f.
 685 tests pass; Ruff/format/strict MyPy and paper safety smoke passed.
 Ten owned scenarios:2556 events,15336 research decisions (18 BUY,16 SELL,15302 WAIT),94 future labels.

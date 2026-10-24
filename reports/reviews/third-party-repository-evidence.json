@@ -1,0 +1,2241 @@
+{
+  "schema_version": 1,
+  "inspection_date_utc": "2026-10-24",
+  "compiled_at_utc": "2026-10-24 02:20 UTC",
+  "requested_local_baseline": "45a6d5f7c94e619313e9c7c4c43a04a2c82d931d",
+  "actual_local_source_baseline": "e537d563c151f548bdf983652cf25114172e5ac2",
+  "method": "Unauthenticated public GitHub API metadata and pinned raw source; no upstream code executed or installed. Issues are a sample of eight recently updated items, including PRs, per repository. Releases are the latest three returned, including prereleases.",
+  "repositories": [
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "requested_repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "inspected_at_utc": "2026-10-24T02:12:37.891434+00:00",
+      "default_branch": "main",
+      "commit_sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "archived": false,
+      "license_observation": "No repository license found at inspected SHA; no source adoption",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/lth-elm/TradingView-Webhook-Trading-Bot",
+      "recent_commits": [
+        {
+          "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+          "committed_at": "2023-03-16T21:29:01Z",
+          "subject": "📸 Add file via upload",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/commit/e9efac27c4b5f933442e5248b7e180c176b6c47a"
+        },
+        {
+          "sha": "9f092b3471123c90ddd2ab07df7d679be5d91f91",
+          "committed_at": "2023-03-16T21:27:05Z",
+          "subject": "Delete AlgobotBanner.png",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/commit/9f092b3471123c90ddd2ab07df7d679be5d91f91"
+        },
+        {
+          "sha": "f05dae92aec4953c89c168a09dfb76fd951c28cd",
+          "committed_at": "2023-03-16T21:26:41Z",
+          "subject": "Update README.md",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/commit/f05dae92aec4953c89c168a09dfb76fd951c28cd"
+        },
+        {
+          "sha": "6003ae723683c0894b9d8a3b51bbdebe127a4005",
+          "committed_at": "2023-03-16T21:17:14Z",
+          "subject": "Add files via upload",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/commit/6003ae723683c0894b9d8a3b51bbdebe127a4005"
+        },
+        {
+          "sha": "ae8d6aeae08575868dc3899a120b1ff06a3d05b7",
+          "committed_at": "2022-02-17T13:01:16Z",
+          "subject": "Merge pull request #2 from BertilBraun/✨cleanup-config",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/commit/ae8d6aeae08575868dc3899a120b1ff06a3d05b7"
+        }
+      ],
+      "recent_releases": [],
+      "recent_issue_sample": [
+        {
+          "number": 10,
+          "title": "ByBit integration broken?",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-08-11T09:44:09Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/issues/10"
+        },
+        {
+          "number": 9,
+          "title": "Request to support Binance, FTX is no longer available",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2022-12-20T15:10:57Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/issues/9"
+        },
+        {
+          "number": 7,
+          "title": "Modifications if possible?",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2022-12-07T19:38:00Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/issues/7"
+        },
+        {
+          "number": 8,
+          "title": "Development",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2022-09-29T14:52:47Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/pull/8"
+        },
+        {
+          "number": 6,
+          "title": "Bybit api issue",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2022-04-18T16:45:22Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/issues/6"
+        },
+        {
+          "number": 5,
+          "title": "pathlib",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2022-04-11T16:55:15Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/issues/5"
+        },
+        {
+          "number": 4,
+          "title": "test",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2022-04-04T17:44:31Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/pull/4"
+        },
+        {
+          "number": 3,
+          "title": "ByBit Timestamp Error",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2022-03-22T20:52:49Z",
+          "url": "https://github.com/lth-elm/TradingView-Webhook-Trading-Bot/issues/3"
+        }
+      ],
+      "workflow_files": [],
+      "license_notice_paths": []
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "requested_repository": "Aider-AI/aider",
+      "inspected_at_utc": "2026-10-24T02:12:37.915621+00:00",
+      "default_branch": "main",
+      "commit_sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "archived": false,
+      "license_observation": "Apache-2.0",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/Aider-AI/aider",
+      "recent_commits": [
+        {
+          "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+          "committed_at": "2026-05-22T14:02:20Z",
+          "subject": "Merge pull request #5173 from Cyberfilo/feat/anthropic_models-list-add-opus-4-5",
+          "url": "https://github.com/Aider-AI/aider/commit/5dc9490bb35f9729ef2c95d00a19ccd30c26339c"
+        },
+        {
+          "sha": "a7a54a9367fefb46fa576840e97f4479c46c7771",
+          "committed_at": "2026-05-22T10:16:44Z",
+          "subject": "Apply ANTHROPIC_MODELS expansion",
+          "url": "https://github.com/Aider-AI/aider/commit/a7a54a9367fefb46fa576840e97f4479c46c7771"
+        },
+        {
+          "sha": "2ec3550e71c174efe84fe87d7fa669b66903fa41",
+          "committed_at": "2026-05-22T10:16:21Z",
+          "subject": "Expand ANTHROPIC_MODELS list with recent Claude model names",
+          "url": "https://github.com/Aider-AI/aider/commit/2ec3550e71c174efe84fe87d7fa669b66903fa41"
+        },
+        {
+          "sha": "6435cb8b1e885d7275327d4b61206b1b1618dfe1",
+          "committed_at": "2026-05-16T00:55:02Z",
+          "subject": "Merge pull request #5132 from Mramaran/add-bash-tree-sitter-tags",
+          "url": "https://github.com/Aider-AI/aider/commit/6435cb8b1e885d7275327d4b61206b1b1618dfe1"
+        },
+        {
+          "sha": "ff191affc6e1413f33dad914d9930a5993aad853",
+          "committed_at": "2026-05-15T09:49:50Z",
+          "subject": "feat: add bash tree-sitter tags for repomap support",
+          "url": "https://github.com/Aider-AI/aider/commit/ff191affc6e1413f33dad914d9930a5993aad853"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "v0.86.0",
+          "published_at": "2025-08-09T17:42:19Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/Aider-AI/aider/releases/tag/v0.86.0"
+        },
+        {
+          "tag": "v0.85.0",
+          "published_at": "2025-06-27T23:47:09Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/Aider-AI/aider/releases/tag/v0.85.0"
+        },
+        {
+          "tag": "v0.84.0",
+          "published_at": "2025-05-30T23:28:11Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/Aider-AI/aider/releases/tag/v0.84.0"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 5899,
+          "title": "docs: clarify OpenAI-compatible API base paths",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-24T01:20:02Z",
+          "url": "https://github.com/Aider-AI/aider/pull/5899"
+        },
+        {
+          "number": 5897,
+          "title": "Uncaught OSError in pathlib.py line 840",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-24T00:07:35Z",
+          "url": "https://github.com/Aider-AI/aider/issues/5897"
+        },
+        {
+          "number": 3807,
+          "title": "Show same options for any file to add to the chat",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-23T23:30:09Z",
+          "url": "https://github.com/Aider-AI/aider/issues/3807"
+        },
+        {
+          "number": 3808,
+          "title": "git : use relative patsh in stead of absolute paths",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-23T23:29:52Z",
+          "url": "https://github.com/Aider-AI/aider/issues/3808"
+        },
+        {
+          "number": 4798,
+          "title": "Aider is not using the .aider.model.settings.yml file and seems to take the user's configuration as the default.",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-23T23:28:33Z",
+          "url": "https://github.com/Aider-AI/aider/issues/4798"
+        },
+        {
+          "number": 5898,
+          "title": "[Bug] Polyglot benchmark leaves 23/25 xit() tests in JS grep.spec.js, test.skip() in palindrome-products/robot-name, and bare @Disabled in Java ForthEvaluatorTest.java unexecuted",
+          "state": "open",
+          "kind": "issue",
+          "updated_at": "2026-10-23T23:12:49Z",
+          "url": "https://github.com/Aider-AI/aider/issues/5898"
+        },
+        {
+          "number": 5896,
+          "title": "fix: reflect failed writes instead of reporting successful edits",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T08:16:08Z",
+          "url": "https://github.com/Aider-AI/aider/pull/5896"
+        },
+        {
+          "number": 5894,
+          "title": "Uncaught ImportError in _svdp.py line 23",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-23T00:08:56Z",
+          "url": "https://github.com/Aider-AI/aider/issues/5894"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/check_pypi_version.yml",
+        ".github/workflows/docker-build-test.yml",
+        ".github/workflows/docker-release.yml",
+        ".github/workflows/issues.yml",
+        ".github/workflows/pages.yml",
+        ".github/workflows/pre-commit.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/ubuntu-tests.yml",
+        ".github/workflows/windows-tests.yml",
+        ".github/workflows/windows_check_pypi_version.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE.txt"
+      ]
+    },
+    {
+      "repository": "Superalgos/Superalgos",
+      "requested_repository": "superalgos/superalgos",
+      "inspected_at_utc": "2026-10-24T02:12:37.917655+00:00",
+      "default_branch": "master",
+      "commit_sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "archived": false,
+      "license_observation": "Apache-2.0",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/superalgos/superalgos",
+      "recent_commits": [
+        {
+          "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+          "committed_at": "2026-05-07T15:06:57Z",
+          "subject": "Merge pull request #5283 from lo996/beggar-hunter/readme-links-Superalgos-20260323082623",
+          "url": "https://github.com/Superalgos/Superalgos/commit/9f0fb59edd4bae7afa08d06c366e0bcb48103aec"
+        },
+        {
+          "sha": "2ffeef63ecb5974ddf48c19085461a615d0552cd",
+          "committed_at": "2026-03-23T08:26:27Z",
+          "subject": "docs: fix broken README reference in README.md",
+          "url": "https://github.com/Superalgos/Superalgos/commit/2ffeef63ecb5974ddf48c19085461a615d0552cd"
+        },
+        {
+          "sha": "448506b5df4cfc89cab9bec2693671b114a63622",
+          "committed_at": "2026-03-23T08:26:25Z",
+          "subject": "docs: fix broken README reference in Docker/README.md",
+          "url": "https://github.com/Superalgos/Superalgos/commit/448506b5df4cfc89cab9bec2693671b114a63622"
+        },
+        {
+          "sha": "48bca2e31b8deac2ba9b66c4ebf3b3e8bfeb2987",
+          "committed_at": "2024-11-02T15:44:02Z",
+          "subject": "Merge pull request #5167 from Superalgos/develop",
+          "url": "https://github.com/Superalgos/Superalgos/commit/48bca2e31b8deac2ba9b66c4ebf3b3e8bfeb2987"
+        },
+        {
+          "sha": "a11cca672a73461d6b9f6550aa155dc0e682cc03",
+          "committed_at": "2024-11-01T14:26:35Z",
+          "subject": "Merge pull request #5166 from MarkTradeink/develop",
+          "url": "https://github.com/Superalgos/Superalgos/commit/a11cca672a73461d6b9f6550aa155dc0e682cc03"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "1.7.0-20260930",
+          "published_at": "2026-09-30T03:38:01Z",
+          "prerelease": true,
+          "target_commitish": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+          "url": "https://github.com/Superalgos/Superalgos/releases/tag/1.7.0-20260930"
+        },
+        {
+          "tag": "1.7.0-20260929",
+          "published_at": "2026-09-29T03:37:19Z",
+          "prerelease": true,
+          "target_commitish": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+          "url": "https://github.com/Superalgos/Superalgos/releases/tag/1.7.0-20260929"
+        },
+        {
+          "tag": "1.7.0-20260928",
+          "published_at": "2026-09-28T03:41:39Z",
+          "prerelease": true,
+          "target_commitish": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+          "url": "https://github.com/Superalgos/Superalgos/releases/tag/1.7.0-20260928"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 5361,
+          "title": "feat(social-trading): introduce Vuetify UI foundation",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-19T19:39:03Z",
+          "url": "https://github.com/Superalgos/Superalgos/pull/5361"
+        },
+        {
+          "number": 5296,
+          "title": "Pre-trade risk governance — dynamic position sizing based on market regime",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-18T01:35:43Z",
+          "url": "https://github.com/Superalgos/Superalgos/issues/5296"
+        },
+        {
+          "number": 3503,
+          "title": "Governance: Restore negative votes functionality - 250K SA Bounty!",
+          "state": "open",
+          "kind": "issue",
+          "updated_at": "2026-10-17T22:13:52Z",
+          "url": "https://github.com/Superalgos/Superalgos/issues/3503"
+        },
+        {
+          "number": 5362,
+          "title": "Bump postcss-selector-parser, npm, postcss-modules-local-by-default and postcss-modules-scope",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-15T16:10:03Z",
+          "url": "https://github.com/Superalgos/Superalgos/pull/5362"
+        },
+        {
+          "number": 5360,
+          "title": "Bump pbkdf2 from 3.1.2 to 3.1.7",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-13T14:51:50Z",
+          "url": "https://github.com/Superalgos/Superalgos/pull/5360"
+        },
+        {
+          "number": 5359,
+          "title": "Bump source-map-js from 1.0.2 to 1.2.2",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-13T11:11:00Z",
+          "url": "https://github.com/Superalgos/Superalgos/pull/5359"
+        },
+        {
+          "number": 5358,
+          "title": "Bump source-map-js from 1.0.2 to 1.2.2 in /Bitcoin-Factory/Dashboard",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-13T11:10:48Z",
+          "url": "https://github.com/Superalgos/Superalgos/pull/5358"
+        },
+        {
+          "number": 5352,
+          "title": "fix(governance): show configured negative vote labels",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-09T09:08:34Z",
+          "url": "https://github.com/Superalgos/Superalgos/pull/5352"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/docker.yml",
+        ".github/workflows/documentation.yml",
+        ".github/workflows/release_build.yml",
+        ".github/workflows/release_build_dev.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE",
+        "installer/resources/License.txt"
+      ]
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "requested_repository": "alpacahq/alpaca-py",
+      "inspected_at_utc": "2026-10-24T02:12:37.917655+00:00",
+      "default_branch": "master",
+      "commit_sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "archived": false,
+      "license_observation": "Apache-2.0",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/alpacahq/alpaca-py",
+      "recent_commits": [
+        {
+          "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+          "committed_at": "2026-10-23T16:25:10Z",
+          "subject": "Wait for a stream subscription instead of polling the event loop. (#837)",
+          "url": "https://github.com/alpacahq/alpaca-py/commit/66f2ffd797d3cb0e5202daf36d178b67aff89915"
+        },
+        {
+          "sha": "45c9d76aee11ee5e41bdb9000b2bb10aa4f54189",
+          "committed_at": "2026-10-23T12:26:55Z",
+          "subject": "fix(trading): accept mleg legs passed as dicts (#839)",
+          "url": "https://github.com/alpacahq/alpaca-py/commit/45c9d76aee11ee5e41bdb9000b2bb10aa4f54189"
+        },
+        {
+          "sha": "65039ff692d60cd9d9ba9f6f06487c257f967dff",
+          "committed_at": "2026-10-22T13:01:29Z",
+          "subject": "deps: bump virtualenv from 21.7.13 to 21.14.9 (#836)",
+          "url": "https://github.com/alpacahq/alpaca-py/commit/65039ff692d60cd9d9ba9f6f06487c257f967dff"
+        },
+        {
+          "sha": "b86a08a4c53cc199ee84b525eea6483568af542a",
+          "committed_at": "2026-10-22T12:54:05Z",
+          "subject": "chore(deps): bump pygments (#673)",
+          "url": "https://github.com/alpacahq/alpaca-py/commit/b86a08a4c53cc199ee84b525eea6483568af542a"
+        },
+        {
+          "sha": "02cef228d5cc3ed812489a7373e72261d310cf57",
+          "committed_at": "2026-10-22T12:39:38Z",
+          "subject": "docs(trading): fix regt_buying_power formula in TradeAccount docstring (#834)",
+          "url": "https://github.com/alpacahq/alpaca-py/commit/02cef228d5cc3ed812489a7373e72261d310cf57"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "v0.44.0",
+          "published_at": "2026-08-11T10:11:55Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/alpacahq/alpaca-py/releases/tag/v0.44.0"
+        },
+        {
+          "tag": "v0.43.5",
+          "published_at": "2026-07-02T07:21:15Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/alpacahq/alpaca-py/releases/tag/v0.43.5"
+        },
+        {
+          "tag": "v0.43.4",
+          "published_at": "2026-04-29T08:41:04Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/alpacahq/alpaca-py/releases/tag/v0.43.4"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 840,
+          "title": "Fix shutdown race in stream subscription wait",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T16:40:23Z",
+          "url": "https://github.com/alpacahq/alpaca-py/pull/840"
+        },
+        {
+          "number": 762,
+          "title": "Stream startup busy-waits before subscriptions are registered",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-23T16:25:12Z",
+          "url": "https://github.com/alpacahq/alpaca-py/issues/762"
+        },
+        {
+          "number": 837,
+          "title": "Wait for a stream subscription instead of polling",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T16:25:11Z",
+          "url": "https://github.com/alpacahq/alpaca-py/pull/837"
+        },
+        {
+          "number": 839,
+          "title": "fix(trading): accept mleg legs passed as dicts",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T12:26:56Z",
+          "url": "https://github.com/alpacahq/alpaca-py/pull/839"
+        },
+        {
+          "number": 838,
+          "title": "refactor(live,trading): migrate streaming clients off deprecated websockets.legacy (#743)",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T08:46:23Z",
+          "url": "https://github.com/alpacahq/alpaca-py/pull/838"
+        },
+        {
+          "number": 836,
+          "title": "deps: bump virtualenv from 21.7.13 to 21.14.9",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T13:01:32Z",
+          "url": "https://github.com/alpacahq/alpaca-py/pull/836"
+        },
+        {
+          "number": 673,
+          "title": "chore(deps): bump pygments from 2.19.2 to 2.20.0 in /examples/stocks/lbr-anti-setup-trading-bot",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T12:54:08Z",
+          "url": "https://github.com/alpacahq/alpaca-py/pull/673"
+        },
+        {
+          "number": 642,
+          "title": "[Bug]: Typo in regt_buying_power calculation description in TradeAccount model",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-22T12:39:41Z",
+          "url": "https://github.com/alpacahq/alpaca-py/issues/642"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/ci.yaml",
+        ".github/workflows/publish-pypi.yaml",
+        ".github/workflows/stale.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE"
+      ]
+    },
+    {
+      "repository": "paperswithbacktest/awesome-systematic-trading",
+      "requested_repository": "paperswithbacktest/awesome-systematic-trading",
+      "inspected_at_utc": "2026-10-24T02:12:40.858796+00:00",
+      "default_branch": "main",
+      "commit_sha": "ddfee8bb548bd6914191cb8fdb695d533ae16b0d",
+      "archived": false,
+      "license_observation": "No repository license found at inspected SHA; no source/text copying",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/paperswithbacktest/awesome-systematic-trading",
+      "recent_commits": [
+        {
+          "sha": "ddfee8bb548bd6914191cb8fdb695d533ae16b0d",
+          "committed_at": "2026-09-28T10:33:48Z",
+          "subject": "Merge pull request #115 from paperswithbacktest/codex/github-acquisition-path",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/commit/ddfee8bb548bd6914191cb8fdb695d533ae16b0d"
+        },
+        {
+          "sha": "681e818270b29bc9ef77d081634d839b81483a86",
+          "committed_at": "2026-09-28T10:30:39Z",
+          "subject": "docs: add explicit PWB onboarding path to README_ja.md",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/commit/681e818270b29bc9ef77d081634d839b81483a86"
+        },
+        {
+          "sha": "8cd1e0b7cd5408dcab83fa048c58893d63ebfe20",
+          "committed_at": "2026-09-28T10:30:29Z",
+          "subject": "docs: add explicit PWB onboarding path to README_zh.md",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/commit/8cd1e0b7cd5408dcab83fa048c58893d63ebfe20"
+        },
+        {
+          "sha": "d198cb556d783b065d6eba807089551ac71e06aa",
+          "committed_at": "2026-09-28T10:30:15Z",
+          "subject": "docs: add explicit PWB onboarding path to README.md",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/commit/d198cb556d783b065d6eba807089551ac71e06aa"
+        },
+        {
+          "sha": "4e23dd84c9ff746ddfcbc856316bcbcef0855b81",
+          "committed_at": "2026-09-03T09:13:55Z",
+          "subject": "Merge pull request #105 from paperswithbacktest/upstream-picks",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/commit/4e23dd84c9ff746ddfcbc856316bcbcef0855b81"
+        }
+      ],
+      "recent_releases": [],
+      "recent_issue_sample": [
+        {
+          "number": 137,
+          "title": "Add Kandle to Visualization, in all three languages",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T13:35:32Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/pull/137"
+        },
+        {
+          "number": 136,
+          "title": "Add Lumina AI to Event Driven Frameworks",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T13:18:19Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/pull/136"
+        },
+        {
+          "number": 135,
+          "title": "Add trading-research-agents to Cryptocurrencies",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-21T16:18:53Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/pull/135"
+        },
+        {
+          "number": 134,
+          "title": "Add the FxSocket Python and Node SDKs to Broker APIs",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-21T15:21:51Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/pull/134"
+        },
+        {
+          "number": 133,
+          "title": "Add qkt to General - Event Driven Frameworks",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-21T10:25:36Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/pull/133"
+        },
+        {
+          "number": 125,
+          "title": "Prune the dead entries flagged by the monthly link check",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T09:44:46Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/pull/125"
+        },
+        {
+          "number": 104,
+          "title": "Add Convex Lake to Data Sources > Cryptocurrencies",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-19T10:39:54Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/pull/104"
+        },
+        {
+          "number": 131,
+          "title": "[Privacy] Review and refresh the Privacy Policy (last updated 2023-05-31)",
+          "state": "open",
+          "kind": "issue",
+          "updated_at": "2026-10-15T04:55:08Z",
+          "url": "https://github.com/paperswithbacktest/awesome-systematic-trading/issues/131"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/link-check.yml"
+      ],
+      "license_notice_paths": []
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "requested_repository": "edtechre/pybroker",
+      "inspected_at_utc": "2026-10-24T02:12:41.076800+00:00",
+      "default_branch": "master",
+      "commit_sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "archived": false,
+      "license_observation": "Apache-2.0 WITH Commons Clause 1.0 (non-SPDX expression)",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/edtechre/pybroker",
+      "recent_commits": [
+        {
+          "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+          "committed_at": "2026-10-20T22:22:32Z",
+          "subject": "Fix #optimize link",
+          "url": "https://github.com/edtechre/pybroker/commit/01f11fdd42b76ef564a7f550c247a3dfce81330e"
+        },
+        {
+          "sha": "8a949ad6cd67468d2e1330ae8ec9ce779e49c585",
+          "committed_at": "2026-10-20T22:08:25Z",
+          "subject": "Fix #optimize link in translations",
+          "url": "https://github.com/edtechre/pybroker/commit/8a949ad6cd67468d2e1330ae8ec9ce779e49c585"
+        },
+        {
+          "sha": "422843aa5bd8888bb37858a069b814cd4b22a25c",
+          "committed_at": "2026-10-20T22:08:07Z",
+          "subject": "Fix #optimize link",
+          "url": "https://github.com/edtechre/pybroker/commit/422843aa5bd8888bb37858a069b814cd4b22a25c"
+        },
+        {
+          "sha": "e43dab4f2b99f388c98c58226292dce0ff42c45b",
+          "committed_at": "2026-10-20T06:26:36Z",
+          "subject": "Update docs version to v2.0.2",
+          "url": "https://github.com/edtechre/pybroker/commit/e43dab4f2b99f388c98c58226292dce0ff42c45b"
+        },
+        {
+          "sha": "df33f1267fd0a6f44312dd714dd5a0ce76b36e67",
+          "committed_at": "2026-10-16T22:01:15Z",
+          "subject": "fix: use np.array(copy=True), np.asarray(copy=) needs numpy 2 (#338)",
+          "url": "https://github.com/edtechre/pybroker/commit/df33f1267fd0a6f44312dd714dd5a0ce76b36e67"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "v2.0.2",
+          "published_at": "2026-10-20T03:13:37Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/edtechre/pybroker/releases/tag/v2.0.2"
+        },
+        {
+          "tag": "v2.0.1",
+          "published_at": "2026-08-28T03:33:29Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/edtechre/pybroker/releases/tag/v2.0.1"
+        },
+        {
+          "tag": "v2.0.0",
+          "published_at": "2026-08-17T03:52:14Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/edtechre/pybroker/releases/tag/v2.0.0"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 344,
+          "title": "chore(deps): Update ruff requirement from >=0.16.4 to >=0.17.0",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T17:30:37Z",
+          "url": "https://github.com/edtechre/pybroker/pull/344"
+        },
+        {
+          "number": 343,
+          "title": "chore(deps): Update numba requirement from >=0.67.0 to >=0.68.0",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T17:30:36Z",
+          "url": "https://github.com/edtechre/pybroker/pull/343"
+        },
+        {
+          "number": 342,
+          "title": "chore(deps): Update mypy requirement from >=2.3.1 to >=2.4.0",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T17:30:34Z",
+          "url": "https://github.com/edtechre/pybroker/pull/342"
+        },
+        {
+          "number": 340,
+          "title": "chore(deps): Update numpy requirement from <2.6,>=2.5.2 to >=2.5.4,<2.6",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T17:30:33Z",
+          "url": "https://github.com/edtechre/pybroker/pull/340"
+        },
+        {
+          "number": 339,
+          "title": "chore(deps): Bump actions/upload-artifact from 7.0.1 to 7.0.2",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T17:30:33Z",
+          "url": "https://github.com/edtechre/pybroker/pull/339"
+        },
+        {
+          "number": 341,
+          "title": "chore(deps): Bump actions/download-artifact from 8.0.1 to 8.0.2",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T17:30:24Z",
+          "url": "https://github.com/edtechre/pybroker/pull/341"
+        },
+        {
+          "number": 338,
+          "title": "fix: np.asarray(copy=True) breaks on numpy 1.x despite the numpy>=1.26.4 floor",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-16T22:01:16Z",
+          "url": "https://github.com/edtechre/pybroker/pull/338"
+        },
+        {
+          "number": 336,
+          "title": "chore(deps): Update pandas requirement from >=3.0.5 to >=3.0.6",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-16T04:44:15Z",
+          "url": "https://github.com/edtechre/pybroker/pull/336"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/asv-nightly.yml",
+        ".github/workflows/asv-pr.yml",
+        ".github/workflows/main.yml",
+        ".github/workflows/schedule.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE",
+        "docs/locales/zh_CN/LC_MESSAGES/license.po",
+        "docs/source/license.rst"
+      ]
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "requested_repository": "polakowo/vectorbt",
+      "inspected_at_utc": "2026-10-24T02:12:41.091855+00:00",
+      "default_branch": "master",
+      "commit_sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "archived": false,
+      "license_observation": "Apache-2.0 WITH Commons Clause 1.0 (non-SPDX expression)",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/polakowo/vectorbt",
+      "recent_commits": [
+        {
+          "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+          "committed_at": "2026-10-23T12:07:32Z",
+          "subject": "Adjust README heading and refresh GIF",
+          "url": "https://github.com/polakowo/vectorbt/commit/8e30b8ce102f302bec0c0226e05b59714453bebd"
+        },
+        {
+          "sha": "dd8eb3a3fe9ed918b1cdaf177455759ae4ac68cb",
+          "committed_at": "2026-10-19T21:31:04Z",
+          "subject": "docs(readme): clarify trading research headline",
+          "url": "https://github.com/polakowo/vectorbt/commit/dd8eb3a3fe9ed918b1cdaf177455759ae4ac68cb"
+        },
+        {
+          "sha": "80cf3d56157d017140ea754b9d4f9201e1af60de",
+          "committed_at": "2026-10-19T21:28:59Z",
+          "subject": "docs(readme): retain matrix framing in research tagline",
+          "url": "https://github.com/polakowo/vectorbt/commit/80cf3d56157d017140ea754b9d4f9201e1af60de"
+        },
+        {
+          "sha": "33b1625f0ce4e9ecaff855947dc76e6fb9735ccb",
+          "committed_at": "2026-10-19T21:26:41Z",
+          "subject": "docs(readme): position VectorBT as a trading research toolkit",
+          "url": "https://github.com/polakowo/vectorbt/commit/33b1625f0ce4e9ecaff855947dc76e6fb9735ccb"
+        },
+        {
+          "sha": "9d223fe269a4731265846c227555b7eb0d46fd4f",
+          "committed_at": "2026-10-19T18:02:43Z",
+          "subject": "docs(readme): refresh candlestick demo with bullish lasso selection",
+          "url": "https://github.com/polakowo/vectorbt/commit/9d223fe269a4731265846c227555b7eb0d46fd4f"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "v1.2.0",
+          "published_at": "2026-10-19T13:03:14Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/polakowo/vectorbt/releases/tag/v1.2.0"
+        },
+        {
+          "tag": "v1.1.2",
+          "published_at": "2026-10-09T19:03:00Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/polakowo/vectorbt/releases/tag/v1.1.2"
+        },
+        {
+          "tag": "v1.1.1",
+          "published_at": "2026-09-26T06:12:54Z",
+          "prerelease": false,
+          "target_commitish": "master",
+          "url": "https://github.com/polakowo/vectorbt/releases/tag/v1.1.1"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 890,
+          "title": "fix(data): initialize download kwargs in from_data",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T09:41:44Z",
+          "url": "https://github.com/polakowo/vectorbt/pull/890"
+        },
+        {
+          "number": 892,
+          "title": "fix(records): pass group_by to top_n and bottom_n masks",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T19:07:10Z",
+          "url": "https://github.com/polakowo/vectorbt/pull/892"
+        },
+        {
+          "number": 891,
+          "title": "fix(utils): preserve dictionary state on rejected loads",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-21T10:17:27Z",
+          "url": "https://github.com/polakowo/vectorbt/pull/891"
+        },
+        {
+          "number": 889,
+          "title": "fix(indicators): select unmapped input columns",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-20T11:55:15Z",
+          "url": "https://github.com/polakowo/vectorbt/pull/889"
+        },
+        {
+          "number": 888,
+          "title": "fix(base): preserve unsorted unstack labels",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-19T13:10:18Z",
+          "url": "https://github.com/polakowo/vectorbt/pull/888"
+        },
+        {
+          "number": 887,
+          "title": "fix(base): preserve selected group membership",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-19T13:09:39Z",
+          "url": "https://github.com/polakowo/vectorbt/pull/887"
+        },
+        {
+          "number": 885,
+          "title": "fix(portfolio): include breakeven trades in expectancy",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-19T13:08:46Z",
+          "url": "https://github.com/polakowo/vectorbt/pull/885"
+        },
+        {
+          "number": 604,
+          "title": "vbt.heatmap would plot wrong x labels .",
+          "state": "closed",
+          "kind": "issue",
+          "updated_at": "2026-10-19T12:54:36Z",
+          "url": "https://github.com/polakowo/vectorbt/issues/604"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/docker.yml",
+        ".github/workflows/docs.yml",
+        ".github/workflows/pypi.yml",
+        ".github/workflows/tests.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE.md",
+        "docs/LICENSE.md",
+        "docs/docs/terms/license.md"
+      ]
+    },
+    {
+      "repository": "nautechsystems/nautilus_trader",
+      "requested_repository": "nautechsystems/nautilus_trader",
+      "inspected_at_utc": "2026-10-24T02:12:41.593298+00:00",
+      "default_branch": "develop",
+      "commit_sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+      "archived": false,
+      "license_observation": "LGPL-3.0-only (Python manifest); review component licenses separately",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/nautechsystems/nautilus_trader",
+      "recent_commits": [
+        {
+          "sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+          "committed_at": "2026-10-24T02:08:58Z",
+          "subject": "Accept live bulk order reports before finalization",
+          "url": "https://github.com/nautechsystems/nautilus_trader/commit/a8b4d7381020981ccda1165f24101e0e9ceedb1e"
+        },
+        {
+          "sha": "55e7c4d57dafba518530fd0b8b8b9de155276924",
+          "committed_at": "2026-10-23T23:36:50Z",
+          "subject": "Update dependencies and shared tooling",
+          "url": "https://github.com/nautechsystems/nautilus_trader/commit/55e7c4d57dafba518530fd0b8b8b9de155276924"
+        },
+        {
+          "sha": "7b3ed05d980a344c1f698661d542ebcbae2c8972",
+          "committed_at": "2026-10-23T13:45:09Z",
+          "subject": "Fix MarketToLimit execution at the first price level (#5408)",
+          "url": "https://github.com/nautechsystems/nautilus_trader/commit/7b3ed05d980a344c1f698661d542ebcbae2c8972"
+        },
+        {
+          "sha": "72976df2418351e927f3abacf24cbfd1f4bf6449",
+          "committed_at": "2026-10-23T13:43:44Z",
+          "subject": "Document Polymarket taker fill prices and precision (#5415)",
+          "url": "https://github.com/nautechsystems/nautilus_trader/commit/72976df2418351e927f3abacf24cbfd1f4bf6449"
+        },
+        {
+          "sha": "fa127c08f465ef495f52d30894d7a8594fd1d894",
+          "committed_at": "2026-10-23T13:41:57Z",
+          "subject": "Fix Polymarket taker fills across price levels (#5404)",
+          "url": "https://github.com/nautechsystems/nautilus_trader/commit/fa127c08f465ef495f52d30894d7a8594fd1d894"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "v2.0.0rc7",
+          "published_at": "2026-10-15T21:07:45Z",
+          "prerelease": true,
+          "target_commitish": "develop",
+          "url": "https://github.com/nautechsystems/nautilus_trader/releases/tag/v2.0.0rc7"
+        },
+        {
+          "tag": "v2.0.0rc6",
+          "published_at": "2026-10-05T03:03:18Z",
+          "prerelease": true,
+          "target_commitish": "develop",
+          "url": "https://github.com/nautechsystems/nautilus_trader/releases/tag/v2.0.0rc6"
+        },
+        {
+          "tag": "v2.0.0rc5",
+          "published_at": "2026-09-15T06:17:23Z",
+          "prerelease": true,
+          "target_commitish": "develop",
+          "url": "https://github.com/nautechsystems/nautilus_trader/releases/tag/v2.0.0rc5"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 5420,
+          "title": "Request gzip for buffered HTTP responses",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-24T02:05:54Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/pull/5420"
+        },
+        {
+          "number": 5417,
+          "title": "Scope replayed fills to their target position",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-24T00:22:19Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/pull/5417"
+        },
+        {
+          "number": 5418,
+          "title": "[RFC] Support inventory-denominated fees in backtest and live execution",
+          "state": "open",
+          "kind": "issue",
+          "updated_at": "2026-10-24T00:13:28Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/issues/5418"
+        },
+        {
+          "number": 5414,
+          "title": "Avoid cloning position history during cache purge",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T23:47:03Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/pull/5414"
+        },
+        {
+          "number": 5412,
+          "title": "Avoid collecting order history for last-event reads",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T23:05:18Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/pull/5412"
+        },
+        {
+          "number": 5440,
+          "title": "Fix Polymarket Gamma condition_ids keyset URI overflow",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T22:42:05Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/pull/5440"
+        },
+        {
+          "number": 5424,
+          "title": "Recover Polymarket books after timestamp regressions",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T22:14:30Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/pull/5424"
+        },
+        {
+          "number": 5439,
+          "title": "[Interactive Brokers] rc7 per-client order-id partitions: an all-open-orders listing raises the next order id, then IB refuses the client's orders with error 103",
+          "state": "open",
+          "kind": "issue",
+          "updated_at": "2026-10-23T20:34:42Z",
+          "url": "https://github.com/nautechsystems/nautilus_trader/issues/5439"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/build-docs.yml",
+        ".github/workflows/build.yml",
+        ".github/workflows/cli-binaries.yml",
+        ".github/workflows/codeql-analysis.yml",
+        ".github/workflows/docker.yml",
+        ".github/workflows/nightly-merge.yml",
+        ".github/workflows/nightly-tests.yml",
+        ".github/workflows/openssf-scorecard.yml",
+        ".github/workflows/performance.yml",
+        ".github/workflows/recover-release.yml",
+        ".github/workflows/security-audit.yml",
+        ".github/workflows/test.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE",
+        "crates/adapters/architect_ax/LICENSE",
+        "crates/adapters/betfair/LICENSE",
+        "crates/adapters/binance/LICENSE",
+        "crates/adapters/binance/licenses/Apache-2.0-RealLogic-SBE.txt",
+        "crates/adapters/binance/licenses/THIRD_PARTY_LICENSES.md",
+        "crates/adapters/blockchain/LICENSE",
+        "crates/adapters/bybit/LICENSE",
+        "crates/adapters/coinbase/LICENSE",
+        "crates/adapters/databento/LICENSE",
+        "crates/adapters/deribit/LICENSE",
+        "crates/adapters/derive/licenses/THIRD_PARTY_LICENSES.md",
+        "crates/adapters/dydx/LICENSE",
+        "crates/adapters/hyperliquid/LICENSE",
+        "crates/adapters/interactive_brokers/LICENSE",
+        "crates/adapters/kraken/LICENSE",
+        "crates/adapters/lighter/LICENSE",
+        "crates/adapters/lighter/licenses/Apache-2.0-poseidon-crypto.txt",
+        "crates/adapters/lighter/licenses/MIT-pornin-ecgfp5.txt",
+        "crates/adapters/lighter/licenses/THIRD_PARTY_LICENSES.md",
+        "crates/adapters/okx/LICENSE",
+        "crates/adapters/polymarket/LICENSE",
+        "crates/adapters/sandbox/LICENSE",
+        "crates/adapters/tardis/LICENSE",
+        "crates/analysis/LICENSE",
+        "crates/backtest/LICENSE",
+        "crates/cli/LICENSE",
+        "crates/common/LICENSE",
+        "crates/core/LICENSE",
+        "crates/cryptography/LICENSE",
+        "crates/data/LICENSE",
+        "crates/event_store/LICENSE",
+        "crates/execution/LICENSE",
+        "crates/indicators/LICENSE",
+        "crates/infrastructure/LICENSE",
+        "crates/live/LICENSE",
+        "crates/model/LICENSE",
+        "crates/network/LICENSE",
+        "crates/persistence/LICENSE",
+        "crates/plugin/LICENSE",
+        "crates/portfolio/LICENSE",
+        "crates/pyo3/LICENSE",
+        "crates/risk/LICENSE",
+        "crates/serialization/LICENSE",
+        "crates/system/LICENSE",
+        "crates/testkit/LICENSE",
+        "crates/trading/LICENSE",
+        "patches/pyo3-stub-gen/LICENSE-APACHE",
+        "patches/pyo3-stub-gen/LICENSE-MIT",
+        "python/LICENSE"
+      ]
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "requested_repository": "ranaroussi/quantstats",
+      "inspected_at_utc": "2026-10-24T02:12:43.504147+00:00",
+      "default_branch": "main",
+      "commit_sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "archived": false,
+      "license_observation": "Apache-2.0",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/ranaroussi/quantstats",
+      "recent_commits": [
+        {
+          "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+          "committed_at": "2026-09-27T19:38:37Z",
+          "subject": "fix: cross-column contamination, rolling alpha, rf cache key (#554, #555, #556)",
+          "url": "https://github.com/ranaroussi/quantstats/commit/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a"
+        },
+        {
+          "sha": "a2448a28ef2012706d1b48c75c00836f690e07a1",
+          "committed_at": "2026-09-26T20:08:06Z",
+          "subject": "fix: de-annualize the risk-free rate in rar() (#552)",
+          "url": "https://github.com/ranaroussi/quantstats/commit/a2448a28ef2012706d1b48c75c00836f690e07a1"
+        },
+        {
+          "sha": "01323c1df1ec4acf509b2782fc782c4fc1803ade",
+          "committed_at": "2026-09-26T19:56:54Z",
+          "subject": "fix: benchmark stats on gapped series, revert Kelly to fixed-odds (#552, #553)",
+          "url": "https://github.com/ranaroussi/quantstats/commit/01323c1df1ec4acf509b2782fc782c4fc1803ade"
+        },
+        {
+          "sha": "5a751dd4831656e44a10fca8bc79080f84061f8f",
+          "committed_at": "2026-09-26T08:58:38Z",
+          "subject": "fix: statistical corrections for 0.0.83 (#549, #546, #547, #493)",
+          "url": "https://github.com/ranaroussi/quantstats/commit/5a751dd4831656e44a10fca8bc79080f84061f8f"
+        },
+        {
+          "sha": "fec6f8266738fe3b193ab713d6af29f94681ed4a",
+          "committed_at": "2026-09-26T08:31:55Z",
+          "subject": "test: use the translated frequency alias in the 10Y window test",
+          "url": "https://github.com/ranaroussi/quantstats/commit/fec6f8266738fe3b193ab713d6af29f94681ed4a"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "v0.0.86",
+          "published_at": "2026-09-27T19:40:20Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/ranaroussi/quantstats/releases/tag/v0.0.86"
+        },
+        {
+          "tag": "v0.0.85",
+          "published_at": "2026-09-26T20:10:00Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/ranaroussi/quantstats/releases/tag/v0.0.85"
+        },
+        {
+          "tag": "v0.0.84",
+          "published_at": "2026-09-26T19:58:43Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/ranaroussi/quantstats/releases/tag/v0.0.84"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 581,
+          "title": "fix: keep every figure when a report embeds a list of images",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T04:36:45Z",
+          "url": "https://github.com/ranaroussi/quantstats/pull/581"
+        },
+        {
+          "number": 577,
+          "title": "Fix drawdown details missing a period that starts on the first observation",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T01:03:26Z",
+          "url": "https://github.com/ranaroussi/quantstats/pull/577"
+        },
+        {
+          "number": 582,
+          "title": "Matplotlib tick-label warning with pandas 3.1.0",
+          "state": "open",
+          "kind": "issue",
+          "updated_at": "2026-10-23T00:42:01Z",
+          "url": "https://github.com/ranaroussi/quantstats/issues/582"
+        },
+        {
+          "number": 580,
+          "title": "fix: preserve row order in return cache",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T11:11:04Z",
+          "url": "https://github.com/ranaroussi/quantstats/pull/580"
+        },
+        {
+          "number": 579,
+          "title": "fix: preserve timezone-aware benchmark frames in compare",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T10:22:12Z",
+          "url": "https://github.com/ranaroussi/quantstats/pull/579"
+        },
+        {
+          "number": 578,
+          "title": "Preserve the sign of excess total returns in recovery_factor",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-18T09:59:06Z",
+          "url": "https://github.com/ranaroussi/quantstats/pull/578"
+        },
+        {
+          "number": 557,
+          "title": "fix: prevent look-ahead bias in benchmark alignment",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-17T21:26:18Z",
+          "url": "https://github.com/ranaroussi/quantstats/pull/557"
+        },
+        {
+          "number": 574,
+          "title": "Warn on ambiguous price-versus-returns inputs",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-15T11:31:01Z",
+          "url": "https://github.com/ranaroussi/quantstats/pull/574"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/python-publish.yml",
+        ".github/workflows/test-compatibility.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE.txt"
+      ]
+    },
+    {
+      "repository": "microsoft/qlib",
+      "requested_repository": "microsoft/qlib",
+      "inspected_at_utc": "2026-10-24T02:12:43.847116+00:00",
+      "default_branch": "main",
+      "commit_sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "archived": false,
+      "license_observation": "MIT",
+      "tree_truncated": false,
+      "metadata_url": "https://api.github.com/repos/microsoft/qlib",
+      "recent_commits": [
+        {
+          "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+          "committed_at": "2026-10-08T10:15:27Z",
+          "subject": "fix(security): constrain config-driven code execution (#2340)",
+          "url": "https://github.com/microsoft/qlib/commit/54355232463878d2eebb91fe0ee5fa7fa1f5976c"
+        },
+        {
+          "sha": "7c95268c0c174ea596dee86e0ff1efb29c0e3d09",
+          "committed_at": "2026-10-08T09:49:08Z",
+          "subject": "fix(security)!: harden artifact serialization and loading (#2339)",
+          "url": "https://github.com/microsoft/qlib/commit/7c95268c0c174ea596dee86e0ff1efb29c0e3d09"
+        },
+        {
+          "sha": "be725493eb1a6bbb42bf11b37aa7669f59610ff1",
+          "committed_at": "2026-09-16T06:56:07Z",
+          "subject": "ci: pin GitHub Actions to full-length commit SHAs (#2318)",
+          "url": "https://github.com/microsoft/qlib/commit/be725493eb1a6bbb42bf11b37aa7669f59610ff1"
+        },
+        {
+          "sha": "f431588906e776123332a32bbf82b5f828006fda",
+          "committed_at": "2026-09-16T03:18:42Z",
+          "subject": "ci: fix dependency compatibility failures (#2308)",
+          "url": "https://github.com/microsoft/qlib/commit/f431588906e776123332a32bbf82b5f828006fda"
+        },
+        {
+          "sha": "79633dd9506ea689e5400dea0197717b5b3d74b7",
+          "committed_at": "2026-07-23T08:15:29Z",
+          "subject": "feat(config): add explicit validation for required configuration fields (#2078)",
+          "url": "https://github.com/microsoft/qlib/commit/79633dd9506ea689e5400dea0197717b5b3d74b7"
+        }
+      ],
+      "recent_releases": [
+        {
+          "tag": "v0.9.8",
+          "published_at": "2026-10-08T10:58:43Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/microsoft/qlib/releases/tag/v0.9.8"
+        },
+        {
+          "tag": "v0.9.7",
+          "published_at": "2025-08-15T09:49:17Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/microsoft/qlib/releases/tag/v0.9.7"
+        },
+        {
+          "tag": "v0.9.6",
+          "published_at": "2024-12-23T07:36:40Z",
+          "prerelease": false,
+          "target_commitish": "main",
+          "url": "https://github.com/microsoft/qlib/releases/tag/v0.9.6"
+        }
+      ],
+      "recent_issue_sample": [
+        {
+          "number": 2385,
+          "title": "fix(model): preserve Transformer batch dimension for singleton inputs",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T21:19:12Z",
+          "url": "https://github.com/microsoft/qlib/pull/2385"
+        },
+        {
+          "number": 2375,
+          "title": "fix(workflow): stop rolling when the next test window leaves the calendar",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T11:02:08Z",
+          "url": "https://github.com/microsoft/qlib/pull/2375"
+        },
+        {
+          "number": 2376,
+          "title": "fix(data): accept datetime bounds in the PIT P operator",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T06:07:15Z",
+          "url": "https://github.com/microsoft/qlib/pull/2376"
+        },
+        {
+          "number": 2384,
+          "title": "fix: SoftTopkStrategy sizes positions with get_risk_degree()",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T04:36:55Z",
+          "url": "https://github.com/microsoft/qlib/pull/2384"
+        },
+        {
+          "number": 2191,
+          "title": "fix: correct typo occured -> occurred in br_index/collector.py",
+          "state": "closed",
+          "kind": "pull_request",
+          "updated_at": "2026-10-23T01:14:26Z",
+          "url": "https://github.com/microsoft/qlib/pull/2191"
+        },
+        {
+          "number": 2383,
+          "title": "chore(deps): bump certifi from 2022.12.7 to 2026.10.19 in /scripts/data_collector/br_index",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T06:22:19Z",
+          "url": "https://github.com/microsoft/qlib/pull/2383"
+        },
+        {
+          "number": 2378,
+          "title": "fix(riskmodel): keep structured covariance on one sample denominator",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-22T05:39:57Z",
+          "url": "https://github.com/microsoft/qlib/pull/2378"
+        },
+        {
+          "number": 2380,
+          "title": "fix(eva): keep the lowest scores in the factor short group",
+          "state": "open",
+          "kind": "pull_request",
+          "updated_at": "2026-10-21T13:24:48Z",
+          "url": "https://github.com/microsoft/qlib/pull/2380"
+        }
+      ],
+      "workflow_files": [
+        ".github/workflows/lint_title.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/stale.yml",
+        ".github/workflows/test_qlib_from_pip.yml",
+        ".github/workflows/test_qlib_from_source.yml",
+        ".github/workflows/test_qlib_from_source_slow.yml"
+      ],
+      "license_notice_paths": [
+        "LICENSE"
+      ]
+    }
+  ],
+  "source_files": [
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "README.md",
+      "sha256": "0394b96e00eb5e4fd32612bd615c14374b87c0cce4e9ebdccb54267ae29767e9",
+      "bytes": 25685,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/README.md"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "app.py",
+      "sha256": "22baceb540a708241f15dc46b989c364d7a2f346a6f36a2a8646ce266a42c20b",
+      "bytes": 1903,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/app.py"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "orderapi.py",
+      "sha256": "6e3c2722644ae36239932df3c83ccd4d2afb0d59312b611f52c730cc5ea715f5",
+      "bytes": 3883,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/orderapi.py"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "requirements.txt",
+      "sha256": "aa4d83b7838f62de14b8cf9343705d9fd550a9ac315edd65ac61f318a18fd47f",
+      "bytes": 544,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/requirements.txt"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "bybitapi.py",
+      "sha256": "3d5c6df3ddd4f234274520062b1229f18c07cd405f1a79b67af55276fe2d7641",
+      "bytes": 14225,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/bybitapi.py"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "ftxapi.py",
+      "sha256": "b037832845a092de3b596b7809c3f5cfd0c511d4f8af95faf472da3371394adb",
+      "bytes": 11883,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/ftxapi.py"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "discord_bot/discord_main.py",
+      "sha256": "e1ca25f8df146fab32bc578e0d9385b4bdfaeb2be420b27d6eac1f402f0ed1ec",
+      "bytes": 1392,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/discord_bot/discord_main.py"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "logbot.py",
+      "sha256": "e35c779d7f0e963d6f09904a05016a731719a0c4e9a96f6fb0fa094f61d8c681",
+      "bytes": 1257,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/logbot.py"
+    },
+    {
+      "repository": "lth-elm/TradingView-Webhook-Trading-Bot",
+      "sha": "e9efac27c4b5f933442e5248b7e180c176b6c47a",
+      "path": "alertmodel.txt",
+      "sha256": "4ced2dadeea82ccf1a98a60ba7420efbb1c5734bd8566e18f9e432516d9fafc4",
+      "bytes": 3103,
+      "url": "https://raw.githubusercontent.com/lth-elm/TradingView-Webhook-Trading-Bot/e9efac27c4b5f933442e5248b7e180c176b6c47a/alertmodel.txt"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "README.md",
+      "sha256": "e40e05367ceacf7138a2605484bf7d1cb5a262d2dba03f52a5327c023b3cd0dc",
+      "bytes": 12406,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/README.md"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/LICENSE.txt"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "pyproject.toml",
+      "sha256": "1faaea506c1d42f5e9db0d7152cea43920596b901e281e27c2655e791284c9ef",
+      "bytes": 1580,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/pyproject.toml"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "requirements.txt",
+      "sha256": "5b340fe0a8830196dbfc18098edd73c379eeae05f752ab47979e96cb542f095f",
+      "bytes": 12329,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/requirements.txt"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "aider/repomap.py",
+      "sha256": "a5d4befe70445114b9f62da47b0eeb2a5384f9e84a0c083c77a4b339caf61ecd",
+      "bytes": 27306,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/repomap.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "aider/repo.py",
+      "sha256": "a49343d63d3faa684003f9e59306215e6f3d77b7b944a71b88b132e0c78c5df0",
+      "bytes": 22954,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/repo.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "aider/commands.py",
+      "sha256": "4457e9da5ac3d89003648d68f596aa9857a7e76e36dcff8ebd10f4b59ccd77e7",
+      "bytes": 62230,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/commands.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "aider/coders/base_coder.py",
+      "sha256": "04a7b38c4f1d2b1684ac958f40bcd81a28b00139eae88afed59d2c970bef1ee1",
+      "bytes": 86302,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/coders/base_coder.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "aider/run_cmd.py",
+      "sha256": "f7e36948be2196a22775ffc43758e79967e35fbbc83db0e02a018f19102bd91c",
+      "bytes": 4223,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/run_cmd.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "aider/linter.py",
+      "sha256": "b798f0599d5dbc8cd1b628359134a3ce5eaed4b45fc347b5f6ac0d21e9f68c08",
+      "bytes": 7998,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/linter.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "tests/basic/test_repomap.py",
+      "sha256": "4155b4f18992f463e633381e0629306d0fecc3e58d57d2923f4df00a6cf3cd62",
+      "bytes": 18820,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/tests/basic/test_repomap.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "tests/basic/test_repo.py",
+      "sha256": "d888fd8093bcb7638a586a8249d9a813b75e0bd11acd9a92a02038ed0e3cde0f",
+      "bytes": 29480,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/tests/basic/test_repo.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "tests/basic/test_commands.py",
+      "sha256": "e94a0b1293191a353dbcabbace9274c0c98d87726bf8e33e84a8da6c74656c02",
+      "bytes": 90081,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/tests/basic/test_commands.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": ".github/workflows/ubuntu-tests.yml",
+      "sha256": "c0576896c9e22b19dbd11ebc122b4cdaa19e90d8139da4bc0b12f5282b1fb948",
+      "bytes": 1199,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/.github/workflows/ubuntu-tests.yml"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": ".github/workflows/windows-tests.yml",
+      "sha256": "27b8d8a89d916144ce08b454d008733f0170975e850e86ce1edb8477f08a43a3",
+      "bytes": 1084,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/.github/workflows/windows-tests.yml"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "README.md",
+      "sha256": "ad97787c63595aecd8330a81c0c59d04f393fe5dae3d7dbc3a01e4469e329a1f",
+      "bytes": 34504,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/README.md"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/LICENSE"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "package.json",
+      "sha256": "909876162aaabf884d202e9bf0c2d17a48b358f752c1b44c9a255d4255576198",
+      "bytes": 4660,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/package.json"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": ".github/workflows/release_build.yml",
+      "sha256": "3b577cb413553aa597dc043732b2b9fa87b8d6c3a8bc7b2f2cee5d3f51e31b72",
+      "bytes": 1072,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/.github/workflows/release_build.yml"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": ".github/workflows/release_build_dev.yml",
+      "sha256": "bfaef42ef85dbb5c011134d757ab098c24dd021ce3fa3bad0ebf13b5bc38b358",
+      "bytes": 2394,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/.github/workflows/release_build_dev.yml"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "Projects/Algorithmic-Trading/TS/Bot-Modules/Trading-Bot/Low-Frequency-Trading/TradingStages.js",
+      "sha256": "61b5894e9e0ef6b55aeb9baad1d15756020745e2d1a2f85f785e72c54350b747",
+      "bytes": 75329,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/Projects/Algorithmic-Trading/TS/Bot-Modules/Trading-Bot/Low-Frequency-Trading/TradingStages.js"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "Projects/Algorithmic-Trading/Schemas/App-Schema/trading-system.json",
+      "sha256": "c2257644364c1889a141e4e42dbf6a733c46cba9507c3068d8c5e53761cdfe07",
+      "bytes": 3910,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/Projects/Algorithmic-Trading/Schemas/App-Schema/trading-system.json"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "README.md",
+      "sha256": "3c59a91311c55e4dccbbdc68f6e38e9456bd710802c09156b7e2baa7393f3eba",
+      "bytes": 15752,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/README.md"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "LICENSE",
+      "sha256": "bc84da682744c6dd008cf9ad3306caf18444d613a80c1bcc3de0dd46094787ef",
+      "bytes": 10873,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/LICENSE"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "pyproject.toml",
+      "sha256": "409ae390bff52f4df00fac82eee830b3f7fe7e33d211e321812b9bc651f1ad66",
+      "bytes": 1392,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/pyproject.toml"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/common/rest.py",
+      "sha256": "112d851f58ee3feecab74253d783176f17e0d3e179fd5c8bb85727368afe18cf",
+      "bytes": 16686,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/common/rest.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/data/historical/stock.py",
+      "sha256": "abceca87e5bc6df15885e97a28682edb2444a4f1a51aeb4706aa29ef52950c79",
+      "bytes": 7892,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/data/historical/stock.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/data/live/stock.py",
+      "sha256": "81bc98c9e9886dec392b6e95908d0851371b360e79045e7d0dfc04fcf6b850b9",
+      "bytes": 8613,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/data/live/stock.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/data/live/websocket.py",
+      "sha256": "ce4a21600663be6f2c5b714dd99695a43546b3b45b1d79c76caf6a8d00642ee2",
+      "bytes": 21432,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/data/live/websocket.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/data/requests.py",
+      "sha256": "b751946aef57ee02bea8a7886a71208faba06b6402b832942211bb8b6f7f41f8",
+      "bytes": 25332,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/data/requests.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/data/models/quotes.py",
+      "sha256": "d8374ffff68191db1e981305fbfe38dd8dc46761f86063a882c52fb9db14bf1d",
+      "bytes": 2752,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/data/models/quotes.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/trading/client.py",
+      "sha256": "b576305db1b2ffd538add2d873f54547ce58aba51f52baba5f32b0a07aeacb1d",
+      "bytes": 26264,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/trading/client.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "alpaca/trading/models.py",
+      "sha256": "2c8a3e9f57eade885a94e96e6b946b7fcbf29cc934e2015f67bf97755d7cc480",
+      "bytes": 40852,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/alpaca/trading/models.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": ".github/workflows/ci.yaml",
+      "sha256": "001332952f2bb238f49c86959d5f9272f5d7dbea000350840140c456da6eff25",
+      "bytes": 1346,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/.github/workflows/ci.yaml"
+    },
+    {
+      "repository": "paperswithbacktest/awesome-systematic-trading",
+      "sha": "ddfee8bb548bd6914191cb8fdb695d533ae16b0d",
+      "path": "README.md",
+      "sha256": "be1eda7e86bb27ab0d3f4c0399c8d421aa5adfb598ef7f43362fedd5ac227c41",
+      "bytes": 92960,
+      "url": "https://raw.githubusercontent.com/paperswithbacktest/awesome-systematic-trading/ddfee8bb548bd6914191cb8fdb695d533ae16b0d/README.md"
+    },
+    {
+      "repository": "paperswithbacktest/awesome-systematic-trading",
+      "sha": "ddfee8bb548bd6914191cb8fdb695d533ae16b0d",
+      "path": ".github/workflows/link-check.yml",
+      "sha256": "49f524caea4fe564e937538355c428336b66c5653c65e211a7ff89c1a389d35a",
+      "bytes": 1700,
+      "url": "https://raw.githubusercontent.com/paperswithbacktest/awesome-systematic-trading/ddfee8bb548bd6914191cb8fdb695d533ae16b0d/.github/workflows/link-check.yml"
+    },
+    {
+      "repository": "paperswithbacktest/awesome-systematic-trading",
+      "sha": "ddfee8bb548bd6914191cb8fdb695d533ae16b0d",
+      "path": "scripts/check_links.py",
+      "sha256": "b15cb4a348955df7fbc3553d20bf2998205d918387b2073da7ea96e961fd4702",
+      "bytes": 3104,
+      "url": "https://raw.githubusercontent.com/paperswithbacktest/awesome-systematic-trading/ddfee8bb548bd6914191cb8fdb695d533ae16b0d/scripts/check_links.py"
+    },
+    {
+      "repository": "paperswithbacktest/awesome-systematic-trading",
+      "sha": "ddfee8bb548bd6914191cb8fdb695d533ae16b0d",
+      "path": "static/strategies/intraday-seasonality-in-bitcoin.py",
+      "sha256": "c7830a0bd0baf05ea9fb7c81b2e7f56b58f1dd4525c2e499ee8e3a3f637d4a31",
+      "bytes": 1788,
+      "url": "https://raw.githubusercontent.com/paperswithbacktest/awesome-systematic-trading/ddfee8bb548bd6914191cb8fdb695d533ae16b0d/static/strategies/intraday-seasonality-in-bitcoin.py"
+    },
+    {
+      "repository": "paperswithbacktest/awesome-systematic-trading",
+      "sha": "ddfee8bb548bd6914191cb8fdb695d533ae16b0d",
+      "path": "static/strategies/fx-carry-trade.py",
+      "sha256": "336feaacacadec9b772273c47c95f9bed9f89cd95170e21335596f269f4408c3",
+      "bytes": 4776,
+      "url": "https://raw.githubusercontent.com/paperswithbacktest/awesome-systematic-trading/ddfee8bb548bd6914191cb8fdb695d533ae16b0d/static/strategies/fx-carry-trade.py"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "README.md",
+      "sha256": "e2c84296b78776c266a250f4b3dca46d27d3d224e1d7f553b52b48948a057d22",
+      "bytes": 8772,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/README.md"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "LICENSE",
+      "sha256": "da959ac23cb6eb2636b9389acc0cfec35e7ffa79a0420bb5469a132a2db18650",
+      "bytes": 12318,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/LICENSE"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "pyproject.toml",
+      "sha256": "d12259123e58eb5c9014b7579dbbae983a8aac5962451e69531310f696ed64d0",
+      "bytes": 2190,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/pyproject.toml"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "requirements.txt",
+      "sha256": "ded5406953b5fee4a988990e259a9f33e1f6502505ebd7f462df6c0a5be2f6cf",
+      "bytes": 436,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/requirements.txt"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "src/pybroker/strategy.py",
+      "sha256": "fee3e2dc35e3fbb568cf34e4b757b87b271f22cb8bef6c10b3e3d31caf006ed1",
+      "bytes": 150482,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/src/pybroker/strategy.py"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "src/pybroker/eval.py",
+      "sha256": "211c522bc55347106cd81cff3c5d6f7cb1197e0b8ee94db8760bded3e50735b9",
+      "bytes": 57653,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/src/pybroker/eval.py"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "tests/test_strategy.py",
+      "sha256": "c92ea42cbbf6c6ee35e21f4500ff4b81f12636e8761b16de723d2e369b77152f",
+      "bytes": 298240,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/tests/test_strategy.py"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": ".github/workflows/main.yml",
+      "sha256": "7f49a447f4a1092d84ad7fafb3e53205bb2bd71a8cc351dfa38ca3d7c955cb61",
+      "bytes": 8058,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/.github/workflows/main.yml"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "README.md",
+      "sha256": "f28357c134eaf63bcb32c5f67cb66553ecfba9663a8d0b27c016057828bccecf",
+      "bytes": 17452,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/README.md"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "LICENSE.md",
+      "sha256": "a914859a115b70e80956a3cbd613139ad74c04e5d1bd38da8bcc16725822ec84",
+      "bytes": 12321,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/LICENSE.md"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "pyproject.toml",
+      "sha256": "bc7835b5cdcee90e18344ddb77106e039e6e2f46ce4185286b1f15f669be8ebc",
+      "bytes": 2236,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/pyproject.toml"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "setup.py",
+      "sha256": "ccb3f666c6fd0bd1505548cfb5fd36743b3340b7d634183245e020b9b1c5d71d",
+      "bytes": 95,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/setup.py"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "vectorbt/portfolio/base.py",
+      "sha256": "1762c6597013ff2084316b15ece1d3ad3110230ead03f98a195024c348c2ca4e",
+      "bytes": 248264,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/vectorbt/portfolio/base.py"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "vectorbt/portfolio/nb.py",
+      "sha256": "3bc4fcbd9871dcd20fe49037484253d6fe200b88042a942ff98e75bb83ec46c7",
+      "bytes": 290039,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/vectorbt/portfolio/nb.py"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "vectorbt/generic/splitters.py",
+      "sha256": "e17cb9f3e40e55f24b13437931e62d1f175d1f1a14e481e035171b82c4f34d8c",
+      "bytes": 10975,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/vectorbt/generic/splitters.py"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": "tests/test_portfolio.py",
+      "sha256": "d49041e4eabe9141ea92b5d8037470a44e62790eb3ac230439dde0a86e2d6cbb",
+      "bytes": 437209,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/tests/test_portfolio.py"
+    },
+    {
+      "repository": "polakowo/vectorbt",
+      "sha": "8e30b8ce102f302bec0c0226e05b59714453bebd",
+      "path": ".github/workflows/tests.yml",
+      "sha256": "ed6c205a1d88f1567735ce4077442a2aaadc817cc363ae20f1da9b409c54e55f",
+      "bytes": 2193,
+      "url": "https://raw.githubusercontent.com/polakowo/vectorbt/8e30b8ce102f302bec0c0226e05b59714453bebd/.github/workflows/tests.yml"
+    },
+    {
+      "repository": "nautechsystems/nautilus_trader",
+      "sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+      "path": "README.md",
+      "sha256": "fb59fc43d9c585018b6e1ea77504d28111be7d30dc6e08a1da1eb4ad78ad39aa",
+      "bytes": 40010,
+      "url": "https://raw.githubusercontent.com/nautechsystems/nautilus_trader/a8b4d7381020981ccda1165f24101e0e9ceedb1e/README.md"
+    },
+    {
+      "repository": "nautechsystems/nautilus_trader",
+      "sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+      "path": "LICENSE",
+      "sha256": "ee907919ec88c9c017b1f8b608db20960b6598aefcc4fe58820bde955d65ed3c",
+      "bytes": 7651,
+      "url": "https://raw.githubusercontent.com/nautechsystems/nautilus_trader/a8b4d7381020981ccda1165f24101e0e9ceedb1e/LICENSE"
+    },
+    {
+      "repository": "nautechsystems/nautilus_trader",
+      "sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+      "path": ".github/workflows/test.yml",
+      "sha256": "b13523827a829c0a3fb0b30c4aa57f2aa9e3655bfba12c2c85531405c76aef8e",
+      "bytes": 9537,
+      "url": "https://raw.githubusercontent.com/nautechsystems/nautilus_trader/a8b4d7381020981ccda1165f24101e0e9ceedb1e/.github/workflows/test.yml"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "README.md",
+      "sha256": "9ba1cfc9fc64b4faa4e0846faeed3c1fd229a5c7748527f8e7fc112390f3c004",
+      "bytes": 8365,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/README.md"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/LICENSE.txt"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "pyproject.toml",
+      "sha256": "7246469c7a90e449f097ffa40741f7ca2c8697ae5da142068298ca83a6215d49",
+      "bytes": 3750,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/pyproject.toml"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "requirements.txt",
+      "sha256": "e4c4addd8756ce399bac89424135a8778aa3145aea3a445295dd417118725879",
+      "bytes": 255,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/requirements.txt"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "quantstats/stats.py",
+      "sha256": "07b3ceeec1a06f90fddb33ec6b089f7f8dbfa2a4cd6b6d6affb7e0acd0f51503",
+      "bytes": 128855,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/quantstats/stats.py"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "quantstats/reports.py",
+      "sha256": "254e2541e6b2f3bb03c01c2cfb9728aaaef4892fbabf4efb0687914f373daf51",
+      "bytes": 91858,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/quantstats/reports.py"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "quantstats/utils.py",
+      "sha256": "cd1aed9b93033ef349d5965fb046fd05f30d0a307637a2ff6de84b248fa41b4c",
+      "bytes": 33650,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/quantstats/utils.py"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": "tests/test_regressions.py",
+      "sha256": "afd193740c58722399ed4bf2e0b0ca5f208440ce4c4d8d6aad83238a02a629e4",
+      "bytes": 34941,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/tests/test_regressions.py"
+    },
+    {
+      "repository": "ranaroussi/quantstats",
+      "sha": "9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a",
+      "path": ".github/workflows/test-compatibility.yml",
+      "sha256": "1e8cd6eb64bad958374474b4fae0083a8553c96a20f14d6ea4383de9e0585372",
+      "bytes": 3127,
+      "url": "https://raw.githubusercontent.com/ranaroussi/quantstats/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/.github/workflows/test-compatibility.yml"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": "README.md",
+      "sha256": "e9f7cc8eeb60e3fe3784ec496e350ecb584157c3240cda0651c20acb26fd9037",
+      "bytes": 44277,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/README.md"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": "LICENSE",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "bytes": 1141,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/LICENSE"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": "pyproject.toml",
+      "sha256": "c47849f143278fef2c114513ca123c6100f007947cdf051928e734985f35a4e9",
+      "bytes": 3861,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/pyproject.toml"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": "setup.py",
+      "sha256": "d4c91c0c581513eb23832e0491a3fd78be635bfa94bd690f4d47ed9b5eafc1b2",
+      "bytes": 509,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/setup.py"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": "qlib/contrib/rolling/base.py",
+      "sha256": "c5bb5aef7dc7224de4e12e6482a9b215a2ab2c8c92c0281016aa0bbdee3df660",
+      "bytes": 11509,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/qlib/contrib/rolling/base.py"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": "qlib/workflow/record_temp.py",
+      "sha256": "80eacd668e6f8475995ff67f115766c4c241a469b03419fa82a4bb41482e13de",
+      "bytes": 28460,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/qlib/workflow/record_temp.py"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": "qlib/utils/__init__.py",
+      "sha256": "f423a1b86444f8455a348ddce69c142dcbfa3ba68131897539c031bcf595de70",
+      "bytes": 32782,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/qlib/utils/__init__.py"
+    },
+    {
+      "repository": "microsoft/qlib",
+      "sha": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+      "path": ".github/workflows/test_qlib_from_source.yml",
+      "sha256": "589b656909cbe753abc29d9ee3dfdd3b46df6596144fec06312ab6e287ada83c",
+      "bytes": 6300,
+      "url": "https://raw.githubusercontent.com/microsoft/qlib/54355232463878d2eebb91fe0ee5fa7fa1f5976c/.github/workflows/test_qlib_from_source.yml"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "Projects/Algorithmic-Trading/TS/Bot-Modules/Trading-Bot/Low-Frequency-Trading/TradingSystem.js",
+      "sha256": "072c7f01706b456562f6a441945021ef546481f4072b2302fc47a5936fc3acdc",
+      "bytes": 24046,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/Projects/Algorithmic-Trading/TS/Bot-Modules/Trading-Bot/Low-Frequency-Trading/TradingSystem.js"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "Projects/Algorithmic-Trading/TS/Bot-Modules/Trading-Bot/Low-Frequency-Trading/TradingSimulation.js",
+      "sha256": "884ebf31260a30504ba4a40abe7c95d1e053efb35e448827ce7a814ed58a4b52",
+      "bytes": 15917,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/Projects/Algorithmic-Trading/TS/Bot-Modules/Trading-Bot/Low-Frequency-Trading/TradingSimulation.js"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": ".tests/Projects/Foundations/PL/Utilities/CredentialsFunctions.test.js",
+      "sha256": "79fa620ceab4b8c356f12cab68a1ee3c46ba9ee2bbfbcd17f70fd37ded538fe8",
+      "bytes": 18797,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/.tests/Projects/Foundations/PL/Utilities/CredentialsFunctions.test.js"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": ".github/workflows/docker.yml",
+      "sha256": "a573c466ed5feccf64b7bc9ff4f0410f73335c7cb3c4e2a9ab5e48dd3fff8da2",
+      "bytes": 1685,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/.github/workflows/docker.yml"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "tests/data/test_historical_stock_data.py",
+      "sha256": "e002a9628cc3ed6f28b94dcebf814d45f05f13144c3f0c72e1b42083c3762e5e",
+      "bytes": 27519,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/tests/data/test_historical_stock_data.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "tests/data/test_websockets.py",
+      "sha256": "d5baddbf8ce017a5e5fa453d299d0ad8abfc44e89965519b78e75605b07e54ee",
+      "bytes": 9844,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/tests/data/test_websockets.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "tests/test_stream_startup.py",
+      "sha256": "7d94e1bee472605dc85255cb0ffb028ec082ea25e7a94846b3ef5b3991f535be",
+      "bytes": 3073,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/tests/test_stream_startup.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "tests/test_streaming_reconnect_issues.py",
+      "sha256": "dd51b55cf5cc8c498a467dc78b2b08bf6e80921a22e6c64861b3fa9fa3b29b43",
+      "bytes": 33826,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/tests/test_streaming_reconnect_issues.py"
+    },
+    {
+      "repository": "alpacahq/alpaca-py",
+      "sha": "66f2ffd797d3cb0e5202daf36d178b67aff89915",
+      "path": "tests/common/test_rest.py",
+      "sha256": "f7e0e34524ef8f9e5c1d86b45fe2e700815b8cf239123e786d5d3f2cdeedfa5d",
+      "bytes": 1375,
+      "url": "https://raw.githubusercontent.com/alpacahq/alpaca-py/66f2ffd797d3cb0e5202daf36d178b67aff89915/tests/common/test_rest.py"
+    },
+    {
+      "repository": "nautechsystems/nautilus_trader",
+      "sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+      "path": "python/pyproject.toml",
+      "sha256": "572035a043b265b8f610ee25042c111d87340cf905acd5946a4cd1a539cd9403",
+      "bytes": 12750,
+      "url": "https://raw.githubusercontent.com/nautechsystems/nautilus_trader/a8b4d7381020981ccda1165f24101e0e9ceedb1e/python/pyproject.toml"
+    },
+    {
+      "repository": "nautechsystems/nautilus_trader",
+      "sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+      "path": "Cargo.toml",
+      "sha256": "838e5f509616aa12dd5263bffc6767aa37bf97eed848148497c9958f8470d93b",
+      "bytes": 23519,
+      "url": "https://raw.githubusercontent.com/nautechsystems/nautilus_trader/a8b4d7381020981ccda1165f24101e0e9ceedb1e/Cargo.toml"
+    },
+    {
+      "repository": "nautechsystems/nautilus_trader",
+      "sha": "a8b4d7381020981ccda1165f24101e0e9ceedb1e",
+      "path": "crates/backtest/src/engine.rs",
+      "sha256": "b6c60048b499e401029e8ec4a7fffa8dbc9ad764e74767d4a79ed31ed1ef3cce",
+      "bytes": 167325,
+      "url": "https://raw.githubusercontent.com/nautechsystems/nautilus_trader/a8b4d7381020981ccda1165f24101e0e9ceedb1e/crates/backtest/src/engine.rs"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "aider/args.py",
+      "sha256": "bc38cb83d33435f7cfd8dc160cd4b1b3aeb607590334997e5ff90c26f0d41270",
+      "bytes": 30298,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/args.py"
+    },
+    {
+      "repository": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "path": "requirements/requirements.in",
+      "sha256": "23e1ec3484e7ae6c161e1d32b2f5d44f64d7a3d259ccbe1b3ae733ca759e7d8b",
+      "bytes": 998,
+      "url": "https://raw.githubusercontent.com/Aider-AI/aider/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/requirements/requirements.in"
+    },
+    {
+      "repository": "edtechre/pybroker",
+      "sha": "01f11fdd42b76ef564a7f550c247a3dfce81330e",
+      "path": "setup.cfg",
+      "sha256": "946bd3382c062d68d6e9128ea97dc0bfbdbfa1a63fe2e43e290d51d9a97b99ed",
+      "bytes": 2215,
+      "url": "https://raw.githubusercontent.com/edtechre/pybroker/01f11fdd42b76ef564a7f550c247a3dfce81330e/setup.cfg"
+    },
+    {
+      "repository": "superalgos/superalgos",
+      "sha": "9f0fb59edd4bae7afa08d06c366e0bcb48103aec",
+      "path": "Projects/Algorithmic-Trading/Schemas/Docs-Nodes/T/Trading/Trading-System/trading-system.json",
+      "sha256": "95e5b60224c4f58b34a079286261981632035705b27c52e51c2047f55440de7e",
+      "bytes": 19200,
+      "url": "https://raw.githubusercontent.com/superalgos/superalgos/9f0fb59edd4bae7afa08d06c366e0bcb48103aec/Projects/Algorithmic-Trading/Schemas/Docs-Nodes/T/Trading/Trading-System/trading-system.json"
+    }
+  ]
+}

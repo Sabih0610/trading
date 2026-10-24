@@ -4,6 +4,15 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## Third-party adoption audit — 2026-10-24 UTC
+
+- Inspected five requested upstreams and five research candidates at exact commits; recorded source,
+  license, maintenance, CI/test and issue evidence in the adoption report and checksum manifest.
+- Proposed Windows offline CI and a bounded local source map, with independent acceptance criteria.
+  No recommendation, third-party platform, dependency, provider integration or trading route installed.
+- Preserved current P11b.0.1 and explicitly compared requested P11b.0. All local quality gates pass:
+  685 pytest passed, 3 live deselected, 23 existing warnings in123.74s; paper safety smoke passes.
+
 ## P11b.0.1 — 2026-10-24 UTC
 
 - Added shared configurable EMA12/26/prior20-channel features and two separately typed reference
