@@ -25,7 +25,7 @@ Existing genuine M1 and P11b.0 evidence preserved. P11b.1 remains design only an
 | P11a.2 | Source-clock profiles and alternative feed qualification | done; NOT data-qualified | 2026-10-23 16:36 | 2026-10-23 17:06 | `phase-P11a.2-done` | [report](reports/phases/P11a.2.md) | queued; per-instrument NO-GO |
 | P11a.3 | Twelve Data Basic reference feed | done; bounded M1 qualified for EUR/USD and XAU/USD | 2026-10-23 18:00 | 2026-10-23 18:29 | `phase-P11a.3-done` | [report](reports/phases/P11a.3.md) | queued; no executable quotes or P11b |
 | P11b.0 | Reference shadow research engine | done offline; genuine rights blocked | 2026-10-23 18:56 | 2026-10-23 19:43 | `phase-P11b.0-done` | [report](reports/phases/P11b.0.md) | queued; no fills or orders |
-| P11b.0.1 | Gold and forex price-only shadow strategies | done offline; genuine rights blocked | 2026-10-24 01:37 | 2026-10-24 02:03 | `phase-P11b.0.1-done` | [report](reports/phases/P11b.0.1.md) | queued; no orders/fills |
+| P11b.0.1 | Gold and forex price-only shadow strategies | done offline; genuine rights blocked | 2026-10-24 01:37 | 2026-10-24 02:07 | `phase-P11b.0.1-done` | [report](reports/phases/P11b.0.1.md) | queued; no orders/fills |
 | P11b.1 | Executable data, contract and cost boundary | not started | â€” | â€” | â€” | [design](docs/P11b.1-design.md) | separately authorized scope required |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | â€” | â€” | â€” | â€” | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | â€” | â€” | â€” | â€” | â€” |
