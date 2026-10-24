@@ -14,6 +14,7 @@ from tb.risk.config import AssetRegistry
 from tb.shadow.journal import ShadowJournal, ShadowRefused, digest
 from tb.shadow.models import ResearchDecision, ShadowEvent
 from tb.shadow.strategies import compatibility
+from tb.strategies.reference import REFERENCE_STRATEGIES, PriceOnlyStrategy, ReferenceSignal
 
 
 class ShadowRuntime:
@@ -40,16 +41,26 @@ class ShadowRuntime:
                 now=started_at,
             )
         self.engines: dict[str, FeatureEngine] = {}
+        self.plugins: dict[str, dict[str, PriceOnlyStrategy]] = {}
         self.previous: dict[str, tuple[datetime, datetime]] = {}
         for event in journal.events():
-            self._features(event)
+            self._reference_signals(event, self._features(event))
+            if event.observation.received_at <= started_at:
+                self._label(event, started_at)
         journal.health(
             "recovered" if self.previous else "started", started_at, mode=journal.pin.mode
         )
 
     def _features(self, event: ShadowEvent) -> dict[str, Any]:
         row = event.observation
-        engine = self.engines.setdefault(row.symbol, FeatureEngine(timeframe=timedelta(minutes=5)))
+        reference = self.journal.config.reference_strategies
+        engine = self.engines.setdefault(
+            row.symbol,
+            FeatureEngine(
+                timeframe=timedelta(minutes=5),
+                reference_periods=reference.periods if reference else None,
+            ),
+        )
         result = engine.update(
             {
                 "timestamp_utc": row.source_at,
@@ -64,6 +75,26 @@ class ShadowRuntime:
         # JSON input version includes available price features only; no fake volume/sessions.
         result["timestamp_utc"] = row.source_at.isoformat()
         return result
+
+    def _reference_signals(
+        self, event: ShadowEvent, features: dict[str, Any]
+    ) -> dict[str, ReferenceSignal]:
+        config, symbol = self.journal.config.reference_strategies, event.observation.symbol
+        if config is None:
+            return {}
+        if symbol not in self.plugins:
+            self.plugins[symbol] = {
+                name: cls(symbol, config) for name, cls in REFERENCE_STRATEGIES.items()
+            }
+        return {
+            name: plugin.evaluate(symbol, features) for name, plugin in self.plugins[symbol].items()
+        }
+
+    def _label(self, event: ShadowEvent, now: datetime) -> None:
+        if self.journal.config.reference_strategies is not None:
+            from tb.shadow.evaluation import evaluate_event
+
+            evaluate_event(self.journal, self.rights, event, now)
 
     def process(
         self, event: ShadowEvent, now: datetime, *, before_commit: Callable[[], None] | None = None
@@ -86,6 +117,8 @@ class ShadowRuntime:
         if previous_id:
             reason = "duplicate" if previous_id == event.evidence_id else "revision_frozen_interval"
             self.journal.health(reason, now, symbol=row.symbol, event_id=event.interval_id)
+            if reason == "duplicate":
+                self._label(event, now)
             return reason
         completion_lag = (row.received_at - event.closes_at).total_seconds()
         if (
@@ -112,8 +145,17 @@ class ShadowRuntime:
             raise ShadowRefused("shadow_source_or_receipt_clock_regressed")
         started = time.perf_counter()
         features = self._features(event)
+        signals = self._reference_signals(event, features)
         decisions = []
-        for strategy, reasons in compatibility(row.symbol, self.registry).items():
+        for strategy, reasons in compatibility(
+            row.symbol, self.registry, reference_enabled=config.reference_strategies is not None
+        ).items():
+            result = signals.get(strategy)
+            strategy_config = (
+                config.reference_strategies.model_dump(mode="json")
+                if result and config.reference_strategies
+                else {}
+            )
             decision = ResearchDecision(
                 id=digest([event.interval_id, strategy]),
                 event_id=event.interval_id,
@@ -127,11 +169,19 @@ class ShadowRuntime:
                 received_at=row.received_at,
                 information_available_at=row.received_at,
                 decision_at=now + timedelta(seconds=time.perf_counter() - started),
-                signal="WAIT",
-                status="control" if strategy == "do_nothing" else "blocked",
-                reasons=reasons,
+                signal=result.signal if result else "WAIT",
+                status=result.state
+                if result
+                else "control"
+                if strategy == "do_nothing"
+                else "blocked",
+                reasons=result.reasons if result else reasons,
+                strategy_version=config.strategy_version,
+                feature_version=config.feature_version,
                 features=features,
                 features_sha256=digest(features),
+                strategy_config=strategy_config,
+                strategy_config_sha256=digest(strategy_config) if strategy_config else None,
                 rights_digest=self.rights.digest,
                 source_version=event.pin.source_version,
                 consumer_version=event.pin.consumer_version,
@@ -140,6 +190,7 @@ class ShadowRuntime:
             decisions.append(decision)
         try:
             self.journal.commit(event, decisions, before_commit=before_commit)
+            self._label(event, now)
         except BaseException:
             self.journal.poisoned = True
             raise

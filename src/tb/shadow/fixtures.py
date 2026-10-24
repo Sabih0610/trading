@@ -18,6 +18,18 @@ from tb.shadow.models import ShadowConfig, ShadowEvent, SourcePin
 
 FIXTURE_START = datetime(2024, 6, 3, 8, tzinfo=UTC)
 FIXTURE_IDENTITY = digest("owned-P11b.0-fixture-v1")
+SCENARIOS = (
+    "rising",
+    "falling",
+    "sideways",
+    "up_breakout",
+    "down_breakout",
+    "false_breakout",
+    "volatility_spike",
+    "gaps",
+    "changing_volatility",
+    "wait_only",
+)
 
 
 def fixture_rights() -> DataRights:
@@ -47,7 +59,9 @@ def fixture_pin(config: ShadowConfig, code_version: str) -> SourcePin:
         mode="fixture_replay",
         provider="owned_fixture",
         identity=FIXTURE_IDENTITY,
-        source_version="owned-M5-fixture-1.0.0",
+        source_version="owned-M5-scenarios-2.0.0"
+        if config.reference_strategies
+        else "owned-M5-fixture-1.0.0",
         consumer_version=code_version,
         rights_digest=fixture_rights().digest,
         config_digest=digest(config.model_dump(mode="json")),
@@ -91,22 +105,97 @@ def fixture_events(pin: SourcePin, bars: int = 64) -> Iterator[ShadowEvent]:
             )
 
 
-def write_fixture(folder: Path, pin: SourcePin, bars: int = 64) -> Path:
+def scenario_prices(scenario: str, index: int) -> tuple[Decimal, Decimal, Decimal, Decimal]:
+    """Construct deliberately simple regimes, including failures, without parameter fitting."""
+    if scenario not in SCENARIOS:
+        raise ShadowRefused("unknown_owned_scenario")
+
+    def close_at(i: int) -> Decimal:
+        if scenario == "rising":
+            return Decimal(1000) + Decimal("0.5") * i
+        if scenario == "falling":
+            return Decimal(1000) - Decimal("0.5") * i
+        if scenario == "sideways":
+            return Decimal(1000) + Decimal("0.01") * ((i % 4) - 2)
+        if scenario in {"up_breakout", "down_breakout", "gaps"}:
+            direction = -1 if scenario == "down_breakout" else 1
+            return Decimal(1000) + direction * max(0, i - 55) * Decimal("0.5")
+        if scenario == "false_breakout":
+            return Decimal(1004 if i == 60 else 1005 if i == 61 else 998 if i >= 62 else 1000)
+        if scenario == "volatility_spike":
+            return Decimal(1040 if i == 60 else 1000)
+        if scenario == "changing_volatility":
+            return Decimal(1000) + Decimal("0.2") * (i if i < 64 else 128 - i)
+        return Decimal(1000)
+
+    opening, close = close_at(max(0, index - 1)), close_at(index)
+    width = Decimal("0.3")
+    if scenario == "volatility_spike" and index == 60:
+        width = Decimal(50)
+    elif scenario == "changing_volatility":
+        width = Decimal("0.3") if index < 40 else Decimal(3) if index < 80 else Decimal("0.1")
+    return opening, max(opening, close) + width, min(opening, close) - width, close
+
+
+def scenario_events(pin: SourcePin, scenario: str, bars: int = 128) -> Iterator[ShadowEvent]:
+    """Owned M5 scenarios, with independent EURUSD/XAUUSD scales and explicit missing intervals."""
+    if pin.mode != "fixture_replay" or scenario not in SCENARIOS or not 1 <= bars <= 1000:
+        raise ShadowRefused("owned_scenario_bounds_or_identity_refused")
+    for index in range(bars):
+        if scenario == "gaps" and index in {60, 61}:
+            continue
+        opening = FIXTURE_START + timedelta(minutes=5 * index)
+        prices = scenario_prices(scenario, index)
+        for offset, symbol in enumerate(("EURUSD", "XAUUSD")):
+            scale = Decimal("0.0011") if symbol == "EURUSD" else Decimal(2)
+            op, high, low, close = (v * scale for v in prices)
+            row = Observation(
+                symbol=canonical(symbol),
+                broker_symbol="EUR/USD" if symbol == "EURUSD" else "XAU/USD",
+                kind="candle",
+                timeframe="M5",
+                source_at=opening,
+                received_at=opening + timedelta(minutes=7, seconds=offset),
+                evidence="synthetic",
+                open=op,
+                high=high,
+                low=low,
+                close=close,
+                source_provider="twelve_data",
+                price_type="reference_midpoint",
+                source_timezone="UTC",
+                raw_source_time=opening.strftime("%Y-%m-%d %H:%M:%S"),
+                interval_complete=True,
+                coverage_started_at=FIXTURE_START,
+            )
+            yield ShadowEvent(
+                pin=pin,
+                observation=row,
+                evidence_id=record_id(row, pin.identity),
+                manifest_sha256=digest(["owned-scenario-2.0.0", scenario]),
+            )
+
+
+def write_fixture(
+    folder: Path, pin: SourcePin, bars: int = 64, *, scenario: str = "legacy"
+) -> Path:
     """Bounded owned fixture; never overwrite a dataset or pretend replay is genuine."""
     manifest = folder / "input.manifest.json"
     if manifest.exists() or (folder / "events.jsonl").exists():
         raise ShadowRefused("fixture_already_exists; choose a new run directory")
     path = folder / "events.jsonl"
-    atomic_write_bytes(
-        path, b"".join((e.model_dump_json() + "\n").encode() for e in fixture_events(pin, bars))
+    events = list(
+        fixture_events(pin, bars) if scenario == "legacy" else scenario_events(pin, scenario, bars)
     )
+    atomic_write_bytes(path, b"".join((e.model_dump_json() + "\n").encode() for e in events))
     atomic_write_json(
         manifest,
         {
             "schema": 1,
             "pin": pin.model_dump(mode="json"),
             "file": path.name,
-            "rows": bars * 2,
+            "rows": len(events),
+            "scenario": scenario,
             "sha256": sha256_file(path),
         },
     )

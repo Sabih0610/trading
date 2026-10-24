@@ -16,8 +16,6 @@ from tb.ingest.mt5.cli import collector_lease
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.ledger.store import DecisionLedger, LedgerVersions
 from tb.shadow.models import (
-    FEATURE_VERSION,
-    STRATEGY_VERSION,
     ResearchDecision,
     ShadowConfig,
     ShadowEvent,
@@ -65,6 +63,8 @@ class ShadowJournal:
                 "pin": pin.model_dump(mode="json"),
                 "pin_sha256": pin.digest,
             }
+            if config.reference_strategies is not None:
+                expected["evaluation_protocol"] = config.evaluation.model_dump(mode="json")
             if exists:
                 if (
                     self.meta.stat().st_size > 32768
@@ -94,6 +94,12 @@ class ShadowJournal:
                 CREATE TABLE IF NOT EXISTS shadow_health(seq INTEGER PRIMARY KEY, payload TEXT);
                 CREATE TABLE IF NOT EXISTS shadow_labels(id TEXT PRIMARY KEY, payload TEXT, digest TEXT);
             """)
+            if config.reference_strategies is not None:
+                self.db.executescript("""
+                    CREATE INDEX IF NOT EXISTS shadow_event_symbol_time ON shadow_events(symbol, opening);
+                    CREATE INDEX IF NOT EXISTS shadow_decision_symbol_time ON decisions(json_extract(payload_json,'$.symbol'), json_extract(payload_json,'$.decision_at'));
+                    CREATE INDEX IF NOT EXISTS shadow_label_decision_horizon ON shadow_labels(json_extract(payload,'$.decision_id'), json_extract(payload,'$.horizon_m5'));
+                """)
             for table in ("shadow_events", "shadow_checkpoints", "shadow_health", "shadow_labels"):
                 for action in ("UPDATE", "DELETE"):
                     self.db.execute(
@@ -169,10 +175,11 @@ class ShadowJournal:
                     (event_id,),
                 )
             ]
-            if len(decisions) != 4:
+            if len(decisions) != self.config.decision_count:
                 raise ShadowRefused("shadow_incomplete_atomic_decision_set")
             for decision in decisions:
                 ResearchDecision.model_validate(decision)
+            self._validate_decisions([ResearchDecision.model_validate(d) for d in decisions])
             aggregate = digest(decisions)
             chain = digest([previous, recorded, aggregate])
             check = self.db.execute(
@@ -184,7 +191,8 @@ class ShadowJournal:
             previous, count = chain, count + 1
         if (
             self.db.execute("SELECT COUNT(*) FROM shadow_checkpoints").fetchone()[0] != count
-            or self.db.execute("SELECT COUNT(*) FROM decisions").fetchone()[0] != count * 4
+            or self.db.execute("SELECT COUNT(*) FROM decisions").fetchone()[0]
+            != count * self.config.decision_count
         ):
             raise ShadowRefused("shadow_orphan_or_missing_journal_state")
         for label in self.db.execute("SELECT payload,digest FROM shadow_labels"):
@@ -194,6 +202,29 @@ class ShadowJournal:
     def events(self) -> Iterator[ShadowEvent]:
         for row in self.db.execute("SELECT payload FROM shadow_events ORDER BY seq"):
             yield ShadowEvent.model_validate_json(row[0])
+
+    def _validate_decisions(self, decisions: list[ResearchDecision]) -> None:
+        from tb.strategies.reference import REFERENCE_STRATEGIES
+
+        expected = {"do_nothing", "london_sweep_mss_fvg", "trend_vwap_pullback", "xaut_catch_up"}
+        if self.config.reference_strategies is not None:
+            expected.update(REFERENCE_STRATEGIES)
+        for decision in decisions:
+            ResearchDecision.model_validate(decision.model_dump())
+            if decision.strategy in REFERENCE_STRATEGIES and (
+                self.config.reference_strategies is None
+                or decision.strategy_config
+                != self.config.reference_strategies.model_dump(mode="json")
+            ):
+                raise ShadowRefused("shadow_reference_strategy_configuration_mismatch")
+        if {d.strategy for d in decisions} != expected or any(
+            d.strategy_version != self.config.strategy_version
+            or d.feature_version != self.config.feature_version
+            or digest(d.features) != d.features_sha256
+            or (d.strategy_config and digest(d.strategy_config) != d.strategy_config_sha256)
+            for d in decisions
+        ):
+            raise ShadowRefused("shadow_strategy_set_or_version_hash_mismatch")
 
     def existing(self, event: ShadowEvent) -> str | None:
         row = self.db.execute(
@@ -209,10 +240,11 @@ class ShadowJournal:
         before_commit: Callable[[], None] | None = None,
     ) -> None:
         self.quota()
+        self._validate_decisions(decisions)
         if (
             event.pin != self.pin
-            or len(decisions) != 4
-            or len({d.id for d in decisions}) != 4
+            or len(decisions) != self.config.decision_count
+            or len({d.id for d in decisions}) != self.config.decision_count
             or any(
                 d.event_id != event.interval_id or d.evidence_id != event.evidence_id
                 for d in decisions
@@ -220,10 +252,10 @@ class ShadowJournal:
         ):
             raise ShadowRefused("shadow_atomic_decision_set_invalid")
         versions = LedgerVersions(
-            model_version=STRATEGY_VERSION,
+            model_version=self.config.strategy_version,
             prompt_version="no-model",
             question_set_version="shadow-v1",
-            features_version=FEATURE_VERSION,
+            features_version=self.config.feature_version,
         )
         try:
             self.db.execute("BEGIN IMMEDIATE")

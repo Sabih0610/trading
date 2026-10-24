@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b.0",
+  "current_phase": "P11b.0.1",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -165,7 +165,8 @@
       "title": "Reference shadow research and future executable-data boundary",
       "status": "in_progress",
       "completed_subphases": [
-        "P11b.0"
+        "P11b.0",
+        "P11b.0.1"
       ],
       "external_orders_enabled": false,
       "genuine_shadow_status": "blocked_on_data_rights",
@@ -282,6 +283,44 @@
       "design": "docs/P11b.1-design.md",
       "external_orders_enabled": false,
       "human_gate": true
+    },
+    "P11b.0.1": {
+      "title": "Gold and forex price-only shadow strategies",
+      "status": "done",
+      "started_utc": "2026-10-24 01:37 UTC",
+      "report": "reports/phases/P11b.0.1.md",
+      "external_orders_enabled": false,
+      "completed_utc": "2026-10-24 02:07 UTC",
+      "commit": "phase-P11b.0.1-done",
+      "branch": "codex/p11b-0-1-price-only",
+      "baseline_commit": "45a6d5f7c94e619313e9c7c4c43a04a2c82d931d",
+      "review": "queued",
+      "genuine_collection_started": false,
+      "genuine_rights_status": "unverified; no affirmative approvals installed",
+      "p11b1_started": false,
+      "tests": {
+        "passed": 685,
+        "live_deselected": 3,
+        "warnings": 23,
+        "duration_seconds": 110.18
+      },
+      "owned_evidence": {
+        "events": 2556,
+        "decisions": 15336,
+        "BUY": 18,
+        "SELL": 16,
+        "WAIT": 15302,
+        "blocked": 7668,
+        "control": 2556,
+        "available_directional_samples": 34,
+        "available_future_labels": 94,
+        "data_gaps": 2
+      },
+      "orders_created": 0,
+      "fills_created": 0,
+      "positions_created": 0,
+      "market_models_trained": 0,
+      "optional_mt5_sdk_restored": "5.0.6231"
     }
   },
   "allowed_status": [
@@ -310,6 +349,6 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-23 19:43 UTC",
-  "next_phase": "Stop: rights/retention and independent review; conditional supervised trial needs separate approval. P11b.1 design only, not authorized."
+  "last_updated_utc": "2026-10-24 02:07 UTC",
+  "next_phase": "Stop: independent review and provider rights; two-hour genuine trial would be warm-up only. Longer finite signal trial and P11b.1 require separate owner scope; neither started."
 }

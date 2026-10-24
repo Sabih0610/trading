@@ -1,11 +1,23 @@
 # P11b scope and design history
 
-P11b.0 is complete offline: reference shadow decisions, delayed M5 collection gates and durable
+P11b.0/P11b.0.1 are complete offline: reference hypotheses, delayed M5 collection gates and durable
 recovery are implemented. Genuine use is blocked by unverified rights; no paper account, fills,
 balances or P&L were created. P11b.1 remains unstarted and requires a separate owner scope.
 The sections below retain earlier provider-specific decisions as historical context.
 
-## P11b.0 current decision — 2026-10-23
+## P11b.0.1 current decision — 2026-10-24
+
+Two separately typed reference hypotheses now produce deterministic BUY/SELL/WAIT on owned OHLC
+fixtures, with shared EMA/channel/ATR, six-decision atomic recovery, fixed future labels/baselines
+and price-free monitoring. Ten scenarios generated18 BUY/16 SELL; no genuine profitability or
+executable-data readiness follows.685 tests pass. Genuine rights still block acquisition.
+
+Current finite process bounds cannot warm up52 genuine M5 bars in a fresh two-hour run. Do not
+reduce lookback or import backfill to manufacture signals. See [completion](../reports/phases/P11b.0.1.md),
+[conditional plan](P11b.0.1-supervised-trial-plan.md), [rights workflow](how-to/data-rights-review.md)
+and [P11b.1 specification only](P11b.1-design.md). No trial or P11b.1 implementation started.
+
+## P11b.0 historical decision — 2026-10-23
 
 The owned replay produced 128 events and 512 WAIT decisions; restart suppressed 128 duplicates.
 Existing directional definitions are blocked by missing mapping/session/volume/contract inputs;

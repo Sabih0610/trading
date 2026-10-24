@@ -1,5 +1,19 @@
 # Pending items
 
+- **P11b.0.1 completed offline:** two price-only reference hypotheses now work on ten owned
+  scenarios;685 tests pass. Independent review is queued. Original execution-dependent strategies
+  remain blocked. Synthetic direction labels are not market skill, fills or P&L.
+- **Provider approval still pending:** active policy unchanged. Use the offline
+  [documentary rights workflow](how-to/data-rights-review.md); a support request is not approval.
+  Resolve exact cache/history/derived/persistent/AI/ML/display rights and retention/expiry handling
+  before genuine use. No provider message, actual approval or automatic record deletion was made.
+- **Two-hour trial limitation:**52 M5 warm-up bars require260 minutes; a fresh two-hour trial must
+  remain warm-up WAIT. A longer finite signal trial needs separate owner scope and continuity/
+  retention design; existing120-minute bounds remain unchanged. See [conditional plan](P11b.0.1-supervised-trial-plan.md).
+- **P11b.1 remains unstarted:** [read-only quote/contract/cost specification](P11b.1-design.md)
+  records$100 minimum-funded trade NO-GO/unqualified facts for EURUSD/XAUUSD. No additional account,
+  broker order, EA, risk widening, training or autonomous deployment is authorized.
+
 - **P11b.0 completed offline:** 641 tests pass; owned replay 128 events/512 WAIT decisions,
   recovery 128 duplicate suppressions. Independent review is queued. Genuine M5 collection/watch
   stays blocked by exact usage/retention approvals. Resolve cache/history/derived/persistent,

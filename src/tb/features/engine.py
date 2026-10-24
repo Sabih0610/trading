@@ -11,6 +11,8 @@ from typing import Any
 
 import polars as pl
 
+from tb.features.reference import ReferenceFeatures, ReferencePeriods
+
 
 @dataclass(frozen=True, slots=True)
 class FeatureSpec:
@@ -55,10 +57,16 @@ class FeatureInputError(ValueError):
 class FeatureEngine:
     """Stateful causal feature calculator for one symbol and timeframe."""
 
-    def __init__(self, *, timeframe: timedelta = timedelta(minutes=1)) -> None:
+    def __init__(
+        self,
+        *,
+        timeframe: timedelta = timedelta(minutes=1),
+        reference_periods: ReferencePeriods | None = None,
+    ) -> None:
         if timeframe <= timedelta(0):
             raise ValueError("timeframe must be positive")
         self.timeframe = timeframe
+        self._reference = ReferenceFeatures(reference_periods) if reference_periods else None
         self._previous_time: datetime | None = None
         self._previous_close: float | None = None
         self._ema20: float | None = None
@@ -83,6 +91,8 @@ class FeatureEngine:
         self._new_york_open: float | None = None
 
     def _reset_continuity(self) -> None:
+        if self._reference:
+            self._reference.reset()
         self._previous_close = None
         self._ema20 = None
         self._ema50 = None
@@ -295,7 +305,10 @@ class FeatureEngine:
         self._previous_time = timestamp
         self._previous_close = values["close"]
         self._recent_bars.append(values)
+        reference = self._reference.update(values) if self._reference else {}
         return {
+            **reference,
+            **({"prior_atr14": atr_before} if self._reference else {}),
             "timestamp_utc": timestamp,
             "input_gap": input_gap,
             "log_return": log_return,

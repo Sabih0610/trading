@@ -10,6 +10,7 @@ import streamlit as st
 from tb.dashboard.readers import EvidenceUnavailable, read_json, safe_path, safe_text
 from tb.ingest.history.core import sha256_file
 from tb.ingest.rights import load_rights
+from tb.shadow.fixtures import SCENARIOS
 from tb.shadow.models import ShadowSnapshot
 
 
@@ -31,9 +32,12 @@ def shadow_view(root: Path) -> None:
     st.subheader("Shadow Research")
     st.caption("Reference research signals only · No orders, fills, positions or account P&L")
     selection = st.selectbox(
-        "Shadow evidence", ["Owned fixture replay", "Genuine shadow (permission gated)"]
+        "Shadow evidence",
+        ["Owned fixture replay", "Owned price-only scenarios", "Genuine shadow (permission gated)"],
     )
-    mode = "fixture_replay" if selection == "Owned fixture replay" else "genuine_shadow"
+    mode = (
+        "genuine_shadow" if selection == "Genuine shadow (permission gated)" else "fixture_replay"
+    )
     try:
         genuine_rights = (
             load_rights(root / "config/data_rights.yaml")
@@ -64,6 +68,9 @@ def shadow_view(root: Path) -> None:
         / ("fixture" if mode == "fixture_replay" else "genuine")
         / "runtime/snapshots"
     )
+    if selection == "Owned price-only scenarios":
+        scenario = st.selectbox("Owned market scenario", SCENARIOS)
+        folder = root / "reports/shadow/price_only" / scenario / "runtime/snapshots"
     try:
         value = read_shadow_snapshot(folder, mode=mode)
     except EvidenceUnavailable:
@@ -92,16 +99,104 @@ def shadow_view(root: Path) -> None:
         )
     st.dataframe(value.instruments, hide_index=True, width="stretch")
     st.write("Research decision counts", value.counts)
-    st.dataframe(value.latest_decisions, hide_index=True, width="stretch")
+    if value.strategy_states:
+        st.write("Strategy readiness and warm-up")
+        st.dataframe(
+            value.strategy_states,
+            hide_index=True,
+            width="stretch",
+            column_order=[
+                "symbol",
+                "strategy",
+                "signal",
+                "status",
+                "contiguous_bars",
+                "warmup_required",
+                "reasons",
+                "decision_at",
+                "strategy_version",
+                "evidence_mode",
+            ],
+        )
+    st.dataframe(
+        value.latest_decisions,
+        hide_index=True,
+        width="stretch",
+        column_order=[
+            "symbol",
+            "strategy",
+            "signal",
+            "status",
+            "decision_at",
+            "reasons",
+            "received_at",
+            "source_close_at",
+            "strategy_version",
+            "feature_version",
+            "id",
+            "strategy_config_sha256",
+        ],
+    )
     st.caption(
-        "BUY/SELL, when eligible in a future reviewed strategy, are research directions. Current definitions are blocked or WAIT controls; no strategy was invented to force an entry."
+        "BUY/SELL are directional research hypotheses only. SELL denotes a downward hypothesis only and grants no execution permission. Old execution-dependent strategies retain their compatibility blocks."
     )
     st.write("Collection budget / usage", value.quota)
     st.write("Runtime and observation lag", value.latency)
     st.write("Versions", value.versions)
-    st.write(
-        "Outcome metrics: unavailable; no eligible directional strategy or genuine evaluation sample."
-    )
+    if value.evaluation:
+        st.write("Frozen future-reference evaluation", value.evaluation_protocol)
+        st.dataframe(
+            value.evaluation,
+            hide_index=True,
+            width="stretch",
+            column_order=[
+                "symbol",
+                "strategy",
+                "horizon_m5",
+                "available",
+                "correct_direction",
+                "incorrect_or_flat",
+                "nonoverlapping",
+                "overlapping",
+                "missing_outcomes",
+                "not_yet_available",
+                "status",
+                "directional_accuracy",
+                "always_up_correct",
+                "previous_move_scored",
+                "previous_move_correct",
+                "always_WAIT_scored",
+                "directional_decisions",
+                "nonoverlapping_correct",
+            ],
+        )
+        st.caption(
+            "Directional accuracy is not a trade win rate. Synthetic outcomes verify mechanics only. Overlapping windows, horizons and instruments are not independent evidence; WAIT is excluded and missing outcomes are not losses."
+        )
+        if value.recent_labels:
+            st.write("Available future-reference labels")
+            st.dataframe(
+                value.recent_labels,
+                hide_index=True,
+                width="stretch",
+                column_order=[
+                    "symbol",
+                    "strategy",
+                    "signal",
+                    "horizon_m5",
+                    "label",
+                    "correct",
+                    "nonoverlapping",
+                    "available_at",
+                    "evaluation_start",
+                    "evaluation_end",
+                    "decision_id",
+                ],
+            )
+    else:
+        st.write(
+            "Outcome metrics: unavailable; no eligible directional strategy or genuine evaluation sample."
+        )
     st.write("Trade P&L: unavailable. No executable quotes, costs or fills exist in this view.")
     st.caption(safe_text(value.evidence_completeness))
     if value.failures:

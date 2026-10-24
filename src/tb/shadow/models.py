@@ -2,33 +2,74 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Any, Literal
 
-from pydantic import AwareDatetime, Field, model_validator
+from pydantic import AwareDatetime, Field, field_serializer, model_validator
 
 from tb.ingest.history.core import sha256_bytes
 from tb.ingest.mt5.models import Observation
 from tb.ingest.mt5.storage import record_id
 from tb.risk.config import PolicyModel
+from tb.strategies.reference import (
+    REFERENCE_FEATURE_VERSION,
+    REFERENCE_STRATEGY_VERSION,
+    ReferenceStrategyConfig,
+)
 
 STRATEGY_VERSION = "reference-compatibility-1.0.0"
 FEATURE_VERSION = "shared-price-only-1.0.0"
 
 
+class EvaluationProtocol(PolicyModel):
+    """Fixed before any scoring; no profitability or optimized thresholds."""
+
+    version: Literal["future-reference-1.0.0"] = "future-reference-1.0.0"
+    horizons: tuple[Literal[1, 3, 6], ...] = (1, 3, 6)
+    flat_threshold_bps: float = Field(default=0, ge=0, le=100)
+    minimum_nonoverlapping_samples: int = Field(default=30, ge=30)
+
+    @model_validator(mode="after")
+    def unique_horizons(self) -> EvaluationProtocol:
+        if not self.horizons or tuple(sorted(set(self.horizons))) != self.horizons:
+            raise ValueError("Horizons must be unique, sorted and preregistered")
+        return self
+
+
 class ShadowConfig(PolicyModel):
     schema_version: Literal[1] = 1
-    version: Literal["1.0.0"] = "1.0.0"
+    version: Literal["1.0.0", "2.0.0"] = "1.0.0"
     post_close_seconds: Literal[120] = 120
     maximum_publication_seconds: Literal[180] = 180
     maximum_processing_seconds: Literal[30] = 30
     daily_credit_ceiling: int = Field(default=600, ge=576, le=600)
     max_storage_mb: int = Field(default=64, ge=1, le=512)
     minimum_free_bytes: int = Field(default=1048576, ge=65536)
-    strategy_version: Literal["reference-compatibility-1.0.0"] = "reference-compatibility-1.0.0"
-    feature_version: Literal["shared-price-only-1.0.0"] = "shared-price-only-1.0.0"
+    strategy_version: Literal["reference-compatibility-1.0.0", "price-only-strategies-1.0.0"] = (
+        "reference-compatibility-1.0.0"
+    )
+    feature_version: Literal["shared-price-only-1.0.0", "shared-price-only-2.0.0"] = (
+        "shared-price-only-1.0.0"
+    )
+    reference_strategies: ReferenceStrategyConfig | None = None
+    evaluation: EvaluationProtocol = EvaluationProtocol()
     orders_enabled: Literal[False] = False
     price_display_enabled: Literal[False] = False
+
+    @model_validator(mode="after")
+    def versioned(self) -> ShadowConfig:
+        expected = (
+            ("2.0.0", REFERENCE_STRATEGY_VERSION, REFERENCE_FEATURE_VERSION)
+            if self.reference_strategies is not None
+            else ("1.0.0", STRATEGY_VERSION, FEATURE_VERSION)
+        )
+        if (self.version, self.strategy_version, self.feature_version) != expected:
+            raise ValueError("Shadow strategy/feature/config versions disagree")
+        return self
+
+    @property
+    def decision_count(self) -> int:
+        return 6 if self.reference_strategies is not None else 4
 
 
 class SourcePin(PolicyModel):
@@ -112,10 +153,12 @@ class ResearchDecision(PolicyModel):
     information_available_at: AwareDatetime
     decision_at: AwareDatetime
     signal: Literal["BUY", "SELL", "WAIT"]
-    status: Literal["blocked", "control", "candidate"]
+    status: Literal["blocked", "control", "candidate", "warming_up", "filtered", "ready"]
     reasons: tuple[str, ...]
     features: dict[str, Any]
     features_sha256: str
+    strategy_config: dict[str, Any] = Field(default_factory=dict)
+    strategy_config_sha256: str | None = None
     rights_digest: str
     source_version: str
     consumer_version: str
@@ -136,6 +179,11 @@ class ResearchDecision(PolicyModel):
     price_pattern_semantics: Literal["OHLC_proxies_not_institutional_order_flow"] = (
         "OHLC_proxies_not_institutional_order_flow"
     )
+
+    @field_serializer("decision_at", when_used="json")
+    def fixed_decision_precision(self, value: datetime) -> str:
+        """Keep indexed UTC decision-time comparisons valid even on exact M5 boundaries."""
+        return value.astimezone(UTC).isoformat(timespec="microseconds").replace("+00:00", "Z")
 
     @model_validator(mode="after")
     def causal(self) -> ResearchDecision:
@@ -173,8 +221,14 @@ class ShadowSnapshot(PolicyModel):
     latency: dict[str, float | None]
     evidence_completeness: str
     directional_metrics: Literal[
-        "unavailable_no_eligible_directional_strategy_or_genuine_sample"
+        "unavailable_no_eligible_directional_strategy_or_genuine_sample",
+        "owned_fixture_directional_mechanics_only",
+        "reference_direction_only_not_trade_win_rate",
     ] = "unavailable_no_eligible_directional_strategy_or_genuine_sample"
+    strategy_states: list[dict[str, Any]] = Field(default_factory=list, max_length=12)
+    evaluation: list[dict[str, Any]] = Field(default_factory=list, max_length=12)
+    recent_labels: list[dict[str, Any]] = Field(default_factory=list, max_length=20)
+    evaluation_protocol: dict[str, Any] = Field(default_factory=dict)
     trade_profitability: Literal["unavailable_reference_signals_are_not_fills"] = (
         "unavailable_reference_signals_are_not_fills"
     )
@@ -196,10 +250,65 @@ class ShadowSnapshot(PolicyModel):
             "received_at",
             "source_close_at",
             "reasons",
+            "strategy_version",
+            "feature_version",
+            "strategy_config_sha256",
         }
         for decision in self.latest_decisions:
             if set(decision) - fields or decision.get("signal") not in {"BUY", "SELL", "WAIT"}:
                 raise ValueError("Shadow price/account fields refused by dashboard projection")
+        allowed_states = {
+            "symbol",
+            "strategy",
+            "signal",
+            "status",
+            "reasons",
+            "decision_at",
+            "strategy_version",
+            "contiguous_bars",
+            "warmup_required",
+            "evidence_mode",
+        }
+        allowed_evaluation = {
+            "symbol",
+            "strategy",
+            "horizon_m5",
+            "directional_decisions",
+            "available",
+            "correct_direction",
+            "incorrect_or_flat",
+            "nonoverlapping",
+            "nonoverlapping_correct",
+            "overlapping",
+            "missing_outcomes",
+            "not_yet_available",
+            "directional_accuracy",
+            "always_up_correct",
+            "previous_move_scored",
+            "previous_move_correct",
+            "always_WAIT_scored",
+            "status",
+        }
+        allowed_labels = {
+            "decision_id",
+            "strategy",
+            "symbol",
+            "signal",
+            "horizon_m5",
+            "label",
+            "correct",
+            "nonoverlapping",
+            "available_at",
+            "evaluation_start",
+            "evaluation_end",
+        }
+        for rows, allowed in (
+            (self.strategy_states, allowed_states),
+            (self.evaluation, allowed_evaluation),
+            (self.recent_labels, allowed_labels),
+        ):
+            if any(set(row) - allowed for row in rows):
+                raise ValueError("Shadow price/account fields refused by research projection")
         if any(
             k.lower() in {"pnl", "profit", "win_rate", "balance", "equity", "fills"}
             for k in self.counts

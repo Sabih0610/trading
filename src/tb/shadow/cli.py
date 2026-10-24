@@ -15,9 +15,11 @@ from tb.core.config import repo_root
 from tb.ingest.assessment import source_version
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.ingest.rights import SHADOW_USAGES, load_rights
+from tb.ingest.rights_review import require_retention_window
 from tb.risk.config import load_asset_registry
 from tb.shadow.fixtures import (
     FIXTURE_START,
+    SCENARIOS,
     fixture_pin,
     fixture_rights,
     read_replay,
@@ -35,6 +37,7 @@ def main() -> None:
     parser.add_argument("mode", choices=("replay", "watch"))
     parser.add_argument("--output", type=Path)
     parser.add_argument("--bars", type=int, default=64)
+    parser.add_argument("--scenario", choices=(*SCENARIOS, "legacy"), default="rising")
     parser.add_argument("--source-pin", type=Path)
     parser.add_argument("--seconds", type=int, default=120, choices=range(1, 7201))
     parser.add_argument("--initialize", action="store_true")
@@ -50,10 +53,20 @@ def main() -> None:
     new_fixture = False
     if args.mode == "replay":
         pin = fixture_pin(config, code)
-        folder = (args.output or root / "reports/shadow/fixture").resolve()
+        default_folder = (
+            root / "reports/shadow/price_only" / args.scenario
+            if config.reference_strategies
+            else root / "reports/shadow/fixture"
+        )
+        folder = (args.output or default_folder).resolve()
         input_path = folder / "input/input.manifest.json"
         if not input_path.exists():
-            write_fixture(input_path.parent, pin, args.bars)
+            write_fixture(
+                input_path.parent,
+                pin,
+                args.bars,
+                scenario=args.scenario if config.reference_strategies else "legacy",
+            )
             new_fixture = True
         started = FIXTURE_START
     else:
@@ -66,6 +79,7 @@ def main() -> None:
                 symbol=symbol,
                 now=datetime.now(UTC),
             )
+        require_retention_window(rights, args.seconds)
         if args.source_pin is None:
             raise ShadowRefused("genuine_shadow_requires_exact_source_pin")
         pin = SourcePin.model_validate_json(args.source_pin.read_text(encoding="utf-8"))

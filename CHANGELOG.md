@@ -4,6 +4,23 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11b.0.1 — 2026-10-24 UTC
+
+- Added shared configurable EMA12/26/prior20-channel features and two separately typed reference
+  hypotheses, with52-bar continuity, volatility filters and transition suppression. Old execution
+  mappings/strategies/risk/holdout/MCP guards remain unchanged.
+- Added six-decision atomic research commits/recovery, exact config hashes, preregistered1/3/6-M5
+  future labels, non-overlap flags, matched baselines and missing/pending outcome counts.
+- Added ten owned scenarios:2556 events,15336 decisions (18 BUY/16 SELL/15302 WAIT),94 labels.
+  Recovered1536 decisions/6 labels unchanged and suppressed256 duplicate inputs in a second run.
+- Added offline documented rights proposal/check/apply workflow with reviewer, scope, expiry,
+  artifact hash and retention, plus finite-run retention refusal. No actual approval was installed.
+- Extended the price-free dashboard, rights guide, conditional trial plan and P11b.1 specification.
+  A fresh two-hour genuine trial cannot meet260-minute warm-up; no duration gate was widened.
+- 685 tests pass (44 added); all quality gates and paper smoke passed. Existing genuine/legacy
+  evidence preserved, optional SDK restored. No orders, fills, P&L, paid AI, training or P11b.1.
+
+
 ## P11b.0 — 2026-10-23 UTC
 
 - Added explicit versioned usage-rights approvals, expiry and source/account/instrument scope;

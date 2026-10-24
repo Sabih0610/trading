@@ -5,16 +5,19 @@ from __future__ import annotations
 from tb.backtest.baselines import do_nothing_signals
 from tb.risk.config import AssetRegistry
 from tb.strategies.london_sweep import LondonSweepStrategy
+from tb.strategies.reference import REFERENCE_STRATEGIES
 from tb.strategies.trend_vwap import TrendVwapStrategy
 from tb.strategies.xaut_catchup import XautCatchUpStrategy
 
 
-def compatibility(symbol: str, registry: AssetRegistry) -> dict[str, tuple[str, ...]]:
+def compatibility(
+    symbol: str, registry: AssetRegistry, *, reference_enabled: bool = False
+) -> dict[str, tuple[str, ...]]:
     """No current strategy is promoted by reference feed access or synthetic success."""
     asset = registry.asset(symbol)
     mapping = () if asset and asset.allowed_strategies else ("asset_strategy_mapping_unapproved",)
     assert do_nothing_signals() == ()
-    return {
+    result = {
         "do_nothing": ("existing_baseline_control_no_entry",),
         LondonSweepStrategy.name: (
             *mapping,
@@ -32,3 +35,9 @@ def compatibility(symbol: str, registry: AssetRegistry) -> dict[str, tuple[str, 
             "cross_market_observation_alignment_unverified",
         ),
     }
+    if reference_enabled:
+        for name in REFERENCE_STRATEGIES:
+            result[name] = (
+                () if symbol in {"EURUSD", "XAUUSD"} else ("unsupported_reference_instrument",)
+            )
+    return result

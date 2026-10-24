@@ -5,7 +5,15 @@ features and journals WAIT controls or strategy blockers. The independent consum
 committed genuine M5 batches, but current Twelve Data usage permissions block that mode.
 Nothing in this component creates broker orders, fills, positions or account balances.
 
-## Run the owned fixture
+## P11b.0.1 current price-only mode
+
+The old four-decision study is preserved read-only. Current `config/shadow.yaml` version2.0.0
+adds two reference hypotheses and a separate owned-scenario namespace. Read
+[the price-only guide](price-only-shadow.md) for current replay/demo commands, frozen definitions,
+labels and limitations. A source/config change refuses old-journal reuse; it does not rewrite it.
+The original commands/results below describe the P11b.0 mechanics and legacy default model.
+
+## Legacy owned fixture
 
 From the repository root in PowerShell, use the project's uv installation:
 

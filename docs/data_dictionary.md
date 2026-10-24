@@ -303,3 +303,39 @@ WAIT controls are not directional samples. This schema has no balances, position
 candle/receipt/decision, counts, blockers, health, quota projection, observation/runtime lag,
 versions and unavailable outcomes. `snapshots/current.json` names an immutable file and SHA256.
 Fixture and genuine exports remain distinct; the dashboard never reads raw feature inputs.
+
+## P11b.0.1 price-only research fields
+
+Optional shared reference feature version2.0.0 adds `reference_ema_fast`, `reference_ema_slow`
+(first-close recursive EMA), `reference_contiguous_bars`, `reference_close`, strictly prior-window
+`prior_channel_high`/`prior_channel_low`, and `prior_atr14` from the existing shared Wilder state.
+The current candle is appended after channel thresholds are calculated. Gap reset clears all
+lookback and suppression state. These numeric inputs stay in the local rights-gated journal;
+they are not exposed by the public dashboard projection.
+
+`ResearchDecision` adds exact `strategy_config`/SHA256 and warming_up/filtered/ready states.
+Candidate BUY/SELL remains a directional hypothesis with execution_eligible=false, unavailable
+funded sizing and disabled advisory. Indexed decision UTC uses fixed six-digit microseconds;
+legacy stored payloads are never rewritten. New config2.0.0 explicitly admits six strategy records
+per event; legacy configuration defines four. Exact source/config/version changes refuse old
+journal reuse rather than migrating it silently.
+
+`EvaluationProtocol` is frozen in the new journal metadata before scoring: version, selected
+1/3/6-M5 horizons, flat threshold bps and minimum descriptive non-overlap count. Future labels
+store the original decision hash, committed future evidence IDs, evaluation start/end/availability,
+UP/DOWN/FLAT, directional correctness, matched always-UP/previous-move outcomes and a per-group
+non-overlap flag. WAIT abstains. Missing/pending counts do not become incorrect outcomes.
+`available_directional_samples` counts scenario-specific decisions with labels;
+`available_future_labels` counts all horizon labels, which are not independent observations.
+
+Price-free snapshots add `strategy_states`, `evaluation`, `recent_labels` and the frozen protocol.
+Column allowlists refuse raw price/account fields. Strategy readiness includes contiguous bars,
+required warm-up, reason and version. Evaluations group by symbol/strategy/horizon and mark all
+owned outcomes synthetic-only; no trade profit, balance, fill or investment recommendation.
+
+Permission metadata adds documentary kind, project-relative evidence artifact/SHA256 and explicit
+`permitted_retention_seconds`. Request-pending evidence cannot permit use. The offline review
+workflow validates scope/reviewer/expiry/document integrity; explicit apply installs only a new
+public policy version. No provider confirmation or approval is inferred. Finite genuine run
+preflight requires all three storage retention durations to exceed run length by five minutes;
+retention disposal remains a separately reviewed owner duty, with no automatic deletion here.

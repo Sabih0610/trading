@@ -39,6 +39,12 @@ class Permission(PolicyModel):
     approved_by: str | None = None
     evidence: str
     expires_at: AwareDatetime | None = None
+    evidence_kind: Literal["provider_terms", "provider_confirmation", "request_pending"] | None = (
+        None
+    )
+    evidence_artifact: str | None = None
+    evidence_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    permitted_retention_seconds: int | None = Field(default=None, ge=1)
 
     def state_at(self, now: datetime) -> str:
         return (
@@ -54,6 +60,7 @@ class Permission(PolicyModel):
             and bool(self.approved_by)
             and self.expires_at is not None
             and now < self.expires_at
+            and self.evidence_kind != "request_pending"
         )
 
 

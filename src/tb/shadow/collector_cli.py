@@ -16,6 +16,7 @@ from tb.ingest.mt5.models import FeedConfig, FeedUnavailable
 from tb.ingest.mt5.qualification import clock_reference_passes, independent_utc
 from tb.ingest.mt5.storage import FeedStore
 from tb.ingest.rights import SHADOW_USAGES, load_rights
+from tb.ingest.rights_review import require_retention_window
 from tb.ingest.twelve_data.adapter import TwelveDataFeed
 from tb.ingest.twelve_data.client import CreditBudget, TwelveDataClient, TwelveDataSettings
 from tb.shadow.collection import collect_m5_once, latest_due_close
@@ -37,6 +38,7 @@ def main() -> None:
             symbol=symbol,
             now=started,
         )
+    require_retention_window(rights, args.supervised_minutes * 60)
     # Only a later explicitly launched, rights-approved process can reach the key or storage.
     config = ShadowConfig.model_validate(
         yaml.safe_load((root / "config/shadow.yaml").read_text(encoding="utf-8"))
