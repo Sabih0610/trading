@@ -1,14 +1,12 @@
 # Build progress
 
-Third-party source adoption audit completed 2026-10-24 UTC; [report](reports/reviews/third-party-repository-adoption.md)
-and [two-item proposed backlog](docs/third-party-adoption-backlog.md) await review. No recommendations implemented;
-application phase stays P11b.0.1 and P11b.1 stays unstarted. Local685 tests pass in123.74s.
-
-P11b.0.1 is complete offline on `codex/p11b-0-1-price-only`, from45a6d5f.
-685 tests pass; Ruff/format/strict MyPy and paper safety smoke passed.
-Ten owned scenarios:2556 events,15336 research decisions (18 BUY,16 SELL,15302 WAIT),94 future labels.
-These are synthetic mechanics only. Genuine rights remain unresolved; no broker execution or P&L.
-Existing genuine M1 and P11b.0 evidence preserved. P11b.1 remains design only and unstarted.
+P11b.1 is complete offline on `codex/p11b-1-broker-quotes`, from 15f9a80 (application e537d56).
+758 tests pass; Ruff/376-file formatting/strict MyPy (148 sources) and existing paper safety smoke pass.
+The cTrader candidate is demo/view-only and genuine connectivity/account/rights remain unverified.
+Owned inputs:10 raw updates, 8 quotes,8 observation-only links; no genuine strategy skill or execution evidence.
+Both actual broker instruments remain unqualified. **P11b.2 is NO-GO and unstarted.**
+[Report](reports/phases/P11b.1.md) · [How-to](docs/how-to/broker-quote-research.md).
+Third-party A1/A2 recommendations remain separate and unimplemented.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -30,7 +28,7 @@ Existing genuine M1 and P11b.0 evidence preserved. P11b.1 remains design only an
 | P11a.3 | Twelve Data Basic reference feed | done; bounded M1 qualified for EUR/USD and XAU/USD | 2026-10-23 18:00 | 2026-10-23 18:29 | `phase-P11a.3-done` | [report](reports/phases/P11a.3.md) | queued; no executable quotes or P11b |
 | P11b.0 | Reference shadow research engine | done offline; genuine rights blocked | 2026-10-23 18:56 | 2026-10-23 19:43 | `phase-P11b.0-done` | [report](reports/phases/P11b.0.md) | queued; no fills or orders |
 | P11b.0.1 | Gold and forex price-only shadow strategies | done offline; genuine rights blocked | 2026-10-24 01:37 | 2026-10-24 02:07 | `phase-P11b.0.1-done` | [report](reports/phases/P11b.0.1.md) | queued; no orders/fills |
-| P11b.1 | Executable data, contract and cost boundary | not started | â€” | â€” | â€” | [design](docs/P11b.1-design.md) | separately authorized scope required |
+| P11b.1 | Read-only broker quote and contract readiness | done offline; genuine unverified | 2026-10-25 00:28 | 2026-10-25 01:11 | `phase-P11b.1-done` | [report](reports/phases/P11b.1.md) | queued; P11b.2 NO-GO |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | â€” | â€” | â€” | â€” | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | â€” | â€” | â€” | â€” | â€” |
 | P14 | 30+ day forward paper/demo evaluation | not started | â€” | â€” | â€” | â€” | â€” |

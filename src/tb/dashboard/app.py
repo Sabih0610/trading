@@ -16,6 +16,7 @@ from tb.agents.budget import load_ai_budget
 from tb.backtest.research import assess_research, load_research_policies
 from tb.core.config import ConfigLoadError, repo_root
 from tb.core.contracts import DashboardSnapshot
+from tb.dashboard.broker import broker_view
 from tb.dashboard.components import decisions_table, equity_chart, metric_grid, price_chart
 from tb.dashboard.feed import market_feed_view
 from tb.dashboard.models import (
@@ -392,11 +393,13 @@ def main() -> None:
     )
     if view == "Market Feed":
         market_feed_view(root, zone)
+        broker_view(root)
         return
     if view == "Shadow Research":
         from tb.dashboard.shadow import shadow_view
 
         shadow_view(root)
+        broker_view(root)
         return
     if source is not None:
         st.warning(

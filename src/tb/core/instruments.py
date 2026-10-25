@@ -16,6 +16,17 @@ ResearchMode = Literal[
 ]
 
 
+def funded_notional(units: Decimal, price: Decimal, conversion_rate: Decimal) -> Decimal:
+    """Shared full-cash arithmetic; never account buying power or an entry approval."""
+    if (
+        not units.is_finite()
+        or units < 0
+        or any(not value.is_finite() or value <= 0 for value in (price, conversion_rate))
+    ):
+        raise ValueError("Funded notional requires finite positive facts")
+    return units * price * conversion_rate
+
+
 def assert_eligible(symbol: str, mode: ResearchMode, registry: AssetRegistry) -> AssetDefinition:
     """Gate research independently while retaining the approved Spot policy."""
 
@@ -94,7 +105,7 @@ class ContractSpec(PolicyModel):
     def notional(self, lots: Decimal, price: Decimal, conversion_rate: Decimal) -> Decimal:
         """Return gross notional in account currency, never broker buying power."""
 
-        return lots * self.contract_size * price * conversion_rate
+        return funded_notional(lots * self.contract_size, price, conversion_rate)
 
     def tick_value(self, lots: Decimal, conversion_rate: Decimal) -> Decimal:
         """Return account-currency value per price tick."""

@@ -4,6 +4,19 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11b.1 — 2026-10-25 UTC
+
+- Added an optional cTrader demo/view-only quote facade using fixed allowlisted JSON messages,
+  returned single-account SCOPE_VIEW verification, exact symbols and expiring documentary gates.
+- Added independently timed bid/ask/raw provenance, unknown-preserving contracts/costs, funded
+  $100 readiness arithmetic and causal observation-only reference links; no execution model.
+- Reused FeedStore/DecisionLedger/OS lease with atomic checkpoint/evidence, source pins and
+  corruption/crash/restart tests. Owned demo has10 raw updates/8 quotes/8 links, all synthetic.
+- Extended the read-only Market Feed/Shadow Research UI and supplied 3 screenshots/how-to.
+- 758 tests pass (73 added), with all locked quality gates and existing paper safety smoke.
+  Genuine credentials/access/scope/data/costs/rights remain unverified; P11b.2 NO-GO/unstarted.
+  No external orders, accounts, framework migration, paid service, risk or holdout relaxation.
+
 ## Third-party adoption audit — 2026-10-24 UTC
 
 - Inspected five requested upstreams and five research candidates at exact commits; recorded source,
@@ -66,7 +79,7 @@ All notable project changes are documented here. The project follows Keep a Chan
 - Reused existing finite acquisition/storage/checkpoint/manifest pipeline for an optional GET-only OANDA Practice adapter; fixture evidence stays synthetic and genuine access requires region/API/no-funding/rights confirmation.
 - Added independent instrument admission, provider namespaces, raw-source dedup across profile versions and read-only source-clock/readiness diagnostics.
 - Actual EURUSD: five future-epoch rejects; XAUUSD: five missing quotes, currently selected but hidden. MetaQuotes profile UNVERIFIED; alternatives unconnected. No guessed offsets, orders or P11b.
-- Final gates:523 tests passed,3 live deselected,23 existing warnings; Ruff/format/strict MyPy clean, safety smoke passed. P11b NO-GO per instrument.
+- Final gates:523 tests passed, 3 live deselected, 23 existing warnings; Ruff/format/strict MyPy clean, safety smoke passed. P11b NO-GO per instrument.
 
 
 ## P11a.1 — 2026-10-23 UTC

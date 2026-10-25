@@ -2,6 +2,7 @@
 
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|
+| P11b.1 | queued | 2026-10-25 01:11 | [report](../reports/phases/P11b.1.md) | Review fixed demo/view message and scope boundary, per-side UTC/availability, raw unit/unknown cost semantics, atomic FeedStore/DecisionLedger recovery, rights/display refusal and funded-minimum/causal bridge. 758 tests pass; genuine unverified, P11b.2 NO-GO. |
 | Third-party adoption audit | queued | 2026-10-24 02:23 | [audit](../reports/reviews/third-party-repository-adoption.md) | Review ten pinned source/license/maintenance assessments and two proposed backlog items; docs only,685 tests pass, no implementation or migration. |
 | P11b.0.1 | queued | 2026-10-24 02:03 | [P11b.0.1 report](../reports/phases/P11b.0.1.md) | Review shared EMA/prior-channel causality, transitions/gap warm-up, six-decision atomic recovery, fixed future labels/baselines/overlap, documentary rights/retention workflow and price-free UI.685 tests pass; owned18 BUY/16 SELL only; no genuine trial or P11b.1. |
 | P11b.0 | queued | 2026-10-23 19:38 | [P11b.0 report](../reports/phases/P11b.0.md) | Review rights before key/cache/recovery, exact delayed M5 slots/credits, causal features and blockers, atomic journal/lock/corruption/disk recovery, future labels and price-free UI. 641 tests pass; 128 owned events/512 WAIT; no genuine trial, fills or P11b.1. |

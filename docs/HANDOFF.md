@@ -1,88 +1,58 @@
-# Current handoff — third-party adoption audit
+# Current handoff — P11b.1
 
-Audit completed 2026-10-24 02:23 UTC on `codex/third-party-adoption-audit`, from application baseline
-`e537d563c151f548bdf983652cf25114172e5ac2` (P11b.0.1). Requested P11b.0 baseline
-`45a6d5f7c94e619313e9c7c4c43a04a2c82d931d` was compared explicitly; no rollback.
+Completed offline 2026-10-25 01:11 UTC on `codex/p11b-1-broker-quotes`; parent 15f9a80a16c843a5c3c95a286402f3846adbda49,
+application baseline e537d563c151f548bdf983652cf25114172e5ac2/tag phase-P11b.0.1-done.
+[Report](../reports/phases/P11b.1.md), [research](research/P11b.1-research.md),
+[ADR0013](adr/0013-read-only-broker-quote-evidence.md), [how-to](how-to/broker-quote-research.md),
+[journal](journal/P11b.1-journal.md). Independent review queued. **P11b.2 NO-GO; not implemented.**
 
-- Read [adoption audit](../reports/reviews/third-party-repository-adoption.md),
-  [evidence pins](../reports/reviews/third-party-repository-evidence.json) and
-  [prioritized backlog](third-party-adoption-backlog.md). Ten upstreams inspected;101 source files pinned for targeted reading.
-- Recommend only A1 Windows offline CI and A2 bounded local source map, both pending review.
-  No source reuse, package/platform installation, recommendation implementation or provider connection.
-- Actual local verification: Ruff/354-file formatting/strict MyPy137 pass;685 pytest pass,
-  3 optional live deselected,23 existing warnings in123.74s; owned paper safety smoke passes.
-- Next exact step: owner/independent review of the report and two-item backlog. Stop; do not start
-  A1/A2, P11b.1, broker orders, new data collection or any paid service automatically.
-- All runtime/risk/rights/MCP/holdout state is unchanged. Original owner audit remains untracked.
-  Prior platform details below remain the operational handoff; no new collector/task was launched.
+- cTrader is an optional official JSON/WebSocket candidate behind BrokerQuoteSource. Fixed demo
+  endpoint; returned SCOPE_VIEW, single pinned demo account/token/broker, exact symbol assets and
+  documentary access/clock/rights required. No order/gateway/EA/account creation or paid service.
+- No cTrader credential fields or suitable OANDA pair are configured. No new genuine provider call
+  occurred. Actual account, OAuth scope, bid/ask, contracts, costs, resident/legal/Shariah status
+  and funded minimum remain unverified independently for EURUSD/XAUUSD.
+- Owned ten-event demo: 5 raw/4 quotes/4 observation links per symbol, zero execution state. Raw
+  side clocks/receipt/values preserved; partial updates do not refresh the opposite side. All
+  prices/minimum notional are labelled fixtures. Genuine reference alignment stays rights-blocked.
+- Existing FeedStore, Bronze/Silver manifests, DecisionLedger and OS lease reused. Data/checkpoint/
+  ledger append atomically with FULL sync and hash chain. Crash/duplicates/restart/source/rights/
+  corruption tests pass; closed mock sources cannot reconnect into a real socket.
+- Owned code digest 76169873c7ca996a04c4ecced6a6d5f3482c59dff92a11f5124ff39cff63b732.
+  Study: `work/p11b1/owned-broker-study-76169873c7ca/`. Public pointer in ignored
+  `reports/broker_quotes/fixture/current.json`; snapshot byte SHA256
+  01809f0ecb6247d31b7ebaa3e41e45654a9d28a8fc14c711b76224944494dfd3. Old development studies
+  remain separate; new source pin refuses existing genuine-store reuse, no silent migration.
+- Fixture EURUSD 1000 units/ 1100.02000 USD and gold 1 unit / 2400.2 USD already exceed $100 before costs.
+  These are illustrative owned values, not broker defaults/current prices. Actual cost totals,
+  actual broker minimum capital, economic tick/product/profit/freeze/calendar facts remain unknown.
+  Readiness states and legal/Shariah review stay independent; no simulator or risk approval.
+- Active Twelve Data rights/risk/assets unchanged. New broker access/rights examples approve
+  nothing; no active policy was installed. Documentary hashes/expiry/retention required; private
+  display independent. No provider message, financial agreement, automatic deletion or 24/7 task.
+- Full mandatory gates: 758 passed/3 optional live deselected/23 existing warnings in 133.02s;
+  Ruff/376-file formatting/strict MyPy (148 sources) and existing default paper safety smoke pass.
+  Baseline 685 passed in 199.86s. 73 new broker tests; all offline. Optional MT5 5.0.6231 was restored
+  after default gates; final checks are recorded in the journal. No native initialization.
+- Existing genuine M1 snapshot still c532e116087779fadd4ac3b0514c9b722042b91cd14ee38f5c99c5d06b95da78;
+  all 16 prior genuine batches/files match hashes. Native MCP restrictions and original clock
+  profiles remain unchanged/unverified. Locked 2025+ historical observations were not evaluated.
+- Dashboard adds read-only broker readiness/alignment in Market Feed and Shadow Research.
+  Three inspected PNGs in `reports/screenshots/P11b.1/`. No P&L or broker buttons.
+- Next exact step: independent phase review; owner establishes genuine demo/app/accounts-only
+  authorization and documented access/clock/usage/financial/eligibility facts. Then separately
+  review any bounded read-only smoke. Do not automatically run it or start P11b.2/A1/A2.
+- No push/PR. Original owner audit remains untracked and untouched. All broker clients/writers
+  are closed; no scheduler or background collector. The temporary screenshot server was stopped.
 
-## Retained P11b.0.1 platform handoff
-
-Completed offline 2026-10-24 02:07 UTC. EMA trend and price-channel hypotheses now produce reference BUY/SELL/
-WAIT in the existing durable shadow engine. Ten owned scenarios produced2556 events and15336
-research decisions:18 BUY,16 SELL,15302 WAIT, plus94 frozen future labels. These are mechanics,
-not genuine performance. No orders, fills, positions, balances, costs or P&L were created.
-
-- Branch `codex/p11b-0-1-price-only`, parent45a6d5f, completion tag `phase-P11b.0.1-done`.
-  Baseline641 passed/3 live deselected/23 warnings in124.07s. Final685 passed/3 live deselected/
-  23 existing warnings in110.18s; Ruff/353-file format/strict MyPy137 sources and paper smoke pass.
-- Config2.0.0 explicitly enables two reference hypotheses using shared feature2.0.0 and strategy
-  `price-only-strategies-1.0.0`: EMA12/26, prior20 channel, existing Wilder ATR14,52 contiguous
-  warm-up,0.1ATR deadband/buffer, ATR/close0..0.02, range/priorATR<=4. Filters consume transitions;
-  same active regime is suppressed. Gaps reset features and strategy state. No parameter fitting.
-- Six decisions per admitted event: two reference hypotheses plus unchanged do-nothing and three
-  blocked old definitions. Execution asset mappings remain unchanged; SELL is a downward research
-  hypothesis only. Funded-risk sizing and AI advisory remain unavailable/disabled.
-- Protocol `future-reference-1.0.0` is frozen before scoring:1/3/6 full future M5 intervals,
-  first opening>=decision availability, zero-bps flat threshold. Same-source contiguous committed
-  future observations required. WAIT excluded; missing/pending separate from incorrect/flat.
-  Matched always-UP/previous-move and zero-scored always-WAIT baselines; overlap flagged per group.
-  Every owned result is synthetic-only and cannot justify market skill, training or profitability.
-- Final owned data: `reports/shadow/price_only/<scenario>/`, aggregate `demonstration.json`.
-  Source/config tree `89e1a454ede1ed03ac4d272e44fa87fcf8656219027fb8788fcdd1599b6e73ec`. Old P11b.0 fixture remains at its original path.
-  Earlier phase development runs are preserved in separate ignored archive folders, not rewritten.
-- A separate false-breakout replay recovered1536 decisions and6 labels unchanged (hashes in the
-  report), suppressing256 duplicate inputs. Recovery snapshot SHA256 `05a02526fd67a43e557cf36caf5b06780ba98ea0a17cf991feec989ff87f9fe4`.
-- Original genuine M1 snapshot SHA256 remains
-  `c532e116087779fadd4ac3b0514c9b722042b91cd14ee38f5c99c5d06b95da78`; all16 source manifests/
-  files matched recorded hashes. No genuine prices were copied into the owned study or displayed.
-- Current active data-rights policy is unchanged with no affirmative approvals. Support response
-  remains pending; no market API call, paid upgrade or key read was needed. Root ignored `.env`
-  remains the only credential source. Never print a key or put one in policy/proposal/evidence.
-- `tb.ingest.rights_review` checks owner proposals offline with exact scope, evidence kind/hash,
-  reviewer, finite expiry and retention. `request_pending` never approves use. `--apply` requires
-  a separate explicit owner invocation/new version; no real proposal was applied here. Document
-  retention/expiry/disposal for originals/cache/derivatives/backups; no auto-deletion is installed.
-- Genuine collector/watch remain permission-gated and bounded120min/7200s; require documented
-  retention covering run plus5min. A fresh two-hour run cannot reach52 M5 bars (260min) and must
-  stay warm-up WAIT. A meaningful longer finite signal trial requires a new approved scope and
-  continuity/retention design; do not import old backfill or change bounds automatically.
-- Dashboard localhost8501 -> Shadow Research -> Owned price-only scenarios -> scenario. Current
-  UI shows readiness, counts, timestamps, reasons, versions, future labels and limitations, with
-  instrument/strategy/horizon columns first. No raw prices/account/order controls. Four screenshots
-  in `reports/screenshots/P11b.0.1/`; genuine selection blocked. Local dashboard remains running.
-- Optional locked MetaTrader5 SDK5.0.6231 restored after gates, without native initialization.
-  Risk/assets, final holdout, native MCP restrictions, original clock profiles/OANDA unchanged.
-  Shadow processes are stopped; no scheduled task, EA, account sender or new broker connection.
-- Next exact step: independent phase review and documentary provider-rights review. Follow
-  [rights guide](how-to/data-rights-review.md), then only a separately approved conditional trial.
-  [P11b.1](P11b.1-design.md) is specification only; both$100 instrument minimums remain NO-GO for
-  qualified funded simulation. No code implementation or account connection for P11b.1 began.
-- No push/PR. Original repository audit remains untracked. Stop after the completion report.
-
-Safe owned commands from repository root in PowerShell:
+Safe commands from repository root (PowerShell):
 
 ```powershell
-& '.\work\tooling\Scripts\uv.exe' run --locked python -m tb.shadow.demo --bars 128
-& '.\work\tooling\Scripts\uv.exe' run --locked python -m tb.shadow.cli replay --scenario false_breakout --bars 128
+& '.\work\tooling\Scripts\uv.exe' run --locked python -m tb.ingest.broker.cli status
+& '.\work\tooling\Scripts\uv.exe' run --locked python -m tb.ingest.broker.cli owned-demo
 .\scripts\run-dashboard.ps1
 ```
 
-Repeat replay suppresses duplicates rather than replacing decisions. Default uv sync omits optional
-MT5; restore the existing extra when needed with `uv sync --locked --extra mt5`. A source/config/
-rights change requires a new study pin/folder, never an automatic old-journal migration.
-
-Read [report](../reports/phases/P11b.0.1.md), [journal](journal/P11b.0.1-journal.md),
-[research](research/P11b.0.1-research.md), [ADR0012](adr/0012-price-only-shadow-hypotheses-and-frozen-labels.md),
-[how-to](how-to/price-only-shadow.md), [conditional trial](P11b.0.1-supervised-trial-plan.md),
-[pending](pending.md) and [review queue](review_queue.md).
+Default uv sync/run omits the optional MT5 package; after required default gates, restore the
+existing extra only with `uv sync --locked --extra mt5` and do not initialize a terminal. Genuine
+broker smoke prerequisites/limits are in the how-to; there is no execution or 24/7 command.

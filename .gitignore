@@ -15,6 +15,7 @@ __pycache__/
 htmlcov/
 .cache/
 .codex/
+.playwright-mcp/
 trading-bot-dev-kit/
 trading-bot-dev-kit.zip
 logs/
@@ -23,6 +24,7 @@ work/
 reports/dashboard/P10-demo/
 reports/market_feed/
 reports/shadow/
+reports/broker_quotes/
 *.egg-info/
 *.sqlite
 *.db

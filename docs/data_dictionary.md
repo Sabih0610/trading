@@ -339,3 +339,32 @@ workflow validates scope/reviewer/expiry/document integrity; explicit apply inst
 public policy version. No provider confirmation or approval is inferred. Finite genuine run
 preflight requires all three storage retention durations to exceed run length by five minutes;
 retention disposal remains a separately reviewed owner duty, with no automatic deletion here.
+
+
+## P11b.1 broker quote evidence (data only)
+
+`BrokerIdentity` pins ctrader_demo, fixed demo server, fingerprint, broker, denomination,
+SCOPE_VIEW and checked-at/evidence mode. Owned identity is never a genuine account qualification.
+`BrokerQuoteSource` exposes connection/identity/metadata/read/close facts only, with no sender.
+
+| Field group | Semantics |
+|---|---|
+| `source_at`, `received_at`, `raw_timestamp`, `original_timestamp`, `source_timezone` | Explicit source epoch-ms contract and actual pre-buffer wire receipt UTC; original timestamp representation retained. No guessed offsets. |
+| `bid_source_at`, `ask_source_at`, `bid_received_at`, `ask_received_at` | Independently timed sides; unchanged side keeps its old timestamps. Both must remain fresh. |
+| `bid_relative`, `ask_relative`, `bid`, `ask`, `raw_event` | Exact protocol 1/100000 price values and Decimal sides; raw original update contains only present fields. No synthetic opposite side or source sequence. |
+| `event_id`, `metadata_digest`, `rights_digest`, `rights_status` | Content-derived duplicate ID, metadata/rights versions and scoped-confirmation admission state. Receipt cannot create new source evidence. |
+| `price_type`, `evidence` | Indicative bid/ask and owned_fixture/genuine kept distinct; no fill implication. |
+| `BrokerContract.native_contract`, `native_costs` | Present raw financial fields preserved; cents-based volume/lot values normalize to units. Missing fields remain unknown. Digits provide a precision quantum, not confirmed economic tick size/value. |
+| `Qualification` | Independent market/contract/cost/funded-minimum/legal/Shariah states. Before-cost floor differs from known-cost total capital. Local simulation remains false and P11b.2 NO-GO. |
+| `ReferenceQuoteLink` | Original reference ID/version/provider/decision time, broker source/receipt times, delay/freshness/spread or explicit refusal. Both sides available after decision; no execution/account state. |
+
+`BrokerObservation` extends the existing Observation with explicit ctrader_demo provider,
+`broker_record_id` and full typed `broker_record_json`. FeedStore uses separate ctrader_demo
+Bronze/Silver/checkpoint paths; DecisionLedger observations and broker input/hash checkpoint join
+one FULL-sync transaction. Raw partial/refused updates remain raw evidence; only normalized
+admissible quotes enter quote counts. Authentication/token/account-ID responses are excluded.
+
+Genuine rights require the same documentary approval/hash/expiry/retention workflow under an
+explicit broker provider argument. Existing Twelve Data apply scope remains unchanged. Private
+UI projection withholds prices and reconstructible notional when display is not approved; mode,
+source and hashes are checked, with genuine rights before opening snapshot data. No account P&L.

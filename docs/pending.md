@@ -1,23 +1,34 @@
 # Pending items
 
+- **P11b.1 independent review:** [report](../reports/phases/P11b.1.md),
+  [ADR0013](adr/0013-read-only-broker-quote-evidence.md), [how-to](how-to/broker-quote-research.md).
+  758 tests pass; cTrader facade and owned evidence complete. Actual genuine qualification is
+  unverified independently for EURUSD/XAUUSD. **P11b.2 remains NO-GO and unstarted.**
+- **Owner-provisioned broker prerequisites:** legitimate Pakistan/no-funding demo access,
+  approved app and exact single-demo accounts-only token; actual returned view scope; fresh
+  independent UTC/unit evidence; exact broker contract/tick/product/profit/session/holiday/
+  commission/conversion/funding metadata; retention/display rights; independent legal/Shariah
+  review and actual fully funded minimum capital. No account/agreement/provider message was
+  created on the owner's behalf. Broker examples install no approval; do not use trade tokens.
+- **Finite read-only smoke not run:** no credentials or access/rights evidence configured.
+  Conditional command is documented; do not automatically collect, widen scope or start a
+  simulator. Existing Twelve Data rights blockers and original MT5 clock uncertainty remain.
+
 - **Third-party adoption audit review:** [report](../reports/reviews/third-party-repository-adoption.md)
   and [backlog](third-party-adoption-backlog.md) are complete. Only A1 offline Windows CI and A2
   bounded local source map are proposed. Neither is implemented; no full-framework migration,
   provider/stock integration, webhook endpoint or order authority is authorized by this audit.
 
 - **P11b.0.1 completed offline:** two price-only reference hypotheses now work on ten owned
-  scenarios;685 tests pass. Independent review is queued. Original execution-dependent strategies
+  scenarios; 685 tests pass. Independent review is queued. Original execution-dependent strategies
   remain blocked. Synthetic direction labels are not market skill, fills or P&L.
 - **Provider approval still pending:** active policy unchanged. Use the offline
   [documentary rights workflow](how-to/data-rights-review.md); a support request is not approval.
   Resolve exact cache/history/derived/persistent/AI/ML/display rights and retention/expiry handling
   before genuine use. No provider message, actual approval or automatic record deletion was made.
-- **Two-hour trial limitation:**52 M5 warm-up bars require260 minutes; a fresh two-hour trial must
+- **Two-hour trial limitation:** 52 M5 warm-up bars require 260 minutes; a fresh two-hour trial must
   remain warm-up WAIT. A longer finite signal trial needs separate owner scope and continuity/
-  retention design; existing120-minute bounds remain unchanged. See [conditional plan](P11b.0.1-supervised-trial-plan.md).
-- **P11b.1 remains unstarted:** [read-only quote/contract/cost specification](P11b.1-design.md)
-  records$100 minimum-funded trade NO-GO/unqualified facts for EURUSD/XAUUSD. No additional account,
-  broker order, EA, risk widening, training or autonomous deployment is authorized.
+  retention design; existing 120-minute bounds remain unchanged. See [conditional plan](P11b.0.1-supervised-trial-plan.md).
 
 - **P11b.0 completed offline:** 641 tests pass; owned replay 128 events/512 WAIT decisions,
   recovery 128 duplicate suppressions. Independent review is queued. Genuine M5 collection/watch
@@ -28,15 +39,16 @@
 - **Genuine trial not run:** verify actual M5 headers/weights, source entitlement/finality,
   independent UTC, gaps/restart and finite supervised shutdown only after rights and a new owner
   approval. No raw-price UI, directional skill, P&L or 24h reliability is established.
-- **P11b.1 not started:** executable bid/ask, contract/cost/session/funding and minimum-lot
-  affordability remain NO-GO; [design only](P11b.1-design.md). No broker order, EA, account
-  runtime, paid upgrade, training, autonomous promotion or unattended Windows task is authorized.
+- **Genuine broker qualification remains pending:** P11b.1 is complete offline. Actual bid/ask,
+  contract/cost/session/funding and funded-minimum facts remain unverified; see the
+  [completion report](../reports/phases/P11b.1.md). No broker order, EA, account runtime,
+  paid upgrade, training, autonomous promotion or unattended Windows task is authorized.
 
 - **P11a.3:** EUR/USD and XAU/USD Basic completed M1 midpoint data passed bounded qualification;
   executable bid/ask and realistic paper fills remain NO-GO. No new key is pending for Twelve Data.
   Confirm exact personal display, raw-retention duration, commercial/ML-use rights before a
   growing archive, raw price UI or wider use. Basic M1 collection for two symbols exceeds daily
-  credits if continuous. Independent review and verified genuine-use rights remain pending. P11b.0 was later authorized and completed offline; P11b.1 remains unstarted.
+  credits if continuous. Independent review and verified genuine-use rights remain pending. P11b.0 and P11b.1 were later authorized and completed offline; genuine broker qualification remains unverified.
   See [P11a.3 report](../reports/phases/P11a.3.md); no paid upgrade or external order is authorized.
 
 - **Deferred by explicit owner direction:** the independent Claude review for P06 remains open.

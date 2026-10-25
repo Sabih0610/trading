@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from collections.abc import Callable
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
@@ -26,6 +27,11 @@ from tb.silver.market import clean_minute_bars
 
 def record_id(row: Observation, identity: str) -> str:
     """Receipt time and evidence label cannot turn an old source tick into a new record."""
+    if row.source_provider == "ctrader_demo":
+        key = getattr(row, "broker_record_id", None)
+        if not isinstance(key, str) or len(key) != 64:
+            raise StorageRefused("Broker source event identity required")
+        return sha256_bytes((identity + key).encode())
     payload = row.model_dump(
         mode="json", exclude={"received_at", "evidence", "coverage_started_at"}
     )
@@ -67,10 +73,10 @@ class FeedStore:
         config: FeedConfig,
         *,
         code_version: str,
-        provider: Literal["mt5_demo", "oanda_practice", "twelve_data"] = "mt5_demo",
+        provider: Literal["mt5_demo", "oanda_practice", "twelve_data", "ctrader_demo"] = "mt5_demo",
     ) -> None:
         self.root, self.config, self.code_version = root.resolve(), config, code_version
-        if provider not in {"mt5_demo", "oanda_practice", "twelve_data"}:
+        if provider not in {"mt5_demo", "oanda_practice", "twelve_data", "ctrader_demo"}:
             raise StorageRefused("Unsupported provider storage namespace")
         self.provider = provider
         self.namespace = "mt5_feed" if provider == "mt5_demo" else provider
@@ -132,6 +138,7 @@ class FeedStore:
         *,
         received_at: datetime,
         warnings: list[str],
+        append_evidence: Callable[[sqlite3.Connection, list[Observation]], None] | None = None,
     ) -> dict[str, Any]:
         """Commit a single symbol/kind/timeframe group; orphan files never imply a checkpoint."""
         if len(rows) > self.config.max_rows or len(raw) > self.config.max_rows:
@@ -146,6 +153,8 @@ class FeedStore:
         if rows and len({(r.symbol, r.kind, r.timeframe) for r in rows}) != 1:
             raise StorageRefused("Mixed market batch refused")
         for row in rows:
+            if (row.source_provider == "ctrader_demo") != (self.provider == "ctrader_demo"):
+                raise StorageRefused("Broker provider/storage mismatch")
             if (row.source_provider == "twelve_data") != (self.provider == "twelve_data"):
                 raise StorageRefused("Reference provider/storage mismatch")
             if self.provider == "twelve_data":
@@ -232,7 +241,9 @@ class FeedStore:
             atomic_write_bytes(bronze / "source.json", raw_bytes)
             atomic_write_bytes(bronze / "observations.parquet", bronze_bytes)
             manifest = BronzeManifest(
-                source=self.provider if origin != "synthetic" else "mt5_fixture",
+                source=self.provider
+                if origin != "synthetic"
+                else ("owned_broker_fixture" if self.provider == "ctrader_demo" else "mt5_fixture"),
                 symbol=rows[0].symbol if rows else "UNAVAILABLE",
                 timeframe=rows[0].timeframe if rows else "tick",
                 source_url="mt5://pinned-demo/read-only"
@@ -240,6 +251,8 @@ class FeedStore:
                 else (
                     "https://api.twelvedata.com/read-only"
                     if self.provider == "twelve_data"
+                    else "wss://demo.ctraderapi.com:5036/read-only"
+                    if self.provider == "ctrader_demo"
                     else "https://api-fxpractice.oanda.com/read-only"
                 ),
                 requested_from=received_at,
@@ -293,6 +306,8 @@ class FeedStore:
                 "INSERT INTO batches VALUES(?,?,?,?)",
                 (seq, session, str(commit_path.relative_to(self.root)), sha256_file(commit_path)),
             )
+            if append_evidence is not None:
+                append_evidence(self.db, unique)
             self.db.commit()
             # Ephemeral receipt: callers must display only normalized, unique committed rows.
             # This list is never serialized into the immutable commit manifest.
@@ -308,7 +323,11 @@ class FeedStore:
             {
                 **row.model_dump(mode="python"),
                 "timestamp_ns": datetime_to_ns(row.source_at),
-                "source": "mt5_fixture" if row.evidence == "synthetic" else self.provider,
+                "source": (
+                    "owned_broker_fixture" if self.provider == "ctrader_demo" else "mt5_fixture"
+                )
+                if row.evidence == "synthetic"
+                else self.provider,
                 "volume_kind": "unavailable"
                 if row.source_provider == "twelve_data"
                 else "broker_tick_count"

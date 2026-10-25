@@ -68,7 +68,7 @@ class DataRights(PolicyModel):
     schema_version: Literal[1] = 1
     policy_id: str
     version: str
-    provider: Literal["twelve_data", "owned_fixture"]
+    provider: Literal["twelve_data", "owned_fixture", "ctrader_demo"]
     account_fingerprint: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     instruments: tuple[Literal["EURUSD", "XAUUSD"], ...]
     reviewed_at: AwareDatetime

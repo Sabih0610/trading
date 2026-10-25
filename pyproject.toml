@@ -20,6 +20,7 @@ dependencies = [
     "shap==0.54.1",
     "streamlit==1.66.1",
     "typer==0.27.3",
+    "websockets==17.3",
     "tzdata==2026.5",
 ]
 

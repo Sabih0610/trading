@@ -187,7 +187,7 @@ class Observation(PolicyModel):
     coverage_started_at: AwareDatetime | None = None
     clock_stamp: ClockStamp | None = None
     # Reference feeds cannot enter MarketQuote or imply broker fills/costs.
-    source_provider: Literal["twelve_data"] | None = None
+    source_provider: Literal["twelve_data", "ctrader_demo"] | None = None
     reference_price: Decimal | None = Field(default=None, gt=0, allow_inf_nan=False)
     price_type: Literal["bid_ask", "reference_midpoint"] = "bid_ask"
     source_timezone: Literal["UTC"] | None = None
@@ -202,6 +202,13 @@ class Observation(PolicyModel):
 
     @model_validator(mode="after")
     def valid_prices(self) -> Self:
+        if self.source_provider == "ctrader_demo" and (
+            self.kind != "quote"
+            or self.price_type != "bid_ask"
+            or self.reference_price is not None
+            or self.clock_stamp is not None
+        ):
+            raise ValueError("Broker observation cannot claim reference or candle evidence")
         if self.clock_stamp and self.clock_stamp.normalized_at != self.source_at:
             raise ValueError("Normalized source time disagrees with clock provenance")
         if self.source_provider == "twelve_data":

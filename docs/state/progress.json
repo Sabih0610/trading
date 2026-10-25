@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b.0.1",
+  "current_phase": "P11b.1",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -166,11 +166,12 @@
       "status": "in_progress",
       "completed_subphases": [
         "P11b.0",
-        "P11b.0.1"
+        "P11b.0.1",
+        "P11b.1"
       ],
       "external_orders_enabled": false,
       "genuine_shadow_status": "blocked_on_data_rights",
-      "next_subphase": "P11b.1 not_started; design only; separate authorization required"
+      "next_subphase": "P11b.2 NO_GO and not_started; genuine broker evidence and independent review required before separate owner authorization"
     },
     "P11a.1": {
       "title": "MT5 feed recovery, security closure and data qualification",
@@ -278,11 +279,31 @@
       "p11b1_started": false
     },
     "P11b.1": {
-      "title": "Executable bid/ask, contract and cost integration",
-      "status": "not_started",
-      "design": "docs/P11b.1-design.md",
-      "external_orders_enabled": false,
-      "human_gate": true
+      "title": "Read-only broker quotes, contracts and readiness",
+      "status": "done",
+      "started_utc": "2026-10-25 00:28 UTC",
+      "branch": "codex/p11b-1-broker-quotes",
+      "baseline": "15f9a80",
+      "application_baseline": "e537d56",
+      "report": "reports/phases/P11b.1.md",
+      "genuine_connectivity": "unverified",
+      "external_orders_authorized": false,
+      "completed_utc": "2026-10-25 01:11 UTC",
+      "commit": "phase-P11b.1-done",
+      "review": "queued",
+      "tests_passed": 758,
+      "live_deselected": 3,
+      "existing_warnings": 23,
+      "pytest_seconds": 133.02,
+      "empirical_status": "genuine_access_scope_rights_contracts_costs_unverified",
+      "genuine_observations": 0,
+      "owned_raw_updates": 10,
+      "owned_quotes": 8,
+      "owned_reference_links": 8,
+      "p11b2": "NO-GO",
+      "p11b2_implemented": false,
+      "source_code_digest": "76169873c7ca996a04c4ecced6a6d5f3482c59dff92a11f5124ff39cff63b732",
+      "owned_snapshot_sha256": "01809f0ecb6247d31b7ebaa3e41e45654a9d28a8fc14c711b76224944494dfd3"
     },
     "P11b.0.1": {
       "title": "Gold and forex price-only shadow strategies",
@@ -349,8 +370,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-24 02:24 UTC",
-  "next_phase": "Stop: review third-party adoption audit and proposed A1/A2 backlog; neither implemented. Existing independent phase/provider-rights reviews remain open. P11b.1 and longer genuine trial require separate owner scope.",
+  "last_updated_utc": "2026-10-25 01:11 UTC",
+  "next_phase": "Stop after P11b.1 report: independent review and owner-provisioned genuine demo/view/access/clock/rights/financial/eligibility evidence. P11b.2 NO-GO/unstarted; A1/A2 remain separate and unimplemented.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",

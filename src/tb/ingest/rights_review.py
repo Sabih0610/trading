@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Literal
 
 import yaml
 
@@ -30,7 +31,13 @@ def require_retention_window(rights: DataRights, seconds: int) -> None:
             raise FeedUnavailable("rights_retention_window_insufficient_for_supervised_run")
 
 
-def check_review(root: Path, proposal: Path, now: datetime) -> DataRights:
+def check_review(
+    root: Path,
+    proposal: Path,
+    now: datetime,
+    *,
+    provider: Literal["twelve_data", "ctrader_demo"] = "twelve_data",
+) -> DataRights:
     """Validate exact documentary scope and explicit approval without accessing API credentials."""
     if (
         proposal.suffix not in {".yaml", ".yml", ".json"}
@@ -39,12 +46,16 @@ def check_review(root: Path, proposal: Path, now: datetime) -> DataRights:
     ):
         raise FeedUnavailable("rights_review_bounded_public_proposal_required")
     rights = load_rights(proposal)
-    if rights.provider != "twelve_data" or set(rights.instruments) != {"EURUSD", "XAUUSD"}:
+    if (
+        rights.provider != provider
+        or (provider == "twelve_data" and set(rights.instruments) != {"EURUSD", "XAUUSD"})
+        or not rights.instruments
+    ):
         raise FeedUnavailable("rights_review_exact_provider_and_instruments_required")
     for symbol in rights.instruments:
         rights.require(
             SHADOW_USAGES,
-            provider="twelve_data",
+            provider=provider,
             identity=rights.account_fingerprint or "unconfigured",
             symbol=symbol,
             now=now,
