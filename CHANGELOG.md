@@ -4,6 +4,18 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11b.2a — 2026-10-27 UTC
+
+- Added a deterministic owned-only persistent Paper Lab around shared funded sizing, cash flows,
+  contracts, circuit breaker, reference strategies and DecisionLedger; no new trading dependency.
+- Added causal intention/protection states, reservations, explicit costs, missed fills/expiry,
+  gap-aware exits, persistent loss latches and atomic replay/recovery reconciliation.
+- Added the read-only Offline Paper Lab, 14 finite studies, three inspected screenshots and
+  independent accounting/property/adversarial checks. All $100 accounts correctly stay flat.
+- 826 tests pass; locked lint/format/strict typing, full suite and legacy safety smoke pass.
+- Isolated worktree preserves original P11b.1a/OAuth/private files. Genuine sources, external
+  orders, holdout access and automatic P11b.2b progression remain disabled.
+
 ## P11b.1 — 2026-10-25 UTC
 
 - Added an optional cTrader demo/view-only quote facade using fixed allowlisted JSON messages,

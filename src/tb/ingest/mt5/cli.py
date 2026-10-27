@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import argparse
-import importlib
 import json
-import os
 import subprocess
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -14,6 +12,7 @@ from pathlib import Path
 from typing import BinaryIO
 
 from tb.core.config import repo_root
+from tb.core.leases import WriterBusy, writer_lease
 from tb.ingest.clock_profiles import load_profiles
 from tb.ingest.mt5.adapter import MT5Feed, PythonReader
 from tb.ingest.mt5.collector import Collector
@@ -27,33 +26,12 @@ from tb.ingest.mt5.storage import FeedStore
 
 @contextmanager
 def collector_lease(path: Path) -> Iterator[BinaryIO]:
-    """OS-held process lock releases on interruption; no stale PID file bypass."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a+b") as handle:
-        if handle.tell() == 0:
-            handle.write(b"0")
-            handle.flush()
-        handle.seek(0)
-        try:
-            if os.name == "nt":
-                import msvcrt
-
-                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
-            else:
-                fcntl = importlib.import_module("fcntl")
-                fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except OSError:
-            raise FeedUnavailable("Another market-data collector holds this workspace") from None
-        try:
+    """Compatibility entry point for the shared core OS lease."""
+    try:
+        with writer_lease(path) as handle:
             yield handle
-        finally:
-            if handle.closed:
-                pass
-            elif os.name == "nt":
-                handle.seek(0)
-                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
-            else:
-                fcntl.flock(handle, fcntl.LOCK_UN)
+    except WriterBusy:
+        raise FeedUnavailable("Another market-data collector holds this workspace") from None
 
 
 def main() -> None:

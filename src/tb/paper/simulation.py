@@ -20,6 +20,7 @@ from tb.core.instruments import (
     validate_market,
 )
 from tb.ledger.store import DecisionLedger, LedgerVersions
+from tb.paper.accounting import funded_flow
 from tb.risk.account import AccountCircuitBreaker, SafetyState, equity_breach
 from tb.risk.config import PolicyBundle, PolicyModel, effective_risk_limits, load_policy_bundle
 from tb.risk.guards import RiskViolation
@@ -70,6 +71,7 @@ def size_candidate(
     open_positions: int = 0,
     entries_today: int = 0,
     advisory: ArenaAnswer | None = None,
+    assessment_only: bool = False,
 ) -> SimulationSizing:
     """Size all-in planned loss and full notional, rounding down or rejecting."""
 
@@ -83,7 +85,7 @@ def size_candidate(
         validate_market(asset, spec, quote, conversion, now, is_entry=True)
     except RiskViolation as exc:
         return rejected(str(exc))
-    if candidate.timestamp > quote.timestamp or candidate.timestamp > now:
+    if (not assessment_only and candidate.timestamp > quote.timestamp) or candidate.timestamp > now:
         return rejected("future_candidate")
     if now - candidate.timestamp > timedelta(seconds=60):
         return rejected("stale_candidate")
@@ -234,9 +236,9 @@ class LocalPaperSimulator:
                 return
             _, sized, entered_at, decision_id = position
             exit_price = self.spec.exit_price(quote.bid)
-            notional = self.spec.notional(sized.lots, exit_price, conversion.rate)
-            exit_fee = notional * self.spec.fee_bps / 10000
-            cash += notional - exit_fee
+            flow = funded_flow(self.spec, sized.lots, exit_price, conversion.rate, entry=False)
+            notional, exit_fee = flow.gross, flow.fee
+            cash += flow.cash
             trade = SimulatedTrade(
                 symbol=self.asset.symbol,
                 lots=sized.lots,
@@ -266,9 +268,9 @@ class LocalPaperSimulator:
             exit_price = self.spec.exit_price(quote.bid)
             marked = cash
             if position is not None:
-                marked += self.spec.notional(position[1].lots, exit_price, conversion.rate) * (
-                    1 - self.spec.fee_bps / 10000
-                )
+                marked += funded_flow(
+                    self.spec, position[1].lots, exit_price, conversion.rate, entry=False
+                ).cash
             halt = circuit.observe(quote.timestamp, marked)
             if (
                 position is not None
@@ -316,7 +318,9 @@ class LocalPaperSimulator:
                         },
                         VERSIONS,
                     )
-                    cash -= sized.cash_required
+                    cash += funded_flow(
+                        self.spec, sized.lots, sized.entry_price, conversion.rate, entry=True
+                    ).cash
                     position = (candidate, sized, quote.timestamp, decision_id)
                     entries += 1
                 else:
@@ -348,9 +352,12 @@ class LocalPaperSimulator:
                     else:
                         reject(sized.reason)
             if position is not None:
-                marked = cash + self.spec.notional(
-                    position[1].lots, exit_price, conversion.rate
-                ) * (1 - self.spec.fee_bps / 10000)
+                marked = (
+                    cash
+                    + funded_flow(
+                        self.spec, position[1].lots, exit_price, conversion.rate, entry=False
+                    ).cash
+                )
                 after_fill_halt = circuit.observe(quote.timestamp, marked)
                 if after_fill_halt is not None:
                     shutdowns.append(after_fill_halt)

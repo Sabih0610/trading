@@ -28,3 +28,4 @@ reports/broker_quotes/
 *.egg-info/
 *.sqlite
 *.db
+reports/offline_paper/

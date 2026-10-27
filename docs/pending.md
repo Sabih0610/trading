@@ -1,5 +1,9 @@
 # Pending items
 
+- **P11b.2a independent review:** [completion report](../reports/phases/P11b.2a.md), [operator guide](how-to/offline-paper-lab.md), [ADR0014](adr/0014-owned-persistent-paper-accounting.md). Offline software milestone complete; 826 tests pass. Review cash/reservations, causal fills, gap/metadata/exposure guards, atomic recovery and source isolation.
+- **P11b.1a preserved and unfinished:** original checkout and private credentials untouched. Latest owner update says cTrader app approval pending. No OAuth helper was merged or consent performed. Do not conflate this offline paper milestone with genuine authorization.
+- **P11b.2b remains NO-GO/unstarted:** separate future scope requires qualified genuine input, exact broker account/view permissions, rights/retention/display, clock/unit/contract/cost evidence and independent eligibility review. No new genuine source or order is enabled by green owned tests.
+
 - **P11b.1 independent review:** [report](../reports/phases/P11b.1.md),
   [ADR0013](adr/0013-read-only-broker-quote-evidence.md), [how-to](how-to/broker-quote-research.md).
   758 tests pass; cTrader facade and owned evidence complete. Actual genuine qualification is

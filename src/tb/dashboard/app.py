@@ -53,6 +53,7 @@ VIEWS = (
     "AI & Model Research",
     "Market Feed",
     "Shadow Research",
+    "Offline Paper Lab",
 )
 
 
@@ -394,6 +395,11 @@ def main() -> None:
     if view == "Market Feed":
         market_feed_view(root, zone)
         broker_view(root)
+        return
+    if view == "Offline Paper Lab":
+        from tb.dashboard.offline_paper import offline_paper_view
+
+        offline_paper_view(root)
         return
     if view == "Shadow Research":
         from tb.dashboard.shadow import shadow_view

@@ -1,12 +1,13 @@
 # Build progress
 
-P11b.1 is complete offline on `codex/p11b-1-broker-quotes`, from 15f9a80 (application e537d56).
-758 tests pass; Ruff/376-file formatting/strict MyPy (148 sources) and existing paper safety smoke pass.
-The cTrader candidate is demo/view-only and genuine connectivity/account/rights remain unverified.
-Owned inputs:10 raw updates, 8 quotes,8 observation-only links; no genuine strategy skill or execution evidence.
-Both actual broker instruments remain unqualified. **P11b.2 is NO-GO and unstarted.**
-[Report](reports/phases/P11b.1.md) · [How-to](docs/how-to/broker-quote-research.md).
-Third-party A1/A2 recommendations remain separate and unimplemented.
+P11b.2a is complete offline on `codex/p11b-2a-offline-paper`, from cc5a4ea / phase-P11b.1-done.
+826 tests pass; Ruff, 394-file formatting, strict MyPy (158 sources) and existing safety smoke pass.
+Fourteen owned studies replay 3,811 inputs with identical snapshot bytes; no $100 entries, no external orders.
+The $10,000 engineering accounts demonstrate gains/losses, gaps, expiration and persistent shutdowns.
+P11b.1a and its credentials/uncommitted work remain in the original preserved checkout; owner reports app approval pending.
+Genuine cTrader/MT5/OANDA qualification and Twelve Data sustained rights remain unresolved. **P11b.2b is unstarted/NO-GO.**
+[Report](reports/phases/P11b.2a.md) · [Operator guide](docs/how-to/offline-paper-lab.md).
+A1/A2 backlog proposals remain separate and unimplemented. Independent phase review is queued.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -29,6 +30,7 @@ Third-party A1/A2 recommendations remain separate and unimplemented.
 | P11b.0 | Reference shadow research engine | done offline; genuine rights blocked | 2026-10-23 18:56 | 2026-10-23 19:43 | `phase-P11b.0-done` | [report](reports/phases/P11b.0.md) | queued; no fills or orders |
 | P11b.0.1 | Gold and forex price-only shadow strategies | done offline; genuine rights blocked | 2026-10-24 01:37 | 2026-10-24 02:07 | `phase-P11b.0.1-done` | [report](reports/phases/P11b.0.1.md) | queued; no orders/fills |
 | P11b.1 | Read-only broker quote and contract readiness | done offline; genuine unverified | 2026-10-25 00:28 | 2026-10-25 01:11 | `phase-P11b.1-done` | [report](reports/phases/P11b.1.md) | queued; P11b.2 NO-GO |
+| P11b.2a | Offline paper trading, risk validation and recovery | done; owned software tests only | 2026-10-27 | 2026-10-27 01:35 | `phase-P11b.2a-done` | [report](reports/phases/P11b.2a.md) | queued; genuine P11b.2b NO-GO |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | â€” | â€” | â€” | â€” | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | â€” | â€” | â€” | â€” | â€” |
 | P14 | 30+ day forward paper/demo evaluation | not started | â€” | â€” | â€” | â€” | â€” |

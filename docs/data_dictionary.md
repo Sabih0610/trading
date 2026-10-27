@@ -368,3 +368,24 @@ Genuine rights require the same documentary approval/hash/expiry/retention workf
 explicit broker provider argument. Existing Twelve Data apply scope remains unchanged. Private
 UI projection withholds prices and reconstructible notional when display is not approved; mode,
 source and hashes are checked, with genuine rights before opening snapshot data. No account P&L.
+
+## P11b.2a owned offline paper evidence
+
+All records have owned_fixture input provenance and owned_offline_paper account/evidence mode.
+No financial value below can be relabelled as a genuine broker account or empirical return series.
+
+| Record / field | Meaning |
+|---|---|
+| PaperPackage | Immutable synthetic contracts, side/fee/slippage assumptions, reference strategy/rights versions, finite bounds and disabled external orders. Separate source/code/risk pins. |
+| PaperInput.id / raw / received_at | Deterministic local identity; original present quote-side fields/source epoch and independent receipt UTC, or original frozen ResearchDecision. Revised frozen inputs refuse. |
+| PaperOrder | Local entry, signal_exit or standing protection; pending/rejected/expired/filled/cancelled, reason, created/expiry clocks, lots, reservation, cap and planned loss. |
+| PaperPosition | Owned long, entry cash/fee/price, lots, protective ID/brackets and management clock. No unowned positions or broker identifiers. |
+| PaperAccount.cash / reserved | Full account cash and its reserved subset; spendable balance is cash minus reserved. Reservation is not a second cash debit or reduction in equity. |
+| equity / realized_pnl / unrealized_pnl | Net liquidation equity includes explicit exit costs. Equity minus initial cash reconciles to realized plus unrealized when marks exist; missing marks remain unavailable. |
+| fees / slippage / quoted_spread_cost | Charged cash fees plus diagnostic adverse price/quoted-spread burdens already embedded in prices. Do not deduct diagnostics again. |
+| safety / entries_today | Shared SafetyState day baseline, peak and persistent daily/peak latches; shared per-symbol entry counts. |
+| hypothetical_fill | Stable fill/order/input/quote identities, actual owned side/source/receipt/intention clocks, lots/units/price, fee, cash delta and diagnostic costs. Not an external execution. |
+| paper_events | Append-only raw input, effects, account state, payload/state hashes and previous-derived chain. Same transaction as DecisionLedger decisions. |
+| paper_recoveries / interventions | Stable checkpoint-bound recovery proof and matching append-only DecisionLedger intervention. Repeated reconciliation does not duplicate it. |
+| inputs.manifest.json / paper.manifest.json | Owned source bytes/counts/package version and account/code/risk pins. Corruption/change refuses rather than migrates. |
+| reports/offline_paper/current.json | Hash pointer to an immutable bounded owned projection; read-only UI verifies checkpoint/ledger and independently sums fill cash flows. |

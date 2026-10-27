@@ -168,7 +168,12 @@ class ShadowRuntime:
                 source_close_at=event.closes_at,
                 received_at=row.received_at,
                 information_available_at=row.received_at,
-                decision_at=now + timedelta(seconds=time.perf_counter() - started),
+                decision_at=now
+                + (
+                    timedelta(microseconds=1)
+                    if event.pin.mode == "fixture_replay"
+                    else timedelta(seconds=time.perf_counter() - started)
+                ),
                 signal=result.signal if result else "WAIT",
                 status=result.state
                 if result
@@ -185,7 +190,9 @@ class ShadowRuntime:
                 rights_digest=self.rights.digest,
                 source_version=event.pin.source_version,
                 consumer_version=event.pin.consumer_version,
-                runtime_milliseconds=(time.perf_counter() - started) * 1000,
+                runtime_milliseconds=0.001
+                if event.pin.mode == "fixture_replay"
+                else (time.perf_counter() - started) * 1000,
             )
             decisions.append(decision)
         try:

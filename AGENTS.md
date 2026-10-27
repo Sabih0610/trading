@@ -15,6 +15,11 @@ Spot execution guards remain mandatory. No external demo or live orders are auth
 Research/paper defaults tighten to 0.5% all-in planned risk, 2% daily net equity loss, 5% peak equity
 drawdown, at most 1x exposure and one position. Never move the 2025+ final holdout to manufacture history.
 
+P11b.2a owner direction (2026-10-27): a separate owned-only Offline Paper Lab may report
+hypothetical local cash, positions, fills and P&L under the existing funded risk policy. Genuine
+provider inputs and external orders remain disabled. Preserve the unfinished P11b.1a checkout;
+P11b.2b genuine integration requires separate authorization and verified rights/metadata/clocks.
+
 ## 2. Non-negotiable trading rules (enforce in code AND tests)
 - Venue for execution: Binance **spot only**. No futures, perpetuals, options, margin, borrowing,
   lending, Simple Earn, staking, VIP loans, or leverage of any kind. The code must not even contain

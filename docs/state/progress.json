@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b.1",
+  "current_phase": "P11b.2a",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -167,11 +167,12 @@
       "completed_subphases": [
         "P11b.0",
         "P11b.0.1",
-        "P11b.1"
+        "P11b.1",
+        "P11b.2a"
       ],
       "external_orders_enabled": false,
       "genuine_shadow_status": "blocked_on_data_rights",
-      "next_subphase": "P11b.2 NO_GO and not_started; genuine broker evidence and independent review required before separate owner authorization"
+      "next_subphase": "P11b.2b not_started and NO_GO; P11b.1a unfinished; independent review and separate owner scope required"
     },
     "P11a.1": {
       "title": "MT5 feed recovery, security closure and data qualification",
@@ -342,6 +343,41 @@
       "positions_created": 0,
       "market_models_trained": 0,
       "optional_mt5_sdk_restored": "5.0.6231"
+    },
+    "P11b.2a": {
+      "title": "Offline paper trading, risk validation and recovery",
+      "status": "done",
+      "started_utc": "2026-10-27 00:56 UTC",
+      "baseline": "cc5a4ea68691967c04b8dc8c69a50d8b35093111",
+      "external_orders_enabled": false,
+      "genuine_sources_enabled": false,
+      "report": "reports/phases/P11b.2a.md",
+      "completed_utc": "2026-10-27 01:35 UTC",
+      "commit": "phase-P11b.2a-done",
+      "review": "queued",
+      "tests": {
+        "passed": 826,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 175.71
+      },
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_paper_smoke_passed",
+      "owned_studies": 14,
+      "owned_inputs": 3811,
+      "hypothetical_fills": 16,
+      "engineering_closed_trades": 8,
+      "p11b1a_preserved": true,
+      "p11b2b_started": false,
+      "source_code_digest": "b12c6d37dea32195a9d314727b36ef17a64cf98c864c1378ea69fae57e666d41",
+      "snapshot_sha256": "31b8a042fc7695f5d887e6aaf2f311729572d2676f4244e06816975f807b3317"
+    },
+    "P11b.1a": {
+      "title": "Genuine cTrader demo connectivity and broker quote qualification",
+      "status": "pending_external_authorization",
+      "worktree_preserved": true,
+      "merged": false,
+      "genuine_connectivity": "unverified",
+      "note": "Owner P11b.2a brief reports application approval pending; original uncommitted work/private files preserved."
     }
   },
   "allowed_status": [
@@ -371,7 +407,7 @@
     }
   ],
   "last_updated_utc": "2026-10-25 01:11 UTC",
-  "next_phase": "Stop after P11b.1 report: independent review and owner-provisioned genuine demo/view/access/clock/rights/financial/eligibility evidence. P11b.2 NO-GO/unstarted; A1/A2 remain separate and unimplemented.",
+  "next_phase": "Stop for P11b.2a review. P11b.1a remains unfinished in preserved original checkout; P11b.2b unstarted/NO_GO.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",

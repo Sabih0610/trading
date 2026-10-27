@@ -11,8 +11,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from tb.core.leases import WriterBusy
+from tb.core.leases import writer_lease as collector_lease
 from tb.ingest.history.core import atomic_write_json, sha256_bytes
-from tb.ingest.mt5.cli import collector_lease
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.ledger.store import DecisionLedger, LedgerVersions
 from tb.shadow.models import (
@@ -49,7 +50,10 @@ class ShadowJournal:
         self.path = self.folder / "journal.sqlite"
         self.meta = self.folder / "journal.meta.json"
         self._lease = collector_lease(self.folder / "consumer.lock")
-        self.handle = self._lease.__enter__()
+        try:
+            self.handle = self._lease.__enter__()
+        except WriterBusy:
+            raise ShadowRefused("Another market-data collector holds this workspace") from None
         self.closed = False
         self.poisoned = False
         try:
