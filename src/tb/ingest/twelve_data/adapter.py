@@ -165,6 +165,7 @@ class TwelveDataFeed:
             "acquired_at": reply.received_at.isoformat(),
             "http_date": reply.http_date.isoformat(),
             "cached": reply.cached,
+            "retention": reply.retention.model_dump(mode="json") if reply.retention else None,
             "response": reply.payload,
         }
 

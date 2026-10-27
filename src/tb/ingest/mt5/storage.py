@@ -22,6 +22,8 @@ from tb.ingest.history.core import (
     sha256_file,
 )
 from tb.ingest.mt5.models import TIMEFRAMES, FeedConfig, Observation, StorageRefused
+from tb.ingest.retention import EvidenceLifetime, require_lifetime
+from tb.ingest.rights import DataRights
 from tb.silver.market import clean_minute_bars
 
 
@@ -130,6 +132,20 @@ class FeedStore:
         if total + reserve_bytes >= self.config.max_storage_mb * 1024 * 1024:
             raise StorageRefused("Market-data storage quota reached; explicit archival required")
 
+    def require_retained(self, rights: DataRights, now: datetime) -> None:
+        """Gate restart/reuse on non-price acquisition metadata before checking raw files."""
+        for name, checksum in self.db.execute("SELECT manifest,digest FROM batches ORDER BY seq"):
+            path = (self.root / name).resolve()
+            if (
+                not path.is_relative_to(self.root)
+                or path.stat().st_size > 131072
+                or sha256_file(path) != checksum
+            ):
+                raise StorageRefused("retention_manifest_missing_or_corrupt")
+            require_lifetime(
+                rights, json.loads(path.read_text(encoding="utf-8")).get("retention"), now
+            )
+
     def commit(
         self,
         session: str,
@@ -139,6 +155,7 @@ class FeedStore:
         received_at: datetime,
         warnings: list[str],
         append_evidence: Callable[[sqlite3.Connection, list[Observation]], None] | None = None,
+        retention: EvidenceLifetime | None = None,
     ) -> dict[str, Any]:
         """Commit a single symbol/kind/timeframe group; orphan files never imply a checkpoint."""
         if len(rows) > self.config.max_rows or len(raw) > self.config.max_rows:
@@ -301,6 +318,8 @@ class FeedStore:
                 },
             }
             commit_path = bronze / "commit.json"
+            if retention is not None:
+                commit["retention"] = retention.model_dump(mode="json")
             atomic_write_json(commit_path, commit)
             self.db.execute(
                 "INSERT INTO batches VALUES(?,?,?,?)",

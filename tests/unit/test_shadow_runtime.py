@@ -45,6 +45,51 @@ def process(runtime, event):
     return runtime.process(event, event.observation.received_at + timedelta(milliseconds=1))
 
 
+def test_f06_malformed_metadata_refuses_and_releases_writer_lease(context):
+    journal, _, _ = context
+    folder, pin, config = journal.folder, journal.pin, journal.config
+    journal.close()
+    metadata = folder / "journal.meta.json"
+    original = metadata.read_bytes()
+    metadata.write_text("[]")
+    with pytest.raises(FeedUnavailable, match="manifest_object"):
+        ShadowJournal(folder, pin, config)
+    metadata.write_bytes(original)
+    reopened = ShadowJournal(folder, pin, config)
+    reopened.close()
+
+
+@pytest.mark.parametrize(
+    "damage",
+    ["missing_trigger", "replaced_trigger", "missing_empty_table", "added_index", "added_table"],
+)
+def test_f06_schema_damage_refused_without_repair_or_byte_changes(context, damage):
+    journal, runtime, events = context
+    process(runtime, events[0])
+    folder, pin, config = journal.folder, journal.pin, journal.config
+    journal.close()
+    sql = {
+        "missing_trigger": "DROP TRIGGER shadow_events_no_UPDATE",
+        "replaced_trigger": "DROP TRIGGER shadow_events_no_UPDATE; CREATE TRIGGER shadow_events_no_UPDATE BEFORE UPDATE ON shadow_events BEGIN SELECT 1; END",
+        "missing_empty_table": "DROP TABLE shadow_labels",
+        "added_index": "CREATE INDEX unexpected_index ON shadow_events(opening)",
+        "added_table": "CREATE TABLE unexpected_table(x TEXT)",
+    }[damage]
+    with sqlite3.connect(folder / "journal.sqlite") as db:
+        db.executescript(sql)
+    before = (folder / "journal.sqlite").read_bytes()
+    with sqlite3.connect(f"{(folder / 'journal.sqlite').as_uri()}?mode=ro", uri=True) as db:
+        schema = db.execute("SELECT type,name,sql FROM sqlite_master ORDER BY type,name").fetchall()
+    with pytest.raises(FeedUnavailable, match="schema_mismatch"):
+        ShadowJournal(folder, pin, config)
+    assert (folder / "journal.sqlite").read_bytes() == before
+    with sqlite3.connect(f"{(folder / 'journal.sqlite').as_uri()}?mode=ro", uri=True) as db:
+        assert (
+            db.execute("SELECT type,name,sql FROM sqlite_master ORDER BY type,name").fetchall()
+            == schema
+        )
+
+
 @pytest.mark.parametrize("state", ["unverified", "prohibited", "expired"])
 def test_rights_never_infer_approval(context, state):
     journal, runtime, events = context

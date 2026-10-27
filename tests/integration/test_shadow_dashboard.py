@@ -29,6 +29,9 @@ def test_shadow_view_is_price_free_and_does_not_read_env_or_write(monkeypatch, t
         runtime.process(event, event.observation.received_at + timedelta(milliseconds=1))
     value = publish(journal, fixture_rights())
     journal.close()
+    # Owned views must remain independent of malformed genuine-only permission files.
+    (tmp_path / "config").mkdir(exist_ok=True)
+    (tmp_path / "config/data_rights.yaml").write_text("not-a-valid-policy")
     original = Path.read_text
 
     def guarded(path, *args, **kwargs):
@@ -50,6 +53,7 @@ def test_shadow_view_is_price_free_and_does_not_read_env_or_write(monkeypatch, t
     assert "features" not in rendered and "entry_price" not in rendered
     assert "WAIT" in rendered and "blocked" in rendered
     assert before == {str(p): sha256_file(p) for p in folder.rglob("*") if p.is_file()}
+    (tmp_path / "config/data_rights.yaml").unlink()
     next(s for s in app.selectbox if s.label == "Shadow evidence").set_value(
         "Genuine shadow (permission gated)"
     ).run()

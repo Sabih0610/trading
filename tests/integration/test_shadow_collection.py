@@ -73,7 +73,7 @@ def client(tmp_path, *, credit_weight="1"):
     result = TwelveDataClient(
         TwelveDataSettings(api_key=SecretStr(key)),
         budget,
-        transport=httpx.MockTransport(handler),
+        fixture_transport=httpx.MockTransport(handler),
         clock=lambda: now,
     )
     result.get("api_usage")
@@ -161,13 +161,24 @@ def test_genuine_client_requires_rights_even_for_cached_success(tmp_path):
 
 
 @pytest.mark.parametrize("weight", [None, "2", "1"])
-def test_genuine_M5_credit_weight_is_verified_before_cache(tmp_path, weight):
+def test_genuine_M5_credit_weight_is_verified_before_cache(tmp_path, monkeypatch, weight):
     # Exercise the genuine guard with an owned key and an entirely mocked HTTP transport.
     c, calls, now = client(tmp_path, credit_weight=weight)
     c.rights = fixture_rights().model_copy(
         update={"provider": "twelve_data", "account_fingerprint": c.source_identity}
     )
+    c.rights = c.rights.model_copy(
+        update={
+            "permissions": {
+                key: value.model_copy(update={"permitted_retention_seconds": 3600})
+                for key, value in c.rights.permissions.items()
+            }
+        }
+    )
     c._synthetic = False
+    c.rights_root = tmp_path
+    # This case isolates credit weights; documentary policy denial has separate regressions.
+    monkeypatch.setattr("tb.ingest.twelve_data.client.check_review", lambda *a, **k: c.rights)
     try:
         if weight == "1":
             reply = c.get("time_series", "EURUSD", timeframe="M5")

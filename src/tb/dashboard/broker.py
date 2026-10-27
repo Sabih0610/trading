@@ -11,6 +11,7 @@ import streamlit as st
 from tb.dashboard.readers import EvidenceUnavailable, read_json, safe_path, safe_text
 from tb.ingest.broker.models import BrokerIdentity
 from tb.ingest.history.core import sha256_file
+from tb.ingest.retention import require_projection
 from tb.ingest.rights_review import check_review
 
 
@@ -18,6 +19,8 @@ def read_broker_snapshot(
     root: Path, *, mode: Literal["owned_fixture", "genuine"]
 ) -> dict[str, Any]:
     """Check genuine rights before opening any quote-bearing snapshot file."""
+    if mode not in {"owned_fixture", "genuine"}:
+        raise EvidenceUnavailable("Unknown broker mode")
     now = datetime.now(UTC)
     rights = None
     if mode == "genuine":
@@ -40,6 +43,8 @@ def read_broker_snapshot(
     folder = root / "reports/broker_quotes" / ("fixture" if mode == "owned_fixture" else "genuine")
     try:
         pointer = read_json(folder / "current.json")
+        if rights:
+            require_projection(rights, pointer.get("authorization", {}), now)
         file = safe_path(folder, pointer["file"], ".json")
         if file.stat().st_size > 262144 or sha256_file(file) != pointer["sha256"]:
             raise ValueError
@@ -61,10 +66,15 @@ def read_broker_snapshot(
             raise ValueError
         if rights:
             if (
-                rights.digest != value["rights_digest"]
+                value.get("authorization") != pointer.get("authorization")
+                or rights.digest != value["rights_digest"]
                 or rights.account_fingerprint != identity.account_fingerprint
             ):
                 raise ValueError
+            acquired = datetime.fromisoformat(value["authorization"]["retention"]["acquired_at"])
+            for row in value["instruments"]:
+                if row.get("receipt_utc") and datetime.fromisoformat(row["receipt_utc"]) < acquired:
+                    raise ValueError
             display = rights.permissions.get("private_display")
             if not display or not display.allows(now):
                 for row in value["instruments"]:

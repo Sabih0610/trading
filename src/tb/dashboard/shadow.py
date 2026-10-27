@@ -9,18 +9,55 @@ import streamlit as st
 
 from tb.dashboard.readers import EvidenceUnavailable, read_json, safe_path, safe_text
 from tb.ingest.history.core import sha256_file
+from tb.ingest.retention import require_projection
 from tb.ingest.rights import load_rights
+from tb.ingest.rights_review import check_review
 from tb.shadow.fixtures import SCENARIOS
 from tb.shadow.models import ShadowSnapshot
 
 
-def read_shadow_snapshot(folder: Path, *, mode: str) -> ShadowSnapshot:
+def read_shadow_snapshot(folder: Path, *, mode: str, root: Path | None = None) -> ShadowSnapshot:
     try:
+        if mode not in {"fixture_replay", "genuine_shadow"}:
+            raise EvidenceUnavailable("Unknown shadow mode")
+        now = datetime.now(UTC)
+        rights = None
+        if mode == "genuine_shadow":
+            if root is None:
+                raise EvidenceUnavailable("Current documentary rights required; no snapshot read")
+            rights = check_review(root, root / "config/data_rights.yaml", now)
+            for symbol in rights.instruments:
+                rights.require(
+                    ("derived_storage", "private_display"),
+                    provider="twelve_data",
+                    identity=rights.account_fingerprint or "unconfigured",
+                    symbol=symbol,
+                    now=now,
+                )
         pointer = read_json(folder / "current.json")
+        if rights:
+            require_projection(rights, pointer.get("authorization", {}), now)
         path = safe_path(folder, pointer["file"], ".json")
         if path.stat().st_size > 1048576 or sha256_file(path) != pointer["sha256"]:
             raise EvidenceUnavailable("Shadow snapshot integrity failed")
         value = ShadowSnapshot.model_validate(read_json(path))
+        if rights and (
+            value.authorization != pointer.get("authorization")
+            or value.rights_digest != rights.digest
+            or value.source_identity != rights.account_fingerprint
+            or value.provider != rights.provider
+            or {row.get("instrument") for row in value.instruments} != set(rights.instruments)
+        ):
+            raise EvidenceUnavailable("Current shadow source/rights mismatch")
+        if rights:
+            retained = require_projection(rights, pointer["authorization"], now)
+            for row in value.latest_decisions:
+                if (
+                    row.get("received_at")
+                    and datetime.fromisoformat(row["received_at"].replace("Z", "+00:00"))
+                    < retained.acquired_at
+                ):
+                    raise EvidenceUnavailable("Shadow acquisition clock changed")
         if value.mode != mode or value.generated_at > datetime.now(UTC):
             raise EvidenceUnavailable("Shadow provenance/clock failed")
         return value
@@ -41,7 +78,7 @@ def shadow_view(root: Path) -> None:
     try:
         genuine_rights = (
             load_rights(root / "config/data_rights.yaml")
-            if (root / "config/data_rights.yaml").exists()
+            if mode == "genuine_shadow" and (root / "config/data_rights.yaml").exists()
             else None
         )
     except (OSError, ValueError):
@@ -72,7 +109,7 @@ def shadow_view(root: Path) -> None:
         scenario = st.selectbox("Owned market scenario", SCENARIOS)
         folder = root / "reports/shadow/price_only" / scenario / "runtime/snapshots"
     try:
-        value = read_shadow_snapshot(folder, mode=mode)
+        value = read_shadow_snapshot(folder, mode=mode, root=root)
     except EvidenceUnavailable:
         st.info(
             "No verified shadow run attached. Genuine collection/trial remains blocked pending explicit data rights and approval."

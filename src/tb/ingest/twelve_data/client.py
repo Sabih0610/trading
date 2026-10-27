@@ -7,7 +7,7 @@ import json
 import sqlite3
 import time
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -18,7 +18,10 @@ from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from tb.ingest.mt5.models import FeedUnavailable
+from tb.ingest.owned_transport import owned_transport
+from tb.ingest.retention import EvidenceLifetime, lifetime, require_lifetime
 from tb.ingest.rights import DataRights
+from tb.ingest.rights_review import check_review
 
 SYMBOLS = {"EURUSD": "EUR/USD", "XAUUSD": "XAU/USD"}
 HOST = "https://api.twelvedata.com"
@@ -49,6 +52,7 @@ class Reply:
     received_at: datetime
     http_date: datetime
     cached: bool = False
+    retention: EvidenceLifetime | None = None
 
 
 class CreditBudget:
@@ -68,6 +72,8 @@ class CreditBudget:
             CREATE TABLE IF NOT EXISTS cooldown(scope TEXT PRIMARY KEY, until_at TEXT);
             CREATE TABLE IF NOT EXISTS cache(scope TEXT, key TEXT, payload TEXT, receipt TEXT,
                 http_date TEXT, PRIMARY KEY(scope,key));
+            CREATE TABLE IF NOT EXISTS cache_lifetimes(scope TEXT, key TEXT, payload TEXT,
+                PRIMARY KEY(scope,key));
             CREATE TABLE IF NOT EXISTS m5_slots(scope TEXT, close_at TEXT, symbol TEXT,
                 PRIMARY KEY(scope,close_at,symbol));
         """)
@@ -192,7 +198,33 @@ class CreditBudget:
             )
             self.db.commit()
 
-    def cached(self, key: str, now: datetime, ttl: int) -> Reply | None:
+    def cached(
+        self,
+        key: str,
+        now: datetime,
+        ttl: int,
+        *,
+        rights: DataRights | None = None,
+        synthetic: bool = False,
+    ) -> Reply | None:
+        retained = None
+        if (
+            synthetic
+            and self.db.execute(
+                "SELECT 1 FROM cache_lifetimes WHERE scope=? AND key=?", (self.scope, key)
+            ).fetchone()
+        ):
+            raise FeedUnavailable("owned_cache_provenance_mismatch")
+        if (
+            rights is not None
+            and self.db.execute(
+                "SELECT 1 FROM cache WHERE scope=? AND key=?", (self.scope, key)
+            ).fetchone()
+        ):
+            saved = self.db.execute(
+                "SELECT payload FROM cache_lifetimes WHERE scope=? AND key=?", (self.scope, key)
+            ).fetchone()
+            retained = require_lifetime(rights, json.loads(saved[0]) if saved else None, now)
         row = self.db.execute(
             "SELECT payload,receipt,http_date FROM cache WHERE scope=? AND key=?", (self.scope, key)
         ).fetchone()
@@ -202,10 +234,20 @@ class CreditBudget:
                 datetime.fromisoformat(row[1]),
                 datetime.fromisoformat(row[2]),
                 True,
+                retained,
             )
         return None
 
     def remember(self, key: str, reply: Reply) -> None:
+        if reply.retention is not None:
+            self.db.execute(
+                "INSERT INTO cache_lifetimes VALUES(?,?,?) ON CONFLICT(scope,key) DO UPDATE SET payload=excluded.payload",
+                (self.scope, key, reply.retention.model_dump_json()),
+            )
+        else:
+            self.db.execute(
+                "DELETE FROM cache_lifetimes WHERE scope=? AND key=?", (self.scope, key)
+            )
         self.db.execute(
             "INSERT INTO cache VALUES(?,?,?,?,?) ON CONFLICT(scope,key) DO UPDATE SET payload=excluded.payload,receipt=excluded.receipt,http_date=excluded.http_date",
             (
@@ -245,9 +287,11 @@ class TwelveDataClient:
         budget: CreditBudget,
         *,
         transport: httpx.BaseTransport | None = None,
+        fixture_transport: httpx.MockTransport | None = None,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
         monotonic: Callable[[], float] = time.monotonic,
         rights: DataRights | None = None,
+        rights_root: Path | None = None,
     ) -> None:
         self._key, self.budget = settings.api_key, budget
         expected_scope = hashlib.sha256(self._key.get_secret_value().encode()).hexdigest()
@@ -255,7 +299,12 @@ class TwelveDataClient:
             raise FeedUnavailable("twelve_data_credit_account_scope_mismatch")
         self.clock, self.monotonic = clock, monotonic
         self.rights = rights
-        self._synthetic = transport is not None
+        self.rights_root = rights_root
+        if transport is not None and fixture_transport is not None:
+            raise FeedUnavailable("owned_and_production_transports_are_exclusive")
+        self._synthetic = fixture_transport is not None
+        if fixture_transport is not None:
+            transport = owned_transport(fixture_transport)
         self._http = httpx.Client(
             timeout=httpx.Timeout(10), follow_redirects=False, trust_env=False, transport=transport
         )
@@ -291,6 +340,14 @@ class TwelveDataClient:
         if not self.synthetic:
             if self.rights is None:
                 raise FeedUnavailable("data_rights_approval_required; genuine retrieval disabled")
+            if (
+                self.rights_root is None
+                or check_review(
+                    self.rights_root, self.rights_root / "config/data_rights.yaml", self.clock()
+                ).digest
+                != self.rights.digest
+            ):
+                raise FeedUnavailable("current_documentary_data_rights_required")
             self.rights.require(
                 ("retrieval", "raw_cache"),
                 provider="twelve_data",
@@ -308,7 +365,13 @@ class TwelveDataClient:
         cache_key = endpoint + ":" + (symbol or "")
         if timeframe == "M5":
             cache_key += ":M5"
-        cached = self.budget.cached(cache_key, self.clock(), 45 if symbol else 10)
+        cached = self.budget.cached(
+            cache_key,
+            self.clock(),
+            45 if symbol else 10,
+            rights=None if self.synthetic else self.rights,
+            synthetic=self.synthetic,
+        )
         if cached:
             if endpoint == "api_usage":
                 self.budget.usage(cached.payload, cached.received_at)
@@ -360,6 +423,10 @@ class TwelveDataClient:
                 ):
                     raise FeedUnavailable("twelve_data_receipt_or_http_clock_refused")
                 reply = Reply(payload, receipt, http_date)
+                if not self.synthetic:
+                    assert self.rights is not None
+                    reply = replace(reply, retention=lifetime(self.rights, receipt))
+                    require_lifetime(self.rights, reply.retention, self.clock())
                 if endpoint == "api_usage":
                     self.budget.usage(payload, receipt)
                     self.plan_confirmed = True

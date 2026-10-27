@@ -15,8 +15,8 @@ from tb.ingest.mt5.cli import collector_lease
 from tb.ingest.mt5.models import FeedConfig, FeedUnavailable
 from tb.ingest.mt5.qualification import clock_reference_passes, independent_utc
 from tb.ingest.mt5.storage import FeedStore
-from tb.ingest.rights import SHADOW_USAGES, load_rights
-from tb.ingest.rights_review import require_retention_window
+from tb.ingest.rights import SHADOW_USAGES
+from tb.ingest.rights_review import check_review, require_retention_window
 from tb.ingest.twelve_data.adapter import TwelveDataFeed
 from tb.ingest.twelve_data.client import CreditBudget, TwelveDataClient, TwelveDataSettings
 from tb.shadow.collection import collect_m5_once, latest_due_close
@@ -29,7 +29,7 @@ def main() -> None:
     parser.add_argument("--supervised-minutes", type=int, choices=range(1, 121), required=True)
     args = parser.parse_args()
     root, started = repo_root(), datetime.now(UTC)
-    rights = load_rights(root / "config/data_rights.yaml")
+    rights = check_review(root, root / "config/data_rights.yaml", started)
     for symbol in ("EURUSD", "XAUUSD"):
         rights.require(
             SHADOW_USAGES,
@@ -52,7 +52,7 @@ def main() -> None:
     budget = CreditBudget(
         root / "data/twelve_data/credits.sqlite", scope, daily_ceiling=config.daily_credit_ceiling
     )
-    client = TwelveDataClient(settings, budget, rights=rights)
+    client = TwelveDataClient(settings, budget, rights=rights, rights_root=root)
     feed = TwelveDataFeed(client)
     version = source_version(root)
     store = FeedStore(
@@ -84,7 +84,7 @@ def main() -> None:
             deadline = time.monotonic() + args.supervised_minutes * 60
             previous_slot = None
             while time.monotonic() < deadline:
-                current = load_rights(root / "config/data_rights.yaml")
+                current = check_review(root, root / "config/data_rights.yaml", datetime.now(UTC))
                 if current.digest != rights.digest:
                     raise FeedUnavailable("shadow_collection_rights_changed")
                 now = datetime.now(UTC)

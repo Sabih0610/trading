@@ -1,0 +1,16 @@
+{
+  "checked_utc": "2026-10-27T13:53:16.154519+00:00",
+  "protected_branch_heads": {
+    "codex/p11b-1a-genuine-ctrader": "cc5a4ea68691967c04b8dc8c69a50d8b35093111",
+    "codex/shared-research": "85f87ce3e9d5613a1fc2e0caacaaa5b0fdc07832",
+    "codex/p11b-2a-1-validation": "b56cfb1567604217eb7dd517ac207ec0c84b4ee8",
+    "codex/p11b-2a-offline-paper": "47e74fca6ac54429789f8458db26f4a275065aa9"
+  },
+  "original_review_unchanged_sha256": "fc13ff9e6402e2eee3ab688aa65cc34da1b29a20aef229e1f7df064ce267710c",
+  "credential_free_candidate": true,
+  "baseline_implementation_equivalent": true,
+  "protected_private_files_read_or_hashed": false,
+  "writes_to_protected_worktree_contents": false,
+  "remote_operations": [],
+  "hosted_ci_activated": false
+}

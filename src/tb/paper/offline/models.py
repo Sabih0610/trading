@@ -187,6 +187,7 @@ class PaperPosition(PolicyModel):
     target: Decimal
     planned_loss: Decimal
     force_exit_since: AwareDatetime | None = None
+    stop_triggered_at: AwareDatetime | None = None
 
 
 class PaperAccount(PolicyModel):

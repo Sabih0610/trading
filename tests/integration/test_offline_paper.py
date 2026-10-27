@@ -20,6 +20,67 @@ from tb.shadow.models import ResearchDecision
 T = START + timedelta(minutes=8)
 
 
+@pytest.mark.parametrize("exit_bid", [D("1.100"), D("1.090")])
+@pytest.mark.parametrize("competing", ["SELL", "end_of_day"])
+def test_f01_missed_market_stop_survives_rebound_restart_and_competing_exit(
+    tmp_path, exit_bid, competing
+):
+    p, store, _ = opened(tmp_path)
+    trigger_at = T + timedelta(seconds=2)
+    store.process(tick(p, trigger_at, D("1.097"), available=False))
+    store.process(tick(p, T + timedelta(seconds=3), D("1.100"), available=False))
+    if competing == "SELL":
+        store.process(decision(p, T + timedelta(seconds=3, milliseconds=1), "SELL"))
+    else:
+        store.process(
+            PaperInput(
+                kind="clock",
+                symbol="EURUSD",
+                received_at=T + timedelta(seconds=3, milliseconds=1),
+                reason="end_of_day",
+            )
+        )
+    store.close()
+    store = PaperStore(tmp_path, p, load_policy_bundle())
+    try:
+        position = store.state.accounts["ENG10000"].position
+        assert position is not None and position.stop_triggered_at == trigger_at
+        stale = tick(p, T + timedelta(seconds=4), D("1.099"))
+        stale = stale.model_copy(
+            update={
+                "raw": {
+                    **stale.raw,
+                    "timestamp": int(
+                        (T + timedelta(seconds=1, milliseconds=500)).timestamp() * 1000
+                    ),
+                }
+            }
+        )
+        store.process(stale)
+        assert store.state.accounts["ENG10000"].position is not None
+        event = tick(p, T + timedelta(seconds=5), exit_bid)
+        store.process(event)
+        account = store.state.accounts["ENG10000"]
+        assert (
+            account.position is None and account.fill_count == 2 and account.completed_trades == 1
+        )
+        # Independent literal funded-cash oracle: 1000 units, one tick exit slip, 1 bp each side.
+        proceeds = (exit_bid - D(".00001")) * 1000
+        exit_fee = proceeds / 10000
+        assert account.cash == D(10000) - D("1100.140003") + proceeds - exit_fee
+        assert account.fees == D(".110003") + exit_fee
+        assert account.realized_pnl == account.cash - 10000
+        effects = [e for e in store.effects() if e.get("account") == "ENG10000"]
+        assert len([e for e in effects if e["kind"] == "protection_triggered"]) == 1
+        assert [e["reason"] for e in effects if e["kind"] == "position_closed"] == ["stop_loss"]
+        assert store.process(event) == "duplicate"
+    finally:
+        store.close()
+    store = PaperStore(tmp_path, p, load_policy_bundle())
+    assert store.state.accounts["ENG10000"].fill_count == 2
+    store.close()
+
+
 def decision(p, at, signal="BUY", requested=D(".01"), tag="controlled"):
     symbol = next(iter(p.contracts))
     price = D("1.1") if symbol == "EURUSD" else D(2000)

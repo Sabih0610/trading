@@ -4,6 +4,13 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### RC security/accounting remediation — 2026-10-27 UTC
+
+- Fixed durable missed-stop activation, quote account access, current shadow display rights,
+  acquisition-based retention, explicit owned transport provenance and immutable shadow schema recovery.
+- Added adversarial regressions, no-sync offline validation and broker-independent research plan/runbook.
+- Genuine integration, pushes and hosted CI require explicit owner authorization for this task.
+
 ### Shared repository publication — 2026-10-27 UTC
 
 - Owner authorized ongoing commits/pushes with understandable messages for collaboration.

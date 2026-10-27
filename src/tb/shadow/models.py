@@ -10,6 +10,7 @@ from pydantic import AwareDatetime, Field, field_serializer, model_validator
 from tb.ingest.history.core import sha256_bytes
 from tb.ingest.mt5.models import Observation
 from tb.ingest.mt5.storage import record_id
+from tb.ingest.retention import EvidenceLifetime
 from tb.risk.config import PolicyModel
 from tb.strategies.reference import (
     REFERENCE_FEATURE_VERSION,
@@ -93,6 +94,7 @@ class SourcePin(PolicyModel):
 
 
 class ShadowEvent(PolicyModel):
+    retention: EvidenceLifetime | None = None
     pin: SourcePin
     observation: Observation
     evidence_id: str = Field(pattern=r"^[a-f0-9]{64}$")
@@ -203,6 +205,7 @@ class ResearchDecision(PolicyModel):
 
 
 class ShadowSnapshot(PolicyModel):
+    authorization: dict[str, Any] | None = None
     schema_version: Literal[1] = 1
     mode: Literal["fixture_replay", "genuine_shadow"]
     provider: Literal["owned_fixture", "twelve_data"]

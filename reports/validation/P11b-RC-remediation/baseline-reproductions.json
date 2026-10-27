@@ -1,0 +1,122 @@
+{
+  "independent_fraction_oracles": {
+    "cases": 6,
+    "passed": true,
+    "values": [
+      {
+        "symbol": "EURUSD",
+        "bps": 1,
+        "slippage_ticks": 1,
+        "ending_cash": "10000.7398980"
+      },
+      {
+        "symbol": "EURUSD",
+        "bps": 10,
+        "slippage_ticks": 2,
+        "ending_cash": "9998.7389800"
+      },
+      {
+        "symbol": "EURUSD",
+        "bps": 20,
+        "slippage_ticks": 3,
+        "ending_cash": "9996.5179600"
+      },
+      {
+        "symbol": "XAUUSD",
+        "bps": 1,
+        "slippage_ticks": 1,
+        "ending_cash": "10000.19988"
+      },
+      {
+        "symbol": "XAUUSD",
+        "bps": 10,
+        "slippage_ticks": 2,
+        "ending_cash": "9996.3988"
+      },
+      {
+        "symbol": "XAUUSD",
+        "bps": 20,
+        "slippage_ticks": 3,
+        "ending_cash": "9992.1976"
+      }
+    ]
+  },
+  "missed_stop_after_restart": {
+    "finding_reproduced": true,
+    "stop": "1.098",
+    "triggering_bid": "1.097",
+    "next_fillable_bid": "1.1",
+    "actual_fill_count": 1,
+    "actual_position_open": true,
+    "required_behavior": "Latched stop-market exit should execute on the next eligible available quote."
+  },
+  "gap_restart_oracle": {
+    "passed": true,
+    "ending_cash": "9199.0399920",
+    "expected_loss": "800.960008",
+    "peak_halt_survives_restart_and_day_change": true,
+    "duplicate_fill_refused": true
+  },
+  "adapter_account_access": {
+    "finding_reproduced": true,
+    "cases": [
+      {
+        "returned_accessRights": 3,
+        "accepted": true
+      },
+      {
+        "returned_accessRights": null,
+        "accepted": true
+      },
+      {
+        "returned_accessRights": 0,
+        "accepted": true
+      },
+      {
+        "returned_accessRights": 2,
+        "accepted": true
+      }
+    ]
+  },
+  "oauth_and_order_negative_checks": {
+    "wrong_scopes_or_rights_denied": 6,
+    "nonallowlisted_protocol_ids_denied": 72,
+    "callback_and_code_checks_passed": true
+  },
+  "shadow_schema_repaired": {
+    "finding_reproduced": true,
+    "missing_trigger_recreated": true,
+    "startup_refused": false,
+    "all_evidence_owned": true
+  },
+  "shadow_expired_rights_reader": {
+    "finding_reproduced": true,
+    "current_policy_supplied_to_reader": false,
+    "expired_permissions_visible": [
+      "expired;approved",
+      "expired;approved",
+      "expired;approved",
+      "expired;approved",
+      "expired;approved"
+    ],
+    "derived_decisions_returned": 4,
+    "all_data_owned": true
+  },
+  "broker_retention_expired": {
+    "finding_reproduced": true,
+    "capture_age_seconds": 3600,
+    "permitted_retention_seconds": 360,
+    "approval_current": true,
+    "numeric_quotes_returned": true,
+    "all_inputs_owned": true
+  },
+  "network_transport_labelled_synthetic": {
+    "finding_reproduced": true,
+    "transport_type": "httpx.HTTPTransport",
+    "rights": null,
+    "requests_intercepted": 2,
+    "observation_evidence": "synthetic",
+    "provider_calls": 0,
+    "all_values_owned": true
+  }
+}

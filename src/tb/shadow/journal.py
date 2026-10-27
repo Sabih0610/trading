@@ -7,6 +7,7 @@ import os
 import shutil
 import sqlite3
 from collections.abc import Callable, Iterator
+from contextlib import closing
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -33,6 +34,18 @@ def digest(value: object) -> str:
         json.dumps(
             value, sort_keys=True, separators=(",", ":"), default=str, allow_nan=False
         ).encode()
+    )
+
+
+def schema_digest(db: sqlite3.Connection) -> str:
+    """Pin every table, index and append-only trigger, including unexpected additions."""
+    return digest(
+        [
+            tuple(row)
+            for row in db.execute(
+                "SELECT type,name,tbl_name,sql FROM sqlite_master ORDER BY type,name"
+            )
+        ]
     )
 
 
@@ -70,47 +83,25 @@ class ShadowJournal:
             if config.reference_strategies is not None:
                 expected["evaluation_protocol"] = config.evaluation.model_dump(mode="json")
             if exists:
-                if (
-                    self.meta.stat().st_size > 32768
-                    or json.loads(self.meta.read_text(encoding="utf-8")) != expected
-                ):
+                if self.meta.stat().st_size > 32768:
+                    raise ShadowRefused("shadow_manifest_size_refused")
+                saved = json.loads(self.meta.read_text(encoding="utf-8"))
+                if not isinstance(saved, dict):
+                    raise ShadowRefused("shadow_manifest_object_required")
+                saved_schema = saved.pop("schema_sha256", None)
+                if saved != expected:
                     raise ShadowRefused("shadow_manifest_or_source_version_mismatch")
-                with sqlite3.connect(f"{self.path.as_uri()}?mode=ro", uri=True) as check:
+                with closing(sqlite3.connect(f"{self.path.as_uri()}?mode=ro", uri=True)) as check:
                     if check.execute("PRAGMA quick_check").fetchone()[0] != "ok":
                         raise ShadowRefused("shadow_journal_corrupt")
-                    names = {
-                        r[0]
-                        for r in check.execute("SELECT name FROM sqlite_master WHERE type='table'")
-                    }
-                    if (
-                        not {"shadow_events", "shadow_checkpoints", "decisions", "shadow_health"}
-                        <= names
-                    ):
-                        raise ShadowRefused("shadow_journal_schema_missing")
-            self.ledger = DecisionLedger(self.path)
+                    if saved_schema != schema_digest(check):
+                        raise ShadowRefused("shadow_schema_mismatch_no_repair")
+            self.ledger = DecisionLedger(self.path, initialize=not exists)
             self.db = self.ledger.connect()
             self.db.execute("PRAGMA synchronous=FULL")
-            self.db.executescript("""
-                CREATE TABLE IF NOT EXISTS shadow_events(seq INTEGER PRIMARY KEY, id TEXT UNIQUE,
-                    evidence TEXT, symbol TEXT, opening TEXT, payload TEXT, digest TEXT);
-                CREATE TABLE IF NOT EXISTS shadow_checkpoints(seq INTEGER PRIMARY KEY,
-                    event_id TEXT UNIQUE, previous TEXT, digest TEXT, decisions_digest TEXT);
-                CREATE TABLE IF NOT EXISTS shadow_health(seq INTEGER PRIMARY KEY, payload TEXT);
-                CREATE TABLE IF NOT EXISTS shadow_labels(id TEXT PRIMARY KEY, payload TEXT, digest TEXT);
-            """)
-            if config.reference_strategies is not None:
-                self.db.executescript("""
-                    CREATE INDEX IF NOT EXISTS shadow_event_symbol_time ON shadow_events(symbol, opening);
-                    CREATE INDEX IF NOT EXISTS shadow_decision_symbol_time ON decisions(json_extract(payload_json,'$.symbol'), json_extract(payload_json,'$.decision_at'));
-                    CREATE INDEX IF NOT EXISTS shadow_label_decision_horizon ON shadow_labels(json_extract(payload,'$.decision_id'), json_extract(payload,'$.horizon_m5'));
-                """)
-            for table in ("shadow_events", "shadow_checkpoints", "shadow_health", "shadow_labels"):
-                for action in ("UPDATE", "DELETE"):
-                    self.db.execute(
-                        f"CREATE TRIGGER IF NOT EXISTS {table}_no_{action} BEFORE {action} ON {table} BEGIN SELECT RAISE(ABORT, 'append-only shadow'); END"
-                    )
-            self.db.commit()
             if not exists:
+                self._initialize()
+                expected["schema_sha256"] = schema_digest(self.db)
                 atomic_write_json(self.meta, expected)
             self.verify()
         except (ValueError, OSError, sqlite3.Error) as exc:
@@ -120,7 +111,39 @@ class ShadowJournal:
             self.closed = True
             if isinstance(exc, ShadowRefused):
                 raise
+            if isinstance(exc, FeedUnavailable):
+                raise ShadowRefused("shadow_retention_or_current_rights_refused") from None
             raise ShadowRefused("shadow_startup_integrity_or_identity_refused") from None
+
+    def _initialize(self) -> None:
+        """Create a new journal only; existing schemas never pass through this path."""
+        self.db.executescript("""
+            CREATE TABLE IF NOT EXISTS shadow_events(seq INTEGER PRIMARY KEY, id TEXT UNIQUE,
+                evidence TEXT, symbol TEXT, opening TEXT, payload TEXT, digest TEXT);
+            CREATE TABLE IF NOT EXISTS shadow_checkpoints(seq INTEGER PRIMARY KEY,
+                event_id TEXT UNIQUE, previous TEXT, digest TEXT, decisions_digest TEXT);
+            CREATE TABLE IF NOT EXISTS shadow_health(seq INTEGER PRIMARY KEY, payload TEXT);
+            CREATE TABLE IF NOT EXISTS shadow_labels(id TEXT PRIMARY KEY, payload TEXT, digest TEXT);
+            CREATE TABLE IF NOT EXISTS shadow_retention(seq INTEGER PRIMARY KEY, payload TEXT NOT NULL);
+        """)
+        if self.config.reference_strategies is not None:
+            self.db.executescript("""
+                CREATE INDEX IF NOT EXISTS shadow_event_symbol_time ON shadow_events(symbol, opening);
+                CREATE INDEX IF NOT EXISTS shadow_decision_symbol_time ON decisions(json_extract(payload_json,'$.symbol'), json_extract(payload_json,'$.decision_at'));
+                CREATE INDEX IF NOT EXISTS shadow_label_decision_horizon ON shadow_labels(json_extract(payload,'$.decision_id'), json_extract(payload,'$.horizon_m5'));
+            """)
+        for table in (
+            "shadow_events",
+            "shadow_checkpoints",
+            "shadow_health",
+            "shadow_labels",
+            "shadow_retention",
+        ):
+            for action in ("UPDATE", "DELETE"):
+                self.db.execute(
+                    f"CREATE TRIGGER IF NOT EXISTS {table}_no_{action} BEFORE {action} ON {table} BEGIN SELECT RAISE(ABORT, 'append-only shadow'); END"
+                )
+        self.db.commit()
 
     def require_writer(self) -> None:
         if (
@@ -144,11 +167,22 @@ class ShadowJournal:
 
     def verify(self) -> None:
         """Stream the immutable chain; evidence, frozen decisions and checkpoint must agree."""
+        self.require_retained()
         previous, count = "0" * 64, 0
         for row in self.db.execute("SELECT seq,id,payload,digest FROM shadow_events ORDER BY seq"):
             seq, event_id, payload, recorded = row
             event = ShadowEvent.model_validate_json(payload)
             if self.pin.mode == "genuine_shadow":
+                retained_row = self.db.execute(
+                    "SELECT payload FROM shadow_retention WHERE seq=?", (seq,)
+                ).fetchone()
+                if (
+                    event.retention is None
+                    or retained_row is None
+                    or json.loads(retained_row[0]) != event.retention.model_dump(mode="json")
+                    or event.retention.acquired_at > event.observation.received_at
+                ):
+                    raise ShadowRefused("shadow_retention_event_binding_failed")
                 from tb.core.config import repo_root
                 from tb.ingest.history.core import sha256_file
                 from tb.shadow.source import read_committed
@@ -204,8 +238,34 @@ class ShadowJournal:
                 raise ShadowRefused("shadow_label_integrity_failed")
 
     def events(self) -> Iterator[ShadowEvent]:
+        self.require_retained()
         for row in self.db.execute("SELECT payload FROM shadow_events ORDER BY seq"):
             yield ShadowEvent.model_validate_json(row[0])
+
+    def require_retained(self) -> None:
+        """Check current documentary scope and non-price lifetimes before journal reuse."""
+        if self.pin.mode != "genuine_shadow":
+            return
+        from datetime import UTC
+
+        from tb.core.config import repo_root
+        from tb.ingest.retention import require_lifetime
+        from tb.ingest.rights_review import check_review
+
+        root, now = repo_root(), datetime.now(UTC)
+        rights = check_review(root, root / "config/data_rights.yaml", now)
+        if (
+            rights.digest != self.pin.rights_digest
+            or rights.account_fingerprint != self.pin.identity
+        ):
+            raise ShadowRefused("shadow_current_rights_changed")
+        for (payload,) in self.db.execute("SELECT payload FROM shadow_retention"):
+            require_lifetime(rights, json.loads(payload), now)
+        if (
+            self.db.execute("SELECT COUNT(*) FROM shadow_retention").fetchone()[0]
+            != self.db.execute("SELECT COUNT(*) FROM shadow_events").fetchone()[0]
+        ):
+            raise ShadowRefused("shadow_retention_manifest_missing")
 
     def _validate_decisions(self, decisions: list[ResearchDecision]) -> None:
         from tb.strategies.reference import REFERENCE_STRATEGIES
@@ -244,6 +304,19 @@ class ShadowJournal:
         before_commit: Callable[[], None] | None = None,
     ) -> None:
         self.quota()
+        self.require_retained()
+        if self.pin.mode == "genuine_shadow":
+            from datetime import UTC
+
+            from tb.core.config import repo_root
+            from tb.ingest.retention import require_lifetime
+            from tb.ingest.rights_review import check_review
+
+            root, now = repo_root(), datetime.now(UTC)
+            rights = check_review(root, root / "config/data_rights.yaml", now)
+            retained = require_lifetime(rights, event.retention, now)
+            if retained.acquired_at > event.observation.received_at:
+                raise ShadowRefused("shadow_retention_acquisition_changed")
         self._validate_decisions(decisions)
         if (
             event.pin != self.pin
@@ -271,6 +344,12 @@ class ShadowJournal:
             ).fetchone()
             previous = str(previous_row[0]) if previous_row else "0" * 64
             payload = event.model_dump(mode="json")
+            if self.pin.mode == "genuine_shadow":
+                assert event.retention is not None
+                self.db.execute(
+                    "INSERT INTO shadow_retention VALUES(?,?)",
+                    (seq, event.retention.model_dump_json()),
+                )
             event_digest = digest(payload)
             self.db.execute(
                 "INSERT INTO shadow_events VALUES(?,?,?,?,?,?,?)",

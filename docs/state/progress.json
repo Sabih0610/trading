@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b.1a-RC",
+  "current_phase": "P11b-RC-remediation",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -469,6 +469,22 @@
       "original_candidate_preserved": true,
       "public_history_raw_mt5_payloads_omitted": true,
       "new_commit_context": "RC review created no source commit; subsequent owner-authorized documentation/publication commits are separate."
+    },
+    "P11b-RC-remediation": {
+      "title": "RC F-01 through F-06 remediation and broker-independent research plan",
+      "status": "offline_complete",
+      "started_utc": "2026-10-27 UTC",
+      "report": "reports/phases/P11b-RC-remediation.md",
+      "review": "automated self-review; independent human pending",
+      "baseline": "b669d430148ba0bb67c9f46f7560341a52165ff1",
+      "implementation_equivalent_start": "85f87ce3e9d5613a1fc2e0caacaaa5b0fdc07832",
+      "genuine_integration": "NO-GO",
+      "push_authorized": false,
+      "hosted_ci_active": false,
+      "completed_utc": "2026-10-27 13:57 UTC",
+      "tests_passed": 992,
+      "live_deselected": 3,
+      "owned_studies": 14
     }
   },
   "allowed_status": [

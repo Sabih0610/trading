@@ -1,0 +1,139 @@
+{
+  "mode": "SYNTHETIC SOFTWARE TEST ONLY",
+  "cases": [
+    {
+      "name": "ema_rising",
+      "input_count": 272,
+      "hypothetical_fills": 2,
+      "state_sha256": "974628adff27ecf6c53588b82283a73f2172716fc6b62c17583344e8d3da5591",
+      "journal_chain_sha256": "45949cfd03bc77d669d112e13897a8f93cce6b5a84a25b89423d17c12ff0e4b3",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "channel_breakout",
+      "input_count": 272,
+      "hypothetical_fills": 2,
+      "state_sha256": "e3b7d455a78bd44559319bd49e39bb0baf8b807c6fa5ff56197a7bdafee26bd4",
+      "journal_chain_sha256": "3877333d06e36561f85604951ad2ecce592b4e45c05830aaaa1d9b98b6d04103",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "falling",
+      "input_count": 272,
+      "hypothetical_fills": 0,
+      "state_sha256": "3fa0ff04296fd21040a09a5f1b12ed1e1e4b184bd913d1af21f72025448cb83c",
+      "journal_chain_sha256": "dc3798016964ab50dc54414e70c7a848aed1751d9abf47091af8a61577f6482b",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "sideways",
+      "input_count": 272,
+      "hypothetical_fills": 0,
+      "state_sha256": "6af2eb2b9b2e10a20d1a34002e54f93fe70f477eea9d21774104db674e08e7da",
+      "journal_chain_sha256": "e159c1ff2c0eaeccd846fad05c9557d93c2134a3b4754fe2f066799a98a8f30c",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "gold_reversal",
+      "input_count": 272,
+      "hypothetical_fills": 2,
+      "state_sha256": "e1cce17bb7e40ddbf0833ccfa7ff2de41bb882ed9ff06f550a90defd74020c08",
+      "journal_chain_sha256": "473d8524bdb9ff81eefb6861db39858cfeacc17412bee9b744efb0e2e9d97f43",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "sell_close",
+      "input_count": 272,
+      "hypothetical_fills": 2,
+      "state_sha256": "a6cc379f0fb7e39ffdf46c3ea6acd27751b32b0f88c65859bae36e302a97a188",
+      "journal_chain_sha256": "d28a9388ba80a495da5246419fc242ee3fcfe58909fbed6d65af1762915f3b3a",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "take_profit",
+      "input_count": 272,
+      "hypothetical_fills": 2,
+      "state_sha256": "f3fa44068adf47146eee859436dea933511d67522527b1a4368f1bde2bdb03ab",
+      "journal_chain_sha256": "d1b8419ac7696f43dc5fd25d329165c1245ab1029801506992c7f4e57e8ea9f8",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "stop_gap",
+      "input_count": 273,
+      "hypothetical_fills": 2,
+      "state_sha256": "7a3597ce5ada40d7d6ea937c62430ee7cd771f3a8389dc9b897ffb180968acf1",
+      "journal_chain_sha256": "c066113791e5fb6c3ba6e0ed8f2fd91b3930c49946baae7f14cd141e875dbcde",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "daily_halt",
+      "input_count": 273,
+      "hypothetical_fills": 2,
+      "state_sha256": "63b5a844812960840c89a82931598f9bf9f1b4429c1b6d6b62adef1cf581f6d0",
+      "journal_chain_sha256": "92b9f0dfe8577a1f9e9cc2a6eaaf61482b17283203d2659c2e4d8758d56a8584",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "peak_shutdown",
+      "input_count": 273,
+      "hypothetical_fills": 2,
+      "state_sha256": "34b7bf676f071d7b54cfb5b8b09b0ecb532e8dca874246334db752d8df42fe5f",
+      "journal_chain_sha256": "b6ae778bd72ba4474d49fcaba3c946cb438c331ca96d01b8584d69ffe8d83d43",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "missed_fills",
+      "input_count": 272,
+      "hypothetical_fills": 0,
+      "state_sha256": "43ba949b4b90d73d0076b2f1598580cef28119e569a39e884befba01c20e6447",
+      "journal_chain_sha256": "ebaa2bb1c4bc2f24554c8aaf437465e0c1924897ffeaf79fc53dc93cb9cdc353",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "stale_quotes",
+      "input_count": 272,
+      "hypothetical_fills": 0,
+      "state_sha256": "1aa18a7238c4401865489b17ad303e51bdf0df397d26faf865264fec390b9c63",
+      "journal_chain_sha256": "c911688f6689133ce9598cc9c3a45b2a1e9f96eacf3e3b1714123531afce8c85",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "partial_sides",
+      "input_count": 272,
+      "hypothetical_fills": 0,
+      "state_sha256": "9b1fccdba8a3ce884b3a572b98d99052144c82e28667e34f5beb3512f8e29a9e",
+      "journal_chain_sha256": "c1cd7723845b03cc02d44e9857f9a5ad19cf0598b718422e58c4b40b8056a9a8",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    },
+    {
+      "name": "session_closed",
+      "input_count": 272,
+      "hypothetical_fills": 0,
+      "state_sha256": "b4b20d7c8f1adf2506f9e03293d93fb5542c997b0e169068354199d4aed9fa84",
+      "journal_chain_sha256": "3226d7a94940fc3652acab2593dd40c66a7cbcbbd3c42422c760c839ff698b75",
+      "restart_and_duplicate_checks": "PASS",
+      "all_accounts_flat": true
+    }
+  ],
+  "studies": 14,
+  "input_count": 3811,
+  "hypothetical_fills": 16,
+  "external_orders": 0,
+  "genuine_inputs": 0,
+  "usd100_accounts_flat": true,
+  "snapshot_sha256": "b2087c65f05bfcce8bba1fafd1ce1ed4de6e05b726f5f4d3e968d8ca90fb80a8",
+  "paper_code_sha256": "21dcbb61115418bfe053f3d2d15d8297a41e1c2f25bd4c5ccca8fb3ab32e2fe8"
+}
