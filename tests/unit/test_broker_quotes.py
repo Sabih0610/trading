@@ -24,6 +24,61 @@ from tb.ingest.broker.transport import FATAL_EVENTS, READ_FIELDS, validate_reque
 from tb.risk.config import load_policy_bundle
 
 
+@pytest.mark.parametrize("rights", [None, 3, "NO_LOGIN", 99, "unknown", False, True, "2"])
+@pytest.mark.parametrize("reverify", [False, True])
+def test_f02_unavailable_account_rights_close_channel_before_quote(tmp_path, rights, reverify):
+    source, _clock, channel = fixture_source(tmp_path)
+    if reverify:
+        source.connect()
+
+    def changed(kind, payload):
+        answer = responder(kind, payload)
+        if kind == 2121:
+            answer["trader"].pop("accessRights", None)
+            if rights is not None:
+                answer["trader"]["accessRights"] = rights
+        return answer
+
+    channel.responder = changed
+    with pytest.raises(BrokerRefused):
+        source.verify() if reverify else source.connect()
+    assert channel.closed and source.identity is None
+    assert source.latest_raw is None
+
+
+@pytest.mark.parametrize("rights", [0, 1, 2, "FULL_ACCESS", "CLOSE_ONLY", "NO_TRADING"])
+def test_f02_view_token_accepts_distinct_available_account_rights(tmp_path, rights):
+    source, _clock, channel = fixture_source(tmp_path)
+
+    def changed(kind, payload):
+        answer = responder(kind, payload)
+        if kind == 2121:
+            answer["trader"]["accessRights"] = rights
+        return answer
+
+    channel.responder = changed
+    assert source.connect().permission == "SCOPE_VIEW"
+    assert source.verify().permission == "SCOPE_VIEW"
+    source.close()
+
+
+def test_f02_periodic_account_loss_refuses_before_receiving_next_quote(tmp_path):
+    source, clock, channel = fixture_source(tmp_path)
+    source.connect()
+
+    def changed(kind, payload):
+        row = responder(kind, payload)
+        if kind == 2121:
+            row["trader"]["accessRights"] = 3
+        return row
+
+    channel.responder = changed
+    clock.now += timedelta(seconds=20)
+    with pytest.raises(BrokerRefused):
+        source.read()
+    assert channel.closed and source.latest_raw is None and source.identity is None
+
+
 def one_quote(tmp_path, symbol="EURUSD"):
     prices = (110000, 110002) if symbol == "EURUSD" else (240000000, 240020000)
     source, clock, channel = fixture_source(

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import Iterator
+from datetime import UTC, datetime
 from pathlib import Path
 
 import polars as pl
@@ -11,6 +12,8 @@ import polars as pl
 from tb.ingest.history.core import sha256_file
 from tb.ingest.mt5.models import Observation
 from tb.ingest.mt5.storage import record_id
+from tb.ingest.retention import require_lifetime
+from tb.ingest.rights_review import check_review
 from tb.shadow.journal import ShadowRefused
 from tb.shadow.models import ShadowEvent, SourcePin
 
@@ -21,6 +24,12 @@ def read_committed(root: Path, commit_path: Path, pin: SourcePin) -> Iterator[Sh
     if not path.is_relative_to(root / "data/bronze/twelve_data") or path.stat().st_size > 131072:
         raise ShadowRefused("shadow_commit_path_or_size_refused")
     value = json.loads(path.read_text(encoding="utf-8"))
+    retained = None
+    if pin.mode == "genuine_shadow":
+        rights = check_review(root, root / "config/data_rights.yaml", datetime.now(UTC))
+        if rights.digest != pin.rights_digest or rights.account_fingerprint != pin.identity:
+            raise ShadowRefused("shadow_current_source_rights_changed")
+        retained = require_lifetime(rights, value.get("retention"), datetime.now(UTC))
     expected_origin = "synthetic" if pin.mode == "fixture_replay" else "twelve_data"
     if (
         value["origin"] != expected_origin
@@ -53,9 +62,12 @@ def read_committed(root: Path, commit_path: Path, pin: SourcePin) -> Iterator[Sh
         row = Observation.model_validate(
             {k: v for k, v in data.items() if k in Observation.model_fields}
         )
+        if retained and row.received_at < retained.acquired_at:
+            raise ShadowRefused("shadow_acquisition_clock_changed")
         if row.evidence != ("synthetic" if pin.mode == "fixture_replay" else "forward_observed"):
             continue
         yield ShadowEvent(
+            retention=retained,
             pin=pin,
             observation=row,
             evidence_id=record_id(row, pin.identity),

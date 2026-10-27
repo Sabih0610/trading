@@ -1,0 +1,39 @@
+{
+  "dependencies": "PASS",
+  "lint": {
+    "status": "PASS",
+    "seconds": 0.2
+  },
+  "format": {
+    "status": "PASS",
+    "seconds": 0.18
+  },
+  "types": {
+    "status": "PASS",
+    "seconds": 2.12
+  },
+  "tests": {
+    "status": "PASS",
+    "seconds": 286.01
+  },
+  "smoke": {
+    "status": "PASS",
+    "seconds": 2.34
+  },
+  "scenarios": {
+    "status": "PASS",
+    "seconds": 59.6
+  },
+  "completed_utc": "2026-10-27T13:57:37.495328+00:00",
+  "pytest": {
+    "passed": 992,
+    "live_deselected": 3,
+    "warnings": 23,
+    "reported_seconds": 283.31
+  },
+  "direct_dependency_pins": 26,
+  "source_files_typechecked": 169,
+  "format_files": 440,
+  "dependency_sync_performed": false,
+  "hosted_ci": false
+}

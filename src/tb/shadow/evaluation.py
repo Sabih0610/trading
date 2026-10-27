@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta
+from decimal import Decimal
 from typing import Any, Literal
 
 from tb.ingest.rights import SHADOW_USAGES, DataRights
@@ -96,6 +97,12 @@ def _utc(value: datetime) -> str:
     return value.isoformat(timespec="microseconds").replace("+00:00", "Z")
 
 
+def price_direction(first: Decimal, last: Decimal, threshold_bps: float = 0) -> str:
+    """Shared forward/historical reference outcome; no fills or account returns."""
+    change_bps = (last / first - 1) * 10000
+    return "UP" if change_bps > threshold_bps else "DOWN" if change_bps < -threshold_bps else "FLAT"
+
+
 def evaluate_event(
     journal: ShadowJournal, rights: DataRights, later: ShadowEvent, now: datetime
 ) -> int:
@@ -157,11 +164,8 @@ def evaluate_event(
                 raise ShadowRefused("evaluation_unavailable_or_mixed_future_window")
             first, last = evidence[0].observation, evidence[-1].observation
             assert first.open is not None and last.close is not None
-            change_bps = (last.close / first.open - 1) * 10000
             threshold = protocol.flat_threshold_bps
-            label = (
-                "UP" if change_bps > threshold else "DOWN" if change_bps < -threshold else "FLAT"
-            )
+            label = price_direction(first.open, last.close, threshold)
             previous = journal.db.execute(
                 "SELECT MAX(json_extract(payload,'$.evaluation_end')) FROM shadow_labels WHERE json_extract(payload,'$.protocol_hash')=? AND json_extract(payload,'$.strategy')=? AND json_extract(payload,'$.symbol')=? AND json_extract(payload,'$.horizon_m5')=? AND json_extract(payload,'$.nonoverlapping')=1",
                 (protocol_hash, decision.strategy, decision.symbol, horizon),

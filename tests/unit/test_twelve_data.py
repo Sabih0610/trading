@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from email.utils import format_datetime
@@ -32,6 +33,64 @@ from tb.ingest.twelve_data.models import ReferenceExport
 NOW = datetime(2026, 10, 23, 18, 0, 5, tzinfo=UTC)
 TOKEN = "offline-fixture-secret"
 SCOPE = hashlib.sha256(TOKEN.encode()).hexdigest()
+
+
+@pytest.mark.parametrize("kind", ["standard", "custom", "mock"])
+def test_f05_injected_transport_keeps_genuine_rights_gate(tmp_path, kind):
+    calls = []
+
+    class Custom(httpx.BaseTransport):
+        def handle_request(self, request):
+            calls.append(request)
+            raise AssertionError("request before rights")
+
+    transport = (
+        httpx.HTTPTransport()
+        if kind == "standard"
+        else Custom()
+        if kind == "custom"
+        else httpx.MockTransport(lambda request: calls.append(request))
+    )
+    budget = CreditBudget(tmp_path / "budget.sqlite", SCOPE)
+    client = TwelveDataClient(
+        TwelveDataSettings(api_key=SecretStr(TOKEN)), budget, transport=transport
+    )
+    try:
+        assert not client.synthetic
+        with pytest.raises(FeedUnavailable, match="rights"):
+            client.get("api_usage")
+        assert not calls and client.network_requests == 0
+    finally:
+        client.close()
+        budget.close()
+
+
+def test_f05_owned_fixture_rejects_network_transport_and_denies_forwarding(tmp_path):
+    budget = CreditBudget(tmp_path / "budget.sqlite", SCOPE)
+    transport = httpx.HTTPTransport()
+    with pytest.raises(FeedUnavailable, match="exact_mock"):
+        TwelveDataClient(
+            TwelveDataSettings(api_key=SecretStr(TOKEN)), budget, fixture_transport=transport
+        )
+    transport.close()
+
+    def handler(request):
+        # Exercise the audit boundary without a real socket or DNS request.
+        sys.audit("socket.connect", None, ("127.0.0.1", 9))
+        raise AssertionError("fixture forwarded a request")
+
+    client = TwelveDataClient(
+        TwelveDataSettings(api_key=SecretStr(TOKEN)),
+        budget,
+        fixture_transport=httpx.MockTransport(handler),
+    )
+    try:
+        assert client.synthetic
+        with pytest.raises(FeedUnavailable, match="network_denied"):
+            client.get("api_usage")
+    finally:
+        client.close()
+        budget.close()
 
 
 def usage() -> dict[str, object]:
@@ -92,7 +151,7 @@ def make_client(
     client = TwelveDataClient(
         TwelveDataSettings(api_key=SecretStr(TOKEN)),
         budget,
-        transport=httpx.MockTransport(handler),
+        fixture_transport=httpx.MockTransport(handler),
         clock=lambda: NOW,
     )
     client.get("api_usage")
@@ -485,7 +544,7 @@ def test_network_failures_are_bounded_sanitized_and_charged(tmp_path: Path, fail
         TwelveDataSettings(api_key=SecretStr(TOKEN)),
         budget,
         clock=lambda: NOW,
-        transport=httpx.MockTransport(handler),
+        fixture_transport=httpx.MockTransport(handler),
     )
     with pytest.raises(FeedUnavailable) as error:
         client.get("api_usage")

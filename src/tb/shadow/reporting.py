@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from uuid import uuid4
 
 from tb.ingest.history.core import atomic_write_json, sha256_file
+from tb.ingest.retention import EvidenceLifetime, require_lifetime
 from tb.ingest.rights import DataRights
 from tb.shadow.evaluation import evaluation_summary
 from tb.shadow.journal import ShadowJournal
@@ -16,6 +17,38 @@ from tb.shadow.models import ShadowSnapshot
 def snapshot(
     journal: ShadowJournal, rights: DataRights, *, state: str = "stopped"
 ) -> ShadowSnapshot:
+    journal.require_retained()
+    authorization = None
+    if journal.pin.mode == "genuine_shadow":
+        now = datetime.now(UTC)
+        if rights.digest != journal.pin.rights_digest:
+            raise ValueError("shadow_publication_rights_changed")
+        for symbol in rights.instruments:
+            rights.require(
+                ("derived_storage", "private_display"),
+                provider=journal.pin.provider,
+                identity=journal.pin.identity,
+                symbol=symbol,
+                now=now,
+            )
+        retained = [
+            require_lifetime(rights, json.loads(row[0]), now)
+            for row in journal.db.execute("SELECT payload FROM shadow_retention")
+        ]
+        if not retained:
+            raise ValueError("shadow_publication_retained_evidence_required")
+        summary = EvidenceLifetime(
+            acquired_at=min(v.acquired_at for v in retained),
+            expires_at=min(v.expires_at for v in retained),
+            rights_digest=rights.digest,
+        )
+        authorization = {
+            "provider": journal.pin.provider,
+            "identity": journal.pin.identity,
+            "rights_digest": rights.digest,
+            "instruments": list(rights.instruments),
+            "retention": summary.model_dump(mode="json"),
+        }
     db = journal.db
     counts = {
         "events": db.execute("SELECT COUNT(*) FROM shadow_events").fetchone()[0],
@@ -181,6 +214,7 @@ def snapshot(
     ]
     return ShadowSnapshot.model_validate(
         {
+            "authorization": authorization,
             "mode": journal.pin.mode,
             "provider": journal.pin.provider,
             "generated_at": datetime.now(UTC),
@@ -242,5 +276,8 @@ def publish(
     folder = journal.folder / "snapshots"
     path = folder / f"snapshot-{uuid4().hex}.json"
     atomic_write_json(path, value)
-    atomic_write_json(folder / "current.json", {"file": path.name, "sha256": sha256_file(path)})
+    atomic_write_json(
+        folder / "current.json",
+        {"file": path.name, "sha256": sha256_file(path), "authorization": value.authorization},
+    )
     return value

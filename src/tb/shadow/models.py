@@ -10,6 +10,7 @@ from pydantic import AwareDatetime, Field, field_serializer, model_validator
 from tb.ingest.history.core import sha256_bytes
 from tb.ingest.mt5.models import Observation
 from tb.ingest.mt5.storage import record_id
+from tb.ingest.retention import EvidenceLifetime
 from tb.risk.config import PolicyModel
 from tb.strategies.reference import (
     REFERENCE_FEATURE_VERSION,
@@ -93,6 +94,7 @@ class SourcePin(PolicyModel):
 
 
 class ShadowEvent(PolicyModel):
+    retention: EvidenceLifetime | None = None
     pin: SourcePin
     observation: Observation
     evidence_id: str = Field(pattern=r"^[a-f0-9]{64}$")
@@ -141,8 +143,8 @@ class ResearchDecision(PolicyModel):
     id: str
     event_id: str
     evidence_id: str
-    mode: Literal["fixture_replay", "genuine_shadow"]
-    provider: Literal["owned_fixture", "twelve_data"]
+    mode: Literal["fixture_replay", "genuine_shadow", "historical_research"]
+    provider: Literal["owned_fixture", "twelve_data", "licensed_local"]
     symbol: Literal["EURUSD", "XAUUSD"]
     strategy: str
     strategy_version: str = STRATEGY_VERSION
@@ -187,6 +189,8 @@ class ResearchDecision(PolicyModel):
 
     @model_validator(mode="after")
     def causal(self) -> ResearchDecision:
+        if (self.mode == "historical_research") != (self.provider == "licensed_local"):
+            raise ValueError("Historical research cannot impersonate owned or forward evidence")
         if (
             not self.source_open_at
             < self.source_close_at
@@ -203,6 +207,7 @@ class ResearchDecision(PolicyModel):
 
 
 class ShadowSnapshot(PolicyModel):
+    authorization: dict[str, Any] | None = None
     schema_version: Literal[1] = 1
     mode: Literal["fixture_replay", "genuine_shadow"]
     provider: Literal["owned_fixture", "twelve_data"]

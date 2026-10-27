@@ -1,0 +1,100 @@
+{
+  "counts": {
+    "F-01": 4,
+    "F-02": 23,
+    "F-03": 7,
+    "F-04": 10,
+    "F-05": 4,
+    "F-06": 7
+  },
+  "total": 55,
+  "tests": {
+    "F-01": [
+      {
+        "file": "tests/integration/test_offline_paper.py",
+        "test": "test_f01_missed_market_stop_survives_rebound_restart_and_competing_exit",
+        "cases": 4
+      }
+    ],
+    "F-02": [
+      {
+        "file": "tests/unit/test_broker_quotes.py",
+        "test": "test_f02_unavailable_account_rights_close_channel_before_quote",
+        "cases": 16
+      },
+      {
+        "file": "tests/unit/test_broker_quotes.py",
+        "test": "test_f02_view_token_accepts_distinct_available_account_rights",
+        "cases": 6
+      },
+      {
+        "file": "tests/unit/test_broker_quotes.py",
+        "test": "test_f02_periodic_account_loss_refuses_before_receiving_next_quote",
+        "cases": 1
+      }
+    ],
+    "F-03": [
+      {
+        "file": "tests/integration/test_rc_rights_regressions.py",
+        "test": "test_f03_current_rights_refused_before_opening_genuine_snapshot",
+        "cases": 7
+      }
+    ],
+    "F-04": [
+      {
+        "file": "tests/integration/test_rc_rights_regressions.py",
+        "test": "test_f04_original_acquisition_deadline_at_each_reader",
+        "cases": 6
+      },
+      {
+        "file": "tests/integration/test_rc_rights_regressions.py",
+        "test": "test_f04_policy_renewal_and_restart_cannot_extend_cache",
+        "cases": 1
+      },
+      {
+        "file": "tests/integration/test_rc_rights_regressions.py",
+        "test": "test_f04_mixed_age_broker_projection_cannot_reset_old_quote_acquisition",
+        "cases": 1
+      },
+      {
+        "file": "tests/integration/test_rc_rights_regressions.py",
+        "test": "test_f04_recovery_refuses_expired_batch_before_reading_price_files",
+        "cases": 1
+      },
+      {
+        "file": "tests/integration/test_rc_rights_regressions.py",
+        "test": "test_f04_shadow_publication_and_recovery_refuse_expired_journal",
+        "cases": 1
+      }
+    ],
+    "F-05": [
+      {
+        "file": "tests/unit/test_twelve_data.py",
+        "test": "test_f05_injected_transport_keeps_genuine_rights_gate",
+        "cases": 3
+      },
+      {
+        "file": "tests/unit/test_twelve_data.py",
+        "test": "test_f05_owned_fixture_rejects_network_transport_and_denies_forwarding",
+        "cases": 1
+      }
+    ],
+    "F-06": [
+      {
+        "file": "tests/integration/test_rc_rights_regressions.py",
+        "test": "test_f06_altered_existing_shadow_index_is_not_repaired",
+        "cases": 1
+      },
+      {
+        "file": "tests/unit/test_shadow_runtime.py",
+        "test": "test_f06_malformed_metadata_refuses_and_releases_writer_lease",
+        "cases": 1
+      },
+      {
+        "file": "tests/unit/test_shadow_runtime.py",
+        "test": "test_f06_schema_damage_refused_without_repair_or_byte_changes",
+        "cases": 5
+      }
+    ]
+  }
+}

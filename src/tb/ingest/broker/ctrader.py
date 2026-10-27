@@ -21,6 +21,7 @@ from tb.ingest.broker.models import (
     BrokerRefused,
     Symbol,
 )
+from tb.ingest.broker.onboarding.models import AccessRights, parse_access_rights
 from tb.ingest.broker.transport import DemoJsonChannel, MockReadChannel, ReadChannel
 from tb.ingest.history.core import sha256_file
 from tb.ingest.rights import SHADOW_USAGES, DataRights
@@ -240,6 +241,8 @@ class CTraderQuoteSource:
             or integer(trader.get("ctidTraderAccountId")) != self._account
         ):
             raise BrokerRefused("broker_trader_identity_mismatch")
+        if parse_access_rights(trader.get("accessRights")) is AccessRights.NO_LOGIN:
+            raise BrokerRefused("broker_account_login_refused")
         if not self._assets:
             assets = self._request(2112).get("asset", [])
             if not isinstance(assets, list) or len(assets) > 2000:

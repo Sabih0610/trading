@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from tb.ingest.mt5.collector import classify_forward
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.ingest.mt5.storage import FeedStore
+from tb.ingest.retention import require_lifetime
 from tb.ingest.rights import SHADOW_USAGES, DataRights
 from tb.ingest.twelve_data.adapter import TwelveDataFeed
 
@@ -33,6 +34,7 @@ def collect_m5_once(
             rights.require(
                 SHADOW_USAGES, provider="twelve_data", identity=identity, symbol=symbol, now=now
             )
+        store.require_retained(rights, now)
     if store.provider != "twelve_data" or client.budget.daily_ceiling > 600:
         raise FeedUnavailable("M5_shadow_storage_or_daily_headroom_refused")
     close_at = latest_due_close(now)
@@ -66,6 +68,9 @@ def collect_m5_once(
             raw,
             received_at=client.clock(),
             warnings=["M5_elapsed_plus_120s; provider_revisions_not_immutable"],
+            retention=require_lifetime(rights, raw[0].get("retention"), client.clock())
+            if not feed.synthetic
+            else None,
         )
         committed += int(result["rows"])
     return committed

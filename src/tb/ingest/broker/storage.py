@@ -23,6 +23,7 @@ from tb.ingest.history.core import atomic_write_json, sha256_bytes, sha256_file
 from tb.ingest.mt5.cli import collector_lease
 from tb.ingest.mt5.models import FeedConfig, Observation
 from tb.ingest.mt5.storage import FeedStore
+from tb.ingest.retention import lifetime, require_lifetime
 from tb.ingest.rights import SHADOW_USAGES, DataRights
 from tb.ingest.rights_review import check_review, require_retention_window
 from tb.ledger.store import DecisionLedger, LedgerVersions
@@ -47,13 +48,14 @@ def canonical_hash(value: object) -> str:
 def source_code_digest() -> str:
     """Pin the broker implementation and shared storage/accounting semantics, never data."""
     base = Path(__file__).resolve().parents[2]
-    paths = list((base / "ingest/broker").glob("*.py"))
+    paths = list((base / "ingest/broker").rglob("*.py"))
     paths += [
         base / p
         for p in (
             "core/instruments.py",
             "ingest/rights.py",
             "ingest/rights_review.py",
+            "ingest/retention.py",
             "ingest/mt5/models.py",
             "ingest/mt5/storage.py",
             "ledger/store.py",
@@ -186,6 +188,8 @@ class BrokerStore:
             ):
                 raise BrokerRefused("broker_committed_manifest_corrupt")
             commit = json.loads(path.read_text(encoding="utf-8"))
+            if self.identity.evidence == "genuine":
+                require_lifetime(self.rights, commit.get("retention"), self.clock())
             for relative, digest in commit["files"].items():
                 item = (self.root / relative).resolve()
                 if not item.is_relative_to(self.root) or sha256_file(item) != digest:
@@ -275,6 +279,14 @@ class BrokerStore:
         ):
             raise BrokerRefused("broker_alignment_storage_scope_mismatch")
         now = self.clock()
+        retention = (
+            lifetime(
+                self.rights,
+                min(quote.bid_received_at, quote.ask_received_at) if quote else now,
+            )
+            if self.identity.evidence == "genuine"
+            else None
+        )
         rows: list[Observation] = []
         if quote is not None:
             rows.append(
@@ -308,6 +320,7 @@ class BrokerStore:
             "contract": contract.model_dump(mode="json") if contract else None,
             "alignment": link.model_dump(mode="json") if link else None,
             "reason": reason,
+            "retention": retention.model_dump(mode="json") if retention else None,
         }
 
         def append(db: sqlite3.Connection, _accepted: list[Observation]) -> None:
@@ -337,6 +350,7 @@ class BrokerStore:
                 received_at=now,
                 warnings=[] if quote else ["partial_or_refused_quote"],
                 append_evidence=append,
+                retention=retention,
             )
         except BaseException:
             self.poisoned = True

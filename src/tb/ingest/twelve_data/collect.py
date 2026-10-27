@@ -19,6 +19,8 @@ from tb.ingest.mt5.collector import classify_forward
 from tb.ingest.mt5.models import FeedConfig, FeedUnavailable, InstrumentCounts, Observation
 from tb.ingest.mt5.qualification import clock_reference_passes, independent_utc
 from tb.ingest.mt5.storage import FeedStore
+from tb.ingest.retention import lifetime, require_lifetime, require_projection
+from tb.ingest.rights_review import check_review
 from tb.ingest.twelve_data.adapter import TwelveDataFeed
 from tb.ingest.twelve_data.client import (
     CreditBudget,
@@ -32,6 +34,13 @@ from tb.ingest.twelve_data.models import ReferenceExport, ReferenceIdentity
 
 def publish(root: Path, value: ReferenceExport) -> Path:
     """Reuse atomic immutable snapshot + hash pointer; raw market data stays Git-ignored."""
+    if value.source == "twelve_data":
+        rights = check_review(root, root / "config/data_rights.yaml", datetime.now(UTC))
+        retained = require_projection(rights, value.authorization, datetime.now(UTC))
+        if any(
+            row.received_at < retained.acquired_at for row in [*value.references, *value.candles]
+        ):
+            raise FeedUnavailable("reference_publication_acquisition_changed")
     folder = (
         root
         / "reports/market_feed"
@@ -39,7 +48,10 @@ def publish(root: Path, value: ReferenceExport) -> Path:
     )
     path = folder / f"snapshot-{uuid4().hex}.json"
     atomic_write_json(path, value.model_dump(mode="json"))
-    atomic_write_json(folder / "current.json", {"file": path.name, "sha256": sha256_file(path)})
+    atomic_write_json(
+        folder / "current.json",
+        {"file": path.name, "sha256": sha256_file(path), "authorization": value.authorization},
+    )
     return path
 
 
@@ -68,6 +80,10 @@ def run(
             ("twelve_data:" + feed.client.credential_scope).encode()
         ).hexdigest()
     )
+    if not feed.synthetic:
+        if feed.client.rights is None:
+            raise FeedUnavailable("current_reference_rights_required")
+        store.require_retained(feed.client.rights, started)
     store.last_commit()  # Verify prior committed bytes before accepting a restart.
     session, session_started = store.session(
         identity.fingerprint, started, synthetic=feed.synthetic
@@ -135,7 +151,16 @@ def run(
                                 for r in classified
                             ]
                         result = store.commit(
-                            session, classified, raw, received_at=clock(), warnings=[]
+                            session,
+                            classified,
+                            raw,
+                            received_at=clock(),
+                            warnings=[],
+                            retention=require_lifetime(
+                                feed.client.rights, raw[0].get("retention"), clock()
+                            )
+                            if not feed.synthetic and feed.client.rights is not None
+                            else None,
                         )
                         accepted = result["_accepted_rows"]
                         passed_this_poll[symbol] += 1
@@ -192,6 +217,11 @@ def run(
                                 [feed.latest_raw],
                                 received_at=clock(),
                                 warnings=[reason],
+                                retention=require_lifetime(
+                                    feed.client.rights, feed.latest_raw.get("retention"), clock()
+                                )
+                                if not feed.synthetic and feed.client.rights is not None
+                                else None,
                             )
                         if symbol in disabled:
                             break
@@ -227,6 +257,15 @@ def run(
                     "continuous_24h_reliability": "unverified",
                 }
             final = ReferenceExport(
+                authorization={
+                    "provider": "twelve_data",
+                    "identity": identity.fingerprint,
+                    "rights_digest": feed.client.rights.digest,
+                    "instruments": list(feed.client.rights.instruments),
+                    "retention": lifetime(feed.client.rights, started).model_dump(mode="json"),
+                }
+                if not feed.synthetic and feed.client.rights is not None
+                else None,
                 source="synthetic" if feed.synthetic else "twelve_data",
                 identity=identity,
                 session_id=session,
@@ -287,13 +326,14 @@ def main() -> None:
     root = Path.cwd().resolve()
     if not (root / "pyproject.toml").is_file():
         raise SystemExit("Run from the repository root")
+    rights = check_review(root, root / "config/data_rights.yaml", datetime.now(UTC))
     settings = TwelveDataSettings.from_root(root)
     if not settings.api_key.get_secret_value().strip():
         print("Twelve Data disabled: TWELVE_DATA_API_KEY missing")
         return
     scope = hashlib.sha256(settings.api_key.get_secret_value().encode()).hexdigest()
     budget = CreditBudget(root / "data/twelve_data/credits.sqlite", scope)
-    client = TwelveDataClient(settings, budget)
+    client = TwelveDataClient(settings, budget, rights=rights, rights_root=root)
     feed = TwelveDataFeed(client)
     store = FeedStore(
         root,

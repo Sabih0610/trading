@@ -263,9 +263,23 @@ class _Account:
             and quote.symbol == position.symbol
             and self.eligible_after(quote, position.entered_at)
         ):
+            if position.stop_triggered_at is not None and not self.eligible_after(
+                quote, position.stop_triggered_at
+            ):
+                self.emit("position_management", "triggered_stop_waits_for_subsequent_quote")
+                return
+            if quote.bid <= position.stop and position.stop_triggered_at is None:
+                position = position.model_copy(update={"stop_triggered_at": self.now})
+                self.set(position=position)
+                self.emit(
+                    "protection_triggered",
+                    "stop_loss",
+                    order_id=position.protection_id,
+                    triggered_at=self.now.isoformat(),
+                )
             reason = (
                 "stop_loss"
-                if quote.bid <= position.stop
+                if position.stop_triggered_at is not None
                 else "take_profit"
                 if quote.bid >= position.target
                 else halt

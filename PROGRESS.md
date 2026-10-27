@@ -1,5 +1,21 @@
 # Build progress
 
+Current P11c.0: broker-independent registry/import/evaluation/replay/dashboard and
+dry-run retention inventory implemented on local branch `codex/p11c-0-research-mvp`
+from repaired `978aad2`. Final **1,084 tests pass / 3 live deselected**, all quality
+gates, smoke and 14 unchanged paper states pass; 92 new research cases and all 55
+remediation regressions pass. See the [phase report](reports/phases/P11c.0.md).
+[Windows guide](docs/how-to/local-market-research.md). Genuine historical evaluation
+is BLOCKED — DATASET NOT AUTHORIZED. Owner follow-up authorizes publishing this
+task branch and a short README install/run guide. Independent review remains pending;
+main merge, CI, providers, OAuth and orders remain unauthorized. The following checkpoints are historical.
+
+Current: F-01–F-06 remediation implemented in a separate credential-free checkout;
+complete offline gates pass: 992 tests/3 live deselected and 14 owned studies. No integration, push or hosted CI authorization.
+[Report](reports/phases/P11b-RC-remediation.md) · [Research operations](docs/how-to/broker-independent-research.md) · [Codex plan](docs/specifications/P11b-broker-independent-research-plan.md).
+
+Historical checkpoints follow; their earlier publication authorization does not apply to this task.
+
 P11b.1a-RC offline review complete; owner authorized committing/publishing on 2026-10-27.
 Shared development branch: `codex/shared-research`; original candidate **b669d43** and local tags
 remain preserved. RC review docs are included in publication; application source is unchanged.
@@ -62,6 +78,6 @@ A1 is now implemented locally in P11b.2a.1 with hosted activation gated; A2 rema
 | P11b.2a.1 | Independent paper-engine validation and gated Windows CI | done; offline only | 2026-10-27 | 2026-10-27 06:42 UTC | `phase-P11b.2a.1-done` | [report](reports/phases/P11b.2a.1.md) | queued; hosted inactive, P11b.2b NO-GO |
 | P11b.1a-Prep | Secure owner-assisted OAuth readiness | done; offline only | 2026-10-27 | 2026-10-27 10:11 UTC | `phase-P11b.1a-prep-done` | [report](reports/phases/P11b.1a-prep.md) | queued; genuine authorization pending |
 | P11b.1a-RC | Integrated offline release review | review complete; documentation publication authorized | 2026-10-27 | 2026-10-27 10:59 UTC | `b669d43` local source candidate; cleaned publication history | [report](reports/phases/P11b.1a-RC.md) | queued; genuine NO-GO |
-| P12 | Separately reviewed demo-only gateways; optional stock paper | not started | â€” | â€” | â€” | â€” | human gate; external orders disabled |
-| P13 | Controlled offline learning and AI value evaluation | not started | â€” | â€” | â€” | â€” | â€” |
-| P14 | 30+ day forward paper/demo evaluation | not started | â€” | â€” | â€” | â€” | â€” |
+| P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |
+| P13 | Controlled offline learning and AI value evaluation | not started | — | — | — | — | — |
+| P14 | 30+ day forward paper/demo evaluation | not started | — | — | — | — | — |

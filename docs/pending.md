@@ -1,5 +1,25 @@
 # Pending items
 
+- **P11c.0 review:** [local completion report](../reports/phases/P11c.0.md),
+  [ADR0018](adr/0018-permission-gated-local-market-research.md). Review end-to-end
+  owned demonstration, current-rights read boundaries, immutable report/schema,
+  independent replay, matched directional baselines and exact dry-run inventory.
+- **Genuine historical data:** BLOCKED — DATASET NOT AUTHORIZED for EURUSD and
+  XAUUSD separately. Need one exact licensed local shard, actual original
+  acquisition, independently checked documentary storage/retention/derived-report
+  scope, owner + distinct reviewer, verified time/units/category/coverage. Public
+  downloads and old forward-feed credentials provide no automatic permission.
+- **P11c.1 not started:** recommend one qualified EURUSD shard first, frozen
+  evaluation without tuning/holdout access, then separately qualified gold. No
+  genuine API/download/OAuth, order, push/main merge or hosted CI authorization.
+
+- **Current RC remediation:** offline work complete (992 tests and 14 studies); independent human review of six fixes remains pending.
+  [Remediation report](../reports/phases/P11b-RC-remediation.md). Older candidate counts below are historical.
+- **Research data admission:** no actual owned/licensed market dataset has been reviewed;
+  use generated fixtures until documentary dataset rights pass the new research admission work.
+- **Explicit owner gates:** genuine integration/provider/OAuth operations, orders, pushes and
+  hosted CI remain unauthorized here. The earlier general publication direction is superseded for this task.
+
 - **P11b.1a-RC review:** [report](../reports/phases/P11b.1a-RC.md), [owner checklist](how-to/release-candidate-owner-checklist.md). Same b669d43 candidate; no implementation change/new commit/tag. Review documents intentionally uncommitted; 937 pass/3 live deselected.
 - **Critical external redirect evidence:** official docs do not establish exact HTTP loopback/random-path portal acceptance. Owner must verify privately after actual approval. If rejected, keep flow blocked and separately review [contingencies](security/ctrader-redirect-contingency.md); no silent callback downgrade.
 - **Genuine boundaries still closed:** owner application/demo/account/consent, independent code review and separate data-rights/UTC/contract/cost/retention/eligibility evidence remain required. No automatic credential-owning integration, hosted CI or P11b.2b.

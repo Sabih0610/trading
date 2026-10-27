@@ -1,0 +1,64 @@
+{
+  "owned_runs": [
+    {
+      "dataset_id": "owned-m5-csv",
+      "run_id": "30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28",
+      "quality": {
+        "M5_rows": 640,
+        "observations": 640,
+        "valid": 640
+      },
+      "report": "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/report.md",
+      "replay_identical": true,
+      "decisions_sha256": "357d61f2688a5854ba6226a4a43d0ecbc22dc76ef281ed8d3b99d88ceb86d98e",
+      "label": "SOFTWARE TEST ONLY",
+      "labels_sha256": "057cf01b3bf4163e508d1adbcb9f4e079f272dbb764395762e92f05c22122a2f",
+      "observations_analyzed": 640,
+      "decision_count": 1280,
+      "signal_counts": {
+        "BUY": 12,
+        "SELL": 8,
+        "WAIT": 1260
+      },
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      }
+    },
+    {
+      "dataset_id": "owned-m1-parquet",
+      "run_id": "65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3",
+      "quality": {
+        "M5_rows": 408,
+        "incomplete_M5_groups": 2,
+        "observations": 2048,
+        "valid": 2048
+      },
+      "report": "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/report.md",
+      "replay_identical": true,
+      "decisions_sha256": "6de6841a4e09305ec6e62e1e24ac09c4f8f2f9c9ba8d6f16c9dc482f840878ff",
+      "label": "SOFTWARE TEST ONLY",
+      "labels_sha256": "06a262c162427245288b028f1ff000177505a9d2fec253a961a633ba44dbd3ae",
+      "observations_analyzed": 408,
+      "decision_count": 816,
+      "signal_counts": {
+        "BUY": 24,
+        "SELL": 26,
+        "WAIT": 766
+      },
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      }
+    }
+  ],
+  "provider_connections": 0,
+  "external_orders": 0,
+  "genuine_historical_evaluation": "BLOCKED \u2014 DATASET NOT AUTHORIZED",
+  "same_outputs_across_wrapper_runs": true,
+  "first_demo_seconds": 13.82,
+  "mode": "SOFTWARE TEST ONLY",
+  "audit_scope": "Owned software validation counts and hashes only; full per-horizon results stay in the gated local research workspace."
+}

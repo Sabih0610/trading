@@ -106,7 +106,7 @@ def responder(kind: int, payload: dict[str, Any]) -> dict[str, Any]:
         }
     answer: dict[str, Any] = {"ctidTraderAccountId": 777}
     if kind == 2121:
-        answer["trader"] = {"ctidTraderAccountId": 777, "depositAssetId": 1}
+        answer["trader"] = {"ctidTraderAccountId": 777, "depositAssetId": 1, "accessRights": 2}
     elif kind == 2112:
         answer["asset"] = [
             {"assetId": i, "name": name} for i, name in [(1, "USD"), (2, "EUR"), (3, "XAU")]

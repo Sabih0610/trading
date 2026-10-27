@@ -4,6 +4,25 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### P11c.0 local market research — 2026-10-27 UTC
+
+- Integrated repaired 978aad2 in a dedicated local branch, preserving owner work.
+- Added exact-source, deny-by-default local dataset registry and owned fixtures;
+  bounded CSV/Parquet Bronze/Silver import with immutable rights/retention.
+- Reused shared features/EMA/channel/ledger for frozen causal research, matched
+  directional baselines, restart/replay, reports and read-only dashboard.
+- Added pre-write artifact accountability and metadata-only disposal inventory;
+  no automatic deletion, provider connection or trading authority.
+- Genuine historical evaluation remains blocked pending actual dataset approval.
+  Current task authorizes a local commit only; no publication or CI activation.
+
+### RC security/accounting remediation — 2026-10-27 UTC
+
+- Fixed durable missed-stop activation, quote account access, current shadow display rights,
+  acquisition-based retention, explicit owned transport provenance and immutable shadow schema recovery.
+- Added adversarial regressions, no-sync offline validation and broker-independent research plan/runbook.
+- Genuine integration, pushes and hosted CI require explicit owner authorization for this task.
+
 ### Shared repository publication — 2026-10-27 UTC
 
 - Owner authorized ongoing commits/pushes with understandable messages for collaboration.

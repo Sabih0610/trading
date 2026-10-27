@@ -20,6 +20,7 @@ class ReferenceIdentity(PolicyModel):
 
 
 class ReferenceExport(PolicyModel):
+    authorization: dict[str, Any] | None = None
     schema_version: Literal[1] = 1
     source: Literal["twelve_data", "synthetic"]
     identity: ReferenceIdentity

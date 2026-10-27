@@ -16,6 +16,7 @@ from tb.ingest.broker.models import (
 )
 from tb.ingest.broker.storage import BrokerStore
 from tb.ingest.history.core import atomic_write_json, sha256_file
+from tb.ingest.retention import EvidenceLifetime, require_lifetime
 from tb.risk.config import load_policy_bundle
 
 
@@ -33,10 +34,13 @@ def publish(
     counts: dict[str, dict[str, int]] = {}
     quotes: dict[Symbol, BrokerQuote] = {}
     alignments: list[ReferenceQuoteLink] = []
+    lifetimes: list[EvidenceLifetime] = []
     for record in store.feed.db.execute("SELECT payload_json FROM decisions ORDER BY rowid"):
         import json
 
         value = json.loads(record[0])
+        if mode == "genuine":
+            lifetimes.append(require_lifetime(store.rights, value.get("retention"), now))
         symbol = value["symbol"]
         counts.setdefault(
             symbol, {"raw_observations": 0, "admissible_quotes": 0, "aligned_observations": 0}
@@ -102,6 +106,23 @@ def publish(
         "positions_created": 0,
         "p11b2": "NO-GO",
     }
+    authorization = None
+    if mode == "genuine":
+        if not lifetimes:
+            raise BrokerRefused("broker_retained_evidence_required_for_publication")
+        retained = EvidenceLifetime(
+            acquired_at=min(v.acquired_at for v in lifetimes),
+            expires_at=min(v.expires_at for v in lifetimes),
+            rights_digest=store.rights.digest,
+        )
+        authorization = {
+            "provider": "ctrader_demo",
+            "identity": store.identity.account_fingerprint,
+            "rights_digest": store.rights.digest,
+            "instruments": list(store.rights.instruments),
+            "retention": retained.model_dump(mode="json"),
+        }
+        payload["authorization"] = authorization
     folder.mkdir(parents=True, exist_ok=True)
     if sum(p.stat().st_size for p in folder.glob("*.json")) > 8 * 1024 * 1024:
         raise BrokerRefused("broker_report_storage_cap_reached")
@@ -110,5 +131,8 @@ def publish(
     path = folder / (canonical_hash(payload) + ".json")
     if not path.exists():
         atomic_write_json(path, payload)
-    atomic_write_json(folder / "current.json", {"file": path.name, "sha256": sha256_file(path)})
+    atomic_write_json(
+        folder / "current.json",
+        {"file": path.name, "sha256": sha256_file(path), "authorization": authorization},
+    )
     return path

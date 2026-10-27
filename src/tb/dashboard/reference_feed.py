@@ -11,17 +11,41 @@ import streamlit as st
 from tb.dashboard.models import display_time
 from tb.dashboard.readers import EvidenceUnavailable, read_json, safe_path, safe_text
 from tb.ingest.history.core import sha256_file
+from tb.ingest.retention import require_projection
+from tb.ingest.rights_review import check_review
 from tb.ingest.twelve_data.models import ReferenceExport
 
 
-def read_reference_export(folder: Path) -> ReferenceExport:
+def read_reference_export(folder: Path, *, root: Path | None = None) -> ReferenceExport:
     """Read only a bounded hash-indexed snapshot; never credentials, caches or raw files."""
     try:
+        if root is None:
+            raise EvidenceUnavailable("Current reference data rights required")
+        now = datetime.now(UTC)
+        rights = check_review(root, root / "config/data_rights.yaml", now)
+        for symbol in rights.instruments:
+            rights.require(
+                ("derived_storage", "private_display"),
+                provider="twelve_data",
+                identity=rights.account_fingerprint or "unconfigured",
+                symbol=symbol,
+                now=now,
+            )
         pointer = read_json(folder / "current.json")
+        retained = require_projection(rights, pointer.get("authorization"), now)
         path = safe_path(folder, pointer["file"], ".json")
         if path.stat().st_size > 1_000_000 or sha256_file(path) != pointer["sha256"]:
             raise EvidenceUnavailable("Reference export integrity refused")
         value = ReferenceExport.model_validate(read_json(path))
+        if (
+            value.authorization != pointer.get("authorization")
+            or value.identity.fingerprint != rights.account_fingerprint
+        ):
+            raise EvidenceUnavailable("Reference source/policy changed")
+        if any(
+            row.received_at < retained.acquired_at for row in [*value.references, *value.candles]
+        ):
+            raise EvidenceUnavailable("Reference acquisition clock changed")
         if value.source != "twelve_data" or value.generated_at > datetime.now(UTC):
             raise EvidenceUnavailable("Reference source/clock refused")
         return value
@@ -34,7 +58,7 @@ def reference_feed_view(folder: Path, zone: Literal["UTC", "Asia/Karachi"]) -> N
     st.subheader("Twelve Data · Basic · reference midpoint observations")
     st.caption("Read-only · No executable bid/ask · External orders disabled · P11b unstarted")
     try:
-        value = read_reference_export(folder)
+        value = read_reference_export(folder, root=folder.parents[2])
     except EvidenceUnavailable:
         st.info("Verified Twelve Data observations unavailable.")
         return

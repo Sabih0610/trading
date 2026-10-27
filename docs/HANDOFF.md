@@ -1,50 +1,52 @@
-# Current handoff â€” shared publication of reviewed offline work
+# Current handoff — P11c.0 local market research
 
-Candidate b669d430148ba0bb67c9f46f7560341a52165ff1 / phase-P11b.1a-prep-done is unchanged.
-Owner authorized ongoing commits and pushes on 2026-10-27 for collaboration. The RC
-documents and unchanged implementation are on codex/shared-research, following [CONTRIBUTING.md](../CONTRIBUTING.md).
-The public history preserves phase messages/order and omits raw MT5 price payloads throughout;
-original local branches/tags remain intact. Historical report SHAs are local provenance, with
-Publication-Source trailers on corresponding public commits. Never push all original refs/tags.
-[Publication checks and public SHA mapping](../reports/reviews/repository-publication.md).
-Independent review remains pending. Genuine P11b.1a/P11b.2b remain NO-GO; hosted CI inactive.
+Dedicated local branch `codex/p11c-0-research-mvp` directly integrates repaired
+`978aad2`. Original credential-owning checkout and existing worktrees remain
+preserved. Owned CSV/Parquet registry→import→existing strategies→labels→report→replay
+and read-only dashboard are implemented; full completion results are in
+[P11c.0](../reports/phases/P11c.0.md).
+All quality gates pass: 1,084 tests, 3 optional live deselected, 23 existing warnings;
+all 55 remediation regressions, smoke and 14 identical paper states pass. Both owned
+CSV/Parquet runs replay identically. No actual licensed dataset has been admitted.
 
-[RC report](../reports/phases/P11b.1a-RC.md), [owner checklist](how-to/release-candidate-owner-checklist.md),
-[redirect contingency](security/ctrader-redirect-contingency.md), [research](research/P11b.1a-RC-research.md),
-[journal](journal/P11b.1a-RC-journal.md). Existing prep guide/integration plan remain applicable.
+Start review with [ADR0018](adr/0018-permission-gated-local-market-research.md),
+[dataset/protocol contract](specifications/local-market-research.md),
+[runbook](how-to/local-market-research.md) and
+[source candidates](research/P11c.0-research.md). With an existing pinned Python 3.12
+environment, `scripts/research.ps1 -Python <python.exe> -ResearchArguments @('demo')`
+demonstrates owned software only. No dependency installation is needed.
 
-- Already integrated paper/safety/OAuth source verified by ancestry; 299 tracked implementation,
-  configuration/test/CI files unchanged. No merge/cherry-pick/dependency/risk or runtime edits.
-- Final gates: 937 pass / 3 live deselected / 23 existing warnings, 248.63 seconds; locked sync,
-  Ruff/format, strict MyPy167, safety smoke and all 14 paper cases pass.
-- Full fake loopback workflow: prepare/spent nonce, fake accounts-only redirect, mismatched/duplicate
-  callback/code refusal, one fake exchange, view/expected-demo proof, private persistence and actual
-  CTraderSettings load, inert status, expiry/server revocation and private clearing. Real TLS/quote
-  client/browser constructors never reached. All temporary fake private storage/services cleaned.
-- 14 owned studies/3,811 inputs/16 hypothetical fills; every state matches validated baseline.
-  All $100 accounts flat; fresh read-only dashboard reader reconciles all studies.
-- Original OAuth stays cc5a4ea with private .env, modified progress and untracked journal/owner
-  audit preserved; completed paper/validation stay 47e74fc/b56cfb1. Old refs unchanged.
-- Exact HTTP loopback/random-path registration acceptance remains UNVERIFIED in official docs;
-  no portal login/test performed. Owner must privately verify after actual app approval. If rejected,
-  stop for separately authorized redirect redesign; current helper cannot accept HTTPS callbacks.
-- Review/evidence under reports/validation/P11b.1a-RC and reports/safety/P11b.1a-RC. No keys,
-  callback values, account IDs, genuine quotes or private journals in new public-candidate artifacts.
-- The RC review made no genuine auth, token exchange, data requests, broker orders, automatic refresh, push/merge,
-  hosted activation, holdout read, model deployment/promotion or P11b.2b.
+Next exact action: independent review of this local phase and six repairs; select
+one actual licensed local EURUSD dataset with distinct owner/reviewer approvals,
+then separately authorize P11c.1 qualification. XAUUSD needs its own evidence.
+Genuine evaluation is BLOCKED — DATASET NOT AUTHORIZED. Do not change the frozen
+protocol, extend old retention, access 2025+ data or promote midpoint outcomes into
+broker execution performance. cTrader OAuth remains unfinished and untouched.
+Owner follow-up authorizes task-branch publication and the README quick start.
+Main merge, hosted CI, provider requests, real authorization and external orders
+remain unauthorized. P11c.1 is unstarted. Earlier general Git instructions and
+historical status below do not override this phase's explicit restrictions.
 
-Next: independent source/report review; separate owner authorization for original-checkout integration
-without copying .env; actual approval and exact callback acceptance; accounts-only single-demo consent.
-A later bounded quote test needs separate authorization plus rights/clock/contract/cost evidence.
-No genuine-to-paper integration follows automatically. See checklist for conditional Windows commands.
+## Previous remediation checkpoint
 
-Safe now, in this credential-free checkout:
+F-01–F-06 fixes are implemented in a separate credential-free checkout from sanitized
+85f87ce, implementation-equivalent to candidate b669d43. The original review and all
+protected worktrees remain preserved. Full offline validation passes: 992 tests/3 live deselected, all quality gates,
+safety smoke and 14 deterministic studies.
 
-```powershell
-pwsh -NoProfile -File './scripts/check-offline.ps1'
-uv run --locked python -m tb.ingest.broker.onboarding.cli status
-uv run --locked python -m tb.ingest.broker.onboarding.cli rehearsal
-```
+Current owner scope supersedes the historical general push preference: no genuine
+integration/provider use/OAuth, credentials, external orders, push or CI activation.
+Use existing dependencies and `scripts/check-rc-remediation.ps1`; no sync is needed.
+Do not reuse prior journals under new code or repair missing schema/lifetime pins.
 
-The ignored work/rc_review/rehearse.py is a disposable local acceptance harness, not new runtime code.
-Use git worktree list to find originals; preserve their unfinished files. No human approval claimed.
+[Report](../reports/phases/P11b-RC-remediation.md) ·
+[Original review](../reports/reviews/P11b1a-independent-security-review.md) ·
+[Research runbook](how-to/broker-independent-research.md) ·
+[Codex-ready plan](specifications/P11b-broker-independent-research-plan.md) ·
+[ADR](adr/0017-rc-permission-retention-and-recovery-boundaries.md).
+
+Next: obtain independent human review of the patch/plan. Continue broker-independent
+research using the plan and documented owned/licensed dataset admission rules.
+Actual results and hashes are in the completion evidence. Independent human review remains pending.
+No licensed market dataset has been admitted; research currently uses generated fixtures.
+Genuine P11b.1a and P11b.2b remain NO-GO. Hosted CI stays inactive.

@@ -4,14 +4,19 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
+import yaml
 from streamlit.testing.v1 import AppTest
 
 from tb.core.config import repo_root
 from tb.dashboard.readers import EvidenceUnavailable
 from tb.dashboard.reference_feed import read_reference_export
+from tb.ingest.history.core import sha256_file
 from tb.ingest.mt5.models import InstrumentCounts, Observation
+from tb.ingest.retention import lifetime
+from tb.ingest.rights import load_rights
 from tb.ingest.twelve_data.collect import publish
 from tb.ingest.twelve_data.models import ReferenceExport, ReferenceIdentity
+from tb.shadow.fixtures import fixture_rights
 
 
 @pytest.fixture
@@ -37,7 +42,35 @@ def exported(tmp_path: Path) -> Path:
         interval_complete=True,
         coverage_started_at=opening - timedelta(minutes=1),
     )
+    artifact = tmp_path / "work/rights/fictional.txt"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text("OWNED TEST DOCUMENT ONLY; no genuine provider permission")
+    data = fixture_rights().model_dump(mode="json")
+    data.update(
+        provider="twelve_data",
+        account_fingerprint="a" * 64,
+        reviewed_at=(opening - timedelta(minutes=3)).isoformat(),
+    )
+    data["permissions"]["private_display"] = dict(data["permissions"]["derived_storage"])
+    for permission in data["permissions"].values():
+        permission.update(
+            evidence_kind="provider_confirmation",
+            evidence_artifact="work/rights/fictional.txt",
+            evidence_sha256=sha256_file(artifact),
+            permitted_retention_seconds=3600,
+        )
+    proposal = tmp_path / "config/data_rights.yaml"
+    proposal.parent.mkdir()
+    proposal.write_text(yaml.safe_dump(data))
+    rights = load_rights(proposal)
     value = ReferenceExport(
+        authorization={
+            "provider": "twelve_data",
+            "identity": rights.account_fingerprint,
+            "rights_digest": rights.digest,
+            "instruments": list(rights.instruments),
+            "retention": lifetime(rights, now).model_dump(mode="json"),
+        },
         source="twelve_data",
         identity=ReferenceIdentity(fingerprint="a" * 64),
         session_id="fixture-projection",
@@ -89,7 +122,7 @@ def test_status_ui_hides_prices_and_reads_no_credentials(
 
 def test_reference_projection_provider_checksum_and_retrospective_refusals(exported: Path) -> None:
     folder = exported / "reports/market_feed/twelve_data"
-    value = read_reference_export(folder)
+    value = read_reference_export(folder, root=exported)
     assert value.candles[0].source_metadata_timezone is None
     payload = value.model_dump(mode="json")
     payload["source"] = "mt5_demo"
@@ -110,4 +143,4 @@ def test_reference_projection_provider_checksum_and_retrospective_refusals(expor
     path = next(folder.glob("snapshot*.json"))
     path.write_text("{}", encoding="utf-8")
     with pytest.raises(EvidenceUnavailable):
-        read_reference_export(folder)
+        read_reference_export(folder, root=exported)

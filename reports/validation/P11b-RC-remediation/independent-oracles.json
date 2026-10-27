@@ -1,0 +1,56 @@
+{
+  "independent_fraction_oracles": {
+    "cases": 6,
+    "passed": true,
+    "values": [
+      {
+        "symbol": "EURUSD",
+        "bps": 1,
+        "slippage_ticks": 1,
+        "ending_cash": "10000.7398980"
+      },
+      {
+        "symbol": "EURUSD",
+        "bps": 10,
+        "slippage_ticks": 2,
+        "ending_cash": "9998.7389800"
+      },
+      {
+        "symbol": "EURUSD",
+        "bps": 20,
+        "slippage_ticks": 3,
+        "ending_cash": "9996.5179600"
+      },
+      {
+        "symbol": "XAUUSD",
+        "bps": 1,
+        "slippage_ticks": 1,
+        "ending_cash": "10000.19988"
+      },
+      {
+        "symbol": "XAUUSD",
+        "bps": 10,
+        "slippage_ticks": 2,
+        "ending_cash": "9996.3988"
+      },
+      {
+        "symbol": "XAUUSD",
+        "bps": 20,
+        "slippage_ticks": 3,
+        "ending_cash": "9992.1976"
+      }
+    ]
+  },
+  "gap_restart_oracle": {
+    "passed": true,
+    "ending_cash": "9199.0399920",
+    "expected_loss": "800.960008",
+    "peak_halt_survives_restart_and_day_change": true,
+    "duplicate_fill_refused": true
+  },
+  "oauth_and_order_negative_checks": {
+    "wrong_scopes_or_rights_denied": 6,
+    "nonallowlisted_protocol_ids_denied": 72,
+    "callback_and_code_checks_passed": true
+  }
+}

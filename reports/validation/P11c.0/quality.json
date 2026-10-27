@@ -1,0 +1,104 @@
+{
+  "dependencies": "PASS",
+  "lint": {
+    "status": "PASS",
+    "seconds": 0.21
+  },
+  "format": {
+    "status": "PASS",
+    "seconds": 0.22
+  },
+  "types": {
+    "status": "PASS",
+    "seconds": 2.54
+  },
+  "tests": {
+    "status": "PASS",
+    "seconds": 406.5
+  },
+  "smoke": {
+    "status": "PASS",
+    "seconds": 2.32
+  },
+  "scenarios": {
+    "status": "PASS",
+    "seconds": 64.46
+  },
+  "baseline": {
+    "dependencies": "PASS",
+    "lint": {
+      "status": "PASS",
+      "seconds": 0.72
+    },
+    "format": {
+      "status": "PASS",
+      "seconds": 0.41
+    },
+    "types": {
+      "status": "PASS",
+      "seconds": 39.71
+    },
+    "tests": {
+      "status": "PASS",
+      "seconds": 307.88
+    },
+    "smoke": {
+      "status": "PASS",
+      "seconds": 2.32
+    },
+    "scenarios": {
+      "status": "PASS",
+      "seconds": 64.09
+    },
+    "pytest": {
+      "passed": 992,
+      "failed": 0,
+      "skipped": 0,
+      "live_deselected": 3,
+      "warnings": 23,
+      "seconds": 304.35
+    },
+    "format_files": 441,
+    "mypy_source_files": 169
+  },
+  "pytest": {
+    "passed": 1084,
+    "failed": 0,
+    "skipped": 0,
+    "live_deselected": 3,
+    "warnings": 23,
+    "seconds": 403.8,
+    "new_research_cases": 92
+  },
+  "remediation_regressions": {
+    "passed": 55,
+    "failed": 0,
+    "deselected": 1032,
+    "seconds": 27.83,
+    "findings": [
+      "F-01",
+      "F-02",
+      "F-03",
+      "F-04",
+      "F-05",
+      "F-06"
+    ]
+  },
+  "format_files": 455,
+  "mypy_source_files": 177,
+  "independent_paper_comparison": "all 14 states, fills, closed trades, risk events and complete smoke JSON identical",
+  "demonstration": "CSV/Parquet imports, frozen evaluation and identical replay; see demo.json",
+  "environment": {
+    "python": "3.12.11",
+    "direct_pins_verified": 26,
+    "installs": 0,
+    "offline_guard": "external sockets denied; owned localhost tests permitted",
+    "hosted_ci_activated": false
+  },
+  "warnings": "Existing hmmlearn/NumPy, MLflow/SQLAlchemy and dependency deprecations; same total as baseline",
+  "publication": {
+    "local_branch_only": true,
+    "push": false,
+    "main_merge": false
+  }
+}
