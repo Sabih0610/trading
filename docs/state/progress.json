@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b.1a-prep",
+  "current_phase": "P11b.1a-RC",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -377,7 +377,7 @@
       "worktree_preserved": true,
       "merged": false,
       "genuine_connectivity": "unverified",
-      "note": "Offline preparation completed separately; actual app approval, callback registration, consent/scope/account evidence and rights remain external. Original work/private credentials unchanged."
+      "note": "RC reviewed unchanged source b669d43; actual app approval, exact redirect acceptance, view-only consent and genuine account/rights/clock/metadata evidence remain external. Original checkout/private files preserved."
     },
     "P11b.2a.1": {
       "title": "Independent paper-engine validation, Windows CI and integration readiness",
@@ -433,6 +433,42 @@
       "external_orders_enabled": false,
       "hosted_ci_activated": false,
       "p11b2b_started": false
+    },
+    "P11b.1a-RC": {
+      "title": "Release candidate integration and readiness review",
+      "status": "done",
+      "review_only": true,
+      "reviewed_utc": "2026-10-27 10:59 UTC",
+      "candidate_commit": "b669d430148ba0bb67c9f46f7560341a52165ff1",
+      "candidate_tag": "phase-P11b.1a-prep-done",
+      "branch": "codex/p11b-1a-rc",
+      "report": "reports/phases/P11b.1a-RC.md",
+      "review": "queued",
+      "implementation_changes": 0,
+      "new_commit": false,
+      "new_tag": false,
+      "review_documents_uncommitted": false,
+      "tests": {
+        "passed": 937,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 248.63
+      },
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_smoke_owned_rehearsal_paper_regressions_passed",
+      "full_owned_oauth_rehearsal": true,
+      "owned_paper_cases": 14,
+      "states_match_validated_baseline": true,
+      "original_worktrees_preserved": true,
+      "exact_portal_redirect_acceptance": "unverified",
+      "genuine_p11b1a_go": false,
+      "genuine_p11b2b_go": false,
+      "hosted_ci_activated": false,
+      "external_orders_enabled": false,
+      "publication_authorized": true,
+      "publication_branch": "codex/shared-research",
+      "original_candidate_preserved": true,
+      "public_history_raw_mt5_payloads_omitted": true,
+      "new_commit_context": "RC review created no source commit; subsequent owner-authorized documentation/publication commits are separate."
     }
   },
   "allowed_status": [
@@ -461,8 +497,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-27 10:11 UTC",
-  "next_phase": "Stop for offline preparation review. Owner app approval/callback/view-only consent still external; no genuine P11b.1a completion; P11b.2b NO_GO/unstarted.",
+  "last_updated_utc": "2026-10-27 11:13 UTC",
+  "next_phase": "Review shared branch codex/shared-research; ongoing validated task commits/pushes authorized. Original local refs preserved; do not publish original diagnostic history. Genuine P11b.1a/P11b.2b NO_GO; hosted CI inactive.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",

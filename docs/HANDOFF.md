@@ -1,43 +1,43 @@
-# Current handoff — P11b.1a-Prep complete offline
+# Current handoff — shared publication of reviewed offline work
 
-2026-10-27 10:11 UTC. Branch codex/p11b-1a-prep from b56cfb1 / phase-P11b.2a.1-done.
-Checkpoint ref phase-P11b.1a-prep-done. Stop for independent review and exact owner external actions.
-P11b.1a genuine is pending/uncompleted; P11b.2b remains NO-GO/unstarted. Hosted CI inactive.
+Candidate b669d430148ba0bb67c9f46f7560341a52165ff1 / phase-P11b.1a-prep-done is unchanged.
+Owner authorized ongoing commits and pushes on 2026-10-27 for collaboration. Publish the RC
+documents and unchanged implementation on codex/shared-research, following [CONTRIBUTING.md](../CONTRIBUTING.md).
+The public history preserves phase messages/order and omits raw MT5 price payloads throughout;
+original local branches/tags remain intact. Historical report SHAs are local provenance, with
+Publication-Source trailers on corresponding public commits. Never push all original refs/tags.
+Independent review remains pending. Genuine P11b.1a/P11b.2b remain NO-GO; hosted CI inactive.
 
-[Report](../reports/phases/P11b.1a-prep.md), [owner guide](how-to/ctrader-oauth-after-approval.md),
-[integration plan](specifications/P11b.1a-prep-integration-plan.md), [security](security/ctrader-oauth-prep.md),
-[ADR0016](adr/0016-private-owner-assisted-ctrader-onboarding.md), [journal](journal/P11b.1a-prep-journal.md).
+[RC report](../reports/phases/P11b.1a-RC.md), [owner checklist](how-to/release-candidate-owner-checklist.md),
+[redirect contingency](security/ctrader-redirect-contingency.md), [research](research/P11b.1a-RC-research.md),
+[journal](journal/P11b.1a-RC-journal.md). Existing prep guide/integration plan remain applicable.
 
-- Baseline 853 pass/3 live deselected/23 warnings, 175.44s. Final 937/3/23, 234.20s: locked sync,
-  Ruff/format, strict MyPy (167 sources), safety smoke, 14 owned paper scenarios and fake local OAuth pass.
-  84 new tests; all previous tests and restrictions retained.
-- Optional onboarding package adds one-use exact owner-registered loopback callback, local code/
-  redirect binding, typed token/account enums, single-demo/broker pin and hidden owner confirmation.
-  Actual portal callback acceptance/state/PKCE support are unverified; no undocumented convenience.
-- Private root .env only; owner/SYSTEM ACL before staged secret write, full-pair atomic replace,
-  writer/session leases, bounded/sanitized fixed TLS exchange, explicit manual refresh only.
-  Callback parser errors never reflect the request/code; default status is inert; no quotes/paper startup.
-- Genuine auth additionally needs two private human flags and explicit after-approval command.
-  CI refuses real transport. Owned tests mock all real edges or use a fake loopback provider.
-  No genuine code/token/scope/account/quote was obtained; no actual browser consent opened.
-- Original OAuth checkout stays cc5a4ea with progress changes, untracked journal/owner audit and
-  private .env unchanged. Completed paper/validation worktrees remain 47e74fc/b56cfb1. No secret copy.
-  Original .env ACL metadata verifies owner/SYSTEM-only; exact private-value artifact scan passes.
-- Existing broker facade/models/allowlist, rights, risk, ledger, paper and dashboard source unchanged.
-  Paper source digest f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5 remains.
-  New protocol operations are only four existing auth/identity kinds; no order/execution imports.
-- No risk relaxation, genuine providers, external orders, holdout reads, AI promotion, paid service,
-  merge/rebase/stash/reset/push or hosted activation. No new SDK/runtime dependency.
-- Structured owned summaries: reports/validation/P11b.1a-prep; fresh safety summary:
-  reports/safety/P11b.1a-prep/legacy-paper-smoke.json. No real private values in artifacts.
+- Already integrated paper/safety/OAuth source verified by ancestry; 299 tracked implementation,
+  configuration/test/CI files unchanged. No merge/cherry-pick/dependency/risk or runtime edits.
+- Final gates: 937 pass / 3 live deselected / 23 existing warnings, 248.63 seconds; locked sync,
+  Ruff/format, strict MyPy167, safety smoke and all 14 paper cases pass.
+- Full fake loopback workflow: prepare/spent nonce, fake accounts-only redirect, mismatched/duplicate
+  callback/code refusal, one fake exchange, view/expected-demo proof, private persistence and actual
+  CTraderSettings load, inert status, expiry/server revocation and private clearing. Real TLS/quote
+  client/browser constructors never reached. All temporary fake private storage/services cleaned.
+- 14 owned studies/3,811 inputs/16 hypothetical fills; every state matches validated baseline.
+  All $100 accounts flat; fresh read-only dashboard reader reconciles all studies.
+- Original OAuth stays cc5a4ea with private .env, modified progress and untracked journal/owner
+  audit preserved; completed paper/validation stay 47e74fc/b56cfb1. Old refs unchanged.
+- Exact HTTP loopback/random-path registration acceptance remains UNVERIFIED in official docs;
+  no portal login/test performed. Owner must privately verify after actual app approval. If rejected,
+  stop for separately authorized redirect redesign; current helper cannot accept HTTPS callbacks.
+- Review/evidence under reports/validation/P11b.1a-RC and reports/safety/P11b.1a-RC. No keys,
+  callback values, account IDs, genuine quotes or private journals in new public-candidate artifacts.
+- The RC review made no genuine auth, token exchange, data requests, broker orders, automatic refresh, push/merge,
+  hosted activation, holdout read, model deployment/promotion or P11b.2b.
 
-Next owner actions, ALL NOT YET EXECUTED: actual app approval; independently eligible broker/demo
-and terms; reviewed integration into credential-owning checkout without copying .env; prepare/register
-exact fresh private callback; separately authorize accounts-only single-demo consent and confirmation.
-Only after real permission/rights/UTC/contract/cost/retention evidence and separate approval may the
-existing bounded read-only quote diagnostic be considered. No genuine-to-paper integration authorized.
+Next: independent source/report review; separate owner authorization for original-checkout integration
+without copying .env; actual approval and exact callback acceptance; accounts-only single-demo consent.
+A later bounded quote test needs separate authorization plus rights/clock/contract/cost evidence.
+No genuine-to-paper integration follows automatically. See checklist for conditional Windows commands.
 
-Re-run only offline checks/rehearsal now in this credential-free worktree:
+Safe now, in this credential-free checkout:
 
 ```powershell
 pwsh -NoProfile -File './scripts/check-offline.ps1'
@@ -45,5 +45,5 @@ uv run --locked python -m tb.ingest.broker.onboarding.cli status
 uv run --locked python -m tb.ingest.broker.onboarding.cli rehearsal
 ```
 
-Use git worktree list to locate originals. Preserve original uncommitted files before any future
-owner-authorized integration; follow the written conflict plan. No independent human approval claimed.
+The ignored work/rc_review/rehearse.py is a disposable local acceptance harness, not new runtime code.
+Use git worktree list to find originals; preserve their unfinished files. No human approval claimed.

@@ -92,3 +92,11 @@ Follow `docs/DOCUMENTATION_STANDARD.md`: live journal per phase, decision log, r
 phase reports, how-to guides, and the living files PROGRESS.md, CHANGELOG.md, docs/HANDOFF.md,
 docs/pending.md, docs/review_queue.md, docs/state/progress.json. Work must be resumable from
 HANDOFF.md at any time. To run all phases automatically, follow `prompts/RUN_ALL.md`.
+
+## 10. Shared Git workflow (owner direction, 2026-10-27)
+- Commit and push completed, validated work to this repository with understandable messages.
+- Follow `CONTRIBUTING.md`; fetch first, use task branches, and preserve coworkers' unfinished files.
+- Do not force-push, automatically merge `main`, or publish old local branches/tags containing
+  unreviewed diagnostic data. The cleaned shared baseline is `codex/shared-research`.
+- Hosted CI remains inactive; use `[skip ci]` on publication heads and `--no-follow-tags` until
+  its separate activation. Publishing does not authorize providers, orders or subsequent phases.

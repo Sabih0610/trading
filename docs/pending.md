@@ -1,5 +1,9 @@
 # Pending items
 
+- **P11b.1a-RC review:** [report](../reports/phases/P11b.1a-RC.md), [owner checklist](how-to/release-candidate-owner-checklist.md). Same b669d43 candidate; no implementation change/new commit/tag. Review documents intentionally uncommitted; 937 pass/3 live deselected.
+- **Critical external redirect evidence:** official docs do not establish exact HTTP loopback/random-path portal acceptance. Owner must verify privately after actual approval. If rejected, keep flow blocked and separately review [contingencies](security/ctrader-redirect-contingency.md); no silent callback downgrade.
+- **Genuine boundaries still closed:** owner application/demo/account/consent, independent code review and separate data-rights/UTC/contract/cost/retention/eligibility evidence remain required. No automatic credential-owning integration, hosted CI or P11b.2b.
+
 - **P11b.1a-Prep independent review:** [report](../reports/phases/P11b.1a-prep.md), [security](security/ctrader-oauth-prep.md), [ADR0016](adr/0016-private-owner-assisted-ctrader-onboarding.md). 937 pass/3 live deselected; offline milestone only.
 - **Owner external OAuth actions — NOT EXECUTED:** check actual app approval, broker/demo eligibility/terms and one account; authorize reviewed code integration without copying .env; prepare/register exact fresh callback; separately authorize accounts-only consent and confirm the returned demo identity privately. [Guide](how-to/ctrader-oauth-after-approval.md). No genuine token/scope/account verified here.
 - **Genuine connection remains NO-GO:** separate bounded-diagnostic authorization plus rights/UTC/metadata/cost/retention evidence required. No callback fallback to unsupported state/PKCE or broad predictable URI. P11b.2b unstarted.

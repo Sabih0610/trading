@@ -1,0 +1,43 @@
+{
+  "mode": "OWNED OFFLINE RC REHEARSAL",
+  "candidate_commit": "b669d430148ba0bb67c9f46f7560341a52165ff1",
+  "prepare_and_real_network_default_denial": true,
+  "fake_authorization_and_callback": true,
+  "mismatched_callback_refused": true,
+  "duplicate_callback_and_code_refused": true,
+  "view_scope_and_expected_demo_verified": true,
+  "private_atomic_storage_and_adapter_settings_compatible": true,
+  "inert_status_with_owned_tokens": {
+    "mode": "oauth_preparation",
+    "configured": true,
+    "private_token_pair_present": true,
+    "stored_permission_is_view": true,
+    "genuine_connectivity": "UNVERIFIED",
+    "automatic_refresh": false,
+    "quotes_enabled": false,
+    "external_orders_enabled": false
+  },
+  "inert_status_after_owned_revocation": {
+    "mode": "oauth_preparation",
+    "configured": true,
+    "private_token_pair_present": false,
+    "stored_permission_is_view": false,
+    "genuine_connectivity": "UNVERIFIED",
+    "automatic_refresh": false,
+    "quotes_enabled": false,
+    "external_orders_enabled": false
+  },
+  "expiry_and_server_revocation_refused": true,
+  "local_credential_revocation": true,
+  "quote_admission_refused_before_transport": true,
+  "order_kinds_refused_locally": 5,
+  "genuine_provider_calls": 0,
+  "genuine_quotes": 0,
+  "external_orders": 0,
+  "fake_http_operations": [
+    "owned_authorization",
+    "owned_token_exchange",
+    "owned_revocation_refusal"
+  ],
+  "prototype_only": true
+}

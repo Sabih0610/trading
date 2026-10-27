@@ -1,5 +1,15 @@
 # Build progress
 
+P11b.1a-RC offline review complete; owner authorized committing/publishing on 2026-10-27.
+Shared development branch: `codex/shared-research`; original candidate **b669d43** and local tags
+remain preserved. RC review docs are included in publication; application source is unchanged.
+937 tests passed/3 live deselected at the RC review; full fake OAuth, all gates, smoke,
+14 matching paper scenarios and dashboard reconciliation pass. Original credentials/work preserved.
+[RC report](reports/phases/P11b.1a-RC.md) · [Owner checklist](docs/how-to/release-candidate-owner-checklist.md).
+Exact portal callback acceptance remains unverified; genuine P11b.1a/P11b.2b NO-GO. Hosted CI inactive.
+
+Previous preparation checkpoint:
+
 P11b.1a-Prep is complete offline on `codex/p11b-1a-prep`, tag `phase-P11b.1a-prep-done`.
 937 tests pass / 3 live deselected; locked gates, paper smoke, 14 owned paper cases and fake local
 OAuth rehearsal pass. Root credentials/worktrees preserved; no genuine auth, token exchange or quote.
@@ -51,6 +61,7 @@ A1 is now implemented locally in P11b.2a.1 with hosted activation gated; A2 rema
 | P11b.2a | Offline paper trading, risk validation and recovery | done; owned software tests only | 2026-10-27 | 2026-10-27 01:35 | `phase-P11b.2a-done` | [report](reports/phases/P11b.2a.md) | queued; genuine P11b.2b NO-GO |
 | P11b.2a.1 | Independent paper-engine validation and gated Windows CI | done; offline only | 2026-10-27 | 2026-10-27 06:42 UTC | `phase-P11b.2a.1-done` | [report](reports/phases/P11b.2a.1.md) | queued; hosted inactive, P11b.2b NO-GO |
 | P11b.1a-Prep | Secure owner-assisted OAuth readiness | done; offline only | 2026-10-27 | 2026-10-27 10:11 UTC | `phase-P11b.1a-prep-done` | [report](reports/phases/P11b.1a-prep.md) | queued; genuine authorization pending |
+| P11b.1a-RC | Integrated offline release review | review complete; documentation publication authorized | 2026-10-27 | 2026-10-27 10:59 UTC | `b669d43` local source candidate; cleaned publication history | [report](reports/phases/P11b.1a-RC.md) | queued; genuine NO-GO |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | â€” | â€” | â€” | â€” | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | â€” | â€” | â€” | â€” | â€” |
 | P14 | 30+ day forward paper/demo evaluation | not started | â€” | â€” | â€” | â€” | â€” |

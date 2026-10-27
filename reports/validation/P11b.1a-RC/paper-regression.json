@@ -1,0 +1,95 @@
+{
+  "mode": "OWNED SOFTWARE REGRESSION ONLY",
+  "studies": [
+    {
+      "name": "ema_rising",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 2
+    },
+    {
+      "name": "channel_breakout",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 2
+    },
+    {
+      "name": "falling",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 0
+    },
+    {
+      "name": "sideways",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 0
+    },
+    {
+      "name": "gold_reversal",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 2
+    },
+    {
+      "name": "sell_close",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 2
+    },
+    {
+      "name": "take_profit",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 2
+    },
+    {
+      "name": "stop_gap",
+      "state_matches_validated_baseline": true,
+      "events": 273,
+      "fills": 2
+    },
+    {
+      "name": "daily_halt",
+      "state_matches_validated_baseline": true,
+      "events": 273,
+      "fills": 2
+    },
+    {
+      "name": "peak_shutdown",
+      "state_matches_validated_baseline": true,
+      "events": 273,
+      "fills": 2
+    },
+    {
+      "name": "missed_fills",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 0
+    },
+    {
+      "name": "stale_quotes",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 0
+    },
+    {
+      "name": "partial_sides",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 0
+    },
+    {
+      "name": "session_closed",
+      "state_matches_validated_baseline": true,
+      "events": 272,
+      "fills": 0
+    }
+  ],
+  "study_count": 14,
+  "inputs": 3811,
+  "fills": 16,
+  "cash100_accounts_flat": true,
+  "read_only_dashboard_reconciliation": true,
+  "source_digest": "f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5"
+}

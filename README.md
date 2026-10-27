@@ -4,6 +4,9 @@ A research-first intraday platform with XAUUSD/EURUSD local contract simulation 
 
 Development is organized as resumable phases P00-P14. Human-readable status is in [PROGRESS.md](PROGRESS.md), the exact resume point is in [docs/HANDOFF.md](docs/HANDOFF.md), and project rules are in [AGENTS.md](AGENTS.md).
 
+Working with a teammate: see [CONTRIBUTING.md](CONTRIBUTING.md) for the shared development branch,
+clear commit messages, local checks and pull request workflow.
+
 ## Bootstrap
 
 From PowerShell 7 at the repository root:

@@ -4,6 +4,22 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### Shared repository publication — 2026-10-27 UTC
+
+- Owner authorized ongoing commits/pushes with understandable messages for collaboration.
+- Added a team workflow and prepared phase-by-phase public history with raw MT5 observations
+  omitted throughout; original local branches/tags preserved. No application source change.
+- Included RC evidence and retained its actual 937-test result; hosted CI remains inactive.
+
+### P11b.1a-RC — offline review, 2026-10-27 UTC
+
+- Revalidated unchanged b669d43 candidate composition and all 937 tests; no implementation, dependency, risk, CI or permission changes.
+- Rehearsed complete owned prepare/auth/callback/proof/private state/expiry/revocation/status chain with all genuine edges trapped. All 14 paper states match baseline and dashboard evidence reconciles.
+- Added RC report, owner checklist and redirect contingency review. Exact portal loopback acceptance remains unverified.
+- Original credentials/worktrees/refs preserved; review itself made no artificial commit/tag,
+  merge, push, hosted activation or genuine provider use. Subsequent documentation publication
+  follows the owner's separate 2026-10-27 instruction.
+
 ## P11b.1a-Prep — 2026-10-27 UTC
 
 - Added optional owner-started cTrader onboarding: exact one-use loopback callback, code binding, view/account enum separation and one-demo verification/confirmation.
