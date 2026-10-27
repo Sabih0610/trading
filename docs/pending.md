@@ -1,5 +1,9 @@
 # Pending items
 
+- **P11b.1a-Prep independent review:** [report](../reports/phases/P11b.1a-prep.md), [security](security/ctrader-oauth-prep.md), [ADR0016](adr/0016-private-owner-assisted-ctrader-onboarding.md). 937 pass/3 live deselected; offline milestone only.
+- **Owner external OAuth actions — NOT EXECUTED:** check actual app approval, broker/demo eligibility/terms and one account; authorize reviewed code integration without copying .env; prepare/register exact fresh callback; separately authorize accounts-only consent and confirm the returned demo identity privately. [Guide](how-to/ctrader-oauth-after-approval.md). No genuine token/scope/account verified here.
+- **Genuine connection remains NO-GO:** separate bounded-diagnostic authorization plus rights/UTC/metadata/cost/retention evidence required. No callback fallback to unsupported state/PKCE or broad predictable URI. P11b.2b unstarted.
+
 - **P11b.2a.1 independent review:** [report](../reports/phases/P11b.2a.1.md), [ADR0015](adr/0015-offline-validation-and-gated-windows-ci.md). 853 tests pass; four reproduced fixes, Decimal/process-death oracles and all 14 owned replays pass. No independent human approval claimed.
 - **Hosted CI:** local workflow validated; public origin confirmed but Actions policy endpoint returned 403. Owner review, free standard-runner/policy verification and separate push/activation authorization required before setting OFFLINE_CI_APPROVED_FREE_RUNNER. No hosted pass or branch protection change.
 - **Future genuine integration:** [explicit input matrix](specifications/P11b.2b-genuine-input-contract.md) remains NO-GO. No provider or OAuth authentication in this phase.

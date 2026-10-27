@@ -1,5 +1,21 @@
 # Data dictionary
 
+## P11b.1a-Prep private onboarding state
+
+These fields persist only in root .env with owner/SYSTEM ACLs. No values belong in datasets,
+reports, screenshots, runtime evidence or dashboard projections. New names in .env.example are empty.
+
+| Field group | Meaning / boundary |
+|---|---|
+| CTRADER_DEMO_CLIENT_ID / CLIENT_SECRET | Existing private application credentials; never copied by prep. Missing keys disable setup. |
+| CTRADER_DEMO_ACCOUNT_ID / BROKER_PIN | Independently selected one-demo identity; not automatic discovery or account switching. |
+| CTRADER_DEMO_APPLICATION_APPROVED / OAUTH_ENABLED | Separate human attestation/enable flags; default disabled. Explicit after-approval invocation also required; CI rejects real transport. |
+| CTRADER_DEMO_OAUTH_REDIRECT_URI / OAUTH_CALLBACK_STATE | Private exact one-use registered capability path; prepared → spent before browser, consumed after verified storage. Spent/used/crashed sessions require a fresh URI. No conventional state/PKCE assumption. |
+| CTRADER_DEMO_ACCESS_TOKEN / REFRESH_TOKEN / TOKEN_ISSUED_AT / ACCESS_EXPIRES_AT / TOKEN_TYPE | Complete private pair plus returned lifetime/UTC metadata, one atomic update. Codes are memory-only, never stored. Manual refresh only; uncertainty requires owner recovery. |
+| CTRADER_DEMO_TOKEN_PERMISSION / ACCOUNT_ACCESS_RIGHTS | Token scope and account rights are distinct enums; only actual SCOPE_VIEW accepted. FULL_ACCESS is not an application permission. |
+| CTRADER_DEMO_ACCOUNT_FINGERPRINT / VERIFIED_BROKER / OAUTH_APPLICATION_BINDING / OAUTH_VERIFIED_AT | Private proof/pin binding from verified token/account responses and owner confirmation. No quote/data-rights/eligibility claim. |
+| Inert status / owned rehearsal summary | Non-sensitive booleans/counts only. Synthetic rehearsal never reads real .env or proves genuine connectivity. |
+
 ## P11a.3 reference market data
 
 Provider namespace `twelve_data` reuses the existing immutable Bronze/Silver/checkpoint schema;

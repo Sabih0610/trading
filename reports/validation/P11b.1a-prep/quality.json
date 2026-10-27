@@ -1,0 +1,33 @@
+{
+  "phase": "P11b.1a-prep",
+  "completed_utc": "2026-10-27 10:09 UTC",
+  "python": "3.12.11",
+  "uv": "0.13.5",
+  "baseline": {
+    "passed": 853,
+    "live_deselected": 3,
+    "warnings": 23,
+    "seconds": 175.44
+  },
+  "final": {
+    "passed": 937,
+    "live_deselected": 3,
+    "warnings": 23,
+    "seconds": 234.2
+  },
+  "new_tests": 84,
+  "locked_sync": true,
+  "ruff": true,
+  "format": true,
+  "strict_mypy_sources": 167,
+  "paper_safety_smoke": true,
+  "owned_paper_studies": 14,
+  "fake_local_oauth_rehearsal": true,
+  "genuine_authentication": false,
+  "genuine_token_exchange": false,
+  "external_orders": 0,
+  "p11b1a_genuine_completed": false,
+  "p11b2b_started": false,
+  "hosted_ci_active": false,
+  "private_value_scan_passed": true
+}

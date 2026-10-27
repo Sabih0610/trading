@@ -1,0 +1,218 @@
+{
+  "description": "Synthetic accounting/safety examples only; no historical profitability claim",
+  "empirical_trials": 0,
+  "examples": {
+    "BTCUSDT-100": {
+      "ending_cash": "101.36364324",
+      "final_test_reads": 0,
+      "mode": "simulated",
+      "rejections": [],
+      "shutdowns": [],
+      "source": "P09.5 synthetic fixture; no broker data",
+      "trades": [
+        {
+          "entry_price": "100.13",
+          "entry_time": "2024-01-02T12:02:00Z",
+          "exit_price": "103.99",
+          "exit_reason": "target",
+          "exit_time": "2024-01-02T12:03:00Z",
+          "fees": "0.07613676",
+          "lots": "0.373",
+          "mode": "simulated",
+          "planned_loss": "0.49949176",
+          "pnl": "1.36364324",
+          "symbol": "BTCUSDT"
+        }
+      ]
+    },
+    "EURUSD-100": {
+      "ending_cash": "100",
+      "final_test_reads": 0,
+      "mode": "simulated",
+      "rejections": [
+        "minimum_lot_or_affordability"
+      ],
+      "shutdowns": [],
+      "source": "P09.5 synthetic fixture; no broker data",
+      "trades": []
+    },
+    "EURUSD-10000": {
+      "ending_cash": "10032.7562920",
+      "final_test_reads": 0,
+      "mode": "simulated",
+      "rejections": [],
+      "shutdowns": [],
+      "source": "P09.5 synthetic fixture; no broker data",
+      "trades": [
+        {
+          "entry_price": "1.10013",
+          "entry_time": "2024-01-02T12:02:00Z",
+          "exit_price": "1.10399",
+          "exit_reason": "target",
+          "exit_time": "2024-01-02T12:03:00Z",
+          "fees": "1.98370800000",
+          "lots": "0.09",
+          "mode": "simulated",
+          "planned_loss": "12.23920800000",
+          "pnl": "32.75629200000",
+          "symbol": "EURUSD"
+        }
+      ]
+    },
+    "XAUUSD-100": {
+      "ending_cash": "100",
+      "final_test_reads": 0,
+      "mode": "simulated",
+      "rejections": [
+        "minimum_lot_or_affordability"
+      ],
+      "shutdowns": [],
+      "source": "P09.5 synthetic fixture; no broker data",
+      "trades": []
+    },
+    "XAUUSD-10000": {
+      "ending_cash": "2798.559952",
+      "final_test_reads": 0,
+      "mode": "simulated",
+      "rejections": [],
+      "shutdowns": [
+        "peak_drawdown"
+      ],
+      "source": "P09.5 synthetic fixture; no broker data",
+      "trades": [
+        {
+          "entry_price": "2000.13",
+          "entry_time": "2024-01-02T12:02:00Z",
+          "exit_price": "199.99",
+          "exit_reason": "peak_drawdown",
+          "exit_time": "2024-01-02T12:03:00Z",
+          "fees": "0.88004800",
+          "lots": "0.04",
+          "mode": "simulated",
+          "planned_loss": "6.15964800",
+          "pnl": "-7201.44004800",
+          "symbol": "XAUUSD"
+        }
+      ]
+    },
+    "legacy_spot_backtester": {
+      "equity": [
+        {
+          "cash": "100",
+          "close": "100",
+          "equity": "100",
+          "exposure": "0",
+          "holdings": "0",
+          "timestamp": "2024-01-02T12:00:00Z"
+        },
+        {
+          "cash": "100",
+          "close": "100.10",
+          "equity": "100",
+          "exposure": "0.00",
+          "holdings": "0",
+          "timestamp": "2024-01-02T12:01:00Z"
+        },
+        {
+          "cash": "63.64791474456207290184365666",
+          "close": "100.10",
+          "equity": "99.89835650283819918997951492",
+          "exposure": "36.30124898635743215017324073",
+          "holdings": "0.3626498400235507707310014059",
+          "timestamp": "2024-01-02T12:02:00Z"
+        },
+        {
+          "cash": "81.75502850993476335545797148",
+          "close": "50",
+          "equity": "81.75502850993476335545797148",
+          "exposure": "0",
+          "holdings": "0",
+          "timestamp": "2024-01-02T12:03:00Z"
+        }
+      ],
+      "mode": "simulated",
+      "rejections": [
+        {
+          "detail": "Net-equity circuit breaker latched",
+          "reason_code": "peak_drawdown",
+          "symbol": "BTCUSDT",
+          "timestamp": "2024-01-02T12:03:00Z"
+        }
+      ],
+      "trades": [
+        {
+          "entry_fee": "0.03631576948595197512303331003",
+          "entry_price": "100.140040",
+          "entry_time": "2024-01-02T12:02:00Z",
+          "exit_fee": "0.01812523900437706752113545027",
+          "exit_price": "49.9800",
+          "exit_reason": "kill_switch",
+          "exit_time": "2024-01-02T12:03:00Z",
+          "pnl": "-18.24497149006523664454202852",
+          "quantity": "0.3626498400235507707310014059",
+          "symbol": "BTCUSDT"
+        }
+      ]
+    }
+  },
+  "final_test_reads": 0,
+  "mode": "synthetic",
+  "paid_calls": 0,
+  "phase": "P09.5",
+  "research": {
+    "BTCUSDT": {
+      "empirical_trials": 0,
+      "reason": "No verified market-data volume is attached",
+      "status": "INSUFFICIENT_HISTORY",
+      "train_end_exclusive": null,
+      "train_start": null,
+      "validation_end_exclusive": null,
+      "validation_start": null
+    },
+    "ETHUSDT": {
+      "empirical_trials": 0,
+      "reason": "No verified market-data volume is attached",
+      "status": "INSUFFICIENT_HISTORY",
+      "train_end_exclusive": null,
+      "train_start": null,
+      "validation_end_exclusive": null,
+      "validation_start": null
+    },
+    "EURUSD": {
+      "empirical_trials": 0,
+      "reason": "No verified market-data volume is attached",
+      "status": "INSUFFICIENT_HISTORY",
+      "train_end_exclusive": null,
+      "train_start": null,
+      "validation_end_exclusive": null,
+      "validation_start": null
+    },
+    "SOLUSDT": {
+      "empirical_trials": 0,
+      "reason": "No verified market-data volume is attached",
+      "status": "INSUFFICIENT_HISTORY",
+      "train_end_exclusive": null,
+      "train_start": null,
+      "validation_end_exclusive": null,
+      "validation_start": null
+    },
+    "XAUTUSDT": {
+      "empirical_trials": 0,
+      "reason": "Venue began after the existing final-test lock; collect forward evidence",
+      "status": "INSUFFICIENT_HISTORY",
+      "train_end_exclusive": null,
+      "train_start": null,
+      "validation_end_exclusive": null,
+      "validation_start": null
+    },
+    "XAUUSD": {
+      "empirical_trials": 0,
+      "reason": "No verified market-data volume is attached",
+      "status": "INSUFFICIENT_HISTORY",
+      "train_end_exclusive": null,
+      "train_start": null,
+      "validation_end_exclusive": null,
+      "validation_start": null
+    }
+  }
+}

@@ -4,6 +4,14 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11b.1a-Prep — 2026-10-27 UTC
+
+- Added optional owner-started cTrader onboarding: exact one-use loopback callback, code binding, view/account enum separation and one-demo verification/confirmation.
+- Added private root .env ACL checks, complete-pair atomic persistence, session/writer leases, safe failures and explicit manual renewal only.
+- Corrected callback binding and stdlib malformed-HTTP response reflection during owned testing; no existing quote facade, risk, paper or CI permission change.
+- 84 new cases; 937 total pass, 3 live deselected. Fake loopback rehearsal and all 14 owned paper regressions pass.
+- Owner guide, security boundary and worktree integration plan added; genuine app approval/authentication/qualification and P11b.2b remain uncompleted/NO-GO.
+
 ## P11b.2a.1 — 2026-10-27 UTC
 
 - Fixed symbol-scoped pending SELL cancellation, UTC initial account day, evidence metadata reconciliation and silent journal-schema repair.

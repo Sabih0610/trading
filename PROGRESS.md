@@ -1,5 +1,14 @@
 # Build progress
 
+P11b.1a-Prep is complete offline on `codex/p11b-1a-prep`, tag `phase-P11b.1a-prep-done`.
+937 tests pass / 3 live deselected; locked gates, paper smoke, 14 owned paper cases and fake local
+OAuth rehearsal pass. Root credentials/worktrees preserved; no genuine auth, token exchange or quote.
+[Prep report](reports/phases/P11b.1a-prep.md) · [Owner guide](docs/how-to/ctrader-oauth-after-approval.md).
+P11b.1a genuine is unfinished/pending owner approval and consent; P11b.2b NO-GO/unstarted.
+Hosted CI remains inactive. Stop for independent review.
+
+Previous validation milestone:
+
 P11b.2a.1 is complete offline on `codex/p11b-2a-1-validation`, tag `phase-P11b.2a.1-done`.
 853 tests pass, 3 optional live tests deselected; all locked quality/safety gates and 14 owned
 studies pass. Four defects fixed; independent Decimal/recovery tests added. Original evidence and
@@ -41,6 +50,7 @@ A1 is now implemented locally in P11b.2a.1 with hosted activation gated; A2 rema
 | P11b.1 | Read-only broker quote and contract readiness | done offline; genuine unverified | 2026-10-25 00:28 | 2026-10-25 01:11 | `phase-P11b.1-done` | [report](reports/phases/P11b.1.md) | queued; P11b.2 NO-GO |
 | P11b.2a | Offline paper trading, risk validation and recovery | done; owned software tests only | 2026-10-27 | 2026-10-27 01:35 | `phase-P11b.2a-done` | [report](reports/phases/P11b.2a.md) | queued; genuine P11b.2b NO-GO |
 | P11b.2a.1 | Independent paper-engine validation and gated Windows CI | done; offline only | 2026-10-27 | 2026-10-27 06:42 UTC | `phase-P11b.2a.1-done` | [report](reports/phases/P11b.2a.1.md) | queued; hosted inactive, P11b.2b NO-GO |
+| P11b.1a-Prep | Secure owner-assisted OAuth readiness | done; offline only | 2026-10-27 | 2026-10-27 10:11 UTC | `phase-P11b.1a-prep-done` | [report](reports/phases/P11b.1a-prep.md) | queued; genuine authorization pending |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | â€” | â€” | â€” | â€” | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | â€” | â€” | â€” | â€” | â€” |
 | P14 | 30+ day forward paper/demo evaluation | not started | â€” | â€” | â€” | â€” | â€” |

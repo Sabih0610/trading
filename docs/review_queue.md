@@ -2,6 +2,7 @@
 
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|
+| P11b.1a-Prep | queued | 2026-10-27 10:11 UTC | [report](../reports/phases/P11b.1a-prep.md) | Review callback correlation/HTTP privacy, distinct enums/single-demo confirmation, private ACL/atomic pair/leases, fixed token transport and integration guide. 937 pass/3 live deselected; no genuine auth, credential copy or P11b.2b. |
 | P11b.2a.1 | queued | 2026-10-27 06:42 UTC | [report](../reports/phases/P11b.2a.1.md) | Review four reproduced fixes, independent Decimal and process-death checks, fail-closed schema/metadata, gated Windows CI and future input contract. 853 pass/3 live deselected; all 14 prior studies identical; no hosted/human approval or P11b.2b. |
 | P11b.2a | queued | 2026-10-27 01:35 | [report](../reports/phases/P11b.2a.md) | Review shared funded accounting/risk, causal intention states, reservation double-spending, gaps/latches, atomic replay/leases, source isolation and read-only synthetic UI. 826 tests pass; original OAuth preserved; genuine P11b.2b NO-GO. |
 | P11b.1 | queued | 2026-10-25 01:11 | [report](../reports/phases/P11b.1.md) | Review fixed demo/view message and scope boundary, per-side UTC/availability, raw unit/unknown cost semantics, atomic FeedStore/DecisionLedger recovery, rights/display refusal and funded-minimum/causal bridge. 758 tests pass; genuine unverified, P11b.2 NO-GO. |

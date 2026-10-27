@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b.2a.1",
+  "current_phase": "P11b.1a-prep",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -377,7 +377,7 @@
       "worktree_preserved": true,
       "merged": false,
       "genuine_connectivity": "unverified",
-      "note": "Owner P11b.2a brief reports application approval pending; original uncommitted work/private files preserved."
+      "note": "Offline preparation completed separately; actual app approval, callback registration, consent/scope/account evidence and rights remain external. Original work/private credentials unchanged."
     },
     "P11b.2a.1": {
       "title": "Independent paper-engine validation, Windows CI and integration readiness",
@@ -407,6 +407,32 @@
       "external_orders_enabled": false,
       "genuine_sources_enabled": false,
       "source_code_digest": "f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5"
+    },
+    "P11b.1a-prep": {
+      "title": "Secure cTrader OAuth onboarding preparation, offline only",
+      "status": "done",
+      "completed_utc": "2026-10-27 10:11 UTC",
+      "baseline": "b56cfb1567604217eb7dd517ac207ec0c84b4ee8",
+      "branch": "codex/p11b-1a-prep",
+      "commit": "phase-P11b.1a-prep-done",
+      "report": "reports/phases/P11b.1a-prep.md",
+      "review": "queued",
+      "tests": {
+        "passed": 937,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 234.2
+      },
+      "new_tests": 84,
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_smoke_owned_rehearsals_passed",
+      "original_worktrees_preserved": true,
+      "private_credentials_copied": false,
+      "genuine_authentication": false,
+      "genuine_token_exchange": false,
+      "genuine_connectivity": "unverified",
+      "external_orders_enabled": false,
+      "hosted_ci_activated": false,
+      "p11b2b_started": false
     }
   },
   "allowed_status": [
@@ -435,8 +461,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-27 06:42 UTC",
-  "next_phase": "Stop for P11b.2a.1 review. Hosted CI inactive; P11b.1a preserved/unfinished; P11b.2b unstarted/NO_GO.",
+  "last_updated_utc": "2026-10-27 10:11 UTC",
+  "next_phase": "Stop for offline preparation review. Owner app approval/callback/view-only consent still external; no genuine P11b.1a completion; P11b.2b NO_GO/unstarted.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",

@@ -1,45 +1,49 @@
-# Current handoff — P11b.2a.1 complete offline
+# Current handoff — P11b.1a-Prep complete offline
 
-2026-10-27 06:42 UTC. Branch codex/p11b-2a-1-validation from 47e74fc / phase-P11b.2a-done.
-Milestone ref phase-P11b.2a.1-done. Stop for independent review; do not start P11b.2b.
-Use git worktree list to locate validation, completed paper and unfinished OAuth checkouts.
+2026-10-27 10:11 UTC. Branch codex/p11b-1a-prep from b56cfb1 / phase-P11b.2a.1-done.
+Checkpoint ref phase-P11b.1a-prep-done. Stop for independent review and exact owner external actions.
+P11b.1a genuine is pending/uncompleted; P11b.2b remains NO-GO/unstarted. Hosted CI inactive.
 
-[Report](../reports/phases/P11b.2a.1.md), [guide](how-to/windows-offline-validation.md),
-[research](research/P11b.2a.1-research.md), [ADR0015](adr/0015-offline-validation-and-gated-windows-ci.md),
-[input contract](specifications/P11b.2b-genuine-input-contract.md), [journal](journal/P11b.2a.1-journal.md).
-No human or hosted approval claimed.
+[Report](../reports/phases/P11b.1a-prep.md), [owner guide](how-to/ctrader-oauth-after-approval.md),
+[integration plan](specifications/P11b.1a-prep-integration-plan.md), [security](security/ctrader-oauth-prep.md),
+[ADR0016](adr/0016-private-owner-assisted-ctrader-onboarding.md), [journal](journal/P11b.1a-prep-journal.md).
 
-- Baseline 826 pass/3 live deselected. Final 853 pass/3 live deselected/23 existing warnings,
-  159.24 seconds; locked sync, Ruff/format, strict MyPy (159 sources), smoke and owned acceptance pass.
-- Four defects corrected: pending SELL cancellation scoped to symbol; initial date normalized UTC;
-  actual evidence metadata checked; changed/missing schema refused before non-initializing ledger
-  open. No automatic schema repair or old-study migration.
-- Independent Decimal EUR/gold and 30-example lifecycle oracle, terminal entries, unavailable-mark
-  restart and real process death before/after commit for entry/exit. Original risk/gap tests retained.
-- Original 14 studies replay byte-identically under their original source pin. Fixed source keeps
-  identical states/fills/chains/tails: 3,811 inputs, 16 fills/8 closed engineering trades.
-  All $100 accounts flat; invented units/costs establish no actual broker capital feasibility.
-- Fixed source digest f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5.
-  Original snapshot byte SHA 31b8a042fc7695f5d887e6aaf2f311729572d2676f4244e06816975f807b3317.
-  Portable summaries: reports/validation/P11b.2a.1; fresh smoke: reports/safety/P11b.2a.1.
-- A1 Windows workflow local only: full action pins, Python 3.12.11 / uv 0.13.5, contents read,
-  no persistent checkout credentials/cache/uploads, finite timeout, controlled temporary outputs.
-  Public remote verified; Actions policy endpoint 403. Job requires owner variable
-  OFFLINE_CI_APPROVED_FREE_RUNNER plus public visibility. No push/activation/billing/protection edit.
-- Original OAuth checkout remains cc5a4ea with modified progress, untracked OAuth journal/owner
-  audit and private .env unchanged. Completed paper checkout stays 47e74fc. No credentials copied.
-- No genuine cTrader/MT5/OANDA/Twelve Data access, OAuth attempts, external orders, holdout reads,
-  model retraining/promotion, risk relaxation or new framework. P11b.2b NO-GO/unstarted.
-- Read-only Paper Lab AppTest checked warnings, both accounts, reasons/versions, shutdowns and
-  unavailable marks. No trading controls or background server/collector created.
+- Baseline 853 pass/3 live deselected/23 warnings, 175.44s. Final 937/3/23, 234.20s: locked sync,
+  Ruff/format, strict MyPy (167 sources), safety smoke, 14 owned paper scenarios and fake local OAuth pass.
+  84 new tests; all previous tests and restrictions retained.
+- Optional onboarding package adds one-use exact owner-registered loopback callback, local code/
+  redirect binding, typed token/account enums, single-demo/broker pin and hidden owner confirmation.
+  Actual portal callback acceptance/state/PKCE support are unverified; no undocumented convenience.
+- Private root .env only; owner/SYSTEM ACL before staged secret write, full-pair atomic replace,
+  writer/session leases, bounded/sanitized fixed TLS exchange, explicit manual refresh only.
+  Callback parser errors never reflect the request/code; default status is inert; no quotes/paper startup.
+- Genuine auth additionally needs two private human flags and explicit after-approval command.
+  CI refuses real transport. Owned tests mock all real edges or use a fake loopback provider.
+  No genuine code/token/scope/account/quote was obtained; no actual browser consent opened.
+- Original OAuth checkout stays cc5a4ea with progress changes, untracked journal/owner audit and
+  private .env unchanged. Completed paper/validation worktrees remain 47e74fc/b56cfb1. No secret copy.
+  Original .env ACL metadata verifies owner/SYSTEM-only; exact private-value artifact scan passes.
+- Existing broker facade/models/allowlist, rights, risk, ledger, paper and dashboard source unchanged.
+  Paper source digest f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5 remains.
+  New protocol operations are only four existing auth/identity kinds; no order/execution imports.
+- No risk relaxation, genuine providers, external orders, holdout reads, AI promotion, paid service,
+  merge/rebase/stash/reset/push or hosted activation. No new SDK/runtime dependency.
+- Structured owned summaries: reports/validation/P11b.1a-prep; fresh safety summary:
+  reports/safety/P11b.1a-prep/legacy-paper-smoke.json. No real private values in artifacts.
 
-Next authorized action is independent review of the report and local diff. Re-run from a
-credential-free worktree with the command below. See the guide for a uv path outside PATH.
+Next owner actions, ALL NOT YET EXECUTED: actual app approval; independently eligible broker/demo
+and terms; reviewed integration into credential-owning checkout without copying .env; prepare/register
+exact fresh private callback; separately authorize accounts-only single-demo consent and confirmation.
+Only after real permission/rights/UTC/contract/cost/retention evidence and separate approval may the
+existing bounded read-only quote diagnostic be considered. No genuine-to-paper integration authorized.
+
+Re-run only offline checks/rehearsal now in this credential-free worktree:
 
 ```powershell
 pwsh -NoProfile -File './scripts/check-offline.ps1'
+uv run --locked python -m tb.ingest.broker.onboarding.cli status
+uv run --locked python -m tb.ingest.broker.onboarding.cli rehearsal
 ```
 
-Owner must separately authorize hosted push/activation after policy/free-runner review. P11b.1a
-resumption requires actual approval/redirect/broker terms/view-only consent evidence. P11b.2b needs
-separate scope plus every genuine-input matrix gate, independent eligibility and review.
+Use git worktree list to locate originals. Preserve original uncommitted files before any future
+owner-authorized integration; follow the written conflict plan. No independent human approval claimed.
