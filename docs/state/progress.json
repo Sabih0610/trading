@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b-RC-remediation",
+  "current_phase": "P11c.0",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -485,6 +485,31 @@
       "tests_passed": 992,
       "live_deselected": 3,
       "owned_studies": 14
+    },
+    "P11c.0": {
+      "title": "Broker-independent market research MVP",
+      "status": "done",
+      "branch": "codex/p11c-0-research-mvp",
+      "baseline": "978aad2d3768734a9b18d98bf49e18ee575db694",
+      "report": "reports/phases/P11c.0.md",
+      "review": "queued",
+      "genuine_data": "BLOCKED_DATASET_NOT_AUTHORIZED",
+      "external_orders_authorized": false,
+      "push_authorized": false,
+      "hosted_ci_active": false,
+      "completed_utc": "2026-10-27 17:41 UTC",
+      "tests_passed": 1084,
+      "tests_failed": 0,
+      "tests_skipped": 0,
+      "live_deselected": 3,
+      "warnings": 23,
+      "research_cases": 92,
+      "remediation_regressions": 55,
+      "paper_studies": 14,
+      "paper_states_unchanged": true,
+      "replays_identical": true,
+      "quality": "PASS",
+      "commit_lookup": "git log --oneline -- reports/phases/P11c.0.md"
     }
   },
   "allowed_status": [
@@ -513,8 +538,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-27 11:13 UTC",
-  "next_phase": "Review shared branch codex/shared-research; ongoing validated task commits/pushes authorized. Original local refs preserved; do not publish original diagnostic history. Genuine P11b.1a/P11b.2b NO_GO; hosted CI inactive.",
+  "last_updated_utc": "2026-10-27 17:41 UTC",
+  "next_phase": "STOP FOR REVIEW of local P11c.0 branch. P11c.1 unstarted; actual licensed dataset and independent scope review required. No provider/OAuth/order/push/main merge/hosted CI authorization.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",

@@ -160,6 +160,8 @@ def align_reference(
 ) -> ReferenceQuoteLink:
     """Keep original decision availability; never infer a fill or fetch reference history."""
     ResearchDecision.model_validate(decision.model_dump())
+    if decision.provider == "licensed_local" or decision.mode == "historical_research":
+        raise BrokerRefused("historical_research_has_no_broker_alignment_route")
     if reference_rights.digest != decision.rights_digest:
         raise BrokerRefused("reference_rights_version_mismatch")
     reference_rights.require(

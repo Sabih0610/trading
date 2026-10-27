@@ -1,5 +1,18 @@
 # Pending items
 
+- **P11c.0 review:** [local completion report](../reports/phases/P11c.0.md),
+  [ADR0018](adr/0018-permission-gated-local-market-research.md). Review end-to-end
+  owned demonstration, current-rights read boundaries, immutable report/schema,
+  independent replay, matched directional baselines and exact dry-run inventory.
+- **Genuine historical data:** BLOCKED — DATASET NOT AUTHORIZED for EURUSD and
+  XAUUSD separately. Need one exact licensed local shard, actual original
+  acquisition, independently checked documentary storage/retention/derived-report
+  scope, owner + distinct reviewer, verified time/units/category/coverage. Public
+  downloads and old forward-feed credentials provide no automatic permission.
+- **P11c.1 not started:** recommend one qualified EURUSD shard first, frozen
+  evaluation without tuning/holdout access, then separately qualified gold. No
+  genuine API/download/OAuth, order, push/main merge or hosted CI authorization.
+
 - **Current RC remediation:** offline work complete (992 tests and 14 studies); independent human review of six fixes remains pending.
   [Remediation report](../reports/phases/P11b-RC-remediation.md). Older candidate counts below are historical.
 - **Research data admission:** no actual owned/licensed market dataset has been reviewed;

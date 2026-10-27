@@ -7,6 +7,12 @@ Development is organized as resumable phases P00-P14. Human-readable status is i
 Working with a teammate: see [CONTRIBUTING.md](CONTRIBUTING.md) for the shared development branch,
 clear commit messages, local checks and pull request workflow.
 
+P11c.0 adds the [offline local market-research workflow](docs/how-to/local-market-research.md):
+owned CSV/Parquet demonstration, permission-gated historical registry/import,
+frozen EMA/channel evaluation, replay, reports and the read-only Local Market Research view.
+Genuine historical research is blocked until independently authorized data exists.
+The current phase is local review only; earlier publication guidance does not authorize a push.
+
 ## Bootstrap
 
 From PowerShell 7 at the repository root:

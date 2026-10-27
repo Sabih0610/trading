@@ -1,0 +1,32 @@
+{
+  "original_ctrader": {
+    "head": "cc5a4ea68691967c04b8dc8c69a50d8b35093111",
+    "branch": "codex/p11b-1a-genuine-ctrader",
+    "status_matches_initial": true,
+    "credential_metadata_unchanged": true,
+    "credential_contents_or_hash_read": false
+  },
+  "validation": {
+    "head": "b56cfb1567604217eb7dd517ac207ec0c84b4ee8",
+    "branch": "codex/p11b-2a-1-validation",
+    "status_matches_initial": true,
+    "credential_metadata_unchanged": true,
+    "credential_contents_or_hash_read": false
+  },
+  "offline_paper": {
+    "head": "47e74fca6ac54429789f8458db26f4a275065aa9",
+    "branch": "codex/p11b-2a-offline-paper",
+    "status_matches_initial": true,
+    "credential_metadata_unchanged": true,
+    "credential_contents_or_hash_read": false
+  },
+  "remediation": {
+    "head": "978aad2d3768734a9b18d98bf49e18ee575db694",
+    "branch": "codex/rc-f01-f06-offline-remediation",
+    "status_matches_initial": true,
+    "credential_metadata_unchanged": true,
+    "credential_contents_or_hash_read": false
+  },
+  "main_and_shared_refs_unchanged": true,
+  "new_worktree_has_credentials": false
+}

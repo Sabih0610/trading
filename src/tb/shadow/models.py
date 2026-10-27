@@ -143,8 +143,8 @@ class ResearchDecision(PolicyModel):
     id: str
     event_id: str
     evidence_id: str
-    mode: Literal["fixture_replay", "genuine_shadow"]
-    provider: Literal["owned_fixture", "twelve_data"]
+    mode: Literal["fixture_replay", "genuine_shadow", "historical_research"]
+    provider: Literal["owned_fixture", "twelve_data", "licensed_local"]
     symbol: Literal["EURUSD", "XAUUSD"]
     strategy: str
     strategy_version: str = STRATEGY_VERSION
@@ -189,6 +189,8 @@ class ResearchDecision(PolicyModel):
 
     @model_validator(mode="after")
     def causal(self) -> ResearchDecision:
+        if (self.mode == "historical_research") != (self.provider == "licensed_local"):
+            raise ValueError("Historical research cannot impersonate owned or forward evidence")
         if (
             not self.source_open_at
             < self.source_close_at

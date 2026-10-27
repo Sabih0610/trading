@@ -1,0 +1,14 @@
+{
+  "baseline_commit": "978aad2d3768734a9b18d98bf49e18ee575db694",
+  "parent": "85f87ce3e9d5613a1fc2e0caacaaa5b0fdc07832",
+  "integration": "direct_local_git_descendant",
+  "zip_used_for_extraction": false,
+  "zip_sha256": "65971f7cc59d5e6608c720a837c9878b570c1516591959687f52ec938a54df6e",
+  "zip_entries": 456,
+  "zip_uncompressed_bytes": 2721430,
+  "zip_tested_files_verified": 268,
+  "paths_symlinks_and_size_checks": "PASS",
+  "credential_free": true,
+  "managed_helper": "local_ref_not_resolved; authorized_native_git_worktree_used",
+  "source_provenance": "VERIFIED_AGAINST_LOCAL_COMMIT_AND_OWNER_BUNDLE"
+}

@@ -275,6 +275,8 @@ class ShadowJournal:
             expected.update(REFERENCE_STRATEGIES)
         for decision in decisions:
             ResearchDecision.model_validate(decision.model_dump())
+            if decision.mode != self.pin.mode or decision.provider != self.pin.provider:
+                raise ShadowRefused("shadow_decision_source_mode_mismatch")
             if decision.strategy in REFERENCE_STRATEGIES and (
                 self.config.reference_strategies is None
                 or decision.strategy_config

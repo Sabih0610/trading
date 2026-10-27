@@ -1,0 +1,771 @@
+{
+  "schema_version": 1,
+  "dry_run": true,
+  "objects": [
+    {
+      "bytes": 11054,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "work/research/sources/owned-m1-parquet.parquet"
+      ],
+      "kinds": [
+        "raw"
+      ],
+      "path": "data/bronze/research/owned-m1-parquet/b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19/source.parquet",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [
+        "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 81358,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "work/research/sources/owned-m5-csv.csv"
+      ],
+      "kinds": [
+        "raw"
+      ],
+      "path": "data/bronze/research/owned-m5-csv/7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920/source.csv",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [
+        "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 5652480,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "data/silver/research/owned-m5-csv/3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab/part-00000.parquet"
+      ],
+      "kinds": [
+        "features",
+        "decisions",
+        "labels"
+      ],
+      "path": "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": "1d0d36063ee11bd7478e14ee8314fea31b849089a18379ddf5a9a41999b38edf",
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [
+        "1d0d36063ee11bd7478e14ee8314fea31b849089a18379ddf5a9a41999b38edf"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite-journal",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite-shm",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite-wal",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 2438,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/result.json"
+      ],
+      "kinds": [
+        "reports"
+      ],
+      "path": "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/report.md",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": "ec21189ef468af63f48c4fec6068cd93e7963fca8b8a6d2d6e32915624a1d377",
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [
+        "ec21189ef468af63f48c4fec6068cd93e7963fca8b8a6d2d6e32915624a1d377"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 15171,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/journal.sqlite"
+      ],
+      "kinds": [
+        "reports",
+        "dashboard"
+      ],
+      "path": "data/gold/research/30c6e5d80346f48260d01c80a86ea0686ab35a4acf1ea38a4c9d162a8bf51e28/result.json",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": "37d4f63f727fe3d2fb895c623a2e4045b99d24712744ef1805047cd508fc58b0",
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [
+        "37d4f63f727fe3d2fb895c623a2e4045b99d24712744ef1805047cd508fc58b0"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 3739648,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "data/silver/research/owned-m1-parquet/27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde/part-00000.parquet"
+      ],
+      "kinds": [
+        "features",
+        "decisions",
+        "labels"
+      ],
+      "path": "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": "49bcdd24354639ead70a549c47eeac64f215edff3e61646140251a71ea8d3e93",
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [
+        "49bcdd24354639ead70a549c47eeac64f215edff3e61646140251a71ea8d3e93"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite-journal",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite-shm",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite-wal",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 2486,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/result.json"
+      ],
+      "kinds": [
+        "reports"
+      ],
+      "path": "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/report.md",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": "ea4d14e4e08d5ae3fce07b6414d0e46f695ef10bcb7de5abd8a00772bd0c1bcd",
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [
+        "ea4d14e4e08d5ae3fce07b6414d0e46f695ef10bcb7de5abd8a00772bd0c1bcd"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 15726,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/journal.sqlite"
+      ],
+      "kinds": [
+        "reports",
+        "dashboard"
+      ],
+      "path": "data/gold/research/65b0386cdbd0e5d6468422095b62c5db9d6f67902ec26da02e3301bd482115a3/result.json",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": "ebe445a18bfceac1b2743262354e783daae6021f503e467250f42894755d031b",
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [
+        "ebe445a18bfceac1b2743262354e783daae6021f503e467250f42894755d031b"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 7560,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "data/bronze/research/owned-m1-parquet/b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19/source.parquet"
+      ],
+      "kinds": [
+        "normalized"
+      ],
+      "path": "data/silver/research/owned-m1-parquet/27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde/part-00000.parquet",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": "6acae5179bba4f40e72f4a62f9f44bef380ca8d60cdcb9ed065958fc9a726b08",
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [
+        "6acae5179bba4f40e72f4a62f9f44bef380ca8d60cdcb9ed065958fc9a726b08"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 8017,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "data/bronze/research/owned-m5-csv/7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920/source.csv"
+      ],
+      "kinds": [
+        "normalized"
+      ],
+      "path": "data/silver/research/owned-m5-csv/3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab/part-00000.parquet",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": "1982d6eebfa49f53ad69d2afbce8c17d6c8b9dffdbad73a64676147825edbfed",
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [
+        "1982d6eebfa49f53ad69d2afbce8c17d6c8b9dffdbad73a64676147825edbfed"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 11054,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [],
+      "kinds": [
+        "raw",
+        "original_source"
+      ],
+      "path": "work/research/sources/owned-m1-parquet.parquet",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [
+        "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 81358,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [],
+      "kinds": [
+        "raw",
+        "original_source"
+      ],
+      "path": "work/research/sources/owned-m5-csv.csv",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [
+        "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 1036288,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "work/research/sources/owned-m1-parquet.parquet"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "work/research/staging/owned-m1-parquet-3ab4fb04e31c495182bf850a6eb52e7d.sqlite",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": "574d4877b7b3827f2f9fcd2c069b267d91f0dbdc7bfd1edf3a2a339e7d69ce23",
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [
+        "574d4877b7b3827f2f9fcd2c069b267d91f0dbdc7bfd1edf3a2a339e7d69ce23"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m1-parquet",
+      "dependencies": [
+        "work/research/staging/owned-m1-parquet-3ab4fb04e31c495182bf850a6eb52e7d.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "work/research/staging/owned-m1-parquet-3ab4fb04e31c495182bf850a6eb52e7d.sqlite-journal",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "27d18b11d5320825cc18f788e3d809b5903aeab296e4b8b5dcd0671364230cde",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "646d52afeb0839f1d02ed5c58dfbcc89d1a423d1d3733a9756297d87c9542147"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "b0a1f18d9bbbe8dcc3c0748ee94c975473f4fc9a77c21c9cdfd978a2563cba19",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": 335872,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "work/research/sources/owned-m5-csv.csv"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "work/research/staging/owned-m5-csv-fdba77a28bca4fff99077e8585991c8d.sqlite",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": "7ba81ee105e9e8991ca4999b9795dcbe492611b4e95c7a587dda0c9b085fe4d2",
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [
+        "7ba81ee105e9e8991ca4999b9795dcbe492611b4e95c7a587dda0c9b085fe4d2"
+      ],
+      "exists": true,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    },
+    {
+      "bytes": null,
+      "dataset_id": "owned-m5-csv",
+      "dependencies": [
+        "work/research/staging/owned-m5-csv-fdba77a28bca4fff99077e8585991c8d.sqlite"
+      ],
+      "kinds": [
+        "cache"
+      ],
+      "path": "work/research/staging/owned-m5-csv-fdba77a28bca4fff99077e8585991c8d.sqlite-journal",
+      "permissible_residual_audit_metadata": [
+        "dataset_id",
+        "source_sha256",
+        "deadline",
+        "dependency_hashes"
+      ],
+      "policy_digest": "3e9930766ca92d48dbe380d6db3fb79767701454e9d1e329e7f893bcc4b54dab",
+      "retention": {
+        "acquired_at": "2026-10-27T17:29:37.154720Z",
+        "expires_at": "2026-11-26T17:29:37.154720Z",
+        "rights_digest": "3627587afda4a1c76b5b1c69a82a46b2439af2150cc2d8f11f13855d591001c5"
+      },
+      "sha256": null,
+      "source_class": "owned_synthetic",
+      "source_sha256": "7aa87b7909f9cf2a4e4d820892eed88ea3f2861206ad8603fb3d0a0508a20920",
+      "recorded_hash_versions": [],
+      "exists": false,
+      "current_access": true,
+      "deadline_expired": false,
+      "content_opened": false,
+      "hash_status": "recorded_at_creation_not_reopened",
+      "dry_run_action": "RETAIN_UNDER_CURRENT_POLICY"
+    }
+  ],
+  "deletions": 0,
+  "absent_categories": [
+    "backups",
+    "exports",
+    "models",
+    "paper_outputs"
+  ]
+}

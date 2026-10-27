@@ -54,6 +54,7 @@ VIEWS = (
     "Market Feed",
     "Shadow Research",
     "Offline Paper Lab",
+    "Local Market Research",
 )
 
 
@@ -400,6 +401,11 @@ def main() -> None:
         from tb.dashboard.offline_paper import offline_paper_view
 
         offline_paper_view(root)
+        return
+    if view == "Local Market Research":
+        from tb.dashboard.research import research_view
+
+        research_view(root)
         return
     if view == "Shadow Research":
         from tb.dashboard.shadow import shadow_view

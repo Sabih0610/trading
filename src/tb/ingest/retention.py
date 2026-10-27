@@ -2,16 +2,27 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Protocol
 
 from pydantic import AwareDatetime, Field, model_validator
 
 from tb.ingest.mt5.models import FeedUnavailable
-from tb.ingest.rights import DataRights, Usage
+from tb.ingest.rights import DataRights, Permission, Usage
 from tb.risk.config import PolicyModel
 
 STORAGE_USAGES: tuple[Usage, ...] = ("raw_cache", "historical_storage", "derived_storage")
+
+
+class RetentionRights(Protocol):
+    """Structural lifetime contract shared with independently scoped local dataset rights."""
+
+    @property
+    def permissions(self) -> Mapping[Usage, Permission]: ...
+
+    @property
+    def digest(self) -> str: ...
 
 
 class EvidenceLifetime(PolicyModel):
@@ -26,7 +37,7 @@ class EvidenceLifetime(PolicyModel):
         return self
 
 
-def lifetime(rights: DataRights, acquired_at: datetime) -> EvidenceLifetime:
+def lifetime(rights: RetentionRights, acquired_at: datetime) -> EvidenceLifetime:
     """Use the earliest storage/grant deadline; capture and renewal never reset acquisition."""
     deadlines: list[datetime] = []
     for usage in STORAGE_USAGES:
@@ -49,7 +60,7 @@ def lifetime(rights: DataRights, acquired_at: datetime) -> EvidenceLifetime:
     )
 
 
-def require_lifetime(rights: DataRights, value: Any, now: datetime) -> EvidenceLifetime:
+def require_lifetime(rights: RetentionRights, value: Any, now: datetime) -> EvidenceLifetime:
     """Refuse legacy/mixed/expired evidence and policy substitution before price-file reads."""
     saved = EvidenceLifetime.model_validate(value)
     current = lifetime(rights, saved.acquired_at)

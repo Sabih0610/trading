@@ -1,0 +1,332 @@
+{
+  "label": "SOFTWARE TEST ONLY",
+  "studies": [
+    {
+      "study": "ema_rising",
+      "state_sha256": "974628adff27ecf6c53588b82283a73f2172716fc6b62c17583344e8d3da5591",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "channel_breakout",
+      "state_sha256": "e3b7d455a78bd44559319bd49e39bb0baf8b807c6fa5ff56197a7bdafee26bd4",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "falling",
+      "state_sha256": "3fa0ff04296fd21040a09a5f1b12ed1e1e4b184bd913d1af21f72025448cb83c",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "sideways",
+      "state_sha256": "6af2eb2b9b2e10a20d1a34002e54f93fe70f477eea9d21774104db674e08e7da",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "gold_reversal",
+      "state_sha256": "e1cce17bb7e40ddbf0833ccfa7ff2de41bb882ed9ff06f550a90defd74020c08",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "sell_close",
+      "state_sha256": "a6cc379f0fb7e39ffdf46c3ea6acd27751b32b0f88c65859bae36e302a97a188",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "take_profit",
+      "state_sha256": "f3fa44068adf47146eee859436dea933511d67522527b1a4368f1bde2bdb03ab",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "stop_gap",
+      "state_sha256": "7a3597ce5ada40d7d6ea937c62430ee7cd771f3a8389dc9b897ffb180968acf1",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "daily_halt",
+      "state_sha256": "63b5a844812960840c89a82931598f9bf9f1b4429c1b6d6b62adef1cf581f6d0",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "peak_shutdown",
+      "state_sha256": "34b7bf676f071d7b54cfb5b8b09b0ecb532e8dca874246334db752d8df42fe5f",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "missed_fills",
+      "state_sha256": "43ba949b4b90d73d0076b2f1598580cef28119e569a39e884befba01c20e6447",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "stale_quotes",
+      "state_sha256": "1aa18a7238c4401865489b17ad303e51bdf0df397d26faf865264fec390b9c63",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "partial_sides",
+      "state_sha256": "9b1fccdba8a3ce884b3a572b98d99052144c82e28667e34f5beb3512f8e29a9e",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    },
+    {
+      "study": "session_closed",
+      "state_sha256": "b4b20d7c8f1adf2506f9e03293d93fb5542c997b0e169068354199d4aed9fa84",
+      "state_identical": true,
+      "fills_identical": true,
+      "closed_trades_identical": true,
+      "risk_events_identical": true
+    }
+  ],
+  "all_14_states_identical": true,
+  "smoke_identical": true,
+  "totals": [
+    {
+      "study": "ema_rising",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10029.8719040",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "channel_breakout",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10033.6553920",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "falling",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10000",
+          "fills": 0,
+          "completed": 0
+        }
+      }
+    },
+    {
+      "study": "sideways",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10000",
+          "fills": 0,
+          "completed": 0
+        }
+      }
+    },
+    {
+      "study": "gold_reversal",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "9983.98488",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "sell_close",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "9995.9558600",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "take_profit",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10029.8719040",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "stop_gap",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "9757.8991040",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "daily_halt",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "9757.8991040",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "peak_shutdown",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "9197.9551040",
+          "fills": 2,
+          "completed": 1
+        }
+      }
+    },
+    {
+      "study": "missed_fills",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10000",
+          "fills": 0,
+          "completed": 0
+        }
+      }
+    },
+    {
+      "study": "stale_quotes",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10000",
+          "fills": 0,
+          "completed": 0
+        }
+      }
+    },
+    {
+      "study": "partial_sides",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10000",
+          "fills": 0,
+          "completed": 0
+        }
+      }
+    },
+    {
+      "study": "session_closed",
+      "totals": {
+        "USD100": {
+          "cash": "100",
+          "fills": 0,
+          "completed": 0
+        },
+        "ENG10000": {
+          "cash": "10000",
+          "fills": 0,
+          "completed": 0
+        }
+      }
+    }
+  ],
+  "external_orders": 0
+}
