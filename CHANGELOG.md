@@ -4,6 +4,164 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### Shared repository publication — 2026-10-27 UTC
+
+- Owner authorized ongoing commits/pushes with understandable messages for collaboration.
+- Added a team workflow and prepared phase-by-phase public history with raw MT5 observations
+  omitted throughout; original local branches/tags preserved. No application source change.
+- Included RC evidence and retained its actual 937-test result; hosted CI remains inactive.
+
+### P11b.1a-RC — offline review, 2026-10-27 UTC
+
+- Revalidated unchanged b669d43 candidate composition and all 937 tests; no implementation, dependency, risk, CI or permission changes.
+- Rehearsed complete owned prepare/auth/callback/proof/private state/expiry/revocation/status chain with all genuine edges trapped. All 14 paper states match baseline and dashboard evidence reconciles.
+- Added RC report, owner checklist and redirect contingency review. Exact portal loopback acceptance remains unverified.
+- Original credentials/worktrees/refs preserved; review itself made no artificial commit/tag,
+  merge, push, hosted activation or genuine provider use. Subsequent documentation publication
+  follows the owner's separate 2026-10-27 instruction.
+
+## P11b.1a-Prep — 2026-10-27 UTC
+
+- Added optional owner-started cTrader onboarding: exact one-use loopback callback, code binding, view/account enum separation and one-demo verification/confirmation.
+- Added private root .env ACL checks, complete-pair atomic persistence, session/writer leases, safe failures and explicit manual renewal only.
+- Corrected callback binding and stdlib malformed-HTTP response reflection during owned testing; no existing quote facade, risk, paper or CI permission change.
+- 84 new cases; 937 total pass, 3 live deselected. Fake loopback rehearsal and all 14 owned paper regressions pass.
+- Owner guide, security boundary and worktree integration plan added; genuine app approval/authentication/qualification and P11b.2b remain uncompleted/NO-GO.
+
+## P11b.2a.1 — 2026-10-27 UTC
+
+- Fixed symbol-scoped pending SELL cancellation, UTC initial account day, evidence metadata reconciliation and silent journal-schema repair.
+- Added independent Decimal lifecycle/gold oracles, real process-death commit-boundary recovery, terminal-state and unavailable-mark restart checks.
+- Added reviewed/pinned, owner-gated Windows offline CI, fail-fast local gate, negative checks and opt-in network accident guard; no hosted run.
+- 853 tests pass; original snapshot byte replay and all 14 study states/fills/chains match. OAuth and credentials preserved.
+- Genuine-input contract and capital/readiness limitations documented; P11b.2b remains unstarted/NO-GO.
+
+## P11b.2a — 2026-10-27 UTC
+
+- Added a deterministic owned-only persistent Paper Lab around shared funded sizing, cash flows,
+  contracts, circuit breaker, reference strategies and DecisionLedger; no new trading dependency.
+- Added causal intention/protection states, reservations, explicit costs, missed fills/expiry,
+  gap-aware exits, persistent loss latches and atomic replay/recovery reconciliation.
+- Added the read-only Offline Paper Lab, 14 finite studies, three inspected screenshots and
+  independent accounting/property/adversarial checks. All $100 accounts correctly stay flat.
+- 826 tests pass; locked lint/format/strict typing, full suite and legacy safety smoke pass.
+- Isolated worktree preserves original P11b.1a/OAuth/private files. Genuine sources, external
+  orders, holdout access and automatic P11b.2b progression remain disabled.
+
+## P11b.1 — 2026-10-25 UTC
+
+- Added an optional cTrader demo/view-only quote facade using fixed allowlisted JSON messages,
+  returned single-account SCOPE_VIEW verification, exact symbols and expiring documentary gates.
+- Added independently timed bid/ask/raw provenance, unknown-preserving contracts/costs, funded
+  $100 readiness arithmetic and causal observation-only reference links; no execution model.
+- Reused FeedStore/DecisionLedger/OS lease with atomic checkpoint/evidence, source pins and
+  corruption/crash/restart tests. Owned demo has10 raw updates/8 quotes/8 links, all synthetic.
+- Extended the read-only Market Feed/Shadow Research UI and supplied 3 screenshots/how-to.
+- 758 tests pass (73 added), with all locked quality gates and existing paper safety smoke.
+  Genuine credentials/access/scope/data/costs/rights remain unverified; P11b.2 NO-GO/unstarted.
+  No external orders, accounts, framework migration, paid service, risk or holdout relaxation.
+
+## Third-party adoption audit — 2026-10-24 UTC
+
+- Inspected five requested upstreams and five research candidates at exact commits; recorded source,
+  license, maintenance, CI/test and issue evidence in the adoption report and checksum manifest.
+- Proposed Windows offline CI and a bounded local source map, with independent acceptance criteria.
+  No recommendation, third-party platform, dependency, provider integration or trading route installed.
+- Preserved current P11b.0.1 and explicitly compared requested P11b.0. All local quality gates pass:
+  685 pytest passed, 3 live deselected, 23 existing warnings in123.74s; paper safety smoke passes.
+
+## P11b.0.1 — 2026-10-24 UTC
+
+- Added shared configurable EMA12/26/prior20-channel features and two separately typed reference
+  hypotheses, with52-bar continuity, volatility filters and transition suppression. Old execution
+  mappings/strategies/risk/holdout/MCP guards remain unchanged.
+- Added six-decision atomic research commits/recovery, exact config hashes, preregistered1/3/6-M5
+  future labels, non-overlap flags, matched baselines and missing/pending outcome counts.
+- Added ten owned scenarios:2556 events,15336 decisions (18 BUY/16 SELL/15302 WAIT),94 labels.
+  Recovered1536 decisions/6 labels unchanged and suppressed256 duplicate inputs in a second run.
+- Added offline documented rights proposal/check/apply workflow with reviewer, scope, expiry,
+  artifact hash and retention, plus finite-run retention refusal. No actual approval was installed.
+- Extended the price-free dashboard, rights guide, conditional trial plan and P11b.1 specification.
+  A fresh two-hour genuine trial cannot meet260-minute warm-up; no duration gate was widened.
+- 685 tests pass (44 added); all quality gates and paper smoke passed. Existing genuine/legacy
+  evidence preserved, optional SDK restored. No orders, fills, P&L, paid AI, training or P11b.1.
+
+
+## P11b.0 — 2026-10-23 UTC
+
+- Added explicit versioned usage-rights approvals, expiry and source/account/instrument scope;
+  unresolved genuine cache/history/derived/persistent rights now block new market retention.
+- Extended the existing Twelve Data pipeline to delayed completed M5 slots with persistent
+  reservations, 600/day application cap and actual-weight validation before genuine admission.
+- Added an independent bounded reference shadow consumer, shared price-only causal features,
+  strategy compatibility, append-only atomic input/decision/checkpoint recovery and future labels.
+- Owned replay produced 128 events and 512 WAIT decisions; recovery suppressed 128 duplicate
+  inputs. Existing directional definitions remain blocked; no orders, fills, positions or P&L.
+- Added a read-only Shadow Research view, price-free exports and owned/genuine permission separation.
+- 641 tests pass (59 added); Ruff/format/strict MyPy and paper smoke clean. Prior genuine M1
+  evidence, risk, holdout, native MCP and MT5/OANDA profiles preserved; optional SDK restored.
+- Documented rights remediation, a conditional two-hour trial procedure and P11b.1 design only.
+  No genuine request, trial, unattended task, paid upgrade, training or P11b.1 work was started.
+
+
+## P11a.3 — 2026-10-23 UTC
+
+- Added optional GET-only Twelve Data Basic reference adapter, persistent minute/day credits,
+  usage/cadence cache, masked failures and bounded per-instrument collection.
+- Reused Bronze/Silver/checkpoints/manifests/dedup/atomic recovery; reference midpoints cannot
+  become executable bid/ask, volume, contract/cost facts or paper fills.
+- Actual Basic access passed for EUR/USD and XAU/USD; four genuine prospective completed M1
+  candles each. Point-rate timestamps stayed rejected; broker execution remains unqualified.
+- Added read-only provider/status/UTC/counts/qualification UI. Basic price display and permanent
+  archive rights unconfirmed; numeric market data stays local and Git-ignored.
+- 582 tests pass (59 added), Ruff/format/MyPy and paper safety smoke clean. MT5/OANDA, original
+  UNVERIFIED profiles, risk and holdout preserved. Collector stopped; P11b unstarted.
+
+## P11a.2 — 2026-10-23 UTC
+
+- Added exact-source versioned clock profiles with authoritative evidence, reviewer, repeated UTC validation, effective periods/DST, expiry and immutable raw/normalized lineage. Unverified or unchecked-copy profiles cannot qualify data.
+- Reused existing finite acquisition/storage/checkpoint/manifest pipeline for an optional GET-only OANDA Practice adapter; fixture evidence stays synthetic and genuine access requires region/API/no-funding/rights confirmation.
+- Added independent instrument admission, provider namespaces, raw-source dedup across profile versions and read-only source-clock/readiness diagnostics.
+- Actual EURUSD: five future-epoch rejects; XAUUSD: five missing quotes, currently selected but hidden. MetaQuotes profile UNVERIFIED; alternatives unconnected. No guessed offsets, orders or P11b.
+- Final gates:523 tests passed, 3 live deselected, 23 existing warnings; Ruff/format/strict MyPy clean, safety smoke passed. P11b NO-GO per instrument.
+
+
+## P11a.1 — 2026-10-23 UTC
+
+- Added immutable coordinated SDK/MCP/Windows/independent UTC diagnostics and instrument readiness reports.
+- Added fresh demo-bound security/time admission, hidden-symbol refusal, exact epochs, clock-step detection and guarded bounded collection.
+- Fixed monitoring to consume actual unique normalized commits; added quote counts and focused no-data/safety/connection UI.
+- Owner manually closed native trading/shell and restored exact XAUUSD visibility; measured source UTC+3 still blocks data qualification. No time shifts or orders.
+- 483 tests passed, 3 live deselected, 23 existing warnings; Ruff/format/MyPy and safety/offline smoke passed. P11b NO-GO, not started.
+
+## P10 — 2026-10-22 UTC
+
+- Added a local read-only Streamlit dashboard with five views, explicit evidence/account/currency
+  modes, unavailable-data states, actual configuration display and masked journal projections.
+- Added WAL-aware mode=ro SQLite reads, bound/keyset filters, streaming outcome totals, bounded
+  manifested Parquet charts and full-export drawdown; reserved rows cannot enter real charts.
+- Added a separate reproducible fixture exporter reusing P09.5 tools, seven isolated synthetic
+  accounts, typed archived risk observations, no-key AppTest coverage and actual desktop/mobile screenshots.
+- Pinned Streamlit 1.66.1; added the Windows startup guide/script, updated obsolete P10 prompt,
+  documented a conditional future Python/EA choice with one sender, and preserved P11 as unstarted.
+- Validation: 378 passed, 3 optional live deselected, 23 existing warnings; Ruff/format/MyPy clean.
+  P09.5 smoke passed. No external orders, paid API calls, credentials or ledger writes from the UI.
+
+## P09.5 — 2026-10-22
+
+- Verified the supplied archive audit against the clone; retained its original text and documented
+  environment-specific corrections and the verified Binance XAUT inception date.
+- Added separate reference/research/local-simulation permissions with external demo/live disabled,
+  explicit contract/currency metadata, funded gold/FX accounting and next-quote journalled replay.
+- Tightened research/paper defaults to 0.5% all-in planned risk, 2% daily net-equity halt, 5% latched
+  peak drawdown and one position; recheck actual fills, reserve costs and mark liquidation equity.
+- Added inception-aware insufficient-history assessment without moving the existing holdout;
+  corrected P07/P08 reports' impossible acquisition remedy.
+- Reused the feature engine, Spot simulator, advisory AI schema and append-only ledger; added
+  synthetic smoke examples, future interface contracts, revised roadmap and read-only P10 prompt.
+- Final verification: 352 passed, 3 optional live deselected; Ruff/format and strict MyPy clean.
+  Existing dependency warnings remain. No market profitability, external orders or live eligibility.
+
 ## P09 — 2026-10-22
 
 ### Added
@@ -208,3 +366,17 @@ All notable project changes are documented here. The project follows Keep a Chan
 - Offline `tb doctor`, Windows setup, local pre-commit gate, architecture/test skeleton, and 19 tests.
 - Audited project skills with incompatible P2P-write and short-selling packages quarantined.
 - Research, decisions, journal, phase report, and operator how-to documentation.
+
+## P11a — 2026-10-23 UTC
+
+- Add optional official MT5 read-only adapter, explicit running-demo identity/path pinning,
+  bounded deterministic data polling, raw/Silver manifests and dedup/restart/health checkpoints.
+- Discover 107 native MCP schemas and install a four-read proxy/config with private .env token,
+  default-deny operations, fixed loopback transport and sanitized identity/market projections.
+- Add separate read-only Market Feed dashboard, prospective coverage/checksum boundaries,
+  offline fixtures, setup/collection scripts, actual diagnostics and rendered screenshots.
+- Verify genuine demo identity/native MCP but reject EURUSD future epochs and unavailable hidden
+  XAUUSD quotes. Zero qualified forward data; no guessed timezone correction or order capability.
+- Add 67 tests: final 445 pass, 3 live deselected, 23 existing warnings. Ruff/format/MyPy clean.
+  Core passed without SDK; optional Windows dependency restored after verification.
+- Preserve risk/eligibility/historical locks; document P11b proposal without implementing it.

@@ -1,0 +1,31 @@
+{
+  "intentional_negative_fixtures": true,
+  "checks": [
+    {
+      "owned_negative_check": "lint",
+      "nonzero_exit": 1,
+      "expected_refusal": true
+    },
+    {
+      "owned_negative_check": "format",
+      "nonzero_exit": 1,
+      "expected_refusal": true
+    },
+    {
+      "owned_negative_check": "types",
+      "nonzero_exit": 1,
+      "expected_refusal": true
+    },
+    {
+      "owned_negative_check": "pytest",
+      "nonzero_exit": 1,
+      "expected_refusal": true
+    },
+    {
+      "owned_negative_check": "smoke",
+      "nonzero_exit": 1,
+      "expected_refusal": true
+    }
+  ],
+  "windows_entrypoint_propagation": "five parametrized subprocess tests pass; no production check suppressed"
+}

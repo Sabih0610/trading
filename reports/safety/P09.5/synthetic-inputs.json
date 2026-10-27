@@ -1,0 +1,227 @@
+{
+  "BTCUSDT-100": {
+    "metadata": {
+      "contract_size": "1",
+      "fee_bps": "10",
+      "instrument_type": "spot",
+      "lot_step": "0.001",
+      "max_lots": "100",
+      "min_lots": "0.001",
+      "min_notional": "0",
+      "observed_at": "2024-01-02T12:00:00Z",
+      "pip_size": "0.01",
+      "quote_currency": "USDT",
+      "slippage_ticks": 1,
+      "source": "P09.5 synthetic fixture; no broker data",
+      "symbol": "BTCUSDT",
+      "synthetic": true,
+      "tick_size": "0.01"
+    },
+    "quotes": [
+      {
+        "ask": "100.02",
+        "bid": "100",
+        "symbol": "BTCUSDT",
+        "timestamp": "2024-01-02T12:00:00Z"
+      },
+      {
+        "ask": "100.12",
+        "bid": "100.10",
+        "symbol": "BTCUSDT",
+        "timestamp": "2024-01-02T12:01:00Z"
+      },
+      {
+        "ask": "100.12",
+        "bid": "100.10",
+        "symbol": "BTCUSDT",
+        "timestamp": "2024-01-02T12:02:00Z"
+      },
+      {
+        "ask": "104.02",
+        "bid": "104.00",
+        "symbol": "BTCUSDT",
+        "timestamp": "2024-01-02T12:03:00Z"
+      }
+    ]
+  },
+  "EURUSD-100": {
+    "metadata": {
+      "contract_size": "100000",
+      "fee_bps": "1",
+      "instrument_type": "fx_contract",
+      "lot_step": "0.01",
+      "max_lots": "100",
+      "min_lots": "0.01",
+      "min_notional": "0",
+      "observed_at": "2024-01-02T12:00:00Z",
+      "pip_size": "0.0001",
+      "quote_currency": "USD",
+      "slippage_ticks": 1,
+      "source": "P09.5 synthetic fixture; no broker data",
+      "symbol": "EURUSD",
+      "synthetic": true,
+      "tick_size": "0.00001"
+    },
+    "quotes": [
+      {
+        "ask": "1.10002",
+        "bid": "1.10000",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:00:00Z"
+      },
+      {
+        "ask": "1.10012",
+        "bid": "1.10010",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:01:00Z"
+      },
+      {
+        "ask": "1.10012",
+        "bid": "1.10010",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:02:00Z"
+      },
+      {
+        "ask": "1.10402",
+        "bid": "1.10400",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:03:00Z"
+      }
+    ]
+  },
+  "EURUSD-10000": {
+    "metadata": {
+      "contract_size": "100000",
+      "fee_bps": "1",
+      "instrument_type": "fx_contract",
+      "lot_step": "0.01",
+      "max_lots": "100",
+      "min_lots": "0.01",
+      "min_notional": "0",
+      "observed_at": "2024-01-02T12:00:00Z",
+      "pip_size": "0.0001",
+      "quote_currency": "USD",
+      "slippage_ticks": 1,
+      "source": "P09.5 synthetic fixture; no broker data",
+      "symbol": "EURUSD",
+      "synthetic": true,
+      "tick_size": "0.00001"
+    },
+    "quotes": [
+      {
+        "ask": "1.10002",
+        "bid": "1.10000",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:00:00Z"
+      },
+      {
+        "ask": "1.10012",
+        "bid": "1.10010",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:01:00Z"
+      },
+      {
+        "ask": "1.10012",
+        "bid": "1.10010",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:02:00Z"
+      },
+      {
+        "ask": "1.10402",
+        "bid": "1.10400",
+        "symbol": "EURUSD",
+        "timestamp": "2024-01-02T12:03:00Z"
+      }
+    ]
+  },
+  "XAUUSD-100": {
+    "metadata": {
+      "contract_size": "100",
+      "fee_bps": "1",
+      "instrument_type": "gold_contract",
+      "lot_step": "0.01",
+      "max_lots": "100",
+      "min_lots": "0.01",
+      "min_notional": "0",
+      "observed_at": "2024-01-02T12:00:00Z",
+      "pip_size": "0.01",
+      "quote_currency": "USD",
+      "slippage_ticks": 1,
+      "source": "P09.5 synthetic fixture; no broker data",
+      "symbol": "XAUUSD",
+      "synthetic": true,
+      "tick_size": "0.01"
+    },
+    "quotes": [
+      {
+        "ask": "2000.02",
+        "bid": "2000",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:00:00Z"
+      },
+      {
+        "ask": "2000.12",
+        "bid": "2000.10",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:01:00Z"
+      },
+      {
+        "ask": "2000.12",
+        "bid": "2000.10",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:02:00Z"
+      },
+      {
+        "ask": "2004.02",
+        "bid": "2004.00",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:03:00Z"
+      }
+    ]
+  },
+  "XAUUSD-10000": {
+    "metadata": {
+      "contract_size": "100",
+      "fee_bps": "1",
+      "instrument_type": "gold_contract",
+      "lot_step": "0.01",
+      "max_lots": "100",
+      "min_lots": "0.01",
+      "min_notional": "0",
+      "observed_at": "2024-01-02T12:00:00Z",
+      "pip_size": "0.01",
+      "quote_currency": "USD",
+      "slippage_ticks": 1,
+      "source": "P09.5 synthetic fixture; no broker data",
+      "symbol": "XAUUSD",
+      "synthetic": true,
+      "tick_size": "0.01"
+    },
+    "quotes": [
+      {
+        "ask": "2000.02",
+        "bid": "2000",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:00:00Z"
+      },
+      {
+        "ask": "2000.12",
+        "bid": "2000.10",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:01:00Z"
+      },
+      {
+        "ask": "2000.12",
+        "bid": "2000.10",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:02:00Z"
+      },
+      {
+        "ask": "200.02",
+        "bid": "200",
+        "symbol": "XAUUSD",
+        "timestamp": "2024-01-02T12:03:00Z"
+      }
+    ]
+  }
+}

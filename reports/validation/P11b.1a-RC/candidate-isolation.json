@@ -1,0 +1,11 @@
+{
+  "candidate": "b669d430148ba0bb67c9f46f7560341a52165ff1",
+  "implementation_changes": 0,
+  "tracked_implementation_files_checked": 299,
+  "implementation_fingerprint": "62ef6aff03a6796ad5e088895db4f4c857d5ef36b33fe0cc94d865e0bfd3fd25",
+  "validated_paper_ancestor": true,
+  "prep_tag_is_head": true,
+  "no_real_env_in_review_checkout": true,
+  "new_commit": false,
+  "new_tag": false
+}

@@ -1,0 +1,3145 @@
+{
+  "observed_utc": "2026-10-23T01:14:28Z",
+  "terminal_build": 6281,
+  "terminal_tool_count": 107,
+  "tools": [
+    {
+      "name": "get_workspace_info",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_time_information",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": true,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "list_directory",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute directory path to inspect. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "max_depth": {
+            "type": "integer",
+            "description": "Maximum traversal depth. Use 0 to return only the root node."
+          },
+          "show_hidden": {
+            "type": "boolean",
+            "description": "Include hidden and system entries when available."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "find_files_by_glob",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute directory path where the search starts. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "pattern": {
+            "type": "string",
+            "description": "Glob pattern to match, for example **/*.mq5 or Include/**/*.mqh."
+          },
+          "max_results": {
+            "type": "integer",
+            "description": "Maximum number of matching paths to return."
+          },
+          "show_hidden": {
+            "type": "boolean",
+            "description": "Include hidden and system files in the search."
+          }
+        },
+        "required": [
+          "path",
+          "pattern"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "find_files_by_name_keyword",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute directory path to inspect. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "keyword": {
+            "type": "string",
+            "description": "Filename fragment to find. Matching is case-insensitive unless case_sensitive is true."
+          },
+          "case_sensitive": {
+            "type": "boolean",
+            "description": "Use case-sensitive filename matching."
+          },
+          "max_results": {
+            "type": "integer",
+            "description": "Maximum number of matching paths to return."
+          }
+        },
+        "required": [
+          "path",
+          "keyword"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "read_file",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path to read. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Zero-based byte offset where reading starts."
+          },
+          "length": {
+            "type": "integer",
+            "description": "Maximum number of bytes to read."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "read_binary_file",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path to read. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Zero-based byte offset where reading starts."
+          },
+          "length": {
+            "type": "integer",
+            "description": "Maximum number of bytes to read. Use 0 to read all remaining bytes from the specified offset to the end of the file."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "read_file_by_lines",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path to read. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "start_line": {
+            "type": "integer",
+            "description": "1-based line number where reading starts. Defaults to 1."
+          },
+          "end_line": {
+            "type": "integer",
+            "description": "1-based inclusive line number where reading ends. If omitted, reads to the end of file or max_lines limit."
+          },
+          "max_lines": {
+            "type": "integer",
+            "description": "Maximum number of lines to return. Defaults to a safe server-defined limit."
+          },
+          "encoding": {
+            "type": "string",
+            "description": "Text encoding hint: auto, utf-8, utf-8-bom, utf-16le, utf-16le-bom, cp1251, windows-1251, ansi, or oem. Defaults to auto."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "create_new_folder",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute folder path to create. The path must be under an allowed write root returned by get_workspace_info. Do not pass relative paths. Parent directories will be created automatically."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "create_new_file",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path to create. The path must be under an allowed write root returned by get_workspace_info. Do not pass relative paths. Parent directories will be created automatically."
+          },
+          "content": {
+            "type": "string",
+            "description": "Initial file content. Defaults to an empty file."
+          },
+          "encoding": {
+            "type": "string",
+            "description": "Text encoding to use when content is provided."
+          },
+          "overwrite": {
+            "type": "boolean",
+            "description": "Allow replacing an existing file when true."
+          },
+          "bom": {
+            "type": "boolean",
+            "description": "Write UTF BOM when supported by encoding. Defaults to false."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "write_file",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path to create. The path must be under an allowed write root returned by get_workspace_info. Do not pass relative paths. Parent directories will be created automatically."
+          },
+          "content": {
+            "type": "string",
+            "description": "Complete content that should replace the file body."
+          },
+          "encoding": {
+            "type": "string",
+            "description": "Text encoding to use for writing."
+          },
+          "overwrite": {
+            "type": "boolean",
+            "description": "Allow replacing an existing file when true."
+          },
+          "bom": {
+            "type": "boolean",
+            "description": "Write UTF BOM when supported by encoding. Defaults to false."
+          }
+        },
+        "required": [
+          "path",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "write_binary_file",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path to create. The path must be under an allowed write root returned by get_workspace_info. Do not pass relative paths. Parent directories will be created automatically."
+          },
+          "data": {
+            "type": "string",
+            "description": "Binary data encoded as hex."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Optional zero-based byte offset to write at. If omitted, the full file is replaced or created."
+          },
+          "overwrite": {
+            "type": "boolean",
+            "description": "Allow replacing an existing file when true. Defaults to false."
+          },
+          "truncate": {
+            "type": "boolean",
+            "description": "When offset is used, truncate the file after the written data. Defaults to false."
+          }
+        },
+        "required": [
+          "path",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "delete_file",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path to delete. The path must be under an allowed write root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "missing_ok": {
+            "type": "boolean",
+            "description": "Treat a missing file as a successful no-op. Defaults to false."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "delete_folder",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute path of the folder to delete. The path must be under an allowed write root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "recursive": {
+            "type": "boolean",
+            "description": "Delete all files and subfolders before deleting the target folder. When false, deletion fails if the folder is not empty."
+          },
+          "missing_ok": {
+            "type": "boolean",
+            "description": "Treat a missing folder as a successful no-op. Defaults to false."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "replace_text_in_file",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute file path where text replacement should be performed. The path must be under an allowed write root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "search": {
+            "type": "string",
+            "description": "Literal case-sensitive single-line text to find. Must not contain carriage-return or newline characters. Multiline matching is not supported."
+          },
+          "replace": {
+            "type": "string",
+            "description": "Replacement text."
+          },
+          "start_line": {
+            "type": "integer",
+            "description": "Optional 1-based line number where replacement starts. Does not enable matching across line boundaries. If omitted, replacement starts at the beginning of the file."
+          },
+          "end_line": {
+            "type": "integer",
+            "description": "Optional 1-based inclusive line number where replacement ends. Does not enable matching across line boundaries. If omitted, replacement continues to the end of the file."
+          },
+          "all": {
+            "type": "boolean",
+            "description": "Replace all occurrences instead of only the first match. Defaults to true."
+          }
+        },
+        "required": [
+          "path",
+          "search",
+          "replace"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "search_text",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute directory path where the search starts. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "query": {
+            "type": "string",
+            "description": "Literal text to search for."
+          },
+          "file_glob": {
+            "type": "string",
+            "description": "Glob filter limiting files included in the search."
+          },
+          "case_sensitive": {
+            "type": "boolean",
+            "description": "Use case-sensitive text matching."
+          },
+          "max_results": {
+            "type": "integer",
+            "description": "Maximum number of matches to return."
+          }
+        },
+        "required": [
+          "path",
+          "query",
+          "file_glob"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "search_regex",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute directory path where the search starts. The path must be under an allowed read root returned by get_workspace_info. Do not pass relative paths."
+          },
+          "pattern": {
+            "type": "string",
+            "description": "Regular expression pattern to search for. PCRE2 syntax is supported. Escape backslashes according to JSON string rules."
+          },
+          "file_glob": {
+            "type": "string",
+            "description": "Glob filter limiting files included in the search."
+          },
+          "case_sensitive": {
+            "type": "boolean",
+            "description": "Use case-sensitive regular expression matching."
+          },
+          "max_results": {
+            "type": "integer",
+            "description": "Maximum number of matches to return."
+          }
+        },
+        "required": [
+          "path",
+          "pattern",
+          "file_glob"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "send_web_request",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "description": "HTTP method: GET, POST, PUT, PATCH, DELETE, HEAD or OPTIONS."
+          },
+          "url": {
+            "type": "string",
+            "description": "Absolute HTTP or HTTPS target URL."
+          },
+          "headers": {
+            "type": "string",
+            "description": "Optional HTTP request headers as CRLF-separated 'Name: Value' lines. Do not include the request line or the final empty CRLF."
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "Optional request timeout in milliseconds."
+          },
+          "body_format": {
+            "type": "string",
+            "description": "Optional request body format/source: none, utf-8, hex or file. Default is none. Use utf-8 when body contains text to send as UTF-8 bytes. Use hex when body contains hexadecimal bytes. Use file when the request body must be read from input_filename."
+          },
+          "body": {
+            "type": "string",
+            "description": "Optional request body. Required when body_format is utf-8 or hex. For body_format=utf-8, body is textual content encoded as UTF-8 bytes. For body_format=hex, body must contain only hexadecimal digits, without 0x prefix, spaces or separators."
+          },
+          "input_filename": {
+            "type": "string",
+            "description": "Optional input file name used as the raw request body when body_format is file. Required only when body_format is file. The file content is sent as-is without text conversion."
+          },
+          "output_filename": {
+            "type": "string",
+            "description": "Optional output file name for saving the HTTP response body instead of returning it inline. Use for large or binary responses. Parent directories will be created automatically."
+          }
+        },
+        "required": [
+          "method",
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_open",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name for the chart to open, for example EURUSD, XAUUSD or AAPL depending on the broker symbol set. The symbol must be available in the connected terminal."
+          },
+          "period": {
+            "type": "string",
+            "description": "Chart period: M1, M2, M3, M4, M5, M6, M10, M12, M15, M20, M30, H1, H2, H3, H4, H6, H8, H12, D1, W1, MN1."
+          }
+        },
+        "required": [
+          "symbol",
+          "period"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_close",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Unique identifier of a currently open chart, returned by chart_open or list_open_charts. Provide it as a positive decimal string. When chart_id is supplied, omit symbol and period."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name for the chart to close. Must be supplied together with period when chart_id is omitted."
+          },
+          "period": {
+            "type": "string",
+            "description": "Exact chart period. Must be supplied together with symbol when chart_id is omitted."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_set_symbol_period",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Unique identifier of a currently open chart, returned by chart_open or list_open_charts. Provide it as a positive decimal string."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name for the chart, for example EURUSD, XAUUSD or AAPL depending on the broker symbol set. The symbol must be available and added in Market Watch in the connected terminal."
+          },
+          "period": {
+            "type": "string",
+            "description": "Chart period: M1, M2, M3, M4, M5, M6, M10, M12, M15, M20, M30, H1, H2, H3, H4, H6, H8, H12, D1, W1, MN1."
+          }
+        },
+        "required": [
+          "chart_id",
+          "symbol",
+          "period"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_apply_template",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "template_filename": {
+            "type": "string",
+            "description": "The name of the file containing the template. The file must exist in the folder \\MQL5\\Profiles\\Templates"
+          }
+        },
+        "required": [
+          "chart_id",
+          "template_filename"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_save_template",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "template_filename": {
+            "type": "string",
+            "description": "The name of the file for the template. File name only, without directory or path components. The .tpl extension is added automatically when omitted.  The template is saved in the folder \\MQL5\\Profiles\\Templates"
+          },
+          "overwrite": {
+            "type": "boolean",
+            "description": "Allow replacing an existing file when true. Defaults to false."
+          }
+        },
+        "required": [
+          "chart_id",
+          "template_filename"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_delete_template",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "template_filename": {
+            "type": "string",
+            "description": "Existing template file name in MQL5\\Profiles\\Templates, without path components. The .tpl extension is added when omitted; other extensions are rejected."
+          }
+        },
+        "required": [
+          "template_filename"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_save_screenshot",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "filename": {
+            "type": "string",
+            "description": "PNG file name, including .png, without path components. At most 127 UTF-16 code units. Saved under the terminal data folder in MQL5\\Files."
+          },
+          "width": {
+            "type": "integer",
+            "description": "Image width in pixels, from 1 to 4096."
+          },
+          "height": {
+            "type": "integer",
+            "description": "Image height in pixels, from 1 to 4096."
+          },
+          "align_mode": {
+            "type": "string",
+            "description": "Image alignment: ALIGN_RIGHT or ALIGN_LEFT. ALIGN_RIGHT means align to the right margin (the output from the end). ALIGN_LEFT means Left justify. Case-sensitive. Default: ALIGN_RIGHT."
+          },
+          "overwrite": {
+            "type": "boolean",
+            "description": "Allow replacing an existing file. Default: false. The existence check is not atomic with saving."
+          }
+        },
+        "required": [
+          "chart_id",
+          "filename",
+          "width",
+          "height"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_navigate",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "position": {
+            "type": "string",
+            "description": "Navigation origin: CHART_BEGIN, CHART_END or CHART_CURRENT_POS. Case-sensitive."
+          },
+          "shift": {
+            "type": "integer",
+            "description": "Offset in bars from the selected origin. Positive values move towards newer bars, negative values towards older bars. Default: 0. Range: -1000000 to 1000000."
+          }
+        },
+        "required": [
+          "chart_id",
+          "position"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_add_indicator",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "indicator_parameters": {
+            "type": "string",
+            "description": "Optional indicator inputs formatted as a strict comma-separated list of Name=Value pairs. Do not use spaces. For custom indicators, parameter names must exactly match the mql5 input variable names declared by the indicator. Invalid parameters may be silently ignored, converted to zero or replaced with defaults"
+          },
+          "indicator_name": {
+            "type": "string",
+            "description": "Exact indicator name. For a standard indicator, use its standard name and omit custom_indicator_path. For a custom indicator, use its display name and also provide custom_indicator_path."
+          },
+          "custom_indicator_path": {
+            "type": "string",
+            "description": "Absolute path to the compiled custom indicator file (.ex5), normally located under the terminal's MQL5 directory. Required only for custom indicators. Omit this parameter for standard indicators."
+          }
+        },
+        "required": [
+          "chart_id",
+          "indicator_name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_add_expert",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "expert_path": {
+            "type": "string",
+            "description": "Absolute path to mql5 program file (.ex5). The path must be under an allowed read root returned by get_workspace_info."
+          },
+          "expert_parameters": {
+            "type": "string",
+            "description": "Optional expert advisor inputs formatted as a strict comma-separated list of Name=Value pairs. Do not use spaces. Parameter names must exactly match the mql5 input variable names declared by the program. Invalid parameters may be silently ignored, converted to zero or replaced with defaults"
+          }
+        },
+        "required": [
+          "chart_id",
+          "expert_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_add_script",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "script_path": {
+            "type": "string",
+            "description": "Absolute path to mql5 program file (.ex5). The path must be under an allowed read root returned by get_workspace_info."
+          },
+          "script_parameters": {
+            "type": "string",
+            "description": "Optional script inputs formatted as a strict comma-separated list of Name=Value pairs. Do not use spaces. Parameter names must exactly match the mql5 input variable names declared by the program. Invalid parameters may be silently ignored, converted to zero or replaced with defaults"
+          }
+        },
+        "required": [
+          "chart_id",
+          "script_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_remove_expert",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          }
+        },
+        "required": [
+          "chart_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_remove_indicator",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "window": {
+            "type": "integer",
+            "description": "Zero-based chart subwindow containing the indicator. Copy this value from the indicator\u2019s window field in list_open_charts. Use 0 for the main chart window. The correct window is required even when the short_name is otherwise valid. Subwindow indices may change after an indicator from a non-main chart window is removed."
+          },
+          "short_name": {
+            "type": "string",
+            "description": "Case-sensitive exact short_name returned by list_open_charts. Do not use the catalog indicator name."
+          }
+        },
+        "required": [
+          "chart_id",
+          "window",
+          "short_name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_get_indicator_state",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "window": {
+            "type": "integer",
+            "description": "Zero-based chart subwindow containing the indicator. Copy this value from the indicator\u2019s window field in list_open_charts. Use 0 for the main chart window. The correct window is required even when the short_name is otherwise valid."
+          },
+          "short_name": {
+            "type": "string",
+            "description": "Case-sensitive exact short_name returned by list_open_charts. Do not use the catalog indicator name."
+          }
+        },
+        "required": [
+          "chart_id",
+          "window",
+          "short_name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_get_properties",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          }
+        },
+        "required": [
+          "chart_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_set_properties",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "mode": {
+            "type": "string",
+            "description": "Price chart mode: bars, candles or line. Case-sensitive."
+          },
+          "volumes": {
+            "type": "string",
+            "description": "Volume mode: hide, tick, real or auto. auto selects the available volume type and may read back as hide, tick or real."
+          },
+          "foreground": {
+            "type": "boolean",
+            "description": "Draw the price chart in the foreground."
+          },
+          "show_grid": {
+            "type": "boolean",
+            "description": "Show the chart grid."
+          },
+          "show_period_separators": {
+            "type": "boolean",
+            "description": "Show period separators."
+          },
+          "show_ticker": {
+            "type": "boolean",
+            "description": "Show the symbol ticker. false also disables OHLC; cannot be combined with show_ohlc:true."
+          },
+          "show_ohlc": {
+            "type": "boolean",
+            "description": "Show OHLC. true also enables the symbol ticker."
+          },
+          "show_bid_line": {
+            "type": "boolean",
+            "description": "Show the Bid price line."
+          },
+          "show_ask_line": {
+            "type": "boolean",
+            "description": "Show the Ask price line."
+          },
+          "show_last_line": {
+            "type": "boolean",
+            "description": "Show the Last price line."
+          },
+          "show_object_descriptions": {
+            "type": "boolean",
+            "description": "Show object descriptions."
+          },
+          "show_trade_levels": {
+            "type": "boolean",
+            "description": "Show trade levels."
+          },
+          "show_trade_history": {
+            "type": "boolean",
+            "description": "Show trade history."
+          },
+          "scroll_mode": {
+            "type": "boolean",
+            "description": "Enable automatic scrolling to the latest bars."
+          },
+          "shift_mode": {
+            "type": "boolean",
+            "description": "Enable the right chart shift."
+          },
+          "shift_size": {
+            "type": "number",
+            "description": "Right shift in percent, finite and from 2 to 50. The terminal aligns it to bars; the response reports the actual value."
+          },
+          "scale": {
+            "type": "integer",
+            "description": "Chart scale: 1, 2, 4, 8, 16 or 32, matching chart_get_properties and list_open_charts."
+          },
+          "color_background": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_foreground": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_grid": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_volume": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_chart_up": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_chart_down": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_chart_line": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_candle_bull": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_candle_bear": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_bid": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_ask": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_last": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          },
+          "color_stop_level": {
+            "type": "integer",
+            "description": "Color in native MQL 0x00BBGGRR format, from 0 to 16777215."
+          }
+        },
+        "required": [
+          "chart_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_objects_list",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "window": {
+            "type": "integer",
+            "description": "Optional non-negative subwindow index. 0 is the main window. Omit to search all windows."
+          },
+          "type": {
+            "type": "string",
+            "description": "Optional non-empty object type name, up to 63 UTF-16 code units. Omit to include all object types."
+          },
+          "name_prefix": {
+            "type": "string",
+            "description": "Optional case-sensitive literal object-name prefix, up to 255 UTF-16 code units. No wildcard or regex matching. Omit or use an empty string to include all names."
+          }
+        },
+        "required": [
+          "chart_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_object_create",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "name": {
+            "type": "string",
+            "description": "Non-empty object name, at most 63 UTF-16 code units. Object name must be unique within the chart. An error is returned if an object with this name already exists."
+          },
+          "type": {
+            "type": "string",
+            "description": "Case-sensitive ENUM_OBJECT name, for example OBJ_TREND, OBJ_HLINE or OBJ_LABEL."
+          },
+          "window": {
+            "type": "integer",
+            "description": "Existing chart subwindow index. Defaults to 0, the main window."
+          },
+          "points": {
+            "type": "array",
+            "description": "Array of 1 to 30 anchor points. Each object accepts optional time and price fields. Time uses YYYY-MM-DDTHH:MM:SS in chart time without a time zone. Price must be a finite number. Omitted coordinates default to zero. Supply the anchor points appropriate for the object type.",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "chart_id",
+          "name",
+          "type",
+          "points"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_object_delete",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "name": {
+            "type": "string",
+            "description": "Non-empty exact case-sensitive object name, at most 63 UTF-16 code units. Wildcards and regular expressions are not supported."
+          }
+        },
+        "required": [
+          "chart_id",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_object_get",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "name": {
+            "type": "string",
+            "description": "Non-empty exact case-sensitive object name, at most 63 UTF-16 code units. Wildcards and regular expressions are not supported."
+          }
+        },
+        "required": [
+          "chart_id",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "chart_object_update",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "chart_id": {
+            "type": "string",
+            "description": "Chart id received on chart_open or list_open_charts."
+          },
+          "name": {
+            "type": "string",
+            "description": "Non-empty exact case-sensitive name of the existing object. At most 63 UTF-16 code units. Identifies the object; does not rename it. Wildcards and regular expressions are not supported."
+          },
+          "description": {
+            "type": "string",
+            "description": "Single-line object description or displayed text, depending on object type. At most 63 UTF-16 code units."
+          },
+          "color": {
+            "type": "integer",
+            "description": "Drawing color in MQL 0x00BBGGRR format, from 0 to 16777215. Use -1 or 4294967295 for clrNONE."
+          },
+          "style": {
+            "type": "integer",
+            "description": "Line style: 0 solid, 1 dash, 2 dot, 3 dash-dot, 4 dash-dot-dot. Rendering depends on object type and line width."
+          },
+          "width": {
+            "type": "integer",
+            "description": "Line width from 1 to 5."
+          },
+          "background": {
+            "type": "boolean",
+            "description": "Draw the object in the background."
+          },
+          "selectable": {
+            "type": "boolean",
+            "description": "Allow selecting and moving the object with the mouse."
+          },
+          "selected": {
+            "type": "boolean",
+            "description": "Set the object's selection state."
+          },
+          "hidden": {
+            "type": "boolean",
+            "description": "Hide the object from the default Object List. Does not hide it on the chart."
+          },
+          "z_order": {
+            "type": "integer",
+            "description": "Priority for receiving mouse click events. Signed 32-bit integer."
+          },
+          "invisible": {
+            "type": "boolean",
+            "description": "Hide the object on all chart periods. When true, clears the period visibility list."
+          },
+          "periods": {
+            "type": "array",
+            "description": "Replace the period visibility list. Each item contains integer type and size, in the same format as chart_object_get. An empty array enables all periods. Cannot be combined with invisible:true.",
+            "items": {
+              "type": "object"
+            }
+          },
+          "levels": {
+            "type": "array",
+            "description": "Replace all object levels. Each item requires value, color, style, width and description, in the same format as chart_object_get. value must be finite; description must be a single-line string of at most 31 UTF-16 code units. Supported only for objects with editable levels.",
+            "items": {
+              "type": "object"
+            }
+          },
+          "data": {
+            "type": "array",
+            "description": "Update type-specific settings using chart-file key=value strings returned by chart_object_get. Supplied keys replace existing values; omitted keys remain unchanged. Each string is limited to 127 UTF-16 code units. Duplicate keys, line breaks, unknown keys and read-only properties are rejected.",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "chart_id",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "list_open_charts",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "list_available_indicators",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "string",
+            "description": "Optional case-insensitive substring filter applied to the indicator name. If omitted, all available indicators are returned."
+          },
+          "indicator_type": {
+            "type": "string",
+            "description": "Optional indicator source filter: all, custom or standard. Defaults to all."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "list_available_mql5_programs",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "string",
+            "description": "Optional case-insensitive substring filter applied to the program name. If omitted, all available programs are returned."
+          },
+          "program_type": {
+            "type": "string",
+            "description": "Optional mql5 program filter: all, expert, script or service. Defaults to all."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_expert_advisor_parameters",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "expert_path": {
+            "type": "string",
+            "description": "Absolute path to mql5 program file (.ex5). The path must be under an allowed read root returned by get_workspace_info."
+          }
+        },
+        "required": [
+          "expert_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_script_parameters",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "script_path": {
+            "type": "string",
+            "description": "Absolute path to mql5 program file (.ex5). The path must be under an allowed read root returned by get_workspace_info."
+          }
+        },
+        "required": [
+          "script_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_service_parameters",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "service_path": {
+            "type": "string",
+            "description": "Absolute path to mql5 program file (.ex5). The path must be under an allowed read root returned by get_workspace_info."
+          }
+        },
+        "required": [
+          "service_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_indicator_parameters",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "indicator_name": {
+            "type": "string",
+            "description": "Exact indicator name returned by list_available_indicators. For a standard indicator, use its standard name and omit custom_indicator_path. For a custom indicator, use its display name and also provide custom_indicator_path."
+          },
+          "custom_indicator_path": {
+            "type": "string",
+            "description": "Absolute path to the compiled custom indicator file (.ex5), normally located under the terminal's MQL5 directory. Required only for custom indicators. Omit this parameter for standard indicators."
+          }
+        },
+        "required": [
+          "indicator_name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "services_list",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "service_start",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "service_id": {
+            "type": "integer",
+            "description": "Exact identifier of the registered service instance returned by services_list. Must be a positive integer."
+          }
+        },
+        "required": [
+          "service_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "service_stop",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "service_id": {
+            "type": "integer",
+            "description": "Exact identifier of the registered service instance returned by services_list. Must be a positive integer."
+          }
+        },
+        "required": [
+          "service_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "service_register",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "service_path": {
+            "type": "string",
+            "description": "Absolute path to mql5 service file (.ex5). The path must be under an allowed read root returned by get_workspace_info."
+          },
+          "service_parameters": {
+            "type": "string",
+            "description": "Optional service inputs formatted as a strict comma-separated list of Name=Value pairs. Do not use spaces. Parameter names must exactly match the mql5 input variable names declared by the program. Invalid parameters may be silently ignored, converted to zero or replaced with defaults"
+          }
+        },
+        "required": [
+          "service_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "service_unregister",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "service_id": {
+            "type": "integer",
+            "description": "Exact identifier of the registered service instance returned by services_list. Must be a positive integer."
+          }
+        },
+        "required": [
+          "service_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "service_status",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "service_id": {
+            "type": "integer",
+            "description": "Exact identifier of the registered service instance returned by services_list. Must be a positive integer."
+          }
+        },
+        "required": [
+          "service_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_trading_account_info",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": true,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_news_list",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time as ISO datetime."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time as ISO datetime. Must be greater than datetime_from."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of news items returned, from 1 to 2048. Default: 100."
+          },
+          "filter": {
+            "type": "string",
+            "description": "Optional case-insensitive literal substring matched against subject or category. No wildcard or regex syntax. Omit or use an empty string to include all news matching the time interval. At most 255 UTF-16 code units."
+          }
+        },
+        "required": [
+          "datetime_from",
+          "datetime_to"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_news_by_id",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Positive decimal news identifier returned by get_news_list."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "terminal_get_info",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": true,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_trading_history_positions",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time as ISO datetime."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time as ISO datetime. Must be greater than datetime_from."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Optional exact MetaTrader symbol filter. Matching is case-insensitive and does not use wildcards or partial matching."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of records to return. 100000 by default."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_trading_history_orders",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time as ISO datetime."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time as ISO datetime. Must be greater than datetime_from."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Optional exact MetaTrader symbol filter. Matching is case-insensitive and does not use wildcards or partial matching."
+          },
+          "include_orders": {
+            "type": "boolean",
+            "description": "Include historical orders in the response. True by default."
+          },
+          "include_orders_canceled": {
+            "type": "boolean",
+            "description": "Include canceled historical orders in the response. False by default."
+          },
+          "include_deals": {
+            "type": "boolean",
+            "description": "Include historical deals in the response. True by default."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of records to return. 100000 by default."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_trading_open_positions",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "include_orders": {
+            "type": "boolean",
+            "description": "Include orders in the response. True by default."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Optional exact MetaTrader symbol filter. Matching is case-insensitive and does not use wildcards or partial matching."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_marketwatch_symbols",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": true,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Optional exact MetaTrader symbol filter. Matching is case-insensitive and does not use wildcards or partial matching."
+          },
+          "include_hidden": {
+            "type": "boolean",
+            "description": "Include symbols hidden from Market Watch. When enabled without an exact symbol filter, the response is returned in catalog mode and does not include current quote fields. An exact visible-symbol lookup may still include current quotes. False by default."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of records to return. 1000 by default."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "add_marketwatch_symbol",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name to add to the Market Watch window, for example EURUSD, XAUUSD or AAPL depending on the broker symbol set."
+          },
+          "show": {
+            "type": "boolean",
+            "description": "Show the symbol in Market Watch after adding it. Defaults to true."
+          }
+        },
+        "required": [
+          "symbol"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "remove_marketwatch_symbol",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name to remove from the Market Watch window, for example EURUSD, XAUUSD or AAPL depending on the broker symbol set."
+          }
+        },
+        "required": [
+          "symbol"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_chart_history",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time as ISO datetime."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time as ISO datetime. Must be greater than datetime_from."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Exact MetaTrader symbol filter. Matching is case-insensitive and does not use wildcards or partial matching."
+          },
+          "period": {
+            "type": "string",
+            "description": "Chart period: M1, M2, M3, M4, M5, M6, M10, M12, M15, M20, M30, H1, H2, H3, H4, H6, H8, H12, D1, W1, MN1."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of records to return. 100000 by default."
+          }
+        },
+        "required": [
+          "datetime_from",
+          "datetime_to",
+          "symbol",
+          "period"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_chart_ticks_history",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time as ISO datetime."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time as ISO datetime. Must be greater than datetime_from."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Exact MetaTrader symbol filter. Matching is case-insensitive and does not use wildcards or partial matching."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of records to return. 100000 by default."
+          }
+        },
+        "required": [
+          "datetime_from",
+          "datetime_to",
+          "symbol"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_send_market_order",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name from Market Watch, for example EURUSD, XAUUSD or AAPL."
+          },
+          "type": {
+            "type": "string",
+            "description": "Market order side: buy or sell. Current market price will be used."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Order volume in lots as a decimal number."
+          },
+          "sl": {
+            "type": "number",
+            "description": "Optional stop loss price as a decimal number. Omit to place without stop loss."
+          },
+          "tp": {
+            "type": "number",
+            "description": "Optional take profit price as a decimal number. Omit to place without take profit."
+          },
+          "comment": {
+            "type": "string",
+            "description": "Optional order comment. Maximum 31 characters."
+          }
+        },
+        "required": [
+          "symbol",
+          "type",
+          "volume"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_check_market_order",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name from Market Watch, for example EURUSD, XAUUSD or AAPL."
+          },
+          "type": {
+            "type": "string",
+            "description": "Market order side: buy or sell. Current market price will be used. Matching is case-insensitive."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Order volume in lots as a decimal number. The value must be finite and greater than zero and must comply with the symbol's minimum volume, maximum volume, and volume-step requirements."
+          },
+          "sl": {
+            "type": "number",
+            "description": "Optional stop loss price as a decimal number. Omit to place without stop loss."
+          },
+          "tp": {
+            "type": "number",
+            "description": "Optional take profit price as a decimal number. Omit to place without take profit."
+          }
+        },
+        "required": [
+          "symbol",
+          "type",
+          "volume"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_send_pending_order",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name from Market Watch, for example EURUSD, XAUUSD or AAPL."
+          },
+          "type": {
+            "type": "string",
+            "description": "Pending order type: buy_limit, sell_limit, buy_stop, sell_stop, buy_stop_limit or sell_stop_limit."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Order volume in lots as a decimal number."
+          },
+          "price": {
+            "type": "number",
+            "description": "Pending order trigger/limit price as a decimal number."
+          },
+          "stoplimit": {
+            "type": "number",
+            "description": "Limit order price for buy_stop_limit and sell_stop_limit. Required only for stop-limit pending orders."
+          },
+          "sl": {
+            "type": "number",
+            "description": "Optional stop loss price as a decimal number. Omit to place without stop loss."
+          },
+          "tp": {
+            "type": "number",
+            "description": "Optional take profit price as a decimal number. Omit to place without take profit."
+          },
+          "filling_type": {
+            "type": "string",
+            "description": "Optional filling type: fok, ioc, boc or return. Availability depends on the symbol and execution mode."
+          },
+          "expiration_type": {
+            "type": "string",
+            "description": "Optional expiration type: gtc, day, specified, specified_day. Default is gtc."
+          },
+          "expiration_time": {
+            "type": "string",
+            "description": "Optional expiration time as ISO 8601 datetime. Required only when expiration_type is specified or specified_day."
+          },
+          "comment": {
+            "type": "string",
+            "description": "Optional order comment. Maximum 31 characters."
+          }
+        },
+        "required": [
+          "symbol",
+          "type",
+          "volume",
+          "price"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_check_pending_order",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name from Market Watch, for example EURUSD, XAUUSD or AAPL."
+          },
+          "type": {
+            "type": "string",
+            "description": "Pending order type: buy_limit, sell_limit, buy_stop, sell_stop, buy_stop_limit or sell_stop_limit."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Order volume in lots as a decimal number."
+          },
+          "price": {
+            "type": "number",
+            "description": "Pending order trigger/limit price as a decimal number."
+          },
+          "stoplimit": {
+            "type": "number",
+            "description": "Limit order price for buy_stop_limit and sell_stop_limit. Required only for stop-limit pending orders."
+          },
+          "sl": {
+            "type": "number",
+            "description": "Optional stop loss price as a decimal number. Omit to place without stop loss."
+          },
+          "tp": {
+            "type": "number",
+            "description": "Optional take profit price as a decimal number. Omit to place without take profit."
+          },
+          "filling_type": {
+            "type": "string",
+            "description": "Optional filling type: fok, ioc, boc or return. Availability depends on the symbol and execution mode."
+          },
+          "expiration_type": {
+            "type": "string",
+            "description": "Optional expiration type: gtc, day, specified, specified_day. Default is gtc."
+          },
+          "expiration_time": {
+            "type": "string",
+            "description": "Optional expiration time as ISO 8601 datetime. Required only when expiration_type is specified or specified_day."
+          }
+        },
+        "required": [
+          "symbol",
+          "type",
+          "volume",
+          "price"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_modify_sl_tp",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Symbol name used as a safety check. It must match the target position or pending order symbol."
+          },
+          "position_ticket": {
+            "type": "string",
+            "description": "Position ticket as a positive decimal string without leading zeros, within uint64 range. Provide either position_ticket or order_ticket, not both."
+          },
+          "order_ticket": {
+            "type": "string",
+            "description": "Pending order ticket as a positive decimal string without leading zeros, within uint64 range. Provide either position_ticket or order_ticket, not both."
+          },
+          "sl": {
+            "type": "number",
+            "description": "Optional new stop loss price. Use 0 to remove stop loss. Omit to keep the current stop loss unchanged. Do not pass the current unchanged value."
+          },
+          "tp": {
+            "type": "number",
+            "description": "Optional new take profit price. Use 0 to remove take profit. Omit to keep the current take profit unchanged. Do not pass the current unchanged value."
+          }
+        },
+        "required": [
+          "symbol"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_delete_order",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Symbol name used as a safety check. It must match the target pending order symbol."
+          },
+          "order_ticket": {
+            "type": "string",
+            "description": "Pending order ticket to delete as a positive decimal string without leading zeros, within uint64 range."
+          }
+        },
+        "required": [
+          "symbol",
+          "order_ticket"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_close_single_position",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Symbol name used as a safety check. It must match the target position symbol."
+          },
+          "position_ticket": {
+            "type": "string",
+            "description": "Position ticket to close as a positive decimal string without leading zeros, within uint64 range."
+          }
+        },
+        "required": [
+          "symbol",
+          "position_ticket"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_close_by_position",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Symbol name used as a safety check. Both opposite positions must have this symbol."
+          },
+          "position_ticket": {
+            "type": "string",
+            "description": "Ticket of the first position as a positive decimal string without leading zeros, within uint64 range."
+          },
+          "position_ticket_by": {
+            "type": "string",
+            "description": "Ticket of the opposite position used for close-by as a positive decimal string without leading zeros, within uint64 range."
+          }
+        },
+        "required": [
+          "symbol",
+          "position_ticket",
+          "position_ticket_by"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_order_calc_margin",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name from Market Watch, for example EURUSD, XAUUSD or AAPL."
+          },
+          "type": {
+            "type": "string",
+            "description": "Order side used for the margin calculation. Allowed values are buy and sell. Matching is case-insensitive. Leading or trailing whitespace is not accepted."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Order volume in lots as a decimal number. The value must be finite and greater than zero."
+          },
+          "price": {
+            "type": "number",
+            "description": "Open price as a decimal number. Before margin calculation, the price is rounded to the precision supported by the symbol and must remain greater than zero after rounding."
+          }
+        },
+        "required": [
+          "symbol",
+          "type",
+          "volume",
+          "price"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "trade_order_calc_profit",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name from Market Watch, for example EURUSD, XAUUSD or AAPL."
+          },
+          "type": {
+            "type": "string",
+            "description": "Hypothetical trade side used for the profit calculation. Allowed values are buy and sell. Matching is case-insensitive. Leading or trailing whitespace is not accepted."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Hypothetical order volume in lots as a decimal number. The value must be finite and greater than zero."
+          },
+          "price_open": {
+            "type": "number",
+            "description": "Open price as a decimal number. The value must be finite, greater than zero, and within the price range supported by the terminal. Before calculation, the price is rounded to the precision supported by the symbol and must remain greater than zero after rounding."
+          },
+          "price_close": {
+            "type": "number",
+            "description": "Close price as a decimal number. The value must be finite, greater than zero, and within the price range supported by the terminal. Before calculation, the price is rounded to the precision supported by the symbol and must remain greater than zero after rounding."
+          }
+        },
+        "required": [
+          "symbol",
+          "type",
+          "volume",
+          "price_open",
+          "price_close"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_run_backtest",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "config_path": {
+            "type": "string",
+            "description": "Absolute path to tester ini configuration file in subfolder \\MQL5\\Profiles\\Tester. Configuration file must contain name of existed ex5 file. The path must be under an allowed read root returned by get_workspace_info."
+          },
+          "inputs_path": {
+            "type": "string",
+            "description": "Absolute path to the mql5 program parameter file (.set) in subfolder \\MQL5\\Profiles\\Tester. If specified, instrument loads this file before starting the test. If this parameter is not provided, default settings are used."
+          },
+          "wait": {
+            "type": "boolean",
+            "description": "Wait until the test finishes before returning."
+          },
+          "timeout_sec": {
+            "type": "integer",
+            "description": "Maximum time, in seconds, to wait for the test to finish when wait is true. If the timeout expires, the tool returns while the test continues running in the background. This parameter does not limit or stop the test and is ignored when wait is false."
+          }
+        },
+        "required": [
+          "config_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_get_status",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Identifier of a tester run returned by tester_run_backtest or tester_run_optimization."
+          }
+        },
+        "required": [
+          "run_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_stop",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Identifier of a tester run returned by tester_run_backtest or tester_run_optimization."
+          }
+        },
+        "required": [
+          "run_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_list_result_windows",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_close_result_window",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "window_id": {
+            "type": "string",
+            "description": "Positive decimal window ID returned by tester_list_result_windows. Valid only in the current terminal session."
+          }
+        },
+        "required": [
+          "window_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_wait",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Identifier of a tester run returned by tester_run_backtest or tester_run_optimization."
+          },
+          "timeout_sec": {
+            "type": "integer",
+            "description": "Maximum time, in seconds, to wait for the tester run to finish. This parameter limits only the wait operation and does not stop the tester run."
+          }
+        },
+        "required": [
+          "run_id",
+          "timeout_sec"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_get_configuration",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Identifier of a tester run returned by tester_run_backtest or tester_run_optimization."
+          }
+        },
+        "required": [
+          "run_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_prepare_config",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "mql5_program_path": {
+            "type": "string",
+            "description": "Absolute path to an existing compiled .ex5 used by the strategy tester. The path must be under an allowed read root returned by get_workspace_info."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Trading symbol for the test."
+          },
+          "model": {
+            "type": "string",
+            "description": "Tick model: every tick, m1 ohlc, open prices, math calculations or real ticks."
+          },
+          "timeframe": {
+            "type": "string",
+            "description": "Chart timeframe such as M1, H1, or D1."
+          },
+          "optimization": {
+            "type": "boolean",
+            "description": "Enable optimization mode."
+          },
+          "optimization_criterion": {
+            "type": "string",
+            "description": "Optimization criterion: balance_max, profit_factor_max, expected_payoff_max, drawdown_min, recovery_factor_max, sharpe_ratio_max, custom_max or metric_max."
+          },
+          "genetic": {
+            "type": "boolean",
+            "description": "Enable genetic optimization mode."
+          },
+          "from_date": {
+            "type": "string",
+            "description": "Backtest start time in YYYY-MM-DDTHH:MM:SS format without a time zone. Testing dates have daily granularity; the time component does not define an intraday boundary. The minimum testing range is one calendar day, so from_date must be earlier than to_date by date."
+          },
+          "to_date": {
+            "type": "string",
+            "description": "Backtest end time in YYYY-MM-DDTHH:MM:SS format without a time zone. Testing dates have daily granularity; the time component does not define an intraday boundary. to_date must be at least the calendar day following from_date. Intraday testing ranges are not supported."
+          },
+          "forward_mode": {
+            "type": "integer",
+            "description": "Forward mode: 0 disabled, 1 one half, 2 one third, 3 one quarter, 4 custom date."
+          },
+          "forward_date": {
+            "type": "string",
+            "description": "Custom forward start time as ISO datetime. Required when forward_mode is 4."
+          },
+          "leverage": {
+            "type": "integer",
+            "description": "Leverage."
+          },
+          "deposit": {
+            "type": "number",
+            "description": "Initial deposit for the test account."
+          },
+          "deposit_currency": {
+            "type": "string",
+            "description": "Deposit currency."
+          },
+          "execution_delay": {
+            "type": "integer",
+            "description": "Trade execution delay (0 - no delay, -1 - random delay, other number - delay in ms)."
+          },
+          "profit_in_pips": {
+            "type": "boolean",
+            "description": "Use profit in pips mode for faster calculations."
+          },
+          "output_path": {
+            "type": "string",
+            "description": "Absolute path to tester ini configuration file in subfolder \\MQL5\\Profiles\\Tester where the generated tester configuration should be written."
+          }
+        },
+        "required": [
+          "mql5_program_path",
+          "output_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_prepare_inputs",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "mql5_program_path": {
+            "type": "string",
+            "description": "Absolute path to an existing compiled .ex5 used by the strategy tester. The path must be under an allowed read root returned by get_workspace_info."
+          },
+          "parameters": {
+            "type": "array",
+            "description": "List of mql5 program inputs in native SET format: name=value or name=value||start||step||stop||Y/N.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output_path": {
+            "type": "string",
+            "description": "Absolute path to the mql5 program parameter file (.set) in subfolder \\MQL5\\Profiles\\Tester where the generated file should be written."
+          }
+        },
+        "required": [
+          "mql5_program_path",
+          "parameters",
+          "output_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_get_report",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Identifier of a tester run returned by tester_run_backtest or tester_run_optimization."
+          },
+          "path": {
+            "type": "string",
+            "description": "Absolute destination path for saving the report. Required when file_format is xml; optional when file_format is json or omitted. The path must be under an allowed write root."
+          },
+          "file_format": {
+            "type": "string",
+            "description": "Report format: json or xml. Defaults to json. Report in json can be returned inline when path is omitted. Report in xml is available only as a saved file and requires path. Report in xml include input parameters. For tester_run_backtest the xml format is saved as xlsx."
+          }
+        },
+        "required": [
+          "run_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "tester_run_optimization",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "config_path": {
+            "type": "string",
+            "description": "Absolute path to tester optimization configuration file in subfolder \\MQL5\\Profiles\\Tester."
+          },
+          "inputs_path": {
+            "type": "string",
+            "description": "Absolute path to the Expert Advisor parameter file (.set) in subfolder \\MQL5\\Profiles\\Tester. If specified, instrument loads this file before starting the test. If this parameter is not provided, default settings are used."
+          },
+          "wait": {
+            "type": "boolean",
+            "description": "Wait until the optimization finishes before returning."
+          },
+          "timeout_sec": {
+            "type": "integer",
+            "description": "Maximum time, in seconds, to wait for the optimization to finish when wait is true. If the timeout expires, the tool returns while the optimization continues running in the background. This parameter does not limit or stop the optimization and is ignored when wait is false."
+          }
+        },
+        "required": [
+          "config_path"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_terminal_journal",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time filter in ISO format. Use local computer time in the terminal host current time zone."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time filter in ISO format. Use local computer time in the terminal host current time zone."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Optional maximum number of journal lines to return. Minimal value is 1."
+          },
+          "filter": {
+            "type": "string",
+            "description": "Optional case-sensitive substring used to filter journal lines. The value searched in both the source and message fields."
+          }
+        },
+        "required": [
+          "datetime_from",
+          "datetime_to"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_expert_journal",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "mql5_program_name": {
+            "type": "string",
+            "description": "Optional case-sensitive substring used to filter journal records by the source field. The value does not need to match the complete mql5 program name."
+          },
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time filter in ISO format. Use local computer time in the terminal host current time zone."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time filter in ISO format. Use local computer time in the terminal host current time zone."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Optional maximum number of journal lines to return. Minimal value is 1."
+          },
+          "filter": {
+            "type": "string",
+            "description": "Optional case-sensitive substring used to filter journal lines. The value searched in both the source and message fields."
+          }
+        },
+        "required": [
+          "datetime_from",
+          "datetime_to"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "get_tester_journal",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time filter in ISO format. Use local computer time in the terminal host current time zone."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time filter in ISO format. Use local computer time in the terminal host current time zone."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Optional maximum number of journal lines to return. Minimal value is 1."
+          },
+          "filter": {
+            "type": "string",
+            "description": "Optional case-sensitive substring used to filter journal lines. The value searched in both the source and message fields."
+          }
+        },
+        "required": [
+          "datetime_from",
+          "datetime_to"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "economic_calendar_list_countries",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "country_code": {
+            "type": "string",
+            "description": "Optional ISO 3166-1 alpha-2 Economic Calendar country code (use special code EU for European Union and WW for Worldwide), case-insensitive."
+          },
+          "country_id": {
+            "type": "string",
+            "description": "Optional Economic Calendar country id. Required non-negative unsigned integer represented as a decimal string. When supplied, returns only the country with this exact ID."
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "Optional ISO 4217 three-letter currency code (use special code ALL for Worldwide), used to filter countries, case-insensitive."
+          },
+          "filter": {
+            "type": "string",
+            "description": "Optional case-insensitive substring applied to country name, country code, currency code and url_name."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "economic_calendar_list_events_by_country",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "country_code": {
+            "type": "string",
+            "description": "Exact ISO 3166-1 alpha-2 Economic Calendar country code (use special code EU for European Union and WW for Worldwide), case-insensitive."
+          }
+        },
+        "required": [
+          "country_code"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "economic_calendar_list_events_by_currency",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "currency_code": {
+            "type": "string",
+            "description": "Exact ISO 4217 three-letter currency code (use special code ALL for Worldwide), used to filter countries, case-insensitive."
+          }
+        },
+        "required": [
+          "currency_code"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "economic_calendar_list_values",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_from": {
+            "type": "string",
+            "description": "Inclusive start time as ISO datetime. Supply a timezone-free datetime interpreted in the current trade-server timezone."
+          },
+          "datetime_to": {
+            "type": "string",
+            "description": "Exclusive end time as ISO datetime. Must be greater than datetime_from. Supply a timezone-free datetime interpreted in the current trade-server timezone."
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Optional Economic Calendar event id used to filter values. Required positive unsigned 64-bit integer represented as a decimal string."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of records to return. 1000 by default."
+          }
+        },
+        "required": [
+          "datetime_from",
+          "datetime_to"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "economic_calendar_list_values_last",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "change_id": {
+            "type": "string",
+            "description": "Economic Calendar database change ID. Provide zero value for change_id to get only the current change_id of the calendar database without list of events. Required non-negative unsigned 64-bit integer represented as a decimal string."
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Optional Economic Calendar event id used to filter values. Required positive unsigned 64-bit integer represented as a decimal string."
+          }
+        },
+        "required": [
+          "change_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "economic_calendar_get_value_by_id",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "value_id": {
+            "type": "string",
+            "description": "Exact Economic Calendar event value id. Required positive unsigned 64-bit integer represented as a decimal string."
+          }
+        },
+        "required": [
+          "value_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "economic_calendar_get_event_by_id",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "description": "Exact Economic Calendar event id. Required positive unsigned 64-bit integer represented as a decimal string."
+          }
+        },
+        "required": [
+          "event_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "market_book_subscribe",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name as available in the connected MetaTrader 5 terminal, for example EURUSD, XAUUSD or AAPL, depending on the broker symbol set. Matching should not use wildcards or partial names."
+          }
+        },
+        "required": [
+          "symbol"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "market_book_unsubscribe",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name as available in the connected MetaTrader 5 terminal, for example EURUSD, XAUUSD or AAPL, depending on the broker symbol set. Matching should not use wildcards or partial names."
+          }
+        },
+        "required": [
+          "symbol"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "market_book_get",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name as available in the connected MetaTrader 5 terminal, for example EURUSD, XAUUSD or AAPL, depending on the broker symbol set. Matching should not use wildcards or partial names."
+          }
+        },
+        "required": [
+          "symbol"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "profile_list",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "profile_add",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile_name": {
+            "type": "string",
+            "description": "Name of the chart profile to create or update. Use a file-name-safe profile name without directory components, path separators, or wildcard characters."
+          }
+        },
+        "required": [
+          "profile_name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "profile_apply",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile_name": {
+            "type": "string",
+            "description": "Exact name of an existing chart profile to apply. Matching is case-sensitive."
+          }
+        },
+        "required": [
+          "profile_name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "profile_delete",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile_name": {
+            "type": "string",
+            "description": "Exact name of the saved chart profile to delete. Matching is case-sensitive."
+          }
+        },
+        "required": [
+          "profile_name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "alerts_list",
+      "capability_classification": "read_candidate",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "alerts_update",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Positive alert ID returned by alerts_list. Range: 1..4294967295."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name in Market Watch."
+          },
+          "condition_operator": {
+            "type": "string",
+            "description": "lt or gt for price/volume; eq for time. The condition type cannot change."
+          },
+          "price": {
+            "type": "number",
+            "description": "Positive threshold for bid, ask or last conditions only."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Threshold from 0 to 1000000 for volume conditions only."
+          },
+          "hour": {
+            "type": "integer",
+            "description": "Local hour, 0..23, for time conditions only."
+          },
+          "minute": {
+            "type": "integer",
+            "description": "Local minute, 0..59, for time conditions only."
+          },
+          "sound_source_file": {
+            "type": "string",
+            "description": "For sound only: installed WAV basename without extension or allowed absolute lowercase .wav path. Empty selects the default sound."
+          },
+          "file_target": {
+            "type": "string",
+            "description": "For file only: allowed absolute path to an existing file. Requires shell execution permission."
+          },
+          "mail_template": {
+            "type": "string",
+            "description": "For mail only: non-empty message template, at most 511 UTF-16 code units."
+          },
+          "notification_text": {
+            "type": "string",
+            "description": "For notification only: text, may be empty, at most 511 UTF-16 code units."
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Minimum interval: 10, 30, 60, 180, 300 or 900 seconds."
+          },
+          "trigger_limit": {
+            "type": "integer",
+            "description": "Positive maximum trigger count; notification requires 1. Does not reset the current count."
+          },
+          "expiration": {
+            "type": "string",
+            "description": "Future local YYYY-MM-DDTHH:MM:SS without a time-zone suffix. An empty string removes expiration; omit to preserve it."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "alerts_create",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Exact symbol name in Market Watch."
+          },
+          "condition_type": {
+            "type": "string",
+            "description": "bid, ask, last, volume or time."
+          },
+          "condition_operator": {
+            "type": "string",
+            "description": "lt or gt for price/volume; eq for time."
+          },
+          "price": {
+            "type": "number",
+            "description": "Positive price threshold; required only for bid, ask or last."
+          },
+          "volume": {
+            "type": "number",
+            "description": "Non-negative volume threshold; required only for volume."
+          },
+          "hour": {
+            "type": "integer",
+            "description": "Local hour, 0..23; required only for time."
+          },
+          "minute": {
+            "type": "integer",
+            "description": "Local minute, 0..59; required only for time."
+          },
+          "action": {
+            "type": "string",
+            "description": "sound, file, mail or notification."
+          },
+          "sound_source_file": {
+            "type": "string",
+            "description": "For sound only: installed WAV basename without extension, or an allowed absolute path ending in .wav. Omit or use an empty string for the default sound."
+          },
+          "file_target": {
+            "type": "string",
+            "description": "Required for file: allowed absolute path to an existing file opened when the alert triggers. File action requires shell execution permission."
+          },
+          "mail_template": {
+            "type": "string",
+            "description": "Required for mail: message template, with subject and body separated by a newline. Maximum 511 UTF-16 code units."
+          },
+          "notification_text": {
+            "type": "string",
+            "description": "Required for notification: text appended to the generated alert condition and Bid/Ask. May be empty. Maximum 511 UTF-16 code units."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Enable immediately. Default true."
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Minimum interval: 10, 30, 60, 180, 300 or 900 seconds. Default 10."
+          },
+          "trigger_limit": {
+            "type": "integer",
+            "description": "Maximum trigger count. Default 1. Notification requires 1."
+          },
+          "expiration": {
+            "type": "string",
+            "description": "Future local time in YYYY-MM-DDTHH:MM:SS format, without a time-zone suffix. Omit or use an empty string for no expiration."
+          }
+        },
+        "required": [
+          "symbol",
+          "condition_type",
+          "condition_operator",
+          "action"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "alerts_delete",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Positive alert ID returned by alerts_list. Deletes only the specified alert. Range: 1..4294967295."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    },
+    {
+      "name": "alerts_set_enabled",
+      "capability_classification": "write_or_unverified",
+      "exposed_by_proxy": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Positive alert ID returned by alerts_list. Range: 1..4294967295."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "true to enable the alert, false to disable it."
+          }
+        },
+        "required": [
+          "id",
+          "enabled"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {}
+    }
+  ],
+  "authentication": "Bearer token in ignored root .env; no token recorded",
+  "metaeditor_status": "not_listening_22345",
+  "marketdata_status": "HTTP_401_without_credentials_no_authenticated_tools_verified",
+  "native_mcp_trading_allowed": true,
+  "proxy_trading_enabled": false
+}

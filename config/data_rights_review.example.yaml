@@ -1,0 +1,103 @@
+schema_version: 1
+policy_id: twelve-data-basic-owner-review
+version: PROPOSAL-REPLACE-AFTER-REVIEW
+provider: twelve_data
+account_fingerprint: null
+instruments:
+- EURUSD
+- XAUUSD
+reviewed_at: '2026-10-24T00:00:00Z'
+permissions:
+  retrieval:
+    status: confirmed
+    approved: false
+    evidence: https://twelvedata.com/pricing; technical non-display access is not
+      persistent-use approval
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  private_display:
+    status: prohibited
+    evidence: https://twelvedata.com/pricing; Basic non-display, Grow internal display
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  raw_cache:
+    status: unverified
+    evidence: https://twelvedata.com/terms; exact allowed retention duration unresolved
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  historical_storage:
+    status: unverified
+    evidence: https://twelvedata.com/terms; no approved duration for this application
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  ai_analysis:
+    status: unverified
+    evidence: https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage;
+      Basic scope unresolved
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  ml_training:
+    status: unverified
+    evidence: No affirmative Basic model-training permission established
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  derived_storage:
+    status: unverified
+    evidence: https://twelvedata.com/terms; reconstruction restriction needs application-specific
+      confirmation
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  persistent_collection:
+    status: unverified
+    evidence: No affirmative account-specific autonomous retention/research approval
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null
+  commercial_use:
+    status: prohibited
+    evidence: https://twelvedata.com/terms; free-tier commercial restriction
+    approved: false
+    approved_by: null
+    expires_at: null
+    evidence_kind: request_pending
+    evidence_artifact: null
+    evidence_sha256: null
+    permitted_retention_seconds: null

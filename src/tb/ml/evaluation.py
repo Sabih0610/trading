@@ -31,7 +31,7 @@ def render_ml_report(root: Path | None = None) -> str:
     )
     return f"""# P08 ML validation report
 
-This report makes no model-value claim. P07 found no eligible 2020-2024 XAUT history, so P08 has
+This report makes no model-value claim. Binance XAUT began after the existing holdout lock, so P08 has
 zero authentic labeled candidates. Available locked partitions are named from paths only and are
 not opened, trained on, calibrated on, or evaluated.
 
@@ -71,9 +71,10 @@ not opened, trained on, calibrated on, or evaluated.
 
 ## Verdict
 
-**REWORK / NOT EVALUABLE.** Add lawful, authentic pre-2025 XAUT candidate history, pass P02-P05
-lineage checks, then run one frozen P08 comparison. Do not use synthetic tests as performance
-evidence and do not access the locked final period for discovery.
+**REWORK / NOT EVALUABLE.** Pre-2025 Binance XAUT candidate history cannot exist. Freeze a separate
+prospective protocol and collect forward evidence, or research another instrument on its own
+verified venue history. Do not use synthetic tests as performance evidence or access the locked
+final period for discovery.
 """
 
 

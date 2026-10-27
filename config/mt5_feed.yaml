@@ -1,0 +1,14 @@
+# Market data only. Identity pins and terminal path belong in ignored root .env.
+poll_seconds: 5
+candle_poll_seconds: 60
+max_polls: 12
+max_rows: 200
+max_tick_age_seconds: 30
+stale_seconds: 120
+future_tolerance_seconds: 2
+reconnect_attempts: 3
+max_storage_mb: 512
+tick_history_seconds: 60
+symbols:
+  XAUUSD: XAUUSD
+  EURUSD: EURUSD

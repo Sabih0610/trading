@@ -1,0 +1,29 @@
+{
+  "phase": "P11b.1a-RC",
+  "original_worktrees": [
+    {
+      "branch": "codex/p11b-1a-genuine-ctrader",
+      "head": "cc5a4ea68691967c04b8dc8c69a50d8b35093111",
+      "preserved": true,
+      "protected_files": 4
+    },
+    {
+      "branch": "codex/p11b-2a-1-validation",
+      "head": "b56cfb1567604217eb7dd517ac207ec0c84b4ee8",
+      "preserved": true,
+      "protected_files": 0
+    },
+    {
+      "branch": "codex/p11b-2a-offline-paper",
+      "head": "47e74fca6ac54429789f8458db26f4a275065aa9",
+      "preserved": true,
+      "protected_files": 0
+    }
+  ],
+  "old_refs_unchanged": true,
+  "source_candidate_unchanged": true,
+  "review_only_branch_created": true,
+  "new_commit": false,
+  "new_tag": false,
+  "private_values_copied": false
+}

@@ -1,31 +1,493 @@
 {
-  "current_phase": "P10",
+  "current_phase": "P11b.1a-RC",
   "phases": {
-    "P00": {"title": "Bootstrap", "status": "done", "started_utc": "2026-10-20 22:29 UTC", "completed_utc": "2026-10-20 22:45 UTC", "commit": "phase-P00-done", "report": "reports/phases/P00.md", "review": "queued"},
-    "P01": {"title": "Asset registry, Shariah gate, risk config", "status": "done", "started_utc": "2026-10-20 22:45 UTC", "completed_utc": "2026-10-20 22:52 UTC", "commit": "phase-P01-done", "report": "reports/phases/P01.md", "review": "queued"},
-    "P02": {"title": "Historical market data", "status": "done", "started_utc": "2026-10-20 22:54 UTC", "completed_utc": "2026-10-21 01:02 UTC", "commit": "phase-P02-done", "report": "reports/phases/P02.md", "review": "queued"},
-    "P03": {"title": "Calendar and news", "status": "done", "started_utc": "2026-10-21 01:03 UTC", "completed_utc": "2026-10-21 01:20 UTC", "commit": "phase-P03-done", "report": "reports/phases/P03.md", "review": "queued"},
-    "P04": {"title": "Silver cleaning", "status": "done", "started_utc": "2026-10-21 01:22 UTC", "completed_utc": "2026-10-21 01:38 UTC", "commit": "phase-P04-done", "report": "reports/phases/P04.md", "review": "queued"},
-    "P05": {"title": "Feature engine", "status": "done", "started_utc": "2026-10-21 01:39 UTC", "completed_utc": "2026-10-21 01:55 UTC", "commit": "phase-P05-done", "report": "reports/phases/P05.md", "review": "queued"},
-    "P06": {"title": "Backtester and risk manager", "status": "done", "started_utc": "2026-10-21 01:56 UTC", "completed_utc": "2026-10-21 12:30 UTC", "commit": "phase-P06-done", "report": "reports/phases/P06.md", "review": "deferred_by_owner", "human_gate": true},
-    "P07": {"title": "Strategies and scenarios", "status": "done", "started_utc": "2026-10-21 20:46 UTC", "completed_utc": "2026-10-21 21:00 UTC", "commit": "phase-P07-done", "report": "reports/phases/P07.md", "review": "queued", "empirical_status": "blocked_on_data"},
-    "P08": {"title": "ML models", "status": "done", "started_utc": "2026-10-21 21:02 UTC", "completed_utc": "2026-10-21 21:38 UTC", "commit": "phase-P08-done", "report": "reports/phases/P08.md", "review": "queued", "empirical_status": "blocked_on_data"},
-    "P09": {"title": "Decision ledger and AI arena", "status": "done", "started_utc": "2026-10-21 21:39 UTC", "completed_utc": "2026-10-21 23:19 UTC", "commit": "phase-P09-done", "report": "reports/phases/P09.md", "review": "deferred_by_owner", "human_gate": true, "empirical_status": "blocked_on_data"},
-    "P10": {"title": "Dashboard", "status": "not_started"},
-    "P11": {"title": "Live data and paper trading", "status": "not_started"},
-    "P12": {"title": "Testnet execution", "status": "not_started", "human_gate": true, "needs_keys": ["BINANCE_TESTNET_API_KEY", "BINANCE_TESTNET_API_SECRET"]},
-    "P13": {"title": "Learning loop", "status": "not_started"},
-    "P14": {"title": "Demo month runbook", "status": "not_started"}
+    "P00": {
+      "title": "Bootstrap",
+      "status": "done",
+      "started_utc": "2026-10-20 22:29 UTC",
+      "completed_utc": "2026-10-20 22:45 UTC",
+      "commit": "phase-P00-done",
+      "report": "reports/phases/P00.md",
+      "review": "queued"
+    },
+    "P01": {
+      "title": "Asset registry, Shariah gate, risk config",
+      "status": "done",
+      "started_utc": "2026-10-20 22:45 UTC",
+      "completed_utc": "2026-10-20 22:52 UTC",
+      "commit": "phase-P01-done",
+      "report": "reports/phases/P01.md",
+      "review": "queued"
+    },
+    "P02": {
+      "title": "Historical market data",
+      "status": "done",
+      "started_utc": "2026-10-20 22:54 UTC",
+      "completed_utc": "2026-10-21 01:02 UTC",
+      "commit": "phase-P02-done",
+      "report": "reports/phases/P02.md",
+      "review": "queued"
+    },
+    "P03": {
+      "title": "Calendar and news",
+      "status": "done",
+      "started_utc": "2026-10-21 01:03 UTC",
+      "completed_utc": "2026-10-21 01:20 UTC",
+      "commit": "phase-P03-done",
+      "report": "reports/phases/P03.md",
+      "review": "queued"
+    },
+    "P04": {
+      "title": "Silver cleaning",
+      "status": "done",
+      "started_utc": "2026-10-21 01:22 UTC",
+      "completed_utc": "2026-10-21 01:38 UTC",
+      "commit": "phase-P04-done",
+      "report": "reports/phases/P04.md",
+      "review": "queued"
+    },
+    "P05": {
+      "title": "Feature engine",
+      "status": "done",
+      "started_utc": "2026-10-21 01:39 UTC",
+      "completed_utc": "2026-10-21 01:55 UTC",
+      "commit": "phase-P05-done",
+      "report": "reports/phases/P05.md",
+      "review": "queued"
+    },
+    "P06": {
+      "title": "Backtester and risk manager",
+      "status": "done",
+      "started_utc": "2026-10-21 01:56 UTC",
+      "completed_utc": "2026-10-21 12:30 UTC",
+      "commit": "phase-P06-done",
+      "report": "reports/phases/P06.md",
+      "review": "deferred_by_owner",
+      "human_gate": true
+    },
+    "P07": {
+      "title": "Strategies and scenarios",
+      "status": "done",
+      "started_utc": "2026-10-21 20:46 UTC",
+      "completed_utc": "2026-10-21 21:00 UTC",
+      "commit": "phase-P07-done",
+      "report": "reports/phases/P07.md",
+      "review": "queued",
+      "empirical_status": "blocked_on_data"
+    },
+    "P08": {
+      "title": "ML models",
+      "status": "done",
+      "started_utc": "2026-10-21 21:02 UTC",
+      "completed_utc": "2026-10-21 21:38 UTC",
+      "commit": "phase-P08-done",
+      "report": "reports/phases/P08.md",
+      "review": "queued",
+      "empirical_status": "blocked_on_data"
+    },
+    "P09": {
+      "title": "Decision ledger and AI arena",
+      "status": "done",
+      "started_utc": "2026-10-21 21:39 UTC",
+      "completed_utc": "2026-10-21 23:19 UTC",
+      "commit": "phase-P09-done",
+      "report": "reports/phases/P09.md",
+      "review": "deferred_by_owner",
+      "human_gate": true,
+      "empirical_status": "blocked_on_data"
+    },
+    "P09.5": {
+      "title": "Architecture alignment and safety hardening",
+      "status": "done",
+      "started_utc": "2026-10-22 17:36 UTC",
+      "report": "reports/phases/P09.5.md",
+      "review": "queued",
+      "empirical_status": "blocked_on_data",
+      "completed_utc": "2026-10-22 18:01 UTC",
+      "commit": "phase-P09.5-done",
+      "tests": {
+        "passed": 352,
+        "live_deselected": 3,
+        "warnings": 23
+      },
+      "external_orders_enabled": false
+    },
+    "P10": {
+      "title": "Read-only evidence dashboard",
+      "status": "done",
+      "started_utc": "2026-10-22 18:36 UTC",
+      "report": "reports/phases/P10.md",
+      "completed_utc": "2026-10-22 19:10 UTC",
+      "commit": "phase-P10-done",
+      "review": "queued",
+      "tests": {
+        "passed": 378,
+        "live_deselected": 3,
+        "warnings": 23
+      },
+      "external_orders_enabled": false
+    },
+    "P12": {
+      "title": "Separately reviewed demo-only gateways; optional stock paper",
+      "status": "not_started",
+      "human_gate": true,
+      "external_orders_enabled": false
+    },
+    "P13": {
+      "title": "Controlled offline learning and AI value evaluation",
+      "status": "not_started"
+    },
+    "P14": {
+      "title": "30+ day forward paper/demo evaluation",
+      "status": "not_started"
+    },
+    "P11a": {
+      "title": "Read-only MT5 feed and forward evidence",
+      "status": "done",
+      "started_utc": "2026-10-23 00:55 UTC",
+      "report": "reports/phases/P11a.md",
+      "external_orders_enabled": false,
+      "genuine_quote_status": "rejected_future_epoch; XAUUSD_quote_unavailable",
+      "completed_utc": "2026-10-23 01:36 UTC",
+      "commit": "phase-P11a-done",
+      "review": "queued",
+      "tests": {
+        "passed": 445,
+        "live_deselected": 3,
+        "warnings": 23
+      },
+      "native_mcp_verified": true,
+      "genuine_demo_identity_verified": true,
+      "qualified_forward_quotes": 0,
+      "terminal_current_status": "not_running_at_2026-10-23T01:41Z"
+    },
+    "P11b": {
+      "title": "Reference shadow research and future executable-data boundary",
+      "status": "in_progress",
+      "completed_subphases": [
+        "P11b.0",
+        "P11b.0.1",
+        "P11b.1",
+        "P11b.2a"
+      ],
+      "external_orders_enabled": false,
+      "genuine_shadow_status": "blocked_on_data_rights",
+      "next_subphase": "P11b.2b not_started and NO_GO; P11b.1a unfinished; independent review and separate owner scope required"
+    },
+    "P11a.1": {
+      "title": "MT5 feed recovery, security closure and data qualification",
+      "status": "done",
+      "started_utc": "2026-10-23 11:39 UTC",
+      "report": "reports/phases/P11a.1.md",
+      "external_orders_enabled": false,
+      "data_qualified": false,
+      "completed_utc": "2026-10-23 12:10 UTC",
+      "commit": "phase-P11a.1-done",
+      "review": "queued",
+      "p11b_go": false,
+      "security_qualified": true,
+      "qualified_forward_quotes": 0,
+      "tests": {
+        "passed": 483,
+        "live_deselected": 3,
+        "warnings": 23
+      }
+    },
+    "P11a.2": {
+      "title": "MT5 source-clock profiles and alternative data qualification",
+      "status": "done",
+      "started_utc": "2026-10-23 16:36 UTC",
+      "report": "reports/phases/P11a.2.md",
+      "external_orders_enabled": false,
+      "data_qualified": false,
+      "completed_utc": "2026-10-23 17:06 UTC",
+      "commit": "phase-P11a.2-done",
+      "review": "queued",
+      "p11b_by_instrument": {
+        "EURUSD": "NO-GO",
+        "XAUUSD": "NO-GO"
+      },
+      "tests": {
+        "passed": 523,
+        "live_deselected": 3,
+        "warnings": 23
+      }
+    },
+    "P11a.3": {
+      "title": "Twelve Data Basic read-only reference market feed",
+      "status": "done",
+      "started_utc": "2026-10-23 18:00 UTC",
+      "completed_utc": "2026-10-23 18:29 UTC",
+      "commit": "phase-P11a.3-done",
+      "report": "reports/phases/P11a.3.md",
+      "review": "queued",
+      "external_orders_enabled": false,
+      "p11b_started": false,
+      "source_data_by_instrument": {
+        "EURUSD": "QUALIFIED_BOUNDED_M1_REFERENCE",
+        "XAUUSD": "QUALIFIED_BOUNDED_M1_REFERENCE"
+      },
+      "qualified_forward_M1": {
+        "EURUSD": 4,
+        "XAUUSD": 4
+      },
+      "executable_bid_ask_available": false,
+      "realistic_paper_trading": "NO-GO",
+      "actual_plan": "basic",
+      "last_observed_daily_credits": 20,
+      "tests": {
+        "passed": 582,
+        "live_deselected": 3,
+        "warnings": 23
+      }
+    },
+    "P11b.0": {
+      "title": "Continuous reference-market shadow research engine",
+      "status": "done",
+      "started_utc": "2026-10-23 18:56 UTC",
+      "completed_utc": "2026-10-23 19:43 UTC",
+      "baseline_commit": "9d5c777b0e3fb8ca9df670b9d81d184904684645",
+      "branch": "codex/p11b-0-shadow-research",
+      "commit": "phase-P11b.0-done",
+      "report": "reports/phases/P11b.0.md",
+      "review": "queued",
+      "external_orders_enabled": false,
+      "genuine_collection_started": false,
+      "genuine_shadow_status": "blocked_on_data_rights",
+      "fixture_replay": {
+        "events": 128,
+        "decisions": 512,
+        "WAIT": 512,
+        "BUY": 0,
+        "SELL": 0,
+        "blocked": 384,
+        "controls": 128,
+        "recovery_duplicates": 128,
+        "directional_samples": 0
+      },
+      "account_fills_created": 0,
+      "positions_created": 0,
+      "models_trained": 0,
+      "tests": {
+        "passed": 641,
+        "live_deselected": 3,
+        "warnings": 23,
+        "duration_seconds": 89.53
+      },
+      "quality_gates": "ruff/format/strict_mypy/full_pytest/paper_smoke_passed",
+      "optional_mt5_sdk_restored": "5.0.6231",
+      "unattended_task_installed": false,
+      "p11b1_started": false
+    },
+    "P11b.1": {
+      "title": "Read-only broker quotes, contracts and readiness",
+      "status": "done",
+      "started_utc": "2026-10-25 00:28 UTC",
+      "branch": "codex/p11b-1-broker-quotes",
+      "baseline": "15f9a80",
+      "application_baseline": "e537d56",
+      "report": "reports/phases/P11b.1.md",
+      "genuine_connectivity": "unverified",
+      "external_orders_authorized": false,
+      "completed_utc": "2026-10-25 01:11 UTC",
+      "commit": "phase-P11b.1-done",
+      "review": "queued",
+      "tests_passed": 758,
+      "live_deselected": 3,
+      "existing_warnings": 23,
+      "pytest_seconds": 133.02,
+      "empirical_status": "genuine_access_scope_rights_contracts_costs_unverified",
+      "genuine_observations": 0,
+      "owned_raw_updates": 10,
+      "owned_quotes": 8,
+      "owned_reference_links": 8,
+      "p11b2": "NO-GO",
+      "p11b2_implemented": false,
+      "source_code_digest": "76169873c7ca996a04c4ecced6a6d5f3482c59dff92a11f5124ff39cff63b732",
+      "owned_snapshot_sha256": "01809f0ecb6247d31b7ebaa3e41e45654a9d28a8fc14c711b76224944494dfd3"
+    },
+    "P11b.0.1": {
+      "title": "Gold and forex price-only shadow strategies",
+      "status": "done",
+      "started_utc": "2026-10-24 01:37 UTC",
+      "report": "reports/phases/P11b.0.1.md",
+      "external_orders_enabled": false,
+      "completed_utc": "2026-10-24 02:07 UTC",
+      "commit": "phase-P11b.0.1-done",
+      "branch": "codex/p11b-0-1-price-only",
+      "baseline_commit": "45a6d5f7c94e619313e9c7c4c43a04a2c82d931d",
+      "review": "queued",
+      "genuine_collection_started": false,
+      "genuine_rights_status": "unverified; no affirmative approvals installed",
+      "p11b1_started": false,
+      "tests": {
+        "passed": 685,
+        "live_deselected": 3,
+        "warnings": 23,
+        "duration_seconds": 110.18
+      },
+      "owned_evidence": {
+        "events": 2556,
+        "decisions": 15336,
+        "BUY": 18,
+        "SELL": 16,
+        "WAIT": 15302,
+        "blocked": 7668,
+        "control": 2556,
+        "available_directional_samples": 34,
+        "available_future_labels": 94,
+        "data_gaps": 2
+      },
+      "orders_created": 0,
+      "fills_created": 0,
+      "positions_created": 0,
+      "market_models_trained": 0,
+      "optional_mt5_sdk_restored": "5.0.6231"
+    },
+    "P11b.2a": {
+      "title": "Offline paper trading, risk validation and recovery",
+      "status": "done",
+      "started_utc": "2026-10-27 00:56 UTC",
+      "baseline": "cc5a4ea68691967c04b8dc8c69a50d8b35093111",
+      "external_orders_enabled": false,
+      "genuine_sources_enabled": false,
+      "report": "reports/phases/P11b.2a.md",
+      "completed_utc": "2026-10-27 01:35 UTC",
+      "commit": "phase-P11b.2a-done",
+      "review": "queued",
+      "tests": {
+        "passed": 826,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 175.71
+      },
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_paper_smoke_passed",
+      "owned_studies": 14,
+      "owned_inputs": 3811,
+      "hypothetical_fills": 16,
+      "engineering_closed_trades": 8,
+      "p11b1a_preserved": true,
+      "p11b2b_started": false,
+      "source_code_digest": "b12c6d37dea32195a9d314727b36ef17a64cf98c864c1378ea69fae57e666d41",
+      "snapshot_sha256": "31b8a042fc7695f5d887e6aaf2f311729572d2676f4244e06816975f807b3317"
+    },
+    "P11b.1a": {
+      "title": "Genuine cTrader demo connectivity and broker quote qualification",
+      "status": "pending_external_authorization",
+      "worktree_preserved": true,
+      "merged": false,
+      "genuine_connectivity": "unverified",
+      "note": "RC reviewed unchanged source b669d43; actual app approval, exact redirect acceptance, view-only consent and genuine account/rights/clock/metadata evidence remain external. Original checkout/private files preserved."
+    },
+    "P11b.2a.1": {
+      "title": "Independent paper-engine validation, Windows CI and integration readiness",
+      "status": "done",
+      "completed_utc": "2026-10-27 06:42 UTC",
+      "baseline": "47e74fca6ac54429789f8458db26f4a275065aa9",
+      "branch": "codex/p11b-2a-1-validation",
+      "commit": "phase-P11b.2a.1-done",
+      "report": "reports/phases/P11b.2a.1.md",
+      "review": "queued",
+      "tests": {
+        "passed": 853,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 159.24
+      },
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_paper_smoke_owned_acceptance_passed",
+      "defects_corrected": 4,
+      "owned_studies": 14,
+      "owned_inputs": 3811,
+      "hypothetical_fills": 16,
+      "original_snapshot_byte_replay_identical": true,
+      "p11b1a_preserved": true,
+      "hosted_ci_run": false,
+      "ci_owner_gate_required": true,
+      "p11b2b_started": false,
+      "external_orders_enabled": false,
+      "genuine_sources_enabled": false,
+      "source_code_digest": "f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5"
+    },
+    "P11b.1a-prep": {
+      "title": "Secure cTrader OAuth onboarding preparation, offline only",
+      "status": "done",
+      "completed_utc": "2026-10-27 10:11 UTC",
+      "baseline": "b56cfb1567604217eb7dd517ac207ec0c84b4ee8",
+      "branch": "codex/p11b-1a-prep",
+      "commit": "phase-P11b.1a-prep-done",
+      "report": "reports/phases/P11b.1a-prep.md",
+      "review": "queued",
+      "tests": {
+        "passed": 937,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 234.2
+      },
+      "new_tests": 84,
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_smoke_owned_rehearsals_passed",
+      "original_worktrees_preserved": true,
+      "private_credentials_copied": false,
+      "genuine_authentication": false,
+      "genuine_token_exchange": false,
+      "genuine_connectivity": "unverified",
+      "external_orders_enabled": false,
+      "hosted_ci_activated": false,
+      "p11b2b_started": false
+    },
+    "P11b.1a-RC": {
+      "title": "Release candidate integration and readiness review",
+      "status": "done",
+      "review_only": true,
+      "reviewed_utc": "2026-10-27 10:59 UTC",
+      "candidate_commit": "b669d430148ba0bb67c9f46f7560341a52165ff1",
+      "candidate_tag": "phase-P11b.1a-prep-done",
+      "branch": "codex/p11b-1a-rc",
+      "report": "reports/phases/P11b.1a-RC.md",
+      "review": "queued",
+      "implementation_changes": 0,
+      "new_commit": false,
+      "new_tag": false,
+      "review_documents_uncommitted": false,
+      "tests": {
+        "passed": 937,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 248.63
+      },
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_smoke_owned_rehearsal_paper_regressions_passed",
+      "full_owned_oauth_rehearsal": true,
+      "owned_paper_cases": 14,
+      "states_match_validated_baseline": true,
+      "original_worktrees_preserved": true,
+      "exact_portal_redirect_acceptance": "unverified",
+      "genuine_p11b1a_go": false,
+      "genuine_p11b2b_go": false,
+      "hosted_ci_activated": false,
+      "external_orders_enabled": false,
+      "publication_authorized": true,
+      "publication_branch": "codex/shared-research",
+      "original_candidate_preserved": true,
+      "public_history_raw_mt5_payloads_omitted": true,
+      "new_commit_context": "RC review created no source commit; subsequent owner-authorized documentation/publication commits are separate."
+    }
   },
-  "allowed_status": ["not_started", "in_progress", "done", "blocked_on_keys", "blocked_on_review", "blocked_on_data", "failed"],
+  "allowed_status": [
+    "not_started",
+    "in_progress",
+    "done",
+    "blocked_on_keys",
+    "blocked_on_review",
+    "blocked_on_data",
+    "failed"
+  ],
   "background_jobs": [
     {
       "phase": "P02",
       "name": "full_history_download",
       "status": "blocked_on_data",
       "required_bytes": 778560000000,
-      "free_bytes": 117969121280,
-      "command": "pwsh -NoProfile -File .\\scripts\\download-history.ps1 -Sources binance,dukascopy -From 2020-10-01 -To 2026-10-21 -Resume -BronzeRoot F:\\trading-data\\bronze"
+      "free_bytes": 527810879488,
+      "reason": "Legacy broad plan retired; scope a smaller lawful dataset before any transfer. No bulk transfer authorized in P09.5."
     },
     {
       "phase": "P03",
@@ -35,5 +497,31 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-21 23:19 UTC"
+  "last_updated_utc": "2026-10-27 11:13 UTC",
+  "next_phase": "Review shared branch codex/shared-research; ongoing validated task commits/pushes authorized. Original local refs preserved; do not publish original diagnostic history. Genuine P11b.1a/P11b.2b NO_GO; hosted CI inactive.",
+  "audits": {
+    "third_party_repository_adoption": {
+      "status": "done",
+      "completed_utc": "2026-10-24 02:24 UTC",
+      "review": "queued",
+      "branch": "codex/third-party-adoption-audit",
+      "requested_baseline": "45a6d5f7c94e619313e9c7c4c43a04a2c82d931d",
+      "source_baseline": "e537d563c151f548bdf983652cf25114172e5ac2",
+      "report": "reports/reviews/third-party-repository-adoption.md",
+      "backlog": "docs/third-party-adoption-backlog.md",
+      "upstreams_inspected": 10,
+      "next_phase_proposals": [
+        "A1 offline Windows CI",
+        "A2 bounded local source map"
+      ],
+      "recommendations_implemented": false,
+      "tests_passed": 685,
+      "live_deselected": 3,
+      "warnings": 23,
+      "pytest_seconds": 123.74,
+      "orders_authorized": false,
+      "paid_services_used": false,
+      "source_files_pinned": 101
+    }
+  }
 }

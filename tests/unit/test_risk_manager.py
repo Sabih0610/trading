@@ -53,8 +53,9 @@ def test_risk_sizing_matches_hand_calculation() -> None:
     decision = RiskManager().evaluate_entry(_request(), _state())
 
     assert decision.approved
-    assert decision.quantity == Decimal("50")
-    assert decision.risk_amount == Decimal("100")
+    # $50 budget / $2.2772008 all-in loss per unit, including both fees.
+    assert float(decision.quantity) == pytest.approx(21.956781325564263)
+    assert decision.risk_amount == Decimal("50")
 
 
 @pytest.mark.parametrize(
@@ -117,8 +118,8 @@ def test_maximum_filters_tighten_quantity() -> None:
     decision = RiskManager(_bundle_with_rules(rules)).evaluate_entry(_request(), _state())
 
     assert decision.approved
-    assert decision.quantity == Decimal("10")
-    assert decision.risk_amount == Decimal("20")
+    assert decision.quantity == Decimal("9.9")
+    assert decision.risk_amount == Decimal("22.54428792")
 
 
 def test_partial_fill_is_rounded_and_capped_by_market_rules() -> None:

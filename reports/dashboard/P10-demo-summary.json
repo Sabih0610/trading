@@ -1,0 +1,145 @@
+{
+  "mode": "synthetic",
+  "empirical_trials": 0,
+  "accounts": [
+    {
+      "id": "btc-profit",
+      "currency": "USDT",
+      "mode": "synthetic",
+      "metrics": {
+        "equity": "100.9485691012298152362891452",
+        "cash": "100.9485691012298152362891452",
+        "realized_pnl": "0.94856910122981523628914518",
+        "unrealized_pnl": "0",
+        "return_pct": "0.948569101229815236289145200",
+        "trade_count": 1,
+        "win_rate_pct": "100",
+        "profit_factor": null,
+        "max_drawdown_pct": "0.10164349716180254",
+        "issue": null
+      },
+      "decisions": {
+        "accepted": 1,
+        "skipped": 1
+      }
+    },
+    {
+      "id": "gold-gap",
+      "currency": "USD",
+      "mode": "synthetic",
+      "metrics": {
+        "equity": "2798.55995200",
+        "cash": "2798.55995200",
+        "realized_pnl": "-7201.44004800",
+        "unrealized_pnl": "0",
+        "return_pct": "-72.0144004800",
+        "trade_count": 1,
+        "win_rate_pct": "0",
+        "profit_factor": "0E+8",
+        "max_drawdown_pct": null,
+        "issue": null
+      },
+      "decisions": {
+        "accepted": 1
+      }
+    },
+    {
+      "id": "eur-profit",
+      "currency": "USD",
+      "mode": "synthetic",
+      "metrics": {
+        "equity": "10032.75629200000",
+        "cash": "10032.75629200000",
+        "realized_pnl": "32.75629200000",
+        "unrealized_pnl": "0",
+        "return_pct": "0.32756292000",
+        "trade_count": 1,
+        "win_rate_pct": "100",
+        "profit_factor": null,
+        "max_drawdown_pct": null,
+        "issue": null
+      },
+      "decisions": {
+        "accepted": 1
+      }
+    },
+    {
+      "id": "gold-small",
+      "currency": "USD",
+      "mode": "synthetic",
+      "metrics": {
+        "equity": "100",
+        "cash": "100",
+        "realized_pnl": "0",
+        "unrealized_pnl": "0",
+        "return_pct": "0",
+        "trade_count": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "max_drawdown_pct": null,
+        "issue": null
+      },
+      "decisions": {
+        "rejected": 1
+      }
+    },
+    {
+      "id": "eur-small",
+      "currency": "USD",
+      "mode": "synthetic",
+      "metrics": {
+        "equity": "100",
+        "cash": "100",
+        "realized_pnl": "0",
+        "unrealized_pnl": "0",
+        "return_pct": "0",
+        "trade_count": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "max_drawdown_pct": null,
+        "issue": null
+      },
+      "decisions": {
+        "rejected": 1
+      }
+    },
+    {
+      "id": "ai-veto",
+      "currency": "USDT",
+      "mode": "synthetic",
+      "metrics": {
+        "equity": "100",
+        "cash": "100",
+        "realized_pnl": "0",
+        "unrealized_pnl": "0",
+        "return_pct": "0",
+        "trade_count": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "max_drawdown_pct": null,
+        "issue": null
+      },
+      "decisions": {
+        "vetoed": 1
+      }
+    },
+    {
+      "id": "empty",
+      "currency": "USDT",
+      "mode": "synthetic",
+      "metrics": {
+        "equity": "100",
+        "cash": "100",
+        "realized_pnl": "0",
+        "unrealized_pnl": "0",
+        "return_pct": "0",
+        "trade_count": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "max_drawdown_pct": null,
+        "issue": null
+      },
+      "decisions": {}
+    }
+  ]
+}

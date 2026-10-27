@@ -1,0 +1,35 @@
+schema_version: 1
+policy_id: ctrader-demo-owner-review-required
+version: "1.0.0"
+provider: ctrader_demo
+account_fingerprint: null
+instruments: [EURUSD, XAUUSD]
+reviewed_at: "2026-10-25T00:00:00Z"
+permissions:
+  retrieval:
+    status: unverified
+    evidence: "Exact demo account, OAuth accounts scope and broker data entitlement not verified"
+  private_display:
+    status: unverified
+    evidence: "Separate private display permission required"
+  raw_cache:
+    status: unverified
+    evidence: "Documentary broker/account-specific permission and retention required"
+  historical_storage:
+    status: unverified
+    evidence: "No inferred archive or persistence license from API connectivity"
+  derived_storage:
+    status: unverified
+    evidence: "Quote alignment and derived research retention require affirmative approval"
+  persistent_collection:
+    status: unverified
+    evidence: "Only a separately reviewed finite read-only smoke may be considered"
+  ai_analysis:
+    status: prohibited
+    evidence: "Not requested or enabled in P11b.1"
+  ml_training:
+    status: prohibited
+    evidence: "Not requested or enabled in P11b.1"
+  commercial_use:
+    status: prohibited
+    evidence: "No commercial data-use approval"

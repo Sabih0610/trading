@@ -8,6 +8,8 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from tb.backtest.costs import CostAssumptions
+from tb.risk.account import equity_breach
 from tb.risk.config import (
     AssetDefinition,
     PolicyBundle,
@@ -41,6 +43,8 @@ class RejectionCode(StrEnum):
     NO_CAPACITY = "no_capacity"
     QUANTITY_FILTER = "quantity_filter"
     NOTIONAL_FILTER = "notional_filter"
+    PEAK_DRAWDOWN = "peak_drawdown"
+    POSITION_LIMIT = "position_limit"
 
 
 class EntryRequest(BaseModel):
@@ -55,6 +59,7 @@ class EntryRequest(BaseModel):
     stop_price: Decimal = Field(gt=0)
     requested_quantity: Decimal | None = Field(default=None, gt=0)
     market: str = "spot"
+    price_is_fill: bool = False
 
 
 class RiskState(BaseModel):
@@ -70,6 +75,8 @@ class RiskState(BaseModel):
     start_of_day_equity: Decimal = Field(gt=0)
     completed_trades_today: int = Field(ge=0)
     kill_switch: bool = False
+    peak_equity: Decimal | None = Field(default=None, gt=0)
+    open_positions: int = Field(default=0, ge=0)
 
 
 class RiskDecision(BaseModel):
@@ -108,7 +115,9 @@ class RiskManager:
     def __init__(self, bundle: PolicyBundle | None = None) -> None:
         self.bundle = load_policy_bundle() if bundle is None else bundle
 
-    def evaluate_entry(self, request: EntryRequest, state: RiskState) -> RiskDecision:
+    def evaluate_entry(
+        self, request: EntryRequest, state: RiskState, *, costs: CostAssumptions | None = None
+    ) -> RiskDecision:
         """Approve the maximum safe buy quantity or return one reason code."""
 
         if state.kill_switch:
@@ -135,6 +144,20 @@ class RiskManager:
         except RiskViolation as exc:
             return _reject(RejectionCode.SESSION_POLICY, str(exc))
         limits = effective_risk_limits(asset, self.bundle.risk.limits)
+        breach = equity_breach(
+            min(state.equity, state.start_of_day_equity + state.realized_pnl_day),
+            state.start_of_day_equity,
+            state.peak_equity or state.start_of_day_equity,
+            limits,
+        )
+        if breach is not None:
+            return _reject(RejectionCode(breach), "Account net-equity shutdown")
+        if (
+            state.open_positions >= limits.max_open_positions
+            or state.current_holdings > 0
+            or state.current_exposure > 0
+        ):
+            return _reject(RejectionCode.POSITION_LIMIT, "One simultaneous position is permitted")
         try:
             check_daily_loss(
                 state.realized_pnl_day,
@@ -150,7 +173,16 @@ class RiskManager:
         if request.stop_price >= request.entry_price:
             return _reject(RejectionCode.STOP_INVALID, "Long entry stop must be below entry")
 
-        stop_distance = request.entry_price - request.stop_price
+        friction = CostAssumptions.from_asset(asset) if costs is None else costs
+        entry_price = (
+            request.entry_price
+            if request.price_is_fill
+            else friction.entry_price(request.entry_price)
+        )
+        stop_exit = friction.exit_price(request.stop_price)
+        stop_distance = (
+            entry_price - stop_exit + friction.fee(entry_price) + friction.fee(stop_exit)
+        )
         risk_budget = state.equity * limits.risk_per_trade_pct / Decimal("100")
         quantity = risk_budget / stop_distance
         exposure_capacity = max(
@@ -158,7 +190,9 @@ class RiskManager:
             Decimal("0"),
         )
         quantity = min(
-            quantity, exposure_capacity / request.entry_price, state.cash / request.entry_price
+            quantity,
+            exposure_capacity / (entry_price + stop_distance),
+            state.cash / (entry_price + friction.fee(entry_price)),
         )
         if request.requested_quantity is not None:
             quantity = min(quantity, request.requested_quantity)
@@ -172,11 +206,15 @@ class RiskManager:
                 return _reject(RejectionCode.QUANTITY_FILTER, "Quantity is below the minimum")
             if rules.max_qty is not None and quantity > rules.max_qty:
                 quantity = _round_quantity(rules.max_qty, asset)
-            notional = quantity * request.entry_price
+            notional = quantity * entry_price
             if rules.min_notional is not None and notional < rules.min_notional:
                 return _reject(RejectionCode.NOTIONAL_FILTER, "Notional is below the minimum")
             if rules.max_notional is not None and notional > rules.max_notional:
-                quantity = _round_quantity(rules.max_notional / request.entry_price, asset)
+                quantity = _round_quantity(rules.max_notional / entry_price, asset)
+            if rules.min_qty is not None and quantity < rules.min_qty:
+                return _reject(RejectionCode.QUANTITY_FILTER, "Capped quantity is below minimum")
+            if rules.min_notional is not None and quantity * entry_price < rules.min_notional:
+                return _reject(RejectionCode.NOTIONAL_FILTER, "Capped notional is below minimum")
         risk_amount = quantity * stop_distance
         if quantity <= 0:
             return _reject(RejectionCode.NO_CAPACITY, "Exchange caps leave no executable quantity")

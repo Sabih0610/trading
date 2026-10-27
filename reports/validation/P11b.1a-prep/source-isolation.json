@@ -1,0 +1,77 @@
+{
+  "phase": "P11b.1a-prep",
+  "protected_sources": [
+    {
+      "path": "src/tb/ingest/broker/models.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "4aaedce0458dbabbbec663a3db530b0169eaaf4674fa1bb68d051f6ac6f34891"
+    },
+    {
+      "path": "src/tb/ingest/broker/ctrader.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "5900eb1688ef0cb5f82c05c89aee94ce82e31d32ae2f40b83a477c0a6bc81f31"
+    },
+    {
+      "path": "src/tb/ingest/broker/transport.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "20284b4ade603c264246ebe1241ae37219688bf13bcfcf229378a859651404bd"
+    },
+    {
+      "path": "src/tb/ingest/rights.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "6b72d8a4d889437d16b00d52554d4573368836a99bea361f3d963c5b9eaafabb"
+    },
+    {
+      "path": "src/tb/ingest/rights_review.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "c1e86a8ad072ecd9b80f5162d22f88f7158c8e7885575a7d3b30f11e0b92d293"
+    },
+    {
+      "path": "src/tb/ledger/store.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "e7de5c4634c8c141322ed5a76210e132370acc825e30219ab2ec8543c2ad4c98"
+    },
+    {
+      "path": "src/tb/paper/simulation.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "1d039e6cb6b6a2f1e24994d30d2869833781b12e3d85e4ecc816d10d9d81d2b6"
+    },
+    {
+      "path": "src/tb/dashboard/app.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "f42ab180ce928d520f09992853ecb2301ede22ecdda8282748f9d2df9e365ae9"
+    },
+    {
+      "path": "tests/conftest.py",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "dca716015671632a08f88f2e17ed5611324b769d153b664c748eac24f8df9caa"
+    },
+    {
+      "path": "config/risk.yaml",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "4e6c73cdf5044a314323980c58363eebe558d6d80589e26d5891e11cd7fa7927"
+    },
+    {
+      "path": "pyproject.toml",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "03e5416b74b51cd77fd413d0c2b20577e1e5b78b1dc657da1981e6b193ce7e9d"
+    },
+    {
+      "path": "uv.lock",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "d63db6aa486f31a0ea7e3c3a2641efecaae816f98c3e5daf7e24a58169053f09"
+    },
+    {
+      "path": ".github/workflows/offline-quality.yml",
+      "unchanged_from_validated_baseline": true,
+      "sha256": "c61872c7dee96fd194d040f77c09187f57acc8f2837cc80f09b1273f64955e5b"
+    }
+  ],
+  "external_execution_introduced": false,
+  "onboarding_existing_protocol_kinds": [
+    2100,
+    2149,
+    2102,
+    2121
+  ]
+}

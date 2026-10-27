@@ -1,0 +1,34 @@
+{
+  "data_qualified": false,
+  "existing_codex_stdio_session": "two_read_calls_refused; cause_unverified",
+  "external_orders_enabled": false,
+  "fresh_boundary_client": "passed",
+  "identity": {
+    "broker": "MetaQuotes Ltd.",
+    "currency": "USD",
+    "environment": "demo",
+    "fingerprint": "2699de315a804b2779e7c994d2593d921086999d55c8d8f659cf838a25248e8d",
+    "server": "MetaQuotes-Demo",
+    "terminal_build": 6281,
+    "verified_at": "2026-10-23T12:11:43.604853Z"
+  },
+  "native_catalog_count": 107,
+  "observed_at": "2026-10-23T12:11:43.604853+00:00",
+  "proxy_exposed_tools": [
+    "get_marketwatch_symbols",
+    "get_time_information",
+    "get_trading_account_info",
+    "terminal_get_info"
+  ],
+  "quote_samples_collected": 0,
+  "sdk_demo_identity": "passed",
+  "terminal": {
+    "build": 6281,
+    "connection": {
+      "state": "synchronized"
+    },
+    "dangerous_shell_tool_available": false,
+    "native_mcp_trading_permission": false,
+    "proxy_trading_enabled": false
+  }
+}

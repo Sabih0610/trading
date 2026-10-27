@@ -1,0 +1,110 @@
+{
+  "synthetic": true,
+  "external_orders": 0,
+  "original_snapshot_sha256": "31b8a042fc7695f5d887e6aaf2f311729572d2676f4244e06816975f807b3317",
+  "original_byte_replay_identical": true,
+  "original_code_sha256": "b12c6d37dea32195a9d314727b36ef17a64cf98c864c1378ea69fae57e666d41",
+  "validation_code_sha256": "f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5",
+  "studies": [
+    {
+      "name": "ema_rising",
+      "events": 272,
+      "state_sha256": "974628adff27ecf6c53588b82283a73f2172716fc6b62c17583344e8d3da5591",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10029.8719040"
+    },
+    {
+      "name": "channel_breakout",
+      "events": 272,
+      "state_sha256": "e3b7d455a78bd44559319bd49e39bb0baf8b807c6fa5ff56197a7bdafee26bd4",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10033.6553920"
+    },
+    {
+      "name": "falling",
+      "events": 272,
+      "state_sha256": "3fa0ff04296fd21040a09a5f1b12ed1e1e4b184bd913d1af21f72025448cb83c",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10000"
+    },
+    {
+      "name": "sideways",
+      "events": 272,
+      "state_sha256": "6af2eb2b9b2e10a20d1a34002e54f93fe70f477eea9d21774104db674e08e7da",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10000"
+    },
+    {
+      "name": "gold_reversal",
+      "events": 272,
+      "state_sha256": "e1cce17bb7e40ddbf0833ccfa7ff2de41bb882ed9ff06f550a90defd74020c08",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "9983.98488"
+    },
+    {
+      "name": "sell_close",
+      "events": 272,
+      "state_sha256": "a6cc379f0fb7e39ffdf46c3ea6acd27751b32b0f88c65859bae36e302a97a188",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "9995.9558600"
+    },
+    {
+      "name": "take_profit",
+      "events": 272,
+      "state_sha256": "f3fa44068adf47146eee859436dea933511d67522527b1a4368f1bde2bdb03ab",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10029.8719040"
+    },
+    {
+      "name": "stop_gap",
+      "events": 273,
+      "state_sha256": "7a3597ce5ada40d7d6ea937c62430ee7cd771f3a8389dc9b897ffb180968acf1",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "9757.8991040"
+    },
+    {
+      "name": "daily_halt",
+      "events": 273,
+      "state_sha256": "63b5a844812960840c89a82931598f9bf9f1b4429c1b6d6b62adef1cf581f6d0",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "9757.8991040"
+    },
+    {
+      "name": "peak_shutdown",
+      "events": 273,
+      "state_sha256": "34b7bf676f071d7b54cfb5b8b09b0ecb532e8dca874246334db752d8df42fe5f",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "9197.9551040"
+    },
+    {
+      "name": "missed_fills",
+      "events": 272,
+      "state_sha256": "43ba949b4b90d73d0076b2f1598580cef28119e569a39e884befba01c20e6447",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10000"
+    },
+    {
+      "name": "stale_quotes",
+      "events": 272,
+      "state_sha256": "1aa18a7238c4401865489b17ad303e51bdf0df397d26faf865264fec390b9c63",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10000"
+    },
+    {
+      "name": "partial_sides",
+      "events": 272,
+      "state_sha256": "9b1fccdba8a3ce884b3a572b98d99052144c82e28667e34f5beb3512f8e29a9e",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10000"
+    },
+    {
+      "name": "session_closed",
+      "events": 272,
+      "state_sha256": "b4b20d7c8f1adf2506f9e03293d93fb5542c997b0e169068354199d4aed9fa84",
+      "identical_state_fills_chain_tail": true,
+      "engineering_cash": "10000"
+    }
+  ],
+  "events": 3811,
+  "fills": 16
+}

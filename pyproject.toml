@@ -18,12 +18,19 @@ dependencies = [
     "rich==15.0.0",
     "scikit-learn==1.9.1",
     "shap==0.54.1",
+    "streamlit==1.66.1",
     "typer==0.27.3",
+    "websockets==17.3",
     "tzdata==2026.5",
 ]
 
 [project.scripts]
 tb = "tb.cli:app"
+
+[project.optional-dependencies]
+mt5 = [
+    "metatrader5==5.0.6231 ; sys_platform == 'win32'",
+]
 
 [build-system]
 requires = ["uv_build>=0.13.3,<0.14.0"]

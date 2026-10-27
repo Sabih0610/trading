@@ -1,0 +1,27 @@
+{
+  "phase": "P11b.1a-prep",
+  "original_worktrees": [
+    {
+      "branch": "codex/p11b-1a-genuine-ctrader",
+      "head": "cc5a4ea68691967c04b8dc8c69a50d8b35093111",
+      "preserved": true,
+      "protected_file_count": 4
+    },
+    {
+      "branch": "codex/p11b-2a-1-validation",
+      "head": "b56cfb1567604217eb7dd517ac207ec0c84b4ee8",
+      "preserved": true,
+      "protected_file_count": 0
+    },
+    {
+      "branch": "codex/p11b-2a-offline-paper",
+      "head": "47e74fca6ac54429789f8458db26f4a275065aa9",
+      "preserved": true,
+      "protected_file_count": 0
+    }
+  ],
+  "original_private_acl_owner_system_only": true,
+  "private_values_copied": false,
+  "private_values_disclosed": false,
+  "real_credentials_in_prep_root": false
+}

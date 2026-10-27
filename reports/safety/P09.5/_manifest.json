@@ -1,0 +1,9 @@
+{
+  "checksum": "db0a62ba0503cf331b8095156bd4a8156cb161b0e1ca666fa65cdae3ac76a7ca",
+  "code_version": "p09.5-v1",
+  "row_count": 20,
+  "source": "P09.5 synthetic fixtures",
+  "synthetic": true,
+  "time_end": "2024-01-02T12:03:00+00:00",
+  "time_start": "2024-01-02T12:00:00+00:00"
+}

@@ -1,5 +1,43 @@
 # Data dictionary
 
+## P11b.1a-Prep private onboarding state
+
+These fields persist only in root .env with owner/SYSTEM ACLs. No values belong in datasets,
+reports, screenshots, runtime evidence or dashboard projections. New names in .env.example are empty.
+
+| Field group | Meaning / boundary |
+|---|---|
+| CTRADER_DEMO_CLIENT_ID / CLIENT_SECRET | Existing private application credentials; never copied by prep. Missing keys disable setup. |
+| CTRADER_DEMO_ACCOUNT_ID / BROKER_PIN | Independently selected one-demo identity; not automatic discovery or account switching. |
+| CTRADER_DEMO_APPLICATION_APPROVED / OAUTH_ENABLED | Separate human attestation/enable flags; default disabled. Explicit after-approval invocation also required; CI rejects real transport. |
+| CTRADER_DEMO_OAUTH_REDIRECT_URI / OAUTH_CALLBACK_STATE | Private exact one-use registered capability path; prepared → spent before browser, consumed after verified storage. Spent/used/crashed sessions require a fresh URI. No conventional state/PKCE assumption. |
+| CTRADER_DEMO_ACCESS_TOKEN / REFRESH_TOKEN / TOKEN_ISSUED_AT / ACCESS_EXPIRES_AT / TOKEN_TYPE | Complete private pair plus returned lifetime/UTC metadata, one atomic update. Codes are memory-only, never stored. Manual refresh only; uncertainty requires owner recovery. |
+| CTRADER_DEMO_TOKEN_PERMISSION / ACCOUNT_ACCESS_RIGHTS | Token scope and account rights are distinct enums; only actual SCOPE_VIEW accepted. FULL_ACCESS is not an application permission. |
+| CTRADER_DEMO_ACCOUNT_FINGERPRINT / VERIFIED_BROKER / OAUTH_APPLICATION_BINDING / OAUTH_VERIFIED_AT | Private proof/pin binding from verified token/account responses and owner confirmation. No quote/data-rights/eligibility claim. |
+| Inert status / owned rehearsal summary | Non-sensitive booleans/counts only. Synthetic rehearsal never reads real .env or proves genuine connectivity. |
+
+## P11a.3 reference market data
+
+Provider namespace `twelve_data` reuses the existing immutable Bronze/Silver/checkpoint schema;
+`twelve_data_synthetic` is a separate dashboard fixture namespace. No historical reader or final
+holdout authorization is expanded. Raw payloads and numeric price exports remain Git-ignored.
+
+`Observation.kind=reference` carries `reference_price`, never bid/ask. All Twelve Data rows use
+`source_provider=twelve_data`, `price_type=reference_midpoint`, `source_timezone=UTC`, preserved
+`raw_source_time` (rate Unix timestamp or M1 open string), and optional
+`source_metadata_timezone` (null when the actual Forex metadata omits it). No broker clock stamp.
+M1 `interval_complete` is elapsed interval completion at receipt, not a provider finality claim.
+Incomplete rows stay backfill; completed forward rows require new run coverage and timely receipt.
+`volume_kind=unavailable`: tick/real volume, spread and broker quote sides remain null.
+
+`ReferenceIdentity` identifies a Basic reference-data source, not a demo brokerage account.
+`ReferenceExport` records independent instrument counts/readiness, references/completed bars,
+collection/session times, stopped/running status, actual usage and UTC checks. Qualification
+requires at least three distinct prospective completed M1 openings spanning 120s; exported claims
+must contain that evidence. `price_display_authorized=false` and
+`long_term_storage_authorized=false` are explicit limits. Recorded qualification and current
+freshness differ. No execution, contract sizing, model approval or P&L is inferred.
+
 This dictionary describes the P02 Bronze contracts. Bronze preserves published values wherever possible and adds only an explicit nanosecond UTC time field. P04 will create cleaned and aligned Silver schemas without modifying these files.
 
 ## Common manifest (`*_manifest.json`)
@@ -217,3 +255,153 @@ warmup/confirmation is not complete or the source input is unavailable.
 
 The Gold manifest fields are `schema_version`, `input_path`, `lineage_sha256`, `output_sha256`,
 `rows`, `byte_count`, `feature_set_version`, `feature_versions`, and `generated_at`.
+
+## P11a market-feed evidence
+
+Raw JSON/Parquet and BronzeManifest live in `data/bronze/mt5_feed/<session>/<batch>/`;
+validated records mirror into `data/silver/mt5_feed/`. The session/checkpoint ledger is separate
+from trading journals. Records retain canonical/broker symbol, quote/tick/candle kind, timeframe,
+source/receipt UTC, bid/ask or OHLC, source volume/spread/flags and explicit evidence classification.
+Candle tick volume is broker activity; quote/tick trade-volume semantics remain unverified.
+`forward_observed`, `historical_backfill`, `historical_research` and `synthetic` are distinct.
+Completed forward candles also record coverage_started_at. Old source facts deduplicate without
+using receipt time or evidence labels as identity. No gap filling or guessed broker time correction.
+
+Batch commit records bind file hashes, source code version, immutable session start, origin,
+receipt and row/duplicate/evidence counts. Only database-committed batches advance checkpoints.
+Small pointer/checksum-verified exports under `reports/market_feed/genuine` or `synthetic` drive
+read-only monitoring and never combine with account P&L. Current quote admission remains failed
+for the inspected genuine source; diagnostics are not historical research or trading evidence.
+
+## P11a.1 acquisition diagnostics
+
+`reports/mt5/P11a.1-*.json` stores timestamped demo fingerprint, raw integer seconds/milliseconds and exact UTC interpretations, receipt/monotonic duration, independent UTC references, native safety and unqualified M1 tails. These are diagnostic facts, not admitted market history. Quote counts are per explicit sampling run: attempts, received, valid, rejected, missing, duplicate, source updates and unique qualified forward quotes; admission probes are excluded. `rejected_by_reason` gives rejection counts. `AdmissionCheck` is strict boolean, fingerprint-bound and fresh for at most 60s. Dashboard snapshots add collection start/end, counts, admission, observed connection and coverage label; older snapshots default to unverified. Full market tick coverage is never implied. Ephemeral `_accepted_rows` exist only in a commit return value, not its immutable manifest.
+
+## P11a.2 source clocks and provider provenance
+
+`ClockProfile`: immutable versioned provider/broker/server/environment/build/instrument scope, source semantics, effective UTC periods or reviewed IANA zone, authoritative evidence hashes/reviewer, validation counts/time window/residual/reference sources, expiry and refresh conditions. UNVERIFIED/PROVISIONAL do not normalize; VERIFIED requires proof; EXPIRED/INVALID refuse. Fixture validation cannot enable genuine adapters. Historical applicability differs from current profile freshness.
+
+`Observation.clock_stamp`: original representation/raw interpretation, normalized UTC, profile ID/content digest, conversion rule, provider/server/public identity. Legacy records default null and are never rewritten. Raw-source dedup excludes mutable profile/result fields, so profile changes do not manufacture new observations. `AdmissionCheck.instruments` independently masks each symbol; common security/host-clock/identity failure blocks all. Practice authorization is separate from native MT5 permission fields.
+
+`oanda_practice` namespace reuses Bronze/Silver/checkpoints/manifests but stays outside historical ingestion and MT5 namespaces. OANDA unit constraints are not MT5 lot metadata. OANDA bid candles use broker price-update activity volume, not global market volume. Mock adapter rows remain synthetic. Read-only snapshots add clock_profiles, clock_diagnostics and instrument readiness; provider selection appears only for indexed configured data.
+
+## P11b.0 reference shadow evidence
+
+`DataRights` has policy/schema versions, exact provider/account fingerprint/instruments, reviewed
+UTC time and per-usage status (`confirmed`, `unverified`, `prohibited`, `expired`). Status and
+approval are distinct: an admitted usage needs explicit approval, reviewer, evidence and finite
+unexpired expiry. `SHADOW_USAGES` covers retrieval, raw cache, history, derived storage and
+persistent collection. AI analysis and ML training are separate unused gates. Policy digest is
+part of the immutable study pin; no credential value is stored in the public policy or pin.
+
+`SourcePin` binds owned-fixture/genuine mode, provider, public identity, producer/consumer code,
+config and rights hashes. `ShadowEvent` binds exact M5 midpoint evidence ID, committed source
+manifest path/hash and original Observation. Its interval identity ignores later receipt/price
+changes so revisions cannot replace a frozen interval decision.
+
+| ResearchDecision field | Meaning |
+|---|---|
+| `source_open_at`, `source_close_at` | UTC M5 interval endpoints; never decision availability. |
+| `received_at`, `information_available_at` | Actual source receipt and admitted availability. |
+| `decision_at` | Processing/decision UTC at or after receipt, including measured computation. |
+| `signal`, `status`, `reasons` | BUY/SELL/WAIT research direction; candidate/blocked/control and explicit reasons. No order instruction. |
+| `features`, `features_sha256` | Frozen causal price-only inputs and hash; missing volume/session/HTF remain unavailable. |
+| `strategy_version`, `feature_version`, `source_version`, `consumer_version`, `rights_digest` | Exact reproducibility and permission lineage. |
+| `execution_eligible`, `risk_sizing`, `advisory` | Fixed false / unavailable executable facts / disabled model. |
+| `runtime_milliseconds` | Measured local processing duration; not provider or execution latency. |
+
+The isolated shadow SQLite journal appends event, decisions and hash-linked checkpoint in one
+transaction. Health includes run start/stop/recovery, duplicates/revisions, refusal and heartbeat.
+Later labels append fixed same-source future reference direction without altering original inputs;
+WAIT controls are not directional samples. This schema has no balances, positions, fills or P&L.
+
+`ShadowSnapshot` is a bounded price-free projection: provenance, source readiness, latest UTC
+candle/receipt/decision, counts, blockers, health, quota projection, observation/runtime lag,
+versions and unavailable outcomes. `snapshots/current.json` names an immutable file and SHA256.
+Fixture and genuine exports remain distinct; the dashboard never reads raw feature inputs.
+
+## P11b.0.1 price-only research fields
+
+Optional shared reference feature version2.0.0 adds `reference_ema_fast`, `reference_ema_slow`
+(first-close recursive EMA), `reference_contiguous_bars`, `reference_close`, strictly prior-window
+`prior_channel_high`/`prior_channel_low`, and `prior_atr14` from the existing shared Wilder state.
+The current candle is appended after channel thresholds are calculated. Gap reset clears all
+lookback and suppression state. These numeric inputs stay in the local rights-gated journal;
+they are not exposed by the public dashboard projection.
+
+`ResearchDecision` adds exact `strategy_config`/SHA256 and warming_up/filtered/ready states.
+Candidate BUY/SELL remains a directional hypothesis with execution_eligible=false, unavailable
+funded sizing and disabled advisory. Indexed decision UTC uses fixed six-digit microseconds;
+legacy stored payloads are never rewritten. New config2.0.0 explicitly admits six strategy records
+per event; legacy configuration defines four. Exact source/config/version changes refuse old
+journal reuse rather than migrating it silently.
+
+`EvaluationProtocol` is frozen in the new journal metadata before scoring: version, selected
+1/3/6-M5 horizons, flat threshold bps and minimum descriptive non-overlap count. Future labels
+store the original decision hash, committed future evidence IDs, evaluation start/end/availability,
+UP/DOWN/FLAT, directional correctness, matched always-UP/previous-move outcomes and a per-group
+non-overlap flag. WAIT abstains. Missing/pending counts do not become incorrect outcomes.
+`available_directional_samples` counts scenario-specific decisions with labels;
+`available_future_labels` counts all horizon labels, which are not independent observations.
+
+Price-free snapshots add `strategy_states`, `evaluation`, `recent_labels` and the frozen protocol.
+Column allowlists refuse raw price/account fields. Strategy readiness includes contiguous bars,
+required warm-up, reason and version. Evaluations group by symbol/strategy/horizon and mark all
+owned outcomes synthetic-only; no trade profit, balance, fill or investment recommendation.
+
+Permission metadata adds documentary kind, project-relative evidence artifact/SHA256 and explicit
+`permitted_retention_seconds`. Request-pending evidence cannot permit use. The offline review
+workflow validates scope/reviewer/expiry/document integrity; explicit apply installs only a new
+public policy version. No provider confirmation or approval is inferred. Finite genuine run
+preflight requires all three storage retention durations to exceed run length by five minutes;
+retention disposal remains a separately reviewed owner duty, with no automatic deletion here.
+
+
+## P11b.1 broker quote evidence (data only)
+
+`BrokerIdentity` pins ctrader_demo, fixed demo server, fingerprint, broker, denomination,
+SCOPE_VIEW and checked-at/evidence mode. Owned identity is never a genuine account qualification.
+`BrokerQuoteSource` exposes connection/identity/metadata/read/close facts only, with no sender.
+
+| Field group | Semantics |
+|---|---|
+| `source_at`, `received_at`, `raw_timestamp`, `original_timestamp`, `source_timezone` | Explicit source epoch-ms contract and actual pre-buffer wire receipt UTC; original timestamp representation retained. No guessed offsets. |
+| `bid_source_at`, `ask_source_at`, `bid_received_at`, `ask_received_at` | Independently timed sides; unchanged side keeps its old timestamps. Both must remain fresh. |
+| `bid_relative`, `ask_relative`, `bid`, `ask`, `raw_event` | Exact protocol 1/100000 price values and Decimal sides; raw original update contains only present fields. No synthetic opposite side or source sequence. |
+| `event_id`, `metadata_digest`, `rights_digest`, `rights_status` | Content-derived duplicate ID, metadata/rights versions and scoped-confirmation admission state. Receipt cannot create new source evidence. |
+| `price_type`, `evidence` | Indicative bid/ask and owned_fixture/genuine kept distinct; no fill implication. |
+| `BrokerContract.native_contract`, `native_costs` | Present raw financial fields preserved; cents-based volume/lot values normalize to units. Missing fields remain unknown. Digits provide a precision quantum, not confirmed economic tick size/value. |
+| `Qualification` | Independent market/contract/cost/funded-minimum/legal/Shariah states. Before-cost floor differs from known-cost total capital. Local simulation remains false and P11b.2 NO-GO. |
+| `ReferenceQuoteLink` | Original reference ID/version/provider/decision time, broker source/receipt times, delay/freshness/spread or explicit refusal. Both sides available after decision; no execution/account state. |
+
+`BrokerObservation` extends the existing Observation with explicit ctrader_demo provider,
+`broker_record_id` and full typed `broker_record_json`. FeedStore uses separate ctrader_demo
+Bronze/Silver/checkpoint paths; DecisionLedger observations and broker input/hash checkpoint join
+one FULL-sync transaction. Raw partial/refused updates remain raw evidence; only normalized
+admissible quotes enter quote counts. Authentication/token/account-ID responses are excluded.
+
+Genuine rights require the same documentary approval/hash/expiry/retention workflow under an
+explicit broker provider argument. Existing Twelve Data apply scope remains unchanged. Private
+UI projection withholds prices and reconstructible notional when display is not approved; mode,
+source and hashes are checked, with genuine rights before opening snapshot data. No account P&L.
+
+## P11b.2a owned offline paper evidence
+
+All records have owned_fixture input provenance and owned_offline_paper account/evidence mode.
+No financial value below can be relabelled as a genuine broker account or empirical return series.
+
+| Record / field | Meaning |
+|---|---|
+| PaperPackage | Immutable synthetic contracts, side/fee/slippage assumptions, reference strategy/rights versions, finite bounds and disabled external orders. Separate source/code/risk pins. |
+| PaperInput.id / raw / received_at | Deterministic local identity; original present quote-side fields/source epoch and independent receipt UTC, or original frozen ResearchDecision. Revised frozen inputs refuse. |
+| PaperOrder | Local entry, signal_exit or standing protection; pending/rejected/expired/filled/cancelled, reason, created/expiry clocks, lots, reservation, cap and planned loss. |
+| PaperPosition | Owned long, entry cash/fee/price, lots, protective ID/brackets and management clock. No unowned positions or broker identifiers. |
+| PaperAccount.cash / reserved | Full account cash and its reserved subset; spendable balance is cash minus reserved. Reservation is not a second cash debit or reduction in equity. |
+| equity / realized_pnl / unrealized_pnl | Net liquidation equity includes explicit exit costs. Equity minus initial cash reconciles to realized plus unrealized when marks exist; missing marks remain unavailable. |
+| fees / slippage / quoted_spread_cost | Charged cash fees plus diagnostic adverse price/quoted-spread burdens already embedded in prices. Do not deduct diagnostics again. |
+| safety / entries_today | Shared SafetyState day baseline, peak and persistent daily/peak latches; shared per-symbol entry counts. |
+| hypothetical_fill | Stable fill/order/input/quote identities, actual owned side/source/receipt/intention clocks, lots/units/price, fee, cash delta and diagnostic costs. Not an external execution. |
+| paper_events | Append-only raw input, effects, account state, payload/state hashes and previous-derived chain. Same transaction as DecisionLedger decisions. |
+| paper_recoveries / interventions | Stable checkpoint-bound recovery proof and matching append-only DecisionLedger intervention. Repeated reconciliation does not duplicate it. |
+| inputs.manifest.json / paper.manifest.json | Owned source bytes/counts/package version and account/code/risk pins. Corruption/change refuses rather than migrates. |
+| reports/offline_paper/current.json | Hash pointer to an immutable bounded owned projection; read-only UI verifies checkpoint/ledger and independently sums fill cash flows. |

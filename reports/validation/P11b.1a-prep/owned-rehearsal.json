@@ -1,0 +1,10 @@
+{
+  "mode": "OWNED OFFLINE OAUTH REHEARSAL",
+  "fake_loopback_token_requests": 1,
+  "permission_view_verified": true,
+  "account_enum_separate": true,
+  "private_atomic_storage": true,
+  "genuine_provider_calls": 0,
+  "quotes_collected": 0,
+  "external_orders": 0
+}

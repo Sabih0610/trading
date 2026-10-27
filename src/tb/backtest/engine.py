@@ -11,6 +11,7 @@ from itertools import pairwise
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator
 
 from tb.backtest.costs import CostAssumptions
+from tb.risk.account import AccountCircuitBreaker, SafetyState
 from tb.risk.config import AssetDefinition
 from tb.risk.guards import OrderSide, assert_tradable
 from tb.risk.manager import EntryRequest, RejectionCode, RiskManager, RiskState
@@ -250,6 +251,10 @@ class BacktestEngine:
         start_day_equity = self.initial_cash
         realized_day = Decimal("0")
         entries_today = 0
+        circuit = AccountCircuitBreaker(
+            SafetyState(day=active_day, day_start=cash, peak=cash),
+            self.risk_manager.bundle.risk.limits,
+        )
 
         def reject(timestamp: datetime, code: str, detail: str) -> None:
             rejections.append(
@@ -311,6 +316,14 @@ class BacktestEngine:
                 realized_day = Decimal("0")
                 entries_today = 0
             kill_active = self.kill_switch_at is not None and bar.timestamp >= self.kill_switch_at
+            liquidation = cash
+            if position is not None:
+                proceeds = position.quantity * self.costs.exit_price(bar.open)
+                liquidation += proceeds - self.costs.fee(proceeds)
+            account_halt = circuit.observe(bar.timestamp, liquidation)
+            if position is not None and position.quantity * bar.open > liquidation:
+                account_halt = account_halt or "exposure"
+            kill_active = kill_active or account_halt is not None
             if kill_active:
                 if position is not None:
                     close_position(bar, bar.open, ExitReason.KILL_SWITCH)
@@ -346,42 +359,72 @@ class BacktestEngine:
                     )
                     if touched and raw_fill is not None:
                         fill_price = self.costs.entry_price(raw_fill)
-                        fee_rate = self.costs.stressed_fee_bps / Decimal("10000")
-                        cash_quantity = cash / (fill_price * (Decimal("1") + fee_rate))
-                        volume_quantity = bar.volume * pending_signal.participation_rate
-                        proposed_quantity = min(
-                            pending.approved_quantity, cash_quantity, volume_quantity
-                        )
-                        fill_decision = self.risk_manager.constrain_fill(
-                            self.symbol,
-                            proposed_quantity,
-                            fill_price,
-                            market_order=pending_signal.order_type is EntryOrderType.MARKET,
-                        )
-                        if fill_decision.approved:
-                            quantity = fill_decision.quantity
-                            notional = quantity * fill_price
-                            entry_fee = self.costs.fee(notional)
-                            cash_out = notional + entry_fee
-                            cash -= cash_out
-                            position = _Position(
-                                quantity=quantity,
-                                entry_time=bar.timestamp,
+                        refreshed = self.risk_manager.evaluate_entry(
+                            EntryRequest(
+                                symbol=self.symbol,
+                                side=pending_signal.side,
+                                timestamp=bar.timestamp,
                                 entry_price=fill_price,
-                                entry_fee=entry_fee,
-                                entry_cash_out=cash_out,
                                 stop_price=pending_signal.stop_price,
-                                target_price=pending_signal.target_price,
-                                entry_index=index,
-                                max_holding_bars=pending_signal.max_holding_bars,
-                            )
-                            entries_today += 1
+                                requested_quantity=pending.approved_quantity,
+                                price_is_fill=True,
+                            ),
+                            RiskState(
+                                equity=cash,
+                                cash=cash,
+                                current_exposure=Decimal("0"),
+                                current_holdings=Decimal("0"),
+                                realized_pnl_day=realized_day,
+                                start_of_day_equity=start_day_equity,
+                                completed_trades_today=entries_today,
+                                peak_equity=circuit.state.peak,
+                            ),
+                            costs=self.costs,
+                        )
+                        if not refreshed.approved:
+                            code = refreshed.reason_code or RejectionCode.NO_CAPACITY
+                            reject(bar.timestamp, code.value, refreshed.detail or "Fill rejected")
                             pending = None
-                            process_exit(bar)
+                        elif pending_signal.target_price <= fill_price:
+                            reject(bar.timestamp, "target_invalid", "Gap exceeds planned target")
+                            pending = None
                         else:
-                            code = fill_decision.reason_code or RejectionCode.NO_CAPACITY
-                            reject(bar.timestamp, code.value, fill_decision.detail or "No fill")
-                            pending = None
+                            fee_rate = self.costs.stressed_fee_bps / Decimal("10000")
+                            cash_quantity = cash / (fill_price * (Decimal("1") + fee_rate))
+                            volume_quantity = bar.volume * pending_signal.participation_rate
+                            proposed_quantity = min(
+                                refreshed.quantity, cash_quantity, volume_quantity
+                            )
+                            fill_decision = self.risk_manager.constrain_fill(
+                                self.symbol,
+                                proposed_quantity,
+                                fill_price,
+                                market_order=pending_signal.order_type is EntryOrderType.MARKET,
+                            )
+                            if fill_decision.approved:
+                                quantity = fill_decision.quantity
+                                notional = quantity * fill_price
+                                entry_fee = self.costs.fee(notional)
+                                cash_out = notional + entry_fee
+                                cash -= cash_out
+                                position = _Position(
+                                    quantity=quantity,
+                                    entry_time=bar.timestamp,
+                                    entry_price=fill_price,
+                                    entry_fee=entry_fee,
+                                    entry_cash_out=cash_out,
+                                    stop_price=pending_signal.stop_price,
+                                    target_price=pending_signal.target_price,
+                                    entry_index=index,
+                                    max_holding_bars=pending_signal.max_holding_bars,
+                                )
+                                entries_today += 1
+                                pending = None
+                                process_exit(bar)
+                            else:
+                                code = fill_decision.reason_code or RejectionCode.NO_CAPACITY
+                                reject(bar.timestamp, code.value, fill_decision.detail or "No fill")
+                                pending = None
 
             proposed_exit = exit_by_time.get(bar.timestamp)
             if proposed_exit is not None:
@@ -435,7 +478,9 @@ class BacktestEngine:
                                 start_of_day_equity=start_day_equity,
                                 completed_trades_today=entries_today,
                                 kill_switch=kill_active,
+                                peak_equity=circuit.state.peak,
                             ),
+                            costs=self.costs,
                         )
                         if decision.approved:
                             pending = _PendingEntry(
@@ -448,6 +493,20 @@ class BacktestEngine:
                             code = decision.reason_code or RejectionCode.NO_CAPACITY
                             reject(bar.timestamp, code.value, decision.detail or "Rejected")
 
+            liquidation = cash
+            if position is not None:
+                proceeds = position.quantity * self.costs.exit_price(bar.close)
+                liquidation += proceeds - self.costs.fee(proceeds)
+            account_halt = circuit.observe(bar.timestamp, liquidation)
+            if position is not None and position.quantity * bar.close > liquidation:
+                account_halt = account_halt or "exposure"
+            if account_halt is not None:
+                if position is not None:
+                    close_position(bar, bar.close, ExitReason.KILL_SWITCH)
+                if pending is not None:
+                    reject(bar.timestamp, account_halt, "Pending entry canceled by account halt")
+                    pending = None
+                reject(bar.timestamp, account_halt, "Net-equity circuit breaker latched")
             next_day = index + 1 == len(bars) or bars[index + 1].timestamp.date() != active_day
             if next_day and position is not None:
                 close_position(bar, bar.close, ExitReason.END_OF_DAY)
@@ -464,7 +523,13 @@ class BacktestEngine:
                     cash=cash,
                     holdings=holdings,
                     close=bar.close,
-                    equity=cash + exposure,
+                    equity=(
+                        cash
+                        if position is None
+                        else cash
+                        + holdings * self.costs.exit_price(bar.close)
+                        - self.costs.fee(holdings * self.costs.exit_price(bar.close))
+                    ),
                     exposure=exposure,
                 )
             )

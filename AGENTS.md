@@ -1,11 +1,24 @@
 # AGENTS.md — Project rules for every coding agent (Codex, Claude Code)
 
-Project root: `E:\trading bot` (Windows 11, PowerShell 7). The path contains a SPACE: always quote paths
+Resolve the project root from the checkout (Windows 11, PowerShell 7). Paths may contain a SPACE: always quote paths
 in PowerShell, Python, configs and docs. Never hard-code absolute paths; resolve from the repo root.
 
 ## 1. What this project is
 A Shariah-compliant, intraday, AI-assisted trading system. It is research-first: nothing trades real money
 until it has passed backtests, scenario tests, and at least 30 days of paper trading.
+
+P09.5 owner direction (2026-10-22): one modular research/paper platform, initially XAUUSD and
+EURUSD local contract simulation, retaining Binance Spot research. Contract simulations are fully
+funded accounting exercises, not owned physical gold/FX or Shariah certification. Data-only
+instruments may enter only the explicitly enabled research/local simulation boundary; existing
+Spot execution guards remain mandatory. No external demo or live orders are authorized in P09.5.
+Research/paper defaults tighten to 0.5% all-in planned risk, 2% daily net equity loss, 5% peak equity
+drawdown, at most 1x exposure and one position. Never move the 2025+ final holdout to manufacture history.
+
+P11b.2a owner direction (2026-10-27): a separate owned-only Offline Paper Lab may report
+hypothetical local cash, positions, fills and P&L under the existing funded risk policy. Genuine
+provider inputs and external orders remain disabled. Preserve the unfinished P11b.1a checkout;
+P11b.2b genuine integration requires separate authorization and verified rights/metadata/clocks.
 
 ## 2. Non-negotiable trading rules (enforce in code AND tests)
 - Venue for execution: Binance **spot only**. No futures, perpetuals, options, margin, borrowing,
@@ -79,3 +92,11 @@ Follow `docs/DOCUMENTATION_STANDARD.md`: live journal per phase, decision log, r
 phase reports, how-to guides, and the living files PROGRESS.md, CHANGELOG.md, docs/HANDOFF.md,
 docs/pending.md, docs/review_queue.md, docs/state/progress.json. Work must be resumable from
 HANDOFF.md at any time. To run all phases automatically, follow `prompts/RUN_ALL.md`.
+
+## 10. Shared Git workflow (owner direction, 2026-10-27)
+- Commit and push completed, validated work to this repository with understandable messages.
+- Follow `CONTRIBUTING.md`; fetch first, use task branches, and preserve coworkers' unfinished files.
+- Do not force-push, automatically merge `main`, or publish old local branches/tags containing
+  unreviewed diagnostic data. The cleaned shared baseline is `codex/shared-research`.
+- Hosted CI remains inactive; use `[skip ci]` on publication heads and `--no-follow-tags` until
+  its separate activation. Publishing does not authorize providers, orders or subsequent phases.

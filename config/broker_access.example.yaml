@@ -1,0 +1,13 @@
+# Public evidence only. This example approves nothing; credentials belong only in root .env.
+broker_pin: unconfigured
+symbols:
+  EURUSD: EURUSD
+  XAUUSD: XAUUSD
+pakistan_demo_verified: false
+no_funding_verified: false
+application_approved: false
+source_clock_verified: false
+independent_utc_checked_at: null
+evidence_reference: null
+evidence_sha256: null
+expires_at: null

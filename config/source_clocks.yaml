@@ -1,0 +1,18 @@
+# Public reviewable profiles; secrets and account pins remain in ignored .env.
+# No verified MetaQuotes-Demo offset/DST contract has been established.
+profiles:
+  - profile_id: metaquotes-demo-unverified.v1
+    provider: mt5_demo
+    broker: MetaQuotes Ltd.
+    server: MetaQuotes-Demo
+    environment: demo
+    instruments: [EURUSD, XAUUSD]
+    builds: [6281]
+    semantics: broker_wall_epoch
+    state: UNVERIFIED
+    issued_at: '2026-10-23T00:00:00Z'
+    expires_at: '2026-11-01T00:00:00Z'
+    refresh_conditions:
+      - Authoritative exact-server SDK/tick/candle UTC and DST specification required
+      - Repeated independent UTC agreement required before VERIFIED review
+      - Build/server/source-clock change or provider notice invalidates admission

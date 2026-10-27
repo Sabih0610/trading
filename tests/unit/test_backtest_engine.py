@@ -71,10 +71,10 @@ def test_stop_wins_when_stop_and_target_are_touched_in_same_bar() -> None:
 
     trade = result.trades[0]
     assert trade.exit_reason is ExitReason.STOP
-    assert trade.quantity == Decimal("20")
+    assert float(trade.quantity) == pytest.approx(9.48226456200851)
     assert trade.entry_price == Decimal("100.0400")
     assert trade.exit_price == Decimal("94.9620")
-    assert trade.pnl == Decimal("-105.4600400")
+    assert float(trade.pnl) == pytest.approx(-50.0)
 
 
 def test_gap_through_stop_uses_adverse_open() -> None:
@@ -219,15 +219,14 @@ def test_daily_loss_blocks_later_entry() -> None:
         )
         for minute in (0, 2, 4, 6)
     ]
-    bars = [
-        _bar(minute, low="98", high="101", close="99") if minute % 2 else _bar(minute)
-        for minute in range(8)
-    ]
+    # A gap beyond the planned stop causes >2% actual equity loss despite 0.5% planned risk.
+    bars = [_bar(minute, low="99.5") for minute in range(8)]
+    bars[2] = _bar(2, open_price="94", high="95", low="93", close="94")
 
     result = BacktestEngine("BTCUSDT", initial_cash=Decimal("1000")).run(bars, signals)
 
-    assert len(result.trades) == 3
-    assert all(trade.exit_reason is ExitReason.STOP for trade in result.trades)
+    assert len(result.trades) == 1
+    assert result.trades[0].exit_reason is ExitReason.KILL_SWITCH
     assert any(item.reason_code == "daily_loss" for item in result.rejections)
 
 

@@ -1,0 +1,600 @@
+{
+  "alternatives": {
+    "oanda_practice": {
+      "clock_profile": "not_genuinely_verified",
+      "credentials_present": false,
+      "genuine_connection": "not_attempted; region/API/rights approval unverified",
+      "note": "Official v20 excludes Global Markets/TMS; no account created",
+      "pakistan_access": "UNVERIFIED"
+    },
+    "separate_mt5_demo": {
+      "candidate": "Pepperstone",
+      "clock_profile": "no exact server/build/SDK validation; published US-DST +2/+3 not applied to MetaQuotes",
+      "genuine_connection": "not_configured_or_attempted",
+      "pakistan_access": "current demo/research access UNVERIFIED; dated official affiliate list includes Pakistan"
+    }
+  },
+  "clock_diagnostics": [
+    {
+      "Market": "XAUUSD",
+      "Native wall text (zone unverified)": null,
+      "Normalized UTC": null,
+      "Raw epoch as UTC (unqualified)": null,
+      "Raw minus receipt seconds": null,
+      "Receipt UTC": null,
+      "SDK minus MCP wall seconds (sequential)": null
+    },
+    {
+      "Market": "EURUSD",
+      "Native wall text (zone unverified)": "2026-10-23T19:51:46",
+      "Normalized UTC": null,
+      "Raw epoch as UTC (unqualified)": "2026-10-23T19:51:46.316000+00:00",
+      "Raw minus receipt seconds": 10800.012004,
+      "Receipt UTC": "2026-10-23T16:51:46.303996+00:00",
+      "SDK minus MCP wall seconds (sequential)": 0.316
+    }
+  ],
+  "extended_collection_started": false,
+  "external_orders_enabled": false,
+  "mt5": {
+    "admission": {
+      "checked_at": "2026-10-23T16:51:35.770501Z",
+      "clock_passed": false,
+      "dangerous_shell_tool_available": false,
+      "identity_fingerprint": "2699de315a804b2779e7c994d2593d921086999d55c8d8f659cf838a25248e8d",
+      "instrument_reasons": {
+        "EURUSD": [
+          "source_clock_profile_or_quote_invalid"
+        ],
+        "XAUUSD": [
+          "source_clock_profile_or_quote_invalid"
+        ]
+      },
+      "instruments": {
+        "EURUSD": false,
+        "XAUUSD": false
+      },
+      "native_trading_allowed": false,
+      "provider": "mt5_demo",
+      "reasons": [
+        "no_instrument_passed_source_qualification"
+      ],
+      "security_passed": true,
+      "source_authorized": false
+    },
+    "complete_tick_coverage_verified": false,
+    "counts": {
+      "EURUSD": {
+        "attempts": 5,
+        "duplicates": 0,
+        "missing": 0,
+        "qualified_forward": 0,
+        "quote_updates": 5,
+        "received": 5,
+        "rejected": 5,
+        "rejected_by_reason": {
+          "future_timestamp": 5
+        },
+        "valid": 0
+      },
+      "XAUUSD": {
+        "attempts": 5,
+        "duplicates": 0,
+        "missing": 5,
+        "qualified_forward": 0,
+        "quote_updates": 0,
+        "received": 0,
+        "rejected": 5,
+        "rejected_by_reason": {
+          "native_or_metadata_unavailable": 5
+        },
+        "valid": 0
+      }
+    },
+    "ended_at": "2026-10-23T16:51:47.084992+00:00",
+    "extended_collection_started": false,
+    "external_orders_enabled": false,
+    "identity": {
+      "broker": "MetaQuotes Ltd.",
+      "currency": "USD",
+      "environment": "demo",
+      "fingerprint": "2699de315a804b2779e7c994d2593d921086999d55c8d8f659cf838a25248e8d",
+      "server": "MetaQuotes-Demo",
+      "terminal_build": 6281,
+      "verified_at": "2026-10-23T16:51:02.470470Z"
+    },
+    "independent_utc": [
+      {
+        "accepted": false,
+        "before_utc": "2026-10-23T16:51:03.117506+00:00",
+        "reason": "independent_utc_unavailable",
+        "source": "cloudflare_trace"
+      },
+      {
+        "accepted": true,
+        "before_utc": "2026-10-23T16:51:35.137691+00:00",
+        "elapsed_seconds": 0.625,
+        "received_utc": "2026-10-23T16:51:35.763478+00:00",
+        "reference_minus_receipt_seconds": 0.236522,
+        "reference_utc": "2026-10-23T16:51:36+00:00",
+        "source": "microsoft_http_date",
+        "status": 302
+      }
+    ],
+    "m1_tail": {
+      "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+    },
+    "native_tool_count": 107,
+    "p11b_go": false,
+    "phase": "P11a.1",
+    "proxy_tools": [
+      "get_marketwatch_symbols",
+      "get_time_information",
+      "get_trading_account_info",
+      "terminal_get_info"
+    ],
+    "qualified_m5_intervals": 0,
+    "quarantine_last_commit_verified": true,
+    "readiness": {
+      "EURUSD": {
+        "affordability_100_usd": "indicatively_exceeds_100; sizing_blocked",
+        "commission": null,
+        "currency_conversion": "USD/USD identity 1",
+        "diagnostic_only_minimum_notional_usd": "1119.58000000",
+        "diagnostic_price_validated": false,
+        "eligibility": "research/local funded simulation only; external execution disabled",
+        "facts": {
+          "account_currency": "USD",
+          "base_currency": "EUR",
+          "broker_symbol": "EURUSD",
+          "calculation_mode": 0,
+          "contract_size": "100000.0",
+          "conversion_required": false,
+          "description": "Euro vs US Dollar",
+          "digits": 5,
+          "observed_at": "2026-10-23T16:51:46.302998Z",
+          "point": "0.00001",
+          "profit_currency": "USD",
+          "quote_currency": "USD",
+          "reported_spread_points": 1,
+          "selected": true,
+          "session_schedule": "unavailable",
+          "sizing_usable": false,
+          "source": "mt5_demo",
+          "symbol": "EURUSD",
+          "tick_size": "0.00001",
+          "tick_value": "1.0",
+          "trade_mode": 4,
+          "visible": true,
+          "volume_max": "500.0",
+          "volume_min": "0.01",
+          "volume_step": "0.01"
+        },
+        "financing": null,
+        "missing_for_sizing": [
+          "UTC-valid price",
+          "pip policy",
+          "commission provenance",
+          "session/holiday calendar",
+          "cost/slippage policy",
+          "minimum stop/freeze constraints"
+        ],
+        "pip_size": null,
+        "session_and_holiday_calendar": null,
+        "spread_history": "bounded rejected raw diagnostic samples only; no validated spread history",
+        "validated_minimum_notional_usd": null
+      },
+      "XAUUSD": {
+        "affordability_100_usd": "unverified; sizing_blocked",
+        "commission": null,
+        "currency_conversion": "USD/USD identity 1",
+        "diagnostic_only_minimum_notional_usd": null,
+        "diagnostic_price_validated": false,
+        "eligibility": "research/local funded simulation only; external execution disabled",
+        "facts": {
+          "account_currency": "USD",
+          "base_currency": "XAU",
+          "broker_symbol": "XAUUSD",
+          "calculation_mode": 4,
+          "contract_size": "100.0",
+          "conversion_required": false,
+          "description": "Gold vs US Dollar",
+          "digits": 2,
+          "observed_at": "2026-10-23T16:51:46.040190Z",
+          "point": "0.01",
+          "profit_currency": "USD",
+          "quote_currency": "USD",
+          "reported_spread_points": 0,
+          "selected": false,
+          "session_schedule": "unavailable",
+          "sizing_usable": false,
+          "source": "mt5_demo",
+          "symbol": "XAUUSD",
+          "tick_size": "0.01",
+          "tick_value": "0.1",
+          "trade_mode": 4,
+          "visible": false,
+          "volume_max": "100.0",
+          "volume_min": "0.01",
+          "volume_step": "0.01"
+        },
+        "financing": null,
+        "missing_for_sizing": [
+          "UTC-valid price",
+          "pip policy",
+          "commission provenance",
+          "session/holiday calendar",
+          "cost/slippage policy",
+          "minimum stop/freeze constraints"
+        ],
+        "pip_size": null,
+        "session_and_holiday_calendar": null,
+        "spread_history": "bounded rejected raw diagnostic samples only; no validated spread history",
+        "validated_minimum_notional_usd": null
+      }
+    },
+    "samples": [
+      {
+        "before_utc": "2026-10-23T16:51:35.775507+00:00",
+        "elapsed_seconds": 0.014999999999417923,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:35",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:36",
+          "utc_time": "2026-10-23T16:51:35Z"
+        },
+        "qualification": "native_or_metadata_unavailable",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000047-ac42191b0c4f49a09f2e5a55e7379cca/observations.manifest.json": "bc59df043bf96092b3d358bf92c35dfa18b03ffcad6eae517d9130b3421a3498",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000047-ac42191b0c4f49a09f2e5a55e7379cca/observations.parquet": "7423240d643b5204bc8e537b41da81d500b659e603d2b5a8e157701e3ace7736",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000047-ac42191b0c4f49a09f2e5a55e7379cca/source.json": "1a67649246795d4558821ec9858720aaff66e156fb075d405905aa688a05caa5",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000047-ac42191b0c4f49a09f2e5a55e7379cca/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "sample": 1,
+        "symbol": "XAUUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:36.211414+00:00",
+        "elapsed_seconds": 0.01600000000325963,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:35",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:36",
+          "utc_time": "2026-10-23T16:51:35Z"
+        },
+        "mcp_marketwatch": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "native_read_elapsed_seconds": 0.0,
+        "qualification": "future_timestamp",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000048-a5d67667529d4b61b584a1b6da2eab2f/observations.manifest.json": "fa4983f0287edf0f86ce424a8fa2136721c4a78d12e917e516bf667c7d293cdc",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000048-a5d67667529d4b61b584a1b6da2eab2f/observations.parquet": "2997108f088ce25326b01ead3dbb96be9171e9ed23af54dc5acd9284c9e991c1",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000048-a5d67667529d4b61b584a1b6da2eab2f/source.json": "208b53636a72628fced7fc698dc06316d7a40200905547db057c5b08fde06ef2",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000048-a5d67667529d4b61b584a1b6da2eab2f/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "raw": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "received_utc": "2026-10-23T16:51:36.218891+00:00",
+        "sample": 1,
+        "source_milliseconds_utc": "2026-10-23T19:51:36.369000+00:00",
+        "source_minus_receipt_seconds": 10800.150109,
+        "source_seconds_utc": "2026-10-23T19:51:36+00:00",
+        "symbol": "EURUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:38.456364+00:00",
+        "elapsed_seconds": 0.0,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:38",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:38",
+          "utc_time": "2026-10-23T16:51:38Z"
+        },
+        "qualification": "native_or_metadata_unavailable",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000049-653c93118cb94eb0b0b32b5938575390/observations.manifest.json": "0784910155d8f9e8d6ebaf0e26d0c25434f07b60e34df37824df89e0ee26c933",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000049-653c93118cb94eb0b0b32b5938575390/observations.parquet": "da4a3a03fbe3d0144040381f3036d4008eaffe0e8d43ac2fe99089be871914be",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000049-653c93118cb94eb0b0b32b5938575390/source.json": "caa80ffbd8111c58dfcbb0184dd05324719cdd465be800efc0dab33d9b373f2f",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000049-653c93118cb94eb0b0b32b5938575390/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "sample": 2,
+        "symbol": "XAUUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:38.712078+00:00",
+        "elapsed_seconds": 0.01600000000325963,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:38",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:38",
+          "utc_time": "2026-10-23T16:51:38Z"
+        },
+        "mcp_marketwatch": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "native_read_elapsed_seconds": 0.0,
+        "qualification": "future_timestamp",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000050-c8ac6f9d19ff4c788236dcd78c13aad2/observations.manifest.json": "ecf38301927135829cc01e29f8b743b4c675e57ed29c93eae2fc462af5a1fea5",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000050-c8ac6f9d19ff4c788236dcd78c13aad2/observations.parquet": "4bd861c544ca81077c3f64f020dbecd833497373fad6d29aca03b5b494ce6cfc",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000050-c8ac6f9d19ff4c788236dcd78c13aad2/source.json": "c5bdaf1e81e03fd0df93ee38e7c01d9554aa03bce72cc1d96ab5496ac3eb42a8",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000050-c8ac6f9d19ff4c788236dcd78c13aad2/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "raw": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "received_utc": "2026-10-23T16:51:38.718593+00:00",
+        "sample": 2,
+        "source_milliseconds_utc": "2026-10-23T19:51:36.868000+00:00",
+        "source_minus_receipt_seconds": 10798.149407,
+        "source_seconds_utc": "2026-10-23T19:51:36+00:00",
+        "symbol": "EURUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:41.002048+00:00",
+        "elapsed_seconds": 0.01600000000325963,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:40",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:41",
+          "utc_time": "2026-10-23T16:51:40Z"
+        },
+        "qualification": "native_or_metadata_unavailable",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000051-ef48d930b8584022a5dd7fc284279da6/observations.manifest.json": "56c663bd1408b5f3356a266e25896105779f56b002719fec538127956c006de8",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000051-ef48d930b8584022a5dd7fc284279da6/observations.parquet": "4810c81f19c93900893f011fb096dfac6bf49b9338be903e215fb417aafce868",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000051-ef48d930b8584022a5dd7fc284279da6/source.json": "48c16d8e4093274a2438ab5f8c219ae17131d16456d50375e90153c60d0ad796",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000051-ef48d930b8584022a5dd7fc284279da6/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "sample": 3,
+        "symbol": "XAUUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:41.260491+00:00",
+        "elapsed_seconds": 0.01600000000325963,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:40",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:41",
+          "utc_time": "2026-10-23T16:51:40Z"
+        },
+        "mcp_marketwatch": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "native_read_elapsed_seconds": 0.0,
+        "qualification": "future_timestamp",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000052-071304cd56f54a6cadf5ac402ee2c576/observations.manifest.json": "175269683fa364fffa6399dab9ad05dff0afac6dcff11b1b3fe445cf0debddc6",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000052-071304cd56f54a6cadf5ac402ee2c576/observations.parquet": "807fc85410833964cdf0fd4213d8f8aa4b2df930e3fa6c81c2e565cf9c26f964",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000052-071304cd56f54a6cadf5ac402ee2c576/source.json": "b9774ad87f8876000bbded037e4d3ea69cde50a6e8a8650bfb9025379aa950a6",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000052-071304cd56f54a6cadf5ac402ee2c576/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "raw": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "received_utc": "2026-10-23T16:51:41.268004+00:00",
+        "sample": 3,
+        "source_milliseconds_utc": "2026-10-23T19:51:41.022000+00:00",
+        "source_minus_receipt_seconds": 10799.753996,
+        "source_seconds_utc": "2026-10-23T19:51:41+00:00",
+        "symbol": "EURUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:43.499344+00:00",
+        "elapsed_seconds": 0.0,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:43",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:43",
+          "utc_time": "2026-10-23T16:51:43Z"
+        },
+        "qualification": "native_or_metadata_unavailable",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000053-6e57998f51b24b599a0bed9b0dc027ab/observations.manifest.json": "adf1991063dd3381607c4a1170307769494b8c5833ac1a0d64008ce32596d5aa",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000053-6e57998f51b24b599a0bed9b0dc027ab/observations.parquet": "0793216297dc260dc598616f8b204abe2a0754d9dd8abcff4055397a7f7cf614",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000053-6e57998f51b24b599a0bed9b0dc027ab/source.json": "4a699a0841c8aafa843b9d9786345472f52d6e338eee549b0776d89590334de2",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000053-6e57998f51b24b599a0bed9b0dc027ab/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "sample": 4,
+        "symbol": "XAUUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:43.770098+00:00",
+        "elapsed_seconds": 0.014999999999417923,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:43",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:43",
+          "utc_time": "2026-10-23T16:51:43Z"
+        },
+        "mcp_marketwatch": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "native_read_elapsed_seconds": 0.0,
+        "qualification": "future_timestamp",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000054-f5090c5769484893a26fe9efceb73e66/observations.manifest.json": "cf80c0bb296e8a12a46b3705818f2c3aed47ad2fa9af9adb0876fc674b86a667",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000054-f5090c5769484893a26fe9efceb73e66/observations.parquet": "759806930dcc70e91bef5acc2251bbfae1acdafc3fdd138e61a5aaeb829a0d23",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000054-f5090c5769484893a26fe9efceb73e66/source.json": "1f13d5d7091cc9926088a12ae36dfdf9bd2de91c5df2ba6e9baba87cfcf28f02",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000054-f5090c5769484893a26fe9efceb73e66/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "raw": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "received_utc": "2026-10-23T16:51:43.777620+00:00",
+        "sample": 4,
+        "source_milliseconds_utc": "2026-10-23T19:51:43.869000+00:00",
+        "source_minus_receipt_seconds": 10800.09138,
+        "source_seconds_utc": "2026-10-23T19:51:43+00:00",
+        "symbol": "EURUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:46.033678+00:00",
+        "elapsed_seconds": 0.0,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:46",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:46",
+          "utc_time": "2026-10-23T16:51:46Z"
+        },
+        "qualification": "native_or_metadata_unavailable",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000055-91ea0fb562ad4e0194dac4c03e9430e5/observations.manifest.json": "cff92c36cce9ae59ea778ce93c294ebc420199f3016ac0185d744fefacaa025c",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000055-91ea0fb562ad4e0194dac4c03e9430e5/observations.parquet": "dfa8b434a88fa5e7fd78b90f142fecf7221c55a32752decca12de13038b159ca",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000055-91ea0fb562ad4e0194dac4c03e9430e5/source.json": "79d68f5177af8d2c304500f199757061674c548139a358750c5f3b6059f93869",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000055-91ea0fb562ad4e0194dac4c03e9430e5/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "sample": 5,
+        "symbol": "XAUUSD"
+      },
+      {
+        "before_utc": "2026-10-23T16:51:46.296477+00:00",
+        "elapsed_seconds": 0.0,
+        "mcp_clock": {
+          "daylight_saving_time": false,
+          "local_time": "2026-10-23T21:51:46",
+          "local_utc_offset_minutes": 0,
+          "trade_server_last_known_time": "2026-10-23T19:51:46",
+          "utc_time": "2026-10-23T16:51:46Z"
+        },
+        "mcp_marketwatch": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "native_read_elapsed_seconds": 0.0,
+        "qualification": "future_timestamp",
+        "quarantine_commit": {
+          "files": {
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000056-90c996b04fad4e7badfdd77b13f7ef94/observations.manifest.json": "41800d52693e3e79dc49e15c02fdc6c286812f36b856eedc526fdd5a9ed568a6",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000056-90c996b04fad4e7badfdd77b13f7ef94/observations.parquet": "fc16f0118448632699ef2b9b9b7344addb1f8797c0290b3dd70cb306fbd06f6e",
+            "data/bronze/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000056-90c996b04fad4e7badfdd77b13f7ef94/source.json": "452b97f6e0e1f70a176fe01360c8bd662ef78f6c57a02b253ebddcc85cba5959",
+            "data/silver/mt5_feed/756c5c36f70b47c795b31a754fc66f3d/000000000056-90c996b04fad4e7badfdd77b13f7ef94/observations.parquet": "0cc6d47d113087503a9258263d5e661cc30d05871d9002e316b3fe49df4edc4b"
+          },
+          "raw_rows": 1,
+          "rows": 0
+        },
+        "raw": {
+          "publication_omitted": "Genuine provider payload; redistribution rights unverified."
+        },
+        "received_utc": "2026-10-23T16:51:46.303996+00:00",
+        "sample": 5,
+        "source_milliseconds_utc": "2026-10-23T19:51:46.316000+00:00",
+        "source_minus_receipt_seconds": 10800.012004,
+        "source_seconds_utc": "2026-10-23T19:51:46+00:00",
+        "symbol": "EURUSD"
+      }
+    ],
+    "sdk_version": "5.0.6231",
+    "session_started": "2026-10-23T01:15:33.308133+00:00",
+    "started_at": "2026-10-23T16:51:02.470470+00:00",
+    "terminal": {
+      "build": 6281,
+      "connection": {
+        "state": "synchronized"
+      },
+      "dangerous_shell_tool_available": false,
+      "native_mcp_trading_permission": false,
+      "proxy_trading_enabled": false
+    },
+    "windows_clock": {
+      "python_utc": "2026-10-23T16:51:02.470470+00:00",
+      "w32time_query_exit_code": 2147943462,
+      "w32time_status": "unverified_service_or_sync_unavailable",
+      "windows_utc": "2026-10-23T16:51:02.7687972Z"
+    }
+  },
+  "observed_at": "2026-10-23T16:51:01.883372+00:00",
+  "p11b": {
+    "EURUSD": "NO-GO: authoritative source clock profile unavailable",
+    "XAUUSD": "NO-GO: authoritative source clock profile unavailable"
+  },
+  "phase": "P11a.2",
+  "profiles": [
+    {
+      "broker": "MetaQuotes Ltd.",
+      "builds": [
+        6281
+      ],
+      "effective_from": null,
+      "effective_to": null,
+      "environment": "demo",
+      "evidence": [],
+      "expires_at": "2026-11-01T00:00:00Z",
+      "independent_utc_sources": [],
+      "instruments": [
+        "EURUSD",
+        "XAUUSD"
+      ],
+      "issued_at": "2026-10-23T00:00:00Z",
+      "maximum_residual_seconds": null,
+      "periods": [],
+      "profile_id": "metaquotes-demo-unverified.v1",
+      "provider": "mt5_demo",
+      "refresh_conditions": [
+        "Authoritative exact-server SDK/tick/candle UTC and DST specification required",
+        "Repeated independent UTC agreement required before VERIFIED review",
+        "Build/server/source-clock change or provider notice invalidates admission"
+      ],
+      "reviewed_by": null,
+      "semantics": "broker_wall_epoch",
+      "server": "MetaQuotes-Demo",
+      "state": "UNVERIFIED",
+      "timezone": null,
+      "tolerance_seconds": 2.0,
+      "validated_kinds": [],
+      "validation_ended": null,
+      "validation_environment": "genuine",
+      "validation_samples": 0,
+      "validation_started": null,
+      "verified_at": null
+    }
+  ],
+  "publication_notice": "Public diagnostic summary only; raw genuine market observations remain local. No new acquisition or qualification.",
+  "source_version": "35cf719+tree.f4e3c18b9da2fdedb08caa45e2ac608b6274deb909e0c9c6d0759c30ec575f16"
+}

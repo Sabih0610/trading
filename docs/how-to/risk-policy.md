@@ -16,14 +16,12 @@ All percentages are percentage points: `1` means 1%, not 100%. Monetary and quan
 From the repository root:
 
 ```powershell
-Set-Location -LiteralPath "E:\trading bot"
 uv run pytest -q tests/unit/test_risk_config.py tests/unit/test_risk_guards.py tests/property/test_risk_guards.py tests/scenario/test_forbidden_endpoints.py
 ```
 
 Load and inspect only non-secret policy values:
 
 ```powershell
-Set-Location -LiteralPath "E:\trading bot"
 uv run python -c "from tb.risk.config import load_policy_bundle; p=load_policy_bundle(); print([a.symbol for a in p.registry.assets if a.role.value == 'tradable']); print(p.risk.limits)"
 ```
 
@@ -31,7 +29,17 @@ Expected tradable symbols are `XAUTUSDT`, `BTCUSDT`, `ETHUSDT`, and `SOLUSDT`.
 
 ## Safely tighten a limit
 
-Edit `config/risk.yaml` or an asset’s `risk_overrides`, then run the validation command above. A per-asset value must not exceed either the compiled ceiling or the active global value. For example, XAUT uses 0.75% risk and two entries per day, both stricter than the global policy.
+Edit `config/risk.yaml` or an asset's `risk_overrides`, then run validation. Only a human may edit
+policy. Per-asset values cannot exceed the compiled ceiling or active global value. P09.5 defaults
+are 0.5% planned all-in risk, 2% daily net-equity loss, 5% peak drawdown and one open position.
+XAUT tightens planned risk to 0.25% and two entries per day. The legacy compiled upper bounds of
+1% trade risk / 3% daily loss remain absolute configuration ceilings, not the active defaults.
+
+The shared account circuit observes liquidation equity including fees and unrealized P&L; daily
+halts latch until UTC rollover and peak halts persist. Entry and actual-fill sizing include costs.
+Gold/FX use a separate fully funded local accounting boundary with explicit timestamped contract
+facts; this does not relax `assert_tradable` or authorize any external order. See
+[the simulation guide](alignment-simulation.md).
 
 Never treat null `exchange_rules` as an absent exchange restriction. It means that public spot metadata has not yet been synchronized; later execution code must fail closed until required filters are present.
 

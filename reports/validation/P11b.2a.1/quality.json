@@ -1,0 +1,31 @@
+{
+  "phase": "P11b.2a.1",
+  "validated_utc": "2026-10-27 06:42 UTC",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.11",
+  "uv": "0.13.5",
+  "baseline": {
+    "passed": 826,
+    "live_deselected": 3,
+    "warnings": 23,
+    "seconds": 225.39
+  },
+  "final": {
+    "passed": 853,
+    "live_deselected": 3,
+    "warnings": 23,
+    "seconds": 159.24
+  },
+  "new_pytest_cases": 27,
+  "decimal_property_examples": 30,
+  "ruff": true,
+  "format": true,
+  "strict_mypy_sources": 159,
+  "safety_smoke": true,
+  "owned_acceptance_studies": 14,
+  "hosted_ci_run": false,
+  "external_orders": 0,
+  "genuine_sources": false,
+  "both_original_worktrees_preserved": true,
+  "new_worktree_has_dotenv": false
+}

@@ -1,0 +1,36 @@
+schema_version: 1
+policy_id: twelve-data-basic-owner-review
+version: "1.0.0"
+provider: twelve_data
+account_fingerprint: null
+instruments: [EURUSD, XAUUSD]
+reviewed_at: "2026-10-23T19:00:00Z"
+permissions:
+  retrieval:
+    status: confirmed
+    approved: false
+    evidence: "https://twelvedata.com/pricing; technical non-display access is not persistent-use approval"
+  private_display:
+    status: prohibited
+    evidence: "https://twelvedata.com/pricing; Basic non-display, Grow internal display"
+  raw_cache:
+    status: unverified
+    evidence: "https://twelvedata.com/terms; exact allowed retention duration unresolved"
+  historical_storage:
+    status: unverified
+    evidence: "https://twelvedata.com/terms; no approved duration for this application"
+  ai_analysis:
+    status: unverified
+    evidence: "https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage; Basic scope unresolved"
+  ml_training:
+    status: unverified
+    evidence: "No affirmative Basic model-training permission established"
+  derived_storage:
+    status: unverified
+    evidence: "https://twelvedata.com/terms; reconstruction restriction needs application-specific confirmation"
+  persistent_collection:
+    status: unverified
+    evidence: "No affirmative account-specific autonomous retention/research approval"
+  commercial_use:
+    status: prohibited
+    evidence: "https://twelvedata.com/terms; free-tier commercial restriction"

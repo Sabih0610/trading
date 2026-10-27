@@ -1,6 +1,8 @@
 schema_version: 1
 assets:
   - symbol: XAUTUSDT
+    instrument_type: spot
+    eligibility: {reference_data: true, historical_research: true, local_simulation: true}
     role: tradable
     venue: binance_spot
     shariah_status: approved
@@ -15,11 +17,13 @@ assets:
       slippage_bps_default: "5"
     allowed_strategies: [london_sweep_mss_fvg, xaut_catch_up, trend_vwap_pullback]
     risk_overrides:
-      risk_per_trade_pct: "0.75"
+      risk_per_trade_pct: "0.25"
       max_trades_per_day_per_asset: 2
     exchange_rules: null
 
   - symbol: BTCUSDT
+    instrument_type: spot
+    eligibility: {reference_data: true, historical_research: true, local_simulation: true}
     role: tradable
     venue: binance_spot
     shariah_status: approved
@@ -37,6 +41,8 @@ assets:
     exchange_rules: null
 
   - symbol: ETHUSDT
+    instrument_type: spot
+    eligibility: {reference_data: true, historical_research: true, local_simulation: true}
     role: tradable
     venue: binance_spot
     shariah_status: approved
@@ -54,6 +60,8 @@ assets:
     exchange_rules: null
 
   - symbol: SOLUSDT
+    instrument_type: spot
+    eligibility: {reference_data: true, historical_research: true, local_simulation: true}
     role: tradable
     venue: binance_spot
     shariah_status: approved
@@ -71,6 +79,8 @@ assets:
     exchange_rules: null
 
   - symbol: XAUUSD
+    instrument_type: gold_contract
+    eligibility: {reference_data: true, historical_research: true, local_simulation: true}
     role: data_only
     venue: external_reference
     shariah_status: pending
@@ -85,6 +95,8 @@ assets:
     exchange_rules: null
 
   - symbol: EURUSD
+    instrument_type: fx_contract
+    eligibility: {reference_data: true, historical_research: true, local_simulation: true}
     role: data_only
     venue: external_reference
     shariah_status: pending
