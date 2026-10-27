@@ -13,6 +13,7 @@ import streamlit as st
 
 from tb.dashboard.readers import EvidenceUnavailable, read_json, safe_path
 from tb.ingest.history.core import sha256_file
+from tb.paper.offline.integrity import ledger_matches, schema_digest
 from tb.paper.offline.models import VERSION, PaperInput, PaperState, digest
 from tb.paper.offline.store import VERSIONS
 
@@ -58,6 +59,9 @@ def read_offline_paper(root: Path) -> dict[str, Any]:
             ):
                 raise ValueError
             with sqlite3.connect(f"{journal.as_uri()}?mode=ro", uri=True) as db:
+                db.row_factory = sqlite3.Row
+                if manifest.get("schema_sha256") != schema_digest(db):
+                    raise ValueError
                 rows = db.execute(
                     "SELECT id,input_json,payload_sha,effects_json,state_json,state_sha,chain_sha FROM paper_events ORDER BY seq LIMIT 5001"
                 ).fetchall()
@@ -91,7 +95,7 @@ def read_offline_paper(root: Path) -> dict[str, Any]:
                         identifier = digest(["paper-ledger", event.id, i])
                         payload = {"mode": "owned_offline_paper", "input_id": event.id, **effect}
                         row = db.execute(
-                            "SELECT payload_json,content_sha256 FROM decisions WHERE id=?",
+                            "SELECT * FROM decisions WHERE id=?",
                             (identifier,),
                         ).fetchone()
                         expected = {
@@ -103,11 +107,7 @@ def read_offline_paper(root: Path) -> dict[str, Any]:
                             "payload": payload,
                             **VERSIONS.model_dump(),
                         }
-                        if (
-                            row is None
-                            or json.loads(row[0]) != payload
-                            or row[1] != digest(expected)
-                        ):
+                        if not ledger_matches(row, expected):
                             raise ValueError
                         ledger_count += 1
                     effects.extend(current_effects)

@@ -1,0 +1,31 @@
+{
+  "synthetic": true,
+  "read_only": true,
+  "trading_buttons": 0,
+  "initial_account": {
+    "Starting USD": "100.000000",
+    "Net liquidation equity USD": "100.000000",
+    "Fees USD": "0.000000",
+    "Cash USD": "100.000000",
+    "Realized P&L USD": "0.000000",
+    "Adverse slippage USD": "0.000000",
+    "Reserved USD": "0.000000",
+    "Unrealized P&L USD": "0.000000",
+    "Maximum drawdown %": "0.000000"
+  },
+  "engineering_account": {
+    "Starting USD": "10,000.000000",
+    "Net liquidation equity USD": "10,029.871904",
+    "Fees USD": "1.808096",
+    "Cash USD": "10,029.871904",
+    "Realized P&L USD": "29.871904",
+    "Adverse slippage USD": "3.360000",
+    "Reserved USD": "0.000000",
+    "Unrealized P&L USD": "0.000000",
+    "Maximum drawdown %": "0.031891"
+  },
+  "peak_halt_visible": true,
+  "missing_valuation_visible": true,
+  "journal_reconciled": true,
+  "method": "Streamlit AppTest plus SQLite read-only reader; no browser/provider session"
+}

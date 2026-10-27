@@ -502,7 +502,8 @@ class _Account:
             reason = "research_not_candidate"
         elif purpose == "signal_exit":
             for pending in self.pending("entry"):
-                self.transition(pending, "cancelled", "SELL_vetoes_pending_long")
+                if pending.symbol == self.event.symbol:
+                    self.transition(pending, "cancelled", "SELL_vetoes_pending_long")
             if self.a.position is None or self.a.position.symbol != self.event.symbol:
                 reason = "SELL_without_owned_long_is_research_only"
             elif self.pending("signal_exit"):

@@ -2,14 +2,14 @@
 
 This is a proposed backlog from the [source adoption audit](../reports/reviews/third-party-repository-adoption.md), inspected 2026-10-24 UTC.
 Only A1 and A2 are recommended for the next separately authorized research phase.
-Neither is implemented or approved by this document. No dependencies, trading routes or permissions changed.
-The platform remains at P11b.0.1; P11b.1 is design only.
+P11b.2a.1 separately authorized A1: implemented locally with owner-gated hosted activation, reviewed pinned MIT actions and no new runtime dependency. A2 remains unimplemented. No trading routes or provider permissions changed.
+See [P11b.2a.1 evidence](../reports/phases/P11b.2a.1.md); original audit conclusions remain historical.
 
 ## Priority and scope
 
 | Priority / ID | Proposed improvement | Value and dependency | Estimated effort | Status |
 |---|---|---|---|---|
-| 1 / A1 | Windows offline quality/safety CI | Verify existing locked checks on changes; no checked-in CI exists. Can stand alone. | 1–2 engineer-days | Proposed; owner/independent review pending |
+| 1 / A1 | Windows offline quality/safety CI | Verify existing locked checks on changes; local Windows workflow now exists. | 1–2 engineer-days | Implemented locally P11b.2a.1; hosted inactive, review pending |
 | 2 / A2 | Bounded local source/import/test map | Reduce repeated manual navigation and improve review/handoff. Use stdlib AST; no runtime dependency or AI service. Can stand alone; A1 can subsequently verify it. | 1–2 engineer-days | Proposed; owner/independent review pending |
 
 Estimates are planning judgments, not benchmarks. Implement one reviewed item per change with its own acceptance evidence. Do not begin either from the audit instruction alone.

@@ -1,5 +1,9 @@
 # Pending items
 
+- **P11b.2a.1 independent review:** [report](../reports/phases/P11b.2a.1.md), [ADR0015](adr/0015-offline-validation-and-gated-windows-ci.md). 853 tests pass; four reproduced fixes, Decimal/process-death oracles and all 14 owned replays pass. No independent human approval claimed.
+- **Hosted CI:** local workflow validated; public origin confirmed but Actions policy endpoint returned 403. Owner review, free standard-runner/policy verification and separate push/activation authorization required before setting OFFLINE_CI_APPROVED_FREE_RUNNER. No hosted pass or branch protection change.
+- **Future genuine integration:** [explicit input matrix](specifications/P11b.2b-genuine-input-contract.md) remains NO-GO. No provider or OAuth authentication in this phase.
+
 - **P11b.2a independent review:** [completion report](../reports/phases/P11b.2a.md), [operator guide](how-to/offline-paper-lab.md), [ADR0014](adr/0014-owned-persistent-paper-accounting.md). Offline software milestone complete; 826 tests pass. Review cash/reservations, causal fills, gap/metadata/exposure guards, atomic recovery and source isolation.
 - **P11b.1a preserved and unfinished:** original checkout and private credentials untouched. Latest owner update says cTrader app approval pending. No OAuth helper was merged or consent performed. Do not conflate this offline paper milestone with genuine authorization.
 - **P11b.2b remains NO-GO/unstarted:** separate future scope requires qualified genuine input, exact broker account/view permissions, rights/retention/display, clock/unit/contract/cost evidence and independent eligibility review. No new genuine source or order is enabled by green owned tests.

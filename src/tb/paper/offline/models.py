@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import UTC
 from decimal import Decimal
 from typing import Any, Literal, Self
 
@@ -225,6 +226,8 @@ def initial_state(package: PaperPackage) -> PaperState:
             cash=capital,
             equity=capital,
             unrealized_pnl=ZERO,
-            safety=SafetyState(day=package.started_at.date(), day_start=capital, peak=capital),
+            safety=SafetyState(
+                day=package.started_at.astimezone(UTC).date(), day_start=capital, peak=capital
+            ),
         )
     return PaperState(accounts=accounts)

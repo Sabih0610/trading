@@ -14,6 +14,7 @@ from tb.core.leases import writer_lease
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ledger.store import DecisionLedger, LedgerVersions
 from tb.paper.offline.engine import PaperReducer
+from tb.paper.offline.integrity import ledger_matches, schema_digest
 from tb.paper.offline.models import (
     VERSION,
     PaperInput,
@@ -82,10 +83,11 @@ class PaperStore:
             if existed != self.manifest.exists() or (not existed and not create):
                 raise PaperRefused("paper_initialization_incomplete_or_not_authorized")
             if existed:
-                if (
-                    self.manifest.stat().st_size > 65536
-                    or json.loads(self.manifest.read_text(encoding="utf-8")) != expected
-                ):
+                if self.manifest.stat().st_size > 65536:
+                    raise PaperRefused("paper_manifest_source_risk_or_contract_changed")
+                saved = json.loads(self.manifest.read_text(encoding="utf-8"))
+                saved_schema = saved.pop("schema_sha256", None)
+                if saved != expected:
                     raise PaperRefused("paper_manifest_source_risk_or_contract_changed")
                 with sqlite3.connect(f"{self.path.as_uri()}?mode=ro", uri=True) as check:
                     if check.execute("PRAGMA quick_check").fetchone()[0] != "ok":
@@ -94,24 +96,14 @@ class PaperStore:
                         "SELECT 1 FROM sqlite_master WHERE type='table' AND name='paper_events'"
                     ).fetchone():
                         raise PaperRefused("paper_checkpoint_missing")
-            self.ledger = DecisionLedger(self.path)
+                    if saved_schema != schema_digest(check):
+                        raise PaperRefused("paper_schema_mismatch_no_repair")
+            self.ledger = DecisionLedger(self.path, initialize=not existed)
             self.db = self.ledger.connect()
             self.db.execute("PRAGMA synchronous=FULL")
-            self.db.execute(
-                "CREATE TABLE IF NOT EXISTS paper_events (seq INTEGER PRIMARY KEY,id TEXT UNIQUE NOT NULL,input_json TEXT NOT NULL,payload_sha TEXT NOT NULL,effects_json TEXT NOT NULL,state_json TEXT NOT NULL,state_sha TEXT NOT NULL,chain_sha TEXT NOT NULL)"
-            )
-            self.db.execute(
-                "CREATE TABLE IF NOT EXISTS paper_recoveries (id TEXT PRIMARY KEY, payload_json TEXT NOT NULL)"
-            )
-            for action in ("UPDATE", "DELETE"):
-                self.db.execute(
-                    f"CREATE TRIGGER IF NOT EXISTS paper_events_no_{action} BEFORE {action} ON paper_events BEGIN SELECT RAISE(ABORT,'append-only paper'); END"
-                )
-                self.db.execute(
-                    f"CREATE TRIGGER IF NOT EXISTS paper_recoveries_no_{action} BEFORE {action} ON paper_recoveries BEGIN SELECT RAISE(ABORT,'append-only recovery'); END"
-                )
-            self.db.commit()
             if not existed:
+                self._initialize()
+                expected["schema_sha256"] = schema_digest(self.db)
                 atomic_write_json(self.manifest, expected)
             self.reducer = PaperReducer(package, bundle)
             self.chain = "0" * 64
@@ -123,6 +115,23 @@ class PaperStore:
                 self.db.close()
             self._lease.__exit__(None, None, None)
             raise
+
+    def _initialize(self) -> None:
+        """Create a new owned study only; never repair an existing journal schema."""
+        self.db.execute(
+            "CREATE TABLE IF NOT EXISTS paper_events (seq INTEGER PRIMARY KEY,id TEXT UNIQUE NOT NULL,input_json TEXT NOT NULL,payload_sha TEXT NOT NULL,effects_json TEXT NOT NULL,state_json TEXT NOT NULL,state_sha TEXT NOT NULL,chain_sha TEXT NOT NULL)"
+        )
+        self.db.execute(
+            "CREATE TABLE IF NOT EXISTS paper_recoveries (id TEXT PRIMARY KEY, payload_json TEXT NOT NULL)"
+        )
+        for action in ("UPDATE", "DELETE"):
+            self.db.execute(
+                f"CREATE TRIGGER IF NOT EXISTS paper_events_no_{action} BEFORE {action} ON paper_events BEGIN SELECT RAISE(ABORT,'append-only paper'); END"
+            )
+            self.db.execute(
+                f"CREATE TRIGGER IF NOT EXISTS paper_recoveries_no_{action} BEFORE {action} ON paper_recoveries BEGIN SELECT RAISE(ABORT,'append-only recovery'); END"
+            )
+        self.db.commit()
 
     @property
     def state(self) -> PaperState:
@@ -185,11 +194,7 @@ class PaperStore:
                     "payload": payload,
                     **VERSIONS.model_dump(),
                 }
-                if (
-                    evidence is None
-                    or json.loads(evidence["payload_json"]) != payload
-                    or evidence["content_sha256"] != digest(expected)
-                ):
+                if not ledger_matches(evidence, expected):
                     raise PaperRefused("paper_decision_ledger_mismatch")
                 ledger_count += 1
             self.chain = chain
@@ -220,12 +225,7 @@ class PaperStore:
                 "payload": payload,
                 **VERSIONS.model_dump(),
             }
-            if (
-                row[0] != identifier
-                or evidence is None
-                or json.loads(evidence["payload_json"]) != payload
-                or evidence["content_sha256"] != digest(expected)
-            ):
+            if row[0] != identifier or not ledger_matches(evidence, expected):
                 raise PaperRefused("paper_recovery_ledger_mismatch")
             recovery_count += 1
         if self.db.execute("SELECT count(*) FROM interventions").fetchone()[0] != recovery_count:
@@ -316,6 +316,8 @@ class PaperStore:
             if fault:
                 fault("after_checkpoint")
             self.db.commit()
+            if fault:
+                fault("after_commit")
             self.chain = chain
             return "committed"
         except Exception:

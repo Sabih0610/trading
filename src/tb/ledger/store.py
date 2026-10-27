@@ -70,10 +70,11 @@ def _hash(value: Mapping[str, object]) -> str:
 class DecisionLedger:
     """Own an on-host SQLite WAL database whose evidence rows cannot be changed."""
 
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path, *, initialize: bool = True) -> None:
         self.path = path
         path.parent.mkdir(parents=True, exist_ok=True)
-        self._initialize()
+        if initialize:
+            self._initialize()
 
     def connect(self) -> sqlite3.Connection:
         """Open one configured connection; callers own its context lifetime."""

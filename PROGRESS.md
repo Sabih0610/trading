@@ -1,5 +1,14 @@
 # Build progress
 
+P11b.2a.1 is complete offline on `codex/p11b-2a-1-validation`, tag `phase-P11b.2a.1-done`.
+853 tests pass, 3 optional live tests deselected; all locked quality/safety gates and 14 owned
+studies pass. Four defects fixed; independent Decimal/recovery tests added. Original evidence and
+OAuth checkout preserved. A1 Windows CI implemented locally, hosted activation gated/unverified.
+[Validation report](reports/phases/P11b.2a.1.md) · [Windows guide](docs/how-to/windows-offline-validation.md).
+Independent review queued; P11b.2b remains NO-GO/unstarted.
+
+Previous completed baseline:
+
 P11b.2a is complete offline on `codex/p11b-2a-offline-paper`, from cc5a4ea / phase-P11b.1-done.
 826 tests pass; Ruff, 394-file formatting, strict MyPy (158 sources) and existing safety smoke pass.
 Fourteen owned studies replay 3,811 inputs with identical snapshot bytes; no $100 entries, no external orders.
@@ -7,7 +16,7 @@ The $10,000 engineering accounts demonstrate gains/losses, gaps, expiration and 
 P11b.1a and its credentials/uncommitted work remain in the original preserved checkout; owner reports app approval pending.
 Genuine cTrader/MT5/OANDA qualification and Twelve Data sustained rights remain unresolved. **P11b.2b is unstarted/NO-GO.**
 [Report](reports/phases/P11b.2a.md) · [Operator guide](docs/how-to/offline-paper-lab.md).
-A1/A2 backlog proposals remain separate and unimplemented. Independent phase review is queued.
+A1 is now implemented locally in P11b.2a.1 with hosted activation gated; A2 remains proposed. Independent phase review is queued.
 
 | Phase | Title | Status | Started (UTC) | Completed (UTC) | Commit | Report | Review |
 |---|---|---|---|---|---|---|---|
@@ -31,6 +40,7 @@ A1/A2 backlog proposals remain separate and unimplemented. Independent phase rev
 | P11b.0.1 | Gold and forex price-only shadow strategies | done offline; genuine rights blocked | 2026-10-24 01:37 | 2026-10-24 02:07 | `phase-P11b.0.1-done` | [report](reports/phases/P11b.0.1.md) | queued; no orders/fills |
 | P11b.1 | Read-only broker quote and contract readiness | done offline; genuine unverified | 2026-10-25 00:28 | 2026-10-25 01:11 | `phase-P11b.1-done` | [report](reports/phases/P11b.1.md) | queued; P11b.2 NO-GO |
 | P11b.2a | Offline paper trading, risk validation and recovery | done; owned software tests only | 2026-10-27 | 2026-10-27 01:35 | `phase-P11b.2a-done` | [report](reports/phases/P11b.2a.md) | queued; genuine P11b.2b NO-GO |
+| P11b.2a.1 | Independent paper-engine validation and gated Windows CI | done; offline only | 2026-10-27 | 2026-10-27 06:42 UTC | `phase-P11b.2a.1-done` | [report](reports/phases/P11b.2a.1.md) | queued; hosted inactive, P11b.2b NO-GO |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | â€” | â€” | â€” | â€” | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | â€” | â€” | â€” | â€” | â€” |
 | P14 | 30+ day forward paper/demo evaluation | not started | â€” | â€” | â€” | â€” | â€” |

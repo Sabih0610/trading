@@ -4,6 +4,14 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+## P11b.2a.1 — 2026-10-27 UTC
+
+- Fixed symbol-scoped pending SELL cancellation, UTC initial account day, evidence metadata reconciliation and silent journal-schema repair.
+- Added independent Decimal lifecycle/gold oracles, real process-death commit-boundary recovery, terminal-state and unavailable-mark restart checks.
+- Added reviewed/pinned, owner-gated Windows offline CI, fail-fast local gate, negative checks and opt-in network accident guard; no hosted run.
+- 853 tests pass; original snapshot byte replay and all 14 study states/fills/chains match. OAuth and credentials preserved.
+- Genuine-input contract and capital/readiness limitations documented; P11b.2b remains unstarted/NO-GO.
+
 ## P11b.2a — 2026-10-27 UTC
 
 - Added a deterministic owned-only persistent Paper Lab around shared funded sizing, cash flows,

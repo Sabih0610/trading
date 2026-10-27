@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11b.2a",
+  "current_phase": "P11b.2a.1",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -378,6 +378,35 @@
       "merged": false,
       "genuine_connectivity": "unverified",
       "note": "Owner P11b.2a brief reports application approval pending; original uncommitted work/private files preserved."
+    },
+    "P11b.2a.1": {
+      "title": "Independent paper-engine validation, Windows CI and integration readiness",
+      "status": "done",
+      "completed_utc": "2026-10-27 06:42 UTC",
+      "baseline": "47e74fca6ac54429789f8458db26f4a275065aa9",
+      "branch": "codex/p11b-2a-1-validation",
+      "commit": "phase-P11b.2a.1-done",
+      "report": "reports/phases/P11b.2a.1.md",
+      "review": "queued",
+      "tests": {
+        "passed": 853,
+        "live_deselected": 3,
+        "warnings": 23,
+        "seconds": 159.24
+      },
+      "quality_gates": "locked_sync_ruff_format_strict_mypy_full_pytest_paper_smoke_owned_acceptance_passed",
+      "defects_corrected": 4,
+      "owned_studies": 14,
+      "owned_inputs": 3811,
+      "hypothetical_fills": 16,
+      "original_snapshot_byte_replay_identical": true,
+      "p11b1a_preserved": true,
+      "hosted_ci_run": false,
+      "ci_owner_gate_required": true,
+      "p11b2b_started": false,
+      "external_orders_enabled": false,
+      "genuine_sources_enabled": false,
+      "source_code_digest": "f1205049a3c14643552f6861443a34018ce7a7aa221bb6ec18b0af136140aea5"
     }
   },
   "allowed_status": [
@@ -406,8 +435,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-25 01:11 UTC",
-  "next_phase": "Stop for P11b.2a review. P11b.1a remains unfinished in preserved original checkout; P11b.2b unstarted/NO_GO.",
+  "last_updated_utc": "2026-10-27 06:42 UTC",
+  "next_phase": "Stop for P11b.2a.1 review. Hosted CI inactive; P11b.1a preserved/unfinished; P11b.2b unstarted/NO_GO.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
