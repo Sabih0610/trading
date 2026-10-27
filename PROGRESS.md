@@ -6,8 +6,9 @@ from repaired `978aad2`. Final **1,084 tests pass / 3 live deselected**, all qua
 gates, smoke and 14 unchanged paper states pass; 92 new research cases and all 55
 remediation regressions pass. See the [phase report](reports/phases/P11c.0.md).
 [Windows guide](docs/how-to/local-market-research.md). Genuine historical evaluation
-is BLOCKED — DATASET NOT AUTHORIZED. No push/main merge/CI/provider/OAuth/orders;
-stop for review. The following checkpoints are historical.
+is BLOCKED — DATASET NOT AUTHORIZED. Owner follow-up authorizes publishing this
+task branch and a short README install/run guide. Independent review remains pending;
+main merge, CI, providers, OAuth and orders remain unauthorized. The following checkpoints are historical.
 
 Current: F-01–F-06 remediation implemented in a separate credential-free checkout;
 complete offline gates pass: 992 tests/3 live deselected and 14 owned studies. No integration, push or hosted CI authorization.

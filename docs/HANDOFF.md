@@ -22,8 +22,9 @@ then separately authorize P11c.1 qualification. XAUUSD needs its own evidence.
 Genuine evaluation is BLOCKED — DATASET NOT AUTHORIZED. Do not change the frozen
 protocol, extend old retention, access 2025+ data or promote midpoint outcomes into
 broker execution performance. cTrader OAuth remains unfinished and untouched.
-No push, main merge, hosted CI, provider request, real authorization or external
-order is authorized. P11c.1 is unstarted. Earlier general Git instructions and
+Owner follow-up authorizes task-branch publication and the README quick start.
+Main merge, hosted CI, provider requests, real authorization and external orders
+remain unauthorized. P11c.1 is unstarted. Earlier general Git instructions and
 historical status below do not override this phase's explicit restrictions.
 
 ## Previous remediation checkpoint
