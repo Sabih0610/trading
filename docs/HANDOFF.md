@@ -1,11 +1,12 @@
-# Current handoff — shared publication of reviewed offline work
+# Current handoff â€” shared publication of reviewed offline work
 
 Candidate b669d430148ba0bb67c9f46f7560341a52165ff1 / phase-P11b.1a-prep-done is unchanged.
-Owner authorized ongoing commits and pushes on 2026-10-27 for collaboration. Publish the RC
-documents and unchanged implementation on codex/shared-research, following [CONTRIBUTING.md](../CONTRIBUTING.md).
+Owner authorized ongoing commits and pushes on 2026-10-27 for collaboration. The RC
+documents and unchanged implementation are on codex/shared-research, following [CONTRIBUTING.md](../CONTRIBUTING.md).
 The public history preserves phase messages/order and omits raw MT5 price payloads throughout;
 original local branches/tags remain intact. Historical report SHAs are local provenance, with
 Publication-Source trailers on corresponding public commits. Never push all original refs/tags.
+[Publication checks and public SHA mapping](../reports/reviews/repository-publication.md).
 Independent review remains pending. Genuine P11b.1a/P11b.2b remain NO-GO; hosted CI inactive.
 
 [RC report](../reports/phases/P11b.1a-RC.md), [owner checklist](how-to/release-candidate-owner-checklist.md),

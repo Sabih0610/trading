@@ -37,7 +37,7 @@ For documentation-only changes, check the diff, links and privacy. State when te
 an unchanged, previously validated source candidate rather than a fresh run.
 
 Keep `.env`, account details, tokens, raw provider observations, datasets and local journals out of
-Git. `.env.example` contains names with empty values only. Review the outgoing history as well as
+Git. `.env.example` contains credential names with empty values only. Review the outgoing history as well as
 the final diff before publishing; deleting sensitive content in a later commit does not remove it
 from earlier commits.
 
@@ -55,7 +55,8 @@ hosted execution; it is not a hosted test pass. Do not change approval variables
 Publication history preserves the phase order and original messages, with `Publication-Source`
 trailers identifying local source commits. MT5 raw price payloads were removed throughout that
 history. Original SHAs/tags in historical reports identify local review provenance and may not
-resolve on GitHub. Application source is unchanged from the validated local candidate.
+resolve on GitHub. The [publication record](reports/reviews/repository-publication.md) maps those
+SHAs to public commits. Application source is unchanged from the validated local candidate.
 
 Committing code does not enable genuine providers, OAuth consent, paper integration or external
 orders. Those boundaries remain governed by [AGENTS.md](AGENTS.md) and the phase reports.
