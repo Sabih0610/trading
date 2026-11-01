@@ -51,7 +51,7 @@ Verdict: **NOT APPROVED** (automated). HistData **APPROVED for private research*
 | Source | <https://www.histdata.com/download-free-forex-data/?/ascii/1-minute-bar-quotes> (Generic ASCII M1) |
 | Terms | None published (homepage/FAQ: no warranty, "use the data at your own will and risk"). Store a dated copy of the homepage and FAQ under `work/rights/` as evidence. |
 | Instruments | XAUUSD, EURUSD · M1 bid bars · 2020-10 → 2024-12 |
-| Conditions | Timestamps: ~~fixed EST, constant +5 h~~ **corrected (P11e review): UTC−4 while Europe is on summer time, UTC−5 otherwise — convert per trading week; the EU fall-back Sunday hour repeats and is two real hours, not a duplicate.** Bars are **bid-only**: long entries must add a spread (config default as floor). Polite download, no parallel hammering. Private only, no redistribution, nothing committed. |
+| Conditions | Timestamps: ~~fixed EST, constant +5 h~~ **corrected (P11e review): UTC−4 while Europe is on summer time, UTC−5 otherwise — convert per trading week; the EU fall-back Sunday repeats one hour as a byte-identical duplicate; drop only if identical.** Bars are **bid-only**: long entries must add a spread (config default as floor). Polite download, no parallel hammering. Private only, no redistribution, nothing committed. |
 | Retention | Until 2028-11-01. |
 
 Verdict: **APPROVED** within these conditions.
