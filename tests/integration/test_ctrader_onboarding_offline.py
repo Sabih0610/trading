@@ -193,6 +193,10 @@ def test_default_genuine_boundary_and_ci_even_explicit_consent_are_disabled(monk
             FixedTokenEndpoint(consent)
 
 
+@pytest.mark.skipif(
+    (ROOT / ".env").exists(),
+    reason="Missing-key CLI test requires a credential-free checkout; private .env is preserved",
+)
 def test_default_cli_missing_keys_is_inert_and_has_no_sensitive_fields():
     result = subprocess.run(
         [sys.executable, "-m", "tb.ingest.broker.onboarding.cli"],

@@ -56,6 +56,10 @@ def test_ci_network_guard_refuses_before_any_external_connection(host, port):
 
 
 @pytest.mark.skipif(shutil.which("pwsh") is None, reason="Windows/PowerShell acceptance")
+@pytest.mark.skipif(
+    (ROOT / ".env").exists(),
+    reason="Offline gate requires a separate credential-free checkout; private .env is preserved",
+)
 @pytest.mark.parametrize(
     "failed", ["ruff check", "ruff format", "mypy src", "pytest -q", "tb.paper.smoke"]
 )
