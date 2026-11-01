@@ -1,15 +1,26 @@
 # Current handoff — P11e acquisition in progress
 
-Task branch codex/p11e-acquire-history, separate credential-free checkout, main
-base a454731. Owner's untracked prompt and dataset-rights review copied unchanged.
-Dukascopy consent file not found at the specified owner path: B0 requires HistData
-fallback, no Dukascopy network requests. Source review permits private pre-2025
-history and finite retention only; no evaluation or publication of genuine artifacts.
-Evidence copies saved under work/rights (ignored). Official Vision PDF is 144891
-bytes, above the generic 128 KiB registry inspection limit; implementing a narrow,
-bounded PDF evidence path before genuine registration/acquisition. HistData fixed
-UTC−5 month boundaries need a holdout-safe refusal before archive GET. No genuine
-market archive requested yet; sealed XAUT checkout/task/files untouched.
+Task branch `codex/p11e-acquire-history`, separate credential-free checkout at the
+P11e worktree, main base a454731. Owner prompt and distinct reviewer approval copied
+unchanged. Documentary evidence and actual approved plans are registered privately.
+Vision archives are acquired; its sequential yearly build is running (session 49471).
+HistData annual archives for both approved FX symbols are acquired where the whole
+source archive fits the approved UTC scope. Exact acquisition status stays private in
+`reports/data_quality/P11e-histdata-yearly-acquisition.json`.
+
+Dukascopy consent file not found: specified owner `work/rights` directory is absent.
+No Dukascopy requests. Asked owner for an alternative local path; B0 authorizes
+HistData meanwhile. Old historical samples remain not for evaluation. HistData older
+years expose annual archives; monthly pages have empty download tokens. Whole source
+2020 and 2024 annual files cross approved UTC boundaries; refuse before HTTP and record
+gaps, never inspect holdout data to decide whether the nominal tail is empty.
+
+FX adapter, source-separated yearly publisher, consent gates and five-symbol metadata
+health are implemented. Focused fixture scenarios pass; final full clean gate is still
+pending. Next: finish remaining FX tests/docs, commit frozen code, run FX yearly build,
+wait for Vision, generate private per-symbol/year quality table, run clean offline gate,
+privacy-review outgoing history, push skip-ci/no tags and open PR. Never merge main.
+Sealed XAUT checkout, process and archive stay untouched throughout P11e.
 See [P11e plan](../reports/phases/P11e.md), [journal](journal/P11e-journal.md).
 
 ## Previous handoff — P11d review fixes

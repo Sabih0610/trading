@@ -266,10 +266,15 @@ def publish(
         "price_side": plan.price_side if isinstance(plan, ForexDatasetPlan) else "trade",
         "last_refresh": clock().isoformat(),
     }
+    quality_relative = (
+        f"reports/data_quality/{symbol}-{year}.json"
+        if isinstance(plan, VisionDatasetPlan)
+        else f"reports/data_quality/{plan.provider}/{plan.dataset_id}/{symbol}-{year}.json"
+    )
     manifest = {
         "schema_version": 1,
         "code_version": _code_version(),
-        "status": "complete",
+        "status": report.get("status", "complete"),
         "dataset_id": plan.dataset_id,
         "symbol": symbol,
         "year": year,
@@ -283,6 +288,7 @@ def publish(
         "inputs": inputs,
         "outputs": outputs,
         "quality": report,
+        "quality_path": quality_relative,
         "compression": "zstd",
         "compression_level": 6,
         "row_group_size": 131_072,
@@ -292,7 +298,7 @@ def publish(
     atomic_write_json(pointer, manifest)
     if fault:
         fault("after_manifest")
-    atomic_write_json(safe(root, f"reports/data_quality/{symbol}-{year}.json"), report)
+    atomic_write_json(safe(root, quality_relative), report)
     # Remove only superseded files whose full identity matches this symbol-year namespace.
     if old and old.get("generation") != generation and old.get("policy_digest") == plan.digest:
         old_gen = str(old["generation"])
