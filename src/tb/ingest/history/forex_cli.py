@@ -15,6 +15,7 @@ from tb.features.engine import FeatureEngine
 from tb.ingest.history.cli import _code_version
 from tb.ingest.history.core import IntegrityError, atomic_write_bytes, atomic_write_json
 from tb.ingest.history.forex import ProviderFailure, download_period, validate_period
+from tb.ingest.mt5.models import FeedUnavailable
 from tb.research.forex_registry import load_forex_plan, register_forex_plan
 from tb.research.models import ResearchRefused
 from tb.research.registry import safe
@@ -98,7 +99,7 @@ def download_history(
                     code_version=version,
                     clock=clock,
                 )
-            except ResearchRefused:
+            except (ResearchRefused, FeedUnavailable):
                 raise
             except ProviderFailure as exc:
                 exc.details.update(counts)

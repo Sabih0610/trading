@@ -27,6 +27,7 @@ from tb.ingest.history.core import (
     sha256_file,
 )
 from tb.ingest.history.dukascopy import Side, candle_url, decode_candles
+from tb.ingest.mt5.models import FeedUnavailable
 from tb.research.forex_registry import load_forex_plan
 from tb.research.models import HOLDOUT, ForexDatasetPlan, ResearchRefused
 from tb.research.registry import declare_artifact, read_metadata, safe
@@ -53,6 +54,7 @@ def request_bytes(
     sleep: Callable[[float], None] = time.sleep,
     clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     attempts: int = 3,
+    admit: Callable[[], None] = lambda: None,
 ) -> bytes | None:
     """At most three sequential tries with backoff; never follow unreviewed redirects."""
     if not 1 <= attempts <= 3:
@@ -60,6 +62,7 @@ def request_bytes(
     error_class, sample, status = "unknown", "request failed", None
     for attempt in range(attempts):
         sleep(1 if not attempt else min(2**attempt, 8))
+        admit()
         try:
             with client.stream(
                 method,
@@ -81,7 +84,10 @@ def request_bytes(
                     if size > MAX_ARCHIVE_BYTES:
                         raise ValueError("historical response size bound exceeded")
                     parts.append(part)
+                admit()
                 return b"".join(parts)
+        except (ResearchRefused, FeedUnavailable):
+            raise
         except (httpx.HTTPError, OSError, ValueError) as exc:
             error_class, sample = type(exc).__name__, "transport or bounded response failure"
     raise ProviderFailure(
@@ -147,12 +153,13 @@ def download_form(
     clock: Callable[[], datetime],
     sleep: Callable[[float], None],
     cadence: str = "monthly",
+    admit: Callable[[], None] = lambda: None,
 ) -> dict[str, str] | None:
     """Refresh an incomplete public form at most twice; refusals do not multiply retries."""
     for attempt in range(3):
         if attempt:
             sleep(2**attempt)
-        html = request_bytes(client, "GET", page, clock=clock, sleep=sleep)
+        html = request_bytes(client, "GET", page, clock=clock, sleep=sleep, admit=admit)
         if html is None:
             return None
         form = DownloadForm()
@@ -268,6 +275,10 @@ def download_period(
 ) -> dict[str, Any]:
     """Admit before requests/reads; resume complete original artifacts without overwriting."""
     plan = load_forex_plan(root, dataset_id, clock())
+
+    def admit() -> None:
+        load_forex_plan(root, dataset_id, clock())
+
     validate_period(plan, symbol, period, cadence)
     folder = _folder(root, plan, symbol, period)
     stem = f"{symbol}-{period.isoformat()}" + ("-yearly" if cadence == "yearly" else "")
@@ -313,7 +324,7 @@ def download_period(
             if cadence == "yearly":
                 page = page.rsplit("/", 1)[0]
             fields = download_form(
-                client, page, symbol, period, clock=clock, sleep=sleep, cadence=cadence
+                client, page, symbol, period, clock=clock, sleep=sleep, cadence=cadence, admit=admit
             )
             if fields is None:
                 result = {
@@ -327,7 +338,14 @@ def download_period(
                 return result
             endpoint = plan.source + "/get.php"
             payload = request_bytes(
-                client, "POST", endpoint, data=fields, referer=page, clock=clock, sleep=sleep
+                client,
+                "POST",
+                endpoint,
+                data=fields,
+                referer=page,
+                clock=clock,
+                sleep=sleep,
+                admit=admit,
             )
             if payload is None:
                 result = {
@@ -353,10 +371,11 @@ def download_period(
             sides: dict[str, pl.DataFrame] = {}
             for side in SIDES:
                 url = candle_url(symbol, period, side)
-                payload = request_bytes(client, "GET", url, clock=clock, sleep=sleep)
+                payload = request_bytes(client, "GET", url, clock=clock, sleep=sleep, admit=admit)
                 urls.append(url)
                 if payload is None:
                     continue
+                admit()
                 raw_path = folder / (stem + f"-{side}.bi5")
                 declare_artifact(root, plan, raw_path, ["raw", "original_source"], [])
                 if (
