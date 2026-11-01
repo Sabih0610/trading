@@ -26,5 +26,12 @@
     "a4d938579f03f9e93a1488ab5b99f2e662b001bc": "faeb9c499a1602f0cc33bee153040f05d45b6084",
     "dedfd58fa074af6286225011d20b0831dac13b23": "531d99b5edae40f609e2c2fbcab911c44f7f9479",
     "24336a37c30cee5cb99f77a9a9103fb8ee6a9bde": "0b34d0ce0462a36afa1f9df2f6327ebe71232d5f"
+  },
+  "publication": {
+    "pr_url": "https://github.com/Sabih0610/trading/pull/4",
+    "branch": "codex/p11e-acquire-history",
+    "main_merged": false,
+    "skip_ci": true,
+    "follow_tags": false
   }
 }

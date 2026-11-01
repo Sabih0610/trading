@@ -6,7 +6,7 @@ instruments. The consent file was absent, so HistData was used without Dukascopy
 contact. 1302 tests pass in a clean credential-free offline gate; Ruff, format,
 strict mypy, smoke and 14 owned studies pass. All genuine artifacts and quality
 values remain private. No evaluation, sealed-file access or main merge.
-[Phase report](reports/phases/P11e.md) · [Validation](reports/validation/P11e/summary.json).
+[PR #4](https://github.com/Sabih0610/trading/pull/4) · [Phase report](reports/phases/P11e.md) · [Validation](reports/validation/P11e/summary.json).
 
 P11d PR #3 review fixes **P11d-1/2/3 addressed**: clean offline gate passed
 (1267 tests; lint/format/mypy, smoke and 14 paper studies). Restarted collector

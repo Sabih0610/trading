@@ -603,7 +603,9 @@
       "tests_passed": 1302,
       "coverage": "documented_per_file_gold_fx_boundary_gaps",
       "private_quality_table": "reports/data_quality/P11e-symbol-year-quality.md",
-      "sealed_collector": "untouched"
+      "sealed_collector": "untouched",
+      "pr_url": "https://github.com/Sabih0610/trading/pull/4",
+      "publication": "open_unmerged"
     }
   },
   "allowed_status": [
