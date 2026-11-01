@@ -1,7 +1,16 @@
-# P11e fix round in progress
+# P11e PR #4 fix round complete
 
-PR #4 clock correction follows the owner's raw-byte duplicate rule; 69 focused
-fixtures and strict mypy pass. Private rebuild and full clean gate pending.
+Corrected HistData to one EU-week offset and verified provider duplicate removal;
+conflicting repeats quarantine the whole day. Six private FX generations are rebuilt
+from unchanged Bronze. Old/new duplicate counts and weekly-open offsets remain private.
+Clean offline gate: 1337 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 828.39s (0:13:48). Ruff, format, strict mypy (188 sources), smoke and 14 owned
+studies pass on 56964f6b3c4d5789462c6690b2e25a3aad8c470a. Later edits are documentation only.
+Dukascopy consent remains absent; no requests/cross-check. Stage 3 spreads still need
+owner review. No strategy evaluation, holdout access, sealed changes or main merge.
+
+[PR #4](https://github.com/Sabih0610/trading/pull/4) awaits re-review.
+
+## Original acquisition checkpoint
 
 # Build progress
 

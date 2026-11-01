@@ -10,18 +10,25 @@ Real 2021–2023 files contradict the "fixed EST" claim:
 - Weekly opens are stamped 17:00 (EURUSD) / 18:00 (XAUUSD) almost all year, and one hour earlier
   only in US/EU DST-mismatch weeks (e.g. 2022-03-13, 2022-03-20, 2022-10-30).
 - On each EU fall-back Sunday (2021-10-31, 2022-10-30, 2023-10-29) the stamps 19:00–19:59 appear
-  twice in a row. These are two consecutive real hours, not duplicates.
+  twice in a row. **Correction (verified on raw bytes):** the second copy is an exact duplicate,
+  with 60/60 identical OHLC bars. Both copies continue from 18:59 and into 20:00. It is a provider
+  duplicate, not a second real hour.
 
 Required:
 1. Convert per trading week: **+4 h** when the week's Sunday open falls while `Europe/London` is on
-   summer time (BST), **+5 h** otherwise. For the repeated fall-back hour, the first copy is +4 h
-   and the second is +5 h. Never deduplicate it.
+   summer time (BST), **+5 h** otherwise. One offset covers the whole week, fall-back Sunday
+   included: the EU has already fallen back by Sunday, so 2022-10-30 is all +5 h, and the 16:00
+   EURUSD open lands at 21:00 UTC, which is correct for US EDT.
+   The repeated hour: keep the first copy, and drop the second only if every OHLCV field is
+   byte-identical to the first. Record it as `provider_duplicate_hour`. If any bar differs,
+   quarantine that day and flag it. Never give part of a week a different offset. Stop and ask only if
+   real data contradicts this rule (e.g. a non-identical repeat).
 2. Build the expected weekend and rollover grid in Silver from the same rule.
 3. Add a quality check: every week's first bar must land at the expected UTC open (EURUSD
    21:00/22:00 UTC, XAUUSD 22:00/23:00 UTC for US summer/winter), or the week is flagged with its
    offset. Weeks whose open is late because data is missing (common in 2023) are flagged, not shifted.
-4. Fixture tests shaped like the real pattern: a mismatch week, the fall-back repeat (60 bars kept,
-   strictly increasing UTC), a normal summer week (+4 h) and a winter week (+5 h), and the 2024-12-31
+4. Fixture tests shaped like the real pattern: a mismatch week, the fall-back identical repeat (60 duplicate
+   bars dropped and recorded, strictly increasing UTC; a non-identical repeat quarantines the day), a normal summer week (+4 h) and a winter week (+5 h), and the 2024-12-31
    holdout boundary unchanged. Replace the "constant +5 h across March/November" contract test.
    This is a correction of a wrong specification, not a weakened test; say so in the journal.
 5. Update ADR 0021, the FX runbook, the data dictionary and `prompts/P11e-acquire-history.md` B1.4.

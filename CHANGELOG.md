@@ -4,11 +4,22 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### P11e PR #4 clock/retry review fixes — 2026-11-01 UTC
+
+- Corrected HistData to one London-scheduled +4/+5 h offset per trading week.
+- Remove only verified byte-identical autumn duplicate hours; quarantine conflicting
+  days and flag weekly-open offsets without shifting observations.
+- Rebuilt private 2021–2023 FX Silver/Gold from original CSV; all Bronze, approval
+  digests and retention unchanged. Old/new duplicate and weekly-open evidence is private.
+- Use an explicit injected mock client for legacy Dukascopy fixtures; fail closed.
+- Honour capped Retry-After, or stop on first 429 with an unusable header.
+- Full clean offline gate passed. Consent absent; Stage 3 spread defaults unchanged.
+
 ### P11e approved historical acquisition — 2026-11-01 UTC
 
 - Added registered FX archive plans, opaque written-consent verification, bounded
   retries/fallback and rights rechecks around transport/partial writes.
-- Added fixed-EST bid-only HistData yearly archives, original ZIP/CSV retention,
+- Added bid-only HistData (clock corrected in the fix round) yearly archives, original ZIP/CSV retention,
   source-separated yearly Silver/Gold and BID/ASK retention at every timeframe.
 - Expanded metadata-only Data Health to five instruments and explicit missing years.
 - Preserved complete private quality details behind bounded hashed summaries;

@@ -1,6 +1,18 @@
-# Current handoff — P11e clock fix in progress
+# Current handoff — P11e PR #4 fix round complete
 
-PR #4 fix round on the existing credential-free P11e checkout, rebased onto main 544db3f. Preserve all original Bronze artifacts; correct derived Silver/Gold by parsing verified original CSV. Consent is absent. Owner clarified one offset per week and byte-identical provider duplicate removal, otherwise whole-day quarantine. The interim fold rebuild was stopped before publication. Corrected tests and rebuild proceed. Do not touch the sealed collector or read .env. Full clean gates and private rebuild remain pending.
+Corrected HistData to one EU-week offset and verified provider duplicate removal;
+conflicting repeats quarantine the whole day. Six private FX generations are rebuilt
+from unchanged Bronze. Old/new duplicate counts and weekly-open offsets remain private.
+Clean offline gate: 1337 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 828.39s (0:13:48). Ruff, format, strict mypy (188 sources), smoke and 14 owned
+studies pass on 56964f6b3c4d5789462c6690b2e25a3aad8c470a. Later edits are documentation only.
+Dukascopy consent remains absent; no requests/cross-check. Stage 3 spreads still need
+owner review. No strategy evaluation, holdout access, sealed changes or main merge.
+
+Keep the credential-free P11e worktree, private data and finite-retention evidence.
+The original published PR tip remains an ancestor, permitting a non-force push after
+the requested rebase. Corrected owner prompt/review copies include main ec75191.
+Next: independent fix-round re-review; consent, safe boundary history and spread-floor
+approval remain separate. [Report](../reports/phases/P11e.md) and [validation](../reports/validation/P11e/summary.json).
 
 ## Previous completion
 

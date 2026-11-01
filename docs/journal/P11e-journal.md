@@ -72,3 +72,10 @@
   Stop/quarantine conflicting days. Stopped the interim rebuild before its first
   publication; retain the original pre-fix snapshot and verify pointer identities.
   Updated code/fixtures/docs to the owner's rule, superseding the earlier prompt.
+
+- 2026-11-01 15:42 UTC: Completed all six corrected private FX generations; preflight duplicate
+  verification found no genuine contradiction. All original Bronze hashes unchanged.
+  Private quality records old/new duplicates and every expected/observed weekly open.
+- 2026-11-01 15:42 UTC: Clean source 56964f6b3c4d5789462c6690b2e25a3aad8c470a: 1337 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 828.39s (0:13:48). Ruff/format, strict mypy,
+  smoke and 14 owned studies pass. No deadline/assertion/risk/holdout weakening.
+  Main correction ec75191 synchronized; subsequent edits are documentation only.
