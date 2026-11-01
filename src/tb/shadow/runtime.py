@@ -7,6 +7,7 @@ from collections.abc import Callable
 from datetime import datetime, timedelta
 from typing import Any
 
+from tb.core.holdout import require_unsealed
 from tb.core.instruments import assert_eligible
 from tb.features.engine import FeatureEngine
 from tb.ingest.rights import SHADOW_USAGES, DataRights
@@ -100,6 +101,7 @@ class ShadowRuntime:
         self, event: ShadowEvent, now: datetime, *, before_commit: Callable[[], None] | None = None
     ) -> str:
         """Receipt-time availability precedes every frozen decision; duplicates never mutate it."""
+        require_unsealed(event)
         self.journal.require_writer()
         ShadowEvent.model_validate(event.model_dump())
         if event.pin != self.journal.pin or event.pin.rights_digest != self.rights.digest:

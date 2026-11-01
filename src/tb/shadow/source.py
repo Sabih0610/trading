@@ -7,8 +7,7 @@ from collections.abc import Iterator
 from datetime import UTC, datetime
 from pathlib import Path
 
-import polars as pl
-
+from tb.core.holdout import read_unsealed_parquet
 from tb.ingest.history.core import sha256_file
 from tb.ingest.mt5.models import Observation
 from tb.ingest.mt5.storage import record_id
@@ -55,7 +54,7 @@ def read_committed(root: Path, commit_path: Path, pin: SourcePin) -> Iterator[Sh
             silver = candidate
     if silver is None:
         raise ShadowRefused("shadow_committed_silver_missing")
-    records = pl.read_parquet(silver, n_rows=11).to_dicts()
+    records = read_unsealed_parquet(silver, n_rows=11).to_dicts()
     if len(records) > 10 or len(records) != value["rows"]:
         raise ShadowRefused("shadow_silver_row_bound_or_count_refused")
     for data in records:

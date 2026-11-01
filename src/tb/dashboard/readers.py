@@ -16,6 +16,7 @@ import polars as pl
 from pydantic import ValidationError
 
 from tb.backtest.validation import FINAL_TEST_START
+from tb.core.holdout import scan_unsealed_parquet
 from tb.dashboard.models import (
     AccountRecord,
     DecisionPage,
@@ -51,12 +52,16 @@ def safe_path(root: Path, relative: str, suffix: str) -> Path:
 def read_json(path: Path) -> dict[str, Any]:
     """Read small explicit metadata only, rejecting huge or malformed inputs."""
 
+    from tb.core.holdout import require_unsealed
+
+    require_unsealed(path)
     try:
         if path.stat().st_size > 1_000_000:
             raise EvidenceUnavailable("Metadata exceeds the read limit")
         value = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(value, dict):
             raise EvidenceUnavailable("Metadata must be an object")
+        require_unsealed(value)
         return value
     except (OSError, ValueError) as exc:
         raise EvidenceUnavailable("Evidence metadata unavailable or invalid") from exc
@@ -364,7 +369,7 @@ def parquet_rows(folder: Path, name: str, mode: str, *, limit: int = 2000) -> li
             if name == "prices"
             else ["timestamp", "equity", "cash", "holdings"]
         )
-        scan = pl.scan_parquet(path).select(columns)
+        scan = scan_unsealed_parquet(path).select(columns)
         if mode != "synthetic":
             scan = scan.filter(pl.col("timestamp") < FINAL_TEST_START)
         frame = scan.limit(limit).collect(engine="streaming")
@@ -391,7 +396,7 @@ def marked_drawdown(folder: Path, mode: str) -> Decimal | None:
         if manifest.get("series_type") != "marked":
             return None
         result = (
-            pl.scan_parquet(path)
+            scan_unsealed_parquet(path)
             .filter(pl.lit(True) if mode == "synthetic" else pl.col("timestamp") < FINAL_TEST_START)
             .select("timestamp", pl.col("equity").cast(pl.Float64))
             .with_columns(pl.col("equity").cum_max().alias("peak"))

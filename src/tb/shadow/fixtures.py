@@ -204,9 +204,13 @@ def write_fixture(
 
 def read_replay(path: Path, pin: SourcePin) -> Iterator[ShadowEvent]:
     """Verify the complete small manifest before yielding any prospective replay event."""
+    from tb.core.holdout import require_unsealed
+
+    require_unsealed(path)
     if path.stat().st_size > 32768:
         raise ShadowRefused("shadow_manifest_too_large")
     value = json.loads(path.read_text(encoding="utf-8"))
+    require_unsealed(value)
     if SourcePin.model_validate(value["pin"]) != pin or value.get("schema") != 1:
         raise ShadowRefused("shadow_manifest_source_identity_mismatch")
     source = (path.parent / value["file"]).resolve()

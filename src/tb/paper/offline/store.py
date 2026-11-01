@@ -10,6 +10,7 @@ from datetime import UTC
 from pathlib import Path
 from typing import Any
 
+from tb.core.holdout import require_unsealed
 from tb.core.leases import writer_lease
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ledger.store import DecisionLedger, LedgerVersions
@@ -266,6 +267,7 @@ class PaperStore:
 
     def process(self, event: PaperInput, *, fault: Callable[[str], None] | None = None) -> str:
         """One FULL-sync transaction includes all fills, balances, latches and dedup identity."""
+        require_unsealed(event)
         self.require_writer()
         payload = event.model_dump(mode="json")
         existing = self.db.execute(

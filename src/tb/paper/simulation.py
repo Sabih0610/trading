@@ -12,6 +12,7 @@ from pydantic import AwareDatetime, Field
 
 from tb.agents.schemas import ArenaAnswer
 from tb.backtest.validation import FINAL_TEST_START, FinalTestLockedError
+from tb.core.holdout import require_unsealed
 from tb.core.instruments import (
     ContractSpec,
     CurrencyConversion,
@@ -198,6 +199,7 @@ class LocalPaperSimulator:
         advisory: ArenaAnswer | None = None,
     ) -> SimulationResult:
         """Consume bounded quote batches; invalid marks fail closed before execution."""
+        require_unsealed(quotes)
 
         if not quotes or len(quotes) != len(conversions):
             raise ValueError("Quotes require one contemporaneous conversion each")

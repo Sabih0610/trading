@@ -83,6 +83,7 @@ suite plus the phase's scenario tests, fix everything, then write a phase report
 Train 2020-10 → 2023-12, validation 2024, final test 2025-01 → today. The final test set is LOCKED:
 code must refuse to evaluate on it unless `--final-test` is passed AND `reports/final_test_log.md`
 gets an entry. Never tune anything on the final test.
+Sealed capture-only forward exception: see `prompts/P11d-audit-fixes-and-real-data.md` §Sealed forward collection; no reads or unsealing before separately authorized P14.
 
 ## 8. Definition of done (every task)
 ruff clean · mypy clean · all tests green · new code covered by tests · docs/research note written ·

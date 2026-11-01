@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 import polars as pl
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
 
+from tb.core.holdout import read_unsealed_parquet, require_unsealed, scan_unsealed_parquet
 from tb.core.logging import configure_cli_logging
 from tb.core.timeutil import utc_now
 from tb.features.context import (
@@ -112,6 +113,7 @@ def build_feature_frame(
     engine: FeatureEngine | None = None,
 ) -> pl.DataFrame:
     """Build one causal Gold partition from completed Silver bars and known context."""
+    require_unsealed(silver)
 
     if timeframe not in _TIMEFRAMES:
         raise ValueError(f"Unsupported timeframe: {timeframe}")
@@ -239,11 +241,12 @@ def _silver_inputs(silver_root: Path) -> list[Path]:
 def _optional_frame(path: Path) -> tuple[pl.DataFrame | None, str]:
     if not path.is_file():
         return None, "absent"
-    return pl.read_parquet(path), sha256_file(path)
+    return read_unsealed_parquet(path), sha256_file(path)
 
 
 def build_gold(silver_root: Path, gold_root: Path) -> GoldBuildSummary:
     """Build or resume Gold feature partitions for approved spot assets only."""
+    require_unsealed(silver_root)
 
     calendar, calendar_hash = _optional_frame(silver_root / "calendar/events.parquet")
     processed = 0
@@ -270,7 +273,7 @@ def build_gold(silver_root: Path, gold_root: Path) -> GoldBuildSummary:
             higher_paths = sorted(higher_root.rglob("*.parquet")) if higher_root.is_dir() else []
             if higher_paths:
                 higher = pl.concat(
-                    [pl.read_parquet(path) for path in higher_paths], how="vertical_relaxed"
+                    [read_unsealed_parquet(path) for path in higher_paths], how="vertical_relaxed"
                 )
                 higher_hash = hashlib.sha256(
                     "|".join(sha256_file(path) for path in higher_paths).encode()
@@ -292,7 +295,7 @@ def build_gold(silver_root: Path, gold_root: Path) -> GoldBuildSummary:
         output_path = gold_root / "features" / relative
         engine = engines.setdefault(key, FeatureEngine(timeframe=_TIMEFRAMES[timeframe]))
         result = build_feature_frame(
-            pl.read_parquet(input_path),
+            read_unsealed_parquet(input_path),
             timeframe=timeframe,
             calendar=calendar,
             basis=basis,
@@ -310,7 +313,7 @@ def build_gold(silver_root: Path, gold_root: Path) -> GoldBuildSummary:
         )
         processed += 1
     files = list((gold_root / "features").rglob("*.parquet"))
-    rows = sum(int(pl.scan_parquet(path).select(pl.len()).collect().item()) for path in files)
+    rows = sum(int(scan_unsealed_parquet(path).select(pl.len()).collect().item()) for path in files)
     return GoldBuildSummary(processed=processed, skipped=skipped, files=len(files), rows=rows)
 
 

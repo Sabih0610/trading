@@ -15,3 +15,57 @@ The 2025+ holdout is outside this phase, including archive inspection.
 Installed package versions and Parquet/API guidance will be recorded before Part B.
 Open questions: per-symbol first 1s archive dates, current dataset admission scope,
 retention/report rules, crash-safe multi-file manifest publication.
+
+## Part B primary-source verification
+
+Accessed 2026-11-01. Locked Polars is 2.0.0; DuckDB is not installed (do not add
+an unused dependency). Inspected installed writer signatures as well as docs.
+
+| Choice | Decision | Source |
+|---|---|---|
+| Writer interface | Explicit statistics, compression zstd level 6, row_group_size 131072 for sink/write. | https://docs.pola.rs/api/python/stable/reference/api/polars.LazyFrame.sink_parquet.html and https://docs.pola.rs/api/python/stable/reference/api/polars.DataFrame.write_parquet.html |
+| Layout | Yearly files; 100K–250K row groups are within general DuckDB guidance. Prioritize bounded symbol-year memory over padding files to a target size. | https://duckdb.org/docs/stable/guides/performance/file_formats and https://duckdb.org/docs/stable/data/parquet/tips |
+| Archive integrity | Vendor CHECKSUM and computed SHA-256; preserve raw ZIP/CHECKSUM; missing objects remain explicit gaps. Checksums do not prove minute completeness. | https://github.com/binance/binance-public-data/blob/master/README.md |
+| Rights | Vision Dataset Terms version 1.0, last updated 2026-08-26. Private non-production research only; restrictions apply to derived reports/models. Store version on every manifest; no commercial/live inference. | https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md and https://data.binance.vision/Binance_Vision-Terms_of_Use.pdf |
+
+### Availability evidence (metadata only)
+
+Queried the official Vision bucket index using max-keys=1 and historical year
+prefixes only; no ZIP, CHECKSUM or price rows were retrieved. Earliest indexed
+1s objects: BTCUSDT and ETHUSDT 2017-08-17, SOLUSDT 2020-08-11. SOL's first indexed
+1m object is also 2020-08-11, before the required 2020-10 start. These establish
+object availability, not completeness or actual first trade time. No 2025+ prefix
+was queried. The bounded downloader still rejects dates outside P11d's window.
+
+Primary metadata endpoint: https://s3-ap-northeast-1.amazonaws.com/data.binance.vision
+with prefix=data/spot/daily/klines/<symbol>/1s/<symbol>-1s-201 (BTC/ETH),
+or prefix=data/spot/daily/klines/SOLUSDT/1s/SOLUSDT-1s-202 and max-keys=1.
+The same 2020 prefix under 1m verified SOL availability. These metadata requests
+are research evidence only, and are not added as runtime downloader endpoints.
+
+Registry inspection: existing policy supports only EURUSD/XAUUSD and finite,
+independently approved retention. Add a closed prospective Vision-plan variant
+using the same authorizer, with BTC/ETH/SOL scope and explicit report rules.
+No real approvals were supplied. Genuine acquisition is BLOCKED — DATASET NOT
+AUTHORIZED. Continue only with fictional archive and rights fixtures.
+See ADR 0019 for atomic publication and recovery choices.
+
+## Owner sealed-forward exception
+
+The owner updated the P11d prompt on main (66be38c) on 2026-11-01: capture new
+XAUT data now, seal immediately, no historical back-fill or analytical access;
+open once only under separately logged P14 authority. This is capture-only,
+not admission of a real dataset for research. Preserve reviewer/rights uncertainty.
+
+Primary transport specification, accessed 2026-11-01:
+https://developers.binance.com/docs/binance-spot-api-docs/web-socket-streams
+The Spot diff-depth update ranges require a current snapshot anchor and reconnect/
+resync on sequence gaps; bookTicker update IDs need not be contiguous. Capture
+raw JSON, not reconstructed market statistics. Endpoint is the data-only public
+Spot WebSocket plus the current public depth snapshot. No credentials or SDK.
+
+API terms reference: https://www.binance.com/en/terms (linked by developer docs).
+The public terms page exposes no verified API version string; /en/terms-api was
+inaccessible to the research browser. Record that uncertainty and access date,
+never substitute the Vision archive licence. P14 needs separately reviewed rights
+and its one-use logged release. ADR 0020 records capture-only authority and sealing.

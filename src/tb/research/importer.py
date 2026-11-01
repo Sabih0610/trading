@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 
 import polars as pl
 
+from tb.core.holdout import read_unsealed_parquet, require_unsealed, scan_unsealed_parquet
 from tb.core.leases import writer_lease
 from tb.ingest.history.core import atomic_write_bytes, sha256_file
 from tb.research.models import HOLDOUT, DatasetPolicy, HistoricalBar, ResearchRefused, digest
@@ -63,6 +64,7 @@ def at(value: Any, policy: DatasetPolicy) -> datetime:
 
 
 def parse(row: dict[str, Any], policy: DatasetPolicy) -> HistoricalBar:
+    require_unsealed(row)
     if row.get("symbol") not in policy.source_symbols:
         raise ResearchRefused("source_instrument_identity_invalid")
     if row.get("complete") is not True and row.get("complete") != "true":
@@ -96,6 +98,7 @@ def parse(row: dict[str, Any], policy: DatasetPolicy) -> HistoricalBar:
 
 
 def source_rows(path: Path, policy: DatasetPolicy) -> Iterator[dict[str, Any]]:
+    require_unsealed(path)
     required = {
         "symbol",
         "timestamp",
@@ -123,7 +126,7 @@ def source_rows(path: Path, policy: DatasetPolicy) -> Iterator[dict[str, Any]]:
                     raise ResearchRefused("source_record_truncated_or_oversized")
                 yield row
     else:
-        lazy = pl.scan_parquet(path)
+        lazy = scan_unsealed_parquet(path)
         if set(lazy.collect_schema().names()) != required:
             raise ResearchRefused("source_columns_or_timestamp_missing")
         for chunk in lazy.collect_batches(chunk_size=CHUNK, engine="streaming"):
@@ -424,7 +427,7 @@ def bars(root: Path, dataset_id: str, *, clock: Callable[[], datetime]) -> Itera
     _policy, value = imported(root, dataset_id, clock())
     for part in value["files"]:
         load(root, dataset_id, clock())
-        for row in pl.read_parquet(safe(root, part["path"], base="data/silver/research")).iter_rows(
-            named=True
-        ):
+        for row in read_unsealed_parquet(
+            safe(root, part["path"], base="data/silver/research")
+        ).iter_rows(named=True):
             yield HistoricalBar.model_validate(row)

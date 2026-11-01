@@ -14,6 +14,7 @@ from uuid import uuid4
 import polars as pl
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
 
+from tb.core.holdout import read_unsealed_parquet, require_unsealed, scan_unsealed_parquet
 from tb.core.logging import configure_cli_logging
 from tb.core.timeutil import utc_now
 from tb.ingest.history.core import (
@@ -111,7 +112,7 @@ def _silver_is_current(output_path: Path, *, input_sha256: str) -> bool:
     ):
         return False
     try:
-        rows = pl.scan_parquet(output_path).select(pl.len()).collect().item()
+        rows = scan_unsealed_parquet(output_path).select(pl.len()).collect().item()
     except (OSError, ValueError, pl.exceptions.PolarsError):
         return False
     return bool(manifest.rows == rows)
@@ -221,7 +222,7 @@ def _process_market_partition(
     ):
         return False
 
-    bronze_frame = pl.read_parquet(input_path)
+    bronze_frame = read_unsealed_parquet(input_path)
     if source == "binance_spot":
         canonical = binance_klines_to_canonical(bronze_frame, symbol=symbol)
         market_kind: Literal["continuous", "weekday"] = "continuous"
@@ -385,10 +386,10 @@ def _process_context(bronze_root: Path, silver_root: Path) -> tuple[int, int]:
         manifest = _bronze_manifest(input_path)
         lineage_parts.append(manifest.parquet_sha256)
         if _silver_is_current(output_path, input_sha256=manifest.parquet_sha256):
-            frame = pl.read_parquet(output_path)
+            frame = read_unsealed_parquet(output_path)
             skipped += 1
         else:
-            source_frame = pl.read_parquet(input_path)
+            source_frame = read_unsealed_parquet(input_path)
             frame = (
                 calendar_to_silver(source_frame)
                 if dataset == "calendar"
@@ -462,7 +463,7 @@ def _process_alignments(silver_root: Path, report_root: Path) -> tuple[int, int]
         if _silver_is_current(output_path, input_sha256=combined):
             skipped += 1
             continue
-        xaut_frame = pl.read_parquet(xaut_path)
+        xaut_frame = read_unsealed_parquet(xaut_path)
         if xau_path is None:
             xau_frame = pl.DataFrame(
                 schema={
@@ -472,7 +473,7 @@ def _process_alignments(silver_root: Path, report_root: Path) -> tuple[int, int]
                 }
             )
         else:
-            xau_frame = pl.read_parquet(xau_path)
+            xau_frame = read_unsealed_parquet(xau_path)
         aligned = align_xaut_xau_basis(xaut_frame, xau_frame)
         _commit_silver(
             output_path,
@@ -502,6 +503,7 @@ def build_silver(
     report_root: Path,
 ) -> BuildSummary:
     """Build all available verified Silver partitions and skip unchanged lineage."""
+    require_unsealed(bronze_root)
 
     processed_market = 0
     skipped_market = 0
@@ -514,7 +516,7 @@ def build_silver(
     processed_alignment, skipped_alignment = _process_alignments(silver_root, report_root)
     silver_files = list(silver_root.rglob("*.parquet")) if silver_root.is_dir() else []
     silver_rows = sum(
-        int(pl.scan_parquet(path).select(pl.len()).collect().item()) for path in silver_files
+        int(scan_unsealed_parquet(path).select(pl.len()).collect().item()) for path in silver_files
     )
     summary = BuildSummary(
         processed_market_partitions=processed_market,

@@ -134,7 +134,7 @@ def generate(
         source_file=f"work/research/sources/{dataset_id}.{file_format}",
         source_sha256="0" * 64,
         file_format=file_format,
-        instruments=rights.instruments,
+        instruments=("EURUSD", "XAUUSD"),
         source_symbols={"EUR/USD": "EURUSD", "XAU/USD": "XAUUSD"},
         units={"EURUSD": "USD_per_EUR", "XAUUSD": "USD_per_troy_ounce"},
         price_type=price_type,

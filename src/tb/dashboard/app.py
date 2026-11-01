@@ -56,6 +56,7 @@ VIEWS = (
     "Shadow Research",
     "Offline Paper Lab",
     "Local Market Research",
+    "Data Health",
 )
 
 
@@ -396,6 +397,11 @@ def main() -> None:
     st.sidebar.caption(
         "Filters change this view only. No account actions or policy edits are available."
     )
+    if view == "Data Health":
+        from tb.dashboard.data_health import data_health_view
+
+        data_health_view(root)
+        return
     if view == "Market Feed":
         market_feed_view(root, zone)
         broker_view(root)

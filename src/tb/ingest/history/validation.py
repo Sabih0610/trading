@@ -9,6 +9,7 @@ from pathlib import Path
 import polars as pl
 from pydantic import BaseModel, ConfigDict, Field
 
+from tb.core.holdout import scan_unsealed_parquet
 from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import BronzeManifest, sha256_file
 
@@ -67,7 +68,7 @@ def validate_bronze(root: Path) -> BronzeValidationReport:
         if manifest.parquet_sha256 != sha256_file(data_path):
             issues.append(f"{relative}: manifest checksum does not match")
         try:
-            frame = pl.scan_parquet(data_path)
+            frame = scan_unsealed_parquet(data_path)
             timestamp_column = _timestamp_column(frame)
             summary = frame.select(
                 pl.len().alias("rows"),

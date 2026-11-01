@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from typing import Any, Literal
 
+from tb.core.holdout import require_unsealed
 from tb.core.instruments import (
     CurrencyConversion,
     MarketQuote,
@@ -57,6 +58,7 @@ class PaperReducer:
 
     def apply(self, event: PaperInput) -> tuple[PaperState, list[dict[str, Any]]]:
         """Apply one received event; duplicate suppression belongs to the atomic journal."""
+        require_unsealed(event)
         PaperInput.model_validate(event.model_dump())
         if (
             event.symbol not in self.package.contracts

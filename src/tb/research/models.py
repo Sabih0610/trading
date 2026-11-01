@@ -18,6 +18,7 @@ from tb.strategies.reference import ReferenceStrategyConfig
 
 VERSION = "local-research-1.0.0"
 Symbol = Literal["EURUSD", "XAUUSD"]
+SpotHistorySymbol = Literal["BTCUSDT", "ETHUSDT", "SOLUSDT"]
 SourceClass = Literal["owned_synthetic", "licensed_historical"]
 PriceType = Literal["reference_midpoint", "bid_only", "bid_ask"]
 STORAGE_USES: tuple[Usage, ...] = ("raw_cache", "historical_storage", "derived_storage")
@@ -42,7 +43,7 @@ def digest(value: Any) -> str:
 class DatasetRights(PolicyModel):
     provider: str = Field(min_length=1, max_length=80)
     dataset_id: str = Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")
-    instruments: tuple[Symbol, ...]
+    instruments: tuple[Symbol | SpotHistorySymbol, ...]
     reviewed_at: AwareDatetime
     reviewer: str | None = None
     owner_approved: StrictBool = False
@@ -55,6 +56,57 @@ class DatasetRights(PolicyModel):
     @property
     def digest(self) -> str:
         return digest(self.model_dump(mode="json"))
+
+
+class VisionDatasetPlan(PolicyModel):
+    """Prospective archive scope; approval precedes acquisition of any provider bytes."""
+
+    schema_version: Literal[1] = 1
+    dataset_id: str = Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")
+    source_class: Literal["licensed_historical"] = "licensed_historical"
+    provider: Literal["binance_vision"] = "binance_vision"
+    source: Literal["https://data.binance.vision/data/spot"] = (
+        "https://data.binance.vision/data/spot"
+    )
+    terms_version: Literal["1.0 (2026-08-26)"] = "1.0 (2026-08-26)"
+    scope: Literal["private non-production research"] = "private non-production research"
+    derived_report_rules: Literal[
+        "private only; no raw redistribution; Vision terms apply to derivatives"
+    ]
+    instruments: tuple[SpotHistorySymbol, ...]
+    intervals: tuple[Literal["1m", "1s"], ...] = ("1m",)
+    coverage_start: AwareDatetime = RESEARCH_START
+    coverage_end: AwareDatetime = datetime(2024, 12, 31, 23, 59, tzinfo=UTC)
+    acquired_at: AwareDatetime
+    rights: DatasetRights
+    retention: EvidenceLifetime
+
+    @property
+    def digest(self) -> str:
+        return digest(self.model_dump(mode="json"))
+
+    @model_validator(mode="after")
+    def coherent(self) -> Self:
+        if (
+            not self.instruments
+            or len(set(self.instruments)) != len(self.instruments)
+            or not self.intervals
+            or len(set(self.intervals)) != len(self.intervals)
+            or self.rights.provider != self.provider
+            or self.rights.dataset_id != self.dataset_id
+            or set(self.rights.instruments) != set(self.instruments)
+            or self.coverage_start.utcoffset() != timedelta(0)
+            or self.coverage_end.utcoffset() != timedelta(0)
+            or not RESEARCH_START <= self.coverage_start <= self.coverage_end < HOLDOUT
+            or self.coverage_start.second
+            or self.coverage_start.microsecond
+            or self.coverage_end.second
+            or self.coverage_end.microsecond
+            or self.retention.acquired_at != self.acquired_at
+            or self.retention.rights_digest != self.rights.digest
+        ):
+            raise ResearchRefused("vision_plan_scope_or_lifetime_invalid")
+        return self
 
 
 class OwnedGeneration(PolicyModel):

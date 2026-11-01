@@ -18,6 +18,8 @@ from uuid import uuid4
 import httpx
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 
+from tb.core.holdout import require_unsealed
+
 _SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 _PATH_SEGMENT_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$")
 
@@ -115,6 +117,7 @@ def sha256_bytes(payload: bytes) -> str:
 def sha256_file(path: Path, *, chunk_size: int = 1024 * 1024) -> str:
     """Hash a file in bounded chunks."""
 
+    require_unsealed(path)
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         while chunk := handle.read(chunk_size):

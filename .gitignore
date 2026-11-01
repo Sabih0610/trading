@@ -29,3 +29,4 @@ reports/broker_quotes/
 *.sqlite
 *.db
 reports/offline_paper/
+reports/data_quality/

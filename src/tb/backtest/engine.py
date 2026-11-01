@@ -11,6 +11,7 @@ from itertools import pairwise
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator
 
 from tb.backtest.costs import CostAssumptions
+from tb.core.holdout import require_unsealed
 from tb.risk.account import AccountCircuitBreaker, SafetyState
 from tb.risk.config import AssetDefinition, effective_risk_limits
 from tb.risk.guards import OrderSide, assert_tradable
@@ -226,6 +227,7 @@ class BacktestEngine:
         exit_signals: list[ExitSignal] | None = None,
     ) -> BacktestResult:
         """Run one symbol over completed bars without any external side effect."""
+        require_unsealed(bars)
 
         self._validate_bars(bars)
         signal_by_time = {signal.timestamp: signal for signal in signals}

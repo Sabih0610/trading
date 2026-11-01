@@ -13,6 +13,8 @@ from zoneinfo import ZoneInfo
 
 import polars as pl
 
+from tb.core.holdout import require_unsealed
+
 MarketKind = Literal["continuous", "weekday"]
 
 _PRICE_COLUMNS = ("open", "high", "low", "close")
@@ -149,8 +151,10 @@ def clean_minute_bars(
     minimum_spike_history: int = 20,
     spike_threshold: float = 12.0,
     minimum_absolute_return: float = 0.005,
+    previous_timestamp_ns: int | None = None,
 ) -> CleanResult:
     """Validate, order, deduplicate, and annotate canonical 1-minute bars."""
+    require_unsealed(frame)
 
     if spike_window < 2 or minimum_spike_history < 2 or minimum_spike_history > spike_window:
         raise ValueError("Spike history bounds are invalid")
@@ -180,7 +184,14 @@ def clean_minute_bars(
     if any(current <= previous for previous, current in pairwise(timestamp_values)):
         raise SilverValidationError("Timestamps must be unique and increasing after deduplication")
 
-    missing_minutes = [0]
+    if previous_timestamp_ns is not None:
+        elapsed = timestamp_values[0] - previous_timestamp_ns
+        if elapsed <= 0 or elapsed % 60_000_000_000:
+            raise SilverValidationError("Previous partition must precede this minute partition")
+        first_gap = max(elapsed // 60_000_000_000 - 1, 0)
+    else:
+        first_gap = 0
+    missing_minutes = [first_gap]
     for previous, current in pairwise(timestamp_values):
         elapsed = current - previous
         if elapsed % 60_000_000_000 != 0:
@@ -226,6 +237,7 @@ def resample_completed_bars(
     cutoff: datetime,
 ) -> pl.DataFrame:
     """Aggregate left-closed bars whose right boundary is no later than cutoff."""
+    require_unsealed(minute_bars)
 
     if timeframe not in _TIMEFRAMES:
         raise ValueError(f"Unsupported timeframe: {timeframe}")

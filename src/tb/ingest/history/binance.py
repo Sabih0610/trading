@@ -12,6 +12,7 @@ from uuid import uuid4
 
 import polars as pl
 
+from tb.core.holdout import scan_unsealed_parquet
 from tb.risk.guards import assert_tradable
 
 ArchiveCadence = Literal["daily", "monthly"]
@@ -159,10 +160,16 @@ def convert_archive_to_parquet(
                 normalized_timestamp
             )
         )
-        lazy.sink_parquet(parquet_temp, compression="zstd", statistics=True)
+        lazy.sink_parquet(
+            parquet_temp,
+            compression="zstd",
+            compression_level=6,
+            statistics=True,
+            row_group_size=131_072,
+        )
 
         summary = (
-            pl.scan_parquet(parquet_temp)
+            scan_unsealed_parquet(parquet_temp)
             .select(
                 pl.len().alias("rows"),
                 pl.col(normalized_timestamp).min().alias("first"),

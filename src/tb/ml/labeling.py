@@ -10,6 +10,8 @@ from itertools import pairwise
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from tb.core.holdout import require_unsealed
+
 
 class BarrierOutcome(StrEnum):
     """Adverse, favorable, or vertical-barrier outcome."""
@@ -87,6 +89,7 @@ def label_candidates(
     bars: Sequence[LabelBar], candidates: Sequence[CandidateSetup]
 ) -> tuple[CandidateLabel, ...]:
     """Label candidates with adverse same-bar ordering and no right-censored rows."""
+    require_unsealed(bars)
 
     if any(current.timestamp <= previous.timestamp for previous, current in pairwise(bars)):
         raise ValueError("label bars must be strictly increasing")

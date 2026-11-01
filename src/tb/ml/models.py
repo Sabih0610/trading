@@ -14,6 +14,7 @@ from sklearn.linear_model import LogisticRegression, Ridge  # type: ignore[impor
 from sklearn.pipeline import make_pipeline  # type: ignore[import-untyped]
 from sklearn.preprocessing import StandardScaler  # type: ignore[import-untyped]
 
+from tb.core.holdout import require_unsealed
 from tb.ml.policy import require_calibration_sample, require_training_sample
 
 
@@ -38,6 +39,7 @@ class ProbabilityCalibrator:
 def _validated_arrays(
     features: Any, targets: Any
 ) -> tuple[np.ndarray[Any, Any], np.ndarray[Any, Any]]:
+    require_unsealed(features)
     matrix = np.asarray(features, dtype=float)
     values = np.asarray(targets)
     if matrix.ndim != 2 or values.ndim != 1 or len(matrix) != len(values):

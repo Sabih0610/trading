@@ -11,6 +11,7 @@ from typing import Any
 
 import polars as pl
 
+from tb.core.holdout import require_unsealed
 from tb.features.reference import ReferenceFeatures, ReferencePeriods
 
 
@@ -119,6 +120,7 @@ class FeatureEngine:
 
     def update(self, bar: dict[str, Any], *, reference_only: bool = False) -> dict[str, Any]:
         """Consume one completed bar and return features knowable at that bar close."""
+        require_unsealed(bar)
 
         required = _REQUIRED[:5] if reference_only else _REQUIRED
         missing = sorted(set(required).difference(bar))
@@ -352,6 +354,7 @@ def compute_features_batch(
     engine: FeatureEngine | None = None,
 ) -> pl.DataFrame:
     """Replay the streaming engine over a sorted Polars frame."""
+    require_unsealed(frame)
 
     missing = sorted(set(_REQUIRED).difference(frame.columns))
     if missing:

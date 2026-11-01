@@ -19,6 +19,7 @@ from tb.agents.schemas import (
     ProviderRequest,
 )
 from tb.agents.scoring import herding_flag
+from tb.core.holdout import require_unsealed
 from tb.ledger import DecisionLedger, LedgerVersions
 
 
@@ -323,6 +324,7 @@ class Arena:
         collect_hypotheses: bool = True,
     ) -> ArenaResult:
         """Run independent, anonymized cross-review, and optional hypothesis stages."""
+        require_unsealed(snapshot)
 
         if not questions or any(not question.strip() for question in questions):
             raise ValueError("at least one non-empty question is required")

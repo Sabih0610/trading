@@ -8,11 +8,18 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from tb.core.holdout import require_unsealed
 from tb.core.leases import writer_lease
 from tb.ingest.history.core import atomic_write_bytes, sha256_file
 from tb.ingest.retention import require_lifetime
 from tb.ingest.rights import Usage
-from tb.research.models import STORAGE_USES, DatasetPolicy, ResearchRefused, digest
+from tb.research.models import (
+    STORAGE_USES,
+    DatasetPolicy,
+    ResearchRefused,
+    VisionDatasetPlan,
+    digest,
+)
 
 
 def safe(root: Path, relative: str, *, base: str | None = None) -> Path:
@@ -28,6 +35,7 @@ def safe(root: Path, relative: str, *, base: str | None = None) -> Path:
         if part.is_symlink() or part.is_junction():
             raise ResearchRefused("research_symlink_or_junction_refused")
     target = target.resolve()
+    require_unsealed(target)
     allowed = root / base if base else root
     if not target.is_relative_to(allowed.resolve()):
         raise ResearchRefused("research_path_outside_namespace")
@@ -41,6 +49,7 @@ def read_metadata(root: Path, relative: str, *, base: str | None = None) -> dict
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict):
         raise ResearchRefused("research_metadata_not_object")
+    require_unsealed(value)
     return value
 
 
@@ -56,7 +65,7 @@ def immutable_json(path: Path, value: dict[str, Any]) -> None:
 
 def authorize(
     root: Path,
-    policy: DatasetPolicy,
+    policy: DatasetPolicy | VisionDatasetPlan,
     now: datetime,
     *,
     display: bool = False,
@@ -87,7 +96,7 @@ def authorize(
     for permission in required:
         if not permission.allows(now):
             raise ResearchRefused("dataset_rights_missing_revoked_or_expired")
-        if policy.source_class == "licensed_historical":
+        if policy.source_class != "owned_synthetic":
             if r.reviewer == r.owner_approved_by:
                 raise ResearchRefused("dataset_independent_reviewer_required")
             if (
@@ -111,10 +120,53 @@ def authorize(
             ):
                 raise ResearchRefused("fabricated_approvals_are_test_only")
     if policy.source_class == "owned_synthetic":
+        assert isinstance(policy, DatasetPolicy)
         from tb.research.fixtures import source_bytes
 
         if digest_bytes(source_bytes(policy)) != policy.source_sha256:
             raise ResearchRefused("dataset_owned_generation_proof_invalid")
+
+
+def register_vision_plan(root: Path, proposal: str, now: datetime) -> str:
+    """Register a prospective Vision plan with existing documentary admission checks."""
+    plan = VisionDatasetPlan.model_validate(
+        read_metadata(root, proposal, base="work/research/proposals")
+    )
+    authorize(root, plan, now)
+    with writer_lease(safe(root, "work/research/registry/registry.lock")):
+        immutable_json(
+            safe(root, f"work/research/registry/vision/{plan.dataset_id}.json"),
+            {
+                "kind": "vision_archive_plan",
+                "policy": plan.model_dump(mode="json"),
+                "policy_digest": plan.digest,
+                "proposal": proposal,
+            },
+        )
+    return plan.dataset_id
+
+
+def load_vision_plan(root: Path, dataset_id: str, now: datetime) -> VisionDatasetPlan:
+    """Refuse changed/revoked/expired archive admission before source or derived reads."""
+    record = read_metadata(
+        root, f"work/research/registry/vision/{dataset_id}.json", base="work/research/registry"
+    )
+    plan = VisionDatasetPlan.model_validate(record["policy"])
+    try:
+        current = VisionDatasetPlan.model_validate(
+            read_metadata(root, record["proposal"], base="work/research/proposals")
+        )
+    except ValueError:
+        raise ResearchRefused("vision_registry_policy_changed_or_revoked") from None
+    if (
+        record.get("kind") != "vision_archive_plan"
+        or plan.dataset_id != dataset_id
+        or plan.digest != record["policy_digest"]
+        or plan != current
+    ):
+        raise ResearchRefused("vision_registry_policy_changed_or_revoked")
+    authorize(root, plan, now)
+    return plan
 
 
 def digest_bytes(value: bytes) -> str:
@@ -221,7 +273,7 @@ def artifact(
 
 def declare_artifact(
     root: Path,
-    policy: DatasetPolicy,
+    policy: DatasetPolicy | VisionDatasetPlan,
     path: Path,
     kinds: list[str],
     dependencies: list[str],
@@ -237,7 +289,10 @@ def declare_artifact(
         {
             "dataset_id": policy.dataset_id,
             "source_class": policy.source_class,
-            "source_sha256": policy.source_sha256,
+            "source_sha256": policy.source_sha256
+            if isinstance(policy, DatasetPolicy)
+            else policy.digest,
+            **({"registry_kind": "vision"} if isinstance(policy, VisionDatasetPlan) else {}),
             "policy_digest": policy.digest,
             "path": relative,
             "sha256": None,
@@ -264,7 +319,10 @@ def inventory(root: Path, now: datetime) -> dict[str, Any]:
             raise ResearchRefused("inventory_artifact_policy_collision")
         target = safe(root, item["path"])
         try:
-            load(root, item["dataset_id"], now)
+            if item.get("registry_kind") == "vision":
+                load_vision_plan(root, item["dataset_id"], now)
+            else:
+                load(root, item["dataset_id"], now)
             allowed = True
         except (ValueError, OSError, KeyError):
             allowed = False
