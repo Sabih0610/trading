@@ -1,4 +1,12 @@
-# Current handoff — P11c.0 local market research
+# Current handoff — P11d in progress
+
+P11d starts from main b4d8edf after audit integration. Work is isolated on
+codex/p11d-audit-fixes-real-data in a credential-free worktree. Next: implement
+Part A one finding per commit, preserving independent assertions; then use fixtures
+for Part B until registry approval exists. See reports/phases/P11d.md and
+docs/journal/P11d-journal.md. No .env or 2025+ datasets may be accessed.
+
+## Previous handoff — P11c.0 local market research
 
 Dedicated local branch `codex/p11c-0-research-mvp` directly integrates repaired
 `978aad2`. Original credential-owning checkout and existing worktrees remain

@@ -1,0 +1,8 @@
+# P11d working journal
+
+- 2026-11-01: Fetched origin; audit commit e7b6dd0 is now an ancestor of main
+  b4d8edf. Created branch codex/p11d-audit-fixes-real-data in a separate worktree.
+  Confirmed no .env exists there; original worktrees remain intact.
+- Read protocol, project rules, previous report, audit and regression tests.
+  Began primary-source research and offline locked dependency preparation.
+  Genuine dataset admission remains unproven; do not download market observations.
