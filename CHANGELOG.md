@@ -4,6 +4,18 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### P11e approved historical acquisition — 2026-11-01 UTC
+
+- Added registered FX archive plans, opaque written-consent verification, bounded
+  retries/fallback and rights rechecks around transport/partial writes.
+- Added fixed-EST bid-only HistData yearly archives, original ZIP/CSV retention,
+  source-separated yearly Silver/Gold and BID/ASK retention at every timeframe.
+- Expanded metadata-only Data Health to five instruments and explicit missing years.
+- Preserved complete private quality details behind bounded hashed summaries;
+  generic reader limits, scores, counters and bar bytes are unchanged.
+- Acquired/build approved private history, recorded unsafe boundary-file gaps and
+  exposed Stage 3 spread-floor/calendar review needs. No strategy evaluation.
+
 ### P11d PR #3 review fixes — 2026-11-01 UTC
 
 - Replaced small-row/time flushes with a configurable 15-minute interval and fixed

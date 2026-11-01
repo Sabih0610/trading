@@ -1,22 +1,25 @@
-# Current handoff — P11e final validation pending
+# Current handoff — P11e complete with documented coverage gaps
 
-All approved historical acquisition/build work is finished in the credential-free
-P11e checkout. Vendor checksum records, yearly compaction, all-five Data Health and
-`reports/data_quality/P11e-symbol-year-quality.md` plus JSON verify privately.
-Gold/FX whole source 2020/2024 annual archives are withheld before HTTP; precise
-per-file UTC boundary reasons remain private. Dukascopy consent file not found;
-no Dukascopy requests. No strategy evaluation or sealed-collector changes.
+Task branch `codex/p11e-acquire-history`; clean-tested source 58efb4c.
+Approved historical acquisition, yearly Silver/Gold and all-five metadata health
+verify privately in the credential-free P11e checkout. The populated quality table
+is `reports/data_quality/P11e-symbol-year-quality.md` plus JSON. Genuine artifacts
+and quality values remain ignored; finite retention ends at the reviewed deadline.
 
-Current source adds bounded quality summaries without losing complete private detail
-reports or changing scores, counters, bars or generic reader limits. Twenty-eight FX
-and combined 51 Vision/FX/health tests pass. Expiry stops retry/partial writes and
-cannot masquerade as a provider failure. Next: commit frozen source, update the clean
-validation checkout to that source and run `scripts/check-offline.ps1`; finalize
-living docs/privacy evidence, push skip-ci/no tags and open the task PR. No main merge.
-Runtime/source provenance and all genuine artifacts remain ignored. Legacy Dukascopy
-samples stay not for evaluation. Review missing history, spread floors and source
-calendar assumptions before Stage 3. Sealed XAUT archive/task/checkout untouched.
-See [P11e report](../reports/phases/P11e.md), [journal](journal/P11e-journal.md).
+Dukascopy consent file not found at the specified owner path, so no Dukascopy
+requests were made. HistData safe annual files are acquired; 2020/2024 whole-file
+UTC boundary gaps have exact private reasons. Legacy Dukascopy samples remain not
+for evaluation. Review spread floors and instrument calendars before Stage 3.
+
+Clean offline gate: 1302 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 611.22s (0:10:11); Ruff/format/strict mypy, smoke and 14 owned paper studies
+pass. Bounded summaries retain complete hashed private quality details; scores,
+counters, generations, bar bytes and generic reader bounds are unchanged. Runtime
+provenance is recorded privately. No genuine strategy evaluation or external orders.
+
+Next: publish the task branch/PR for independent review with skip-ci/no tags, then
+stop. Do not merge main or run a subsequent phase. Sealed XAUT checkout, task,
+process and all archive files remained untouched. See [report](../reports/phases/P11e.md),
+[validation](../reports/validation/P11e/summary.json), [runbook](how-to/forex-history.md).
 
 ## Previous handoff — P11d review fixes
 

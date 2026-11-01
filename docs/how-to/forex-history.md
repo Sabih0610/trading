@@ -78,3 +78,8 @@ Do not raise the generic metadata reader bound to display a report.
 The rollover flag convention is 17:00–18:00 in the source's session clock. It is a
 quality-report window, not a claim that every instrument is closed for the full
 hour. Review instrument-specific calendar assumptions alongside costs before Stage 3.
+
+Private artifacts from this run remain in the sibling `trading-p11e` checkout,
+identified by `git worktree list`. Keep it until the reviewed retention/disposal
+decision. Merging the PR publishes code/docs; Stage 3 must use the authorized
+private root for datasets, registered evidence and quality reports.

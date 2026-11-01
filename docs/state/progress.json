@@ -526,7 +526,7 @@
       "base_commit": "66be38c",
       "report": "reports/phases/P11d.md",
       "review": "approved_with_fixes_addressed",
-      "historical_data": "BLOCKED — DATASET NOT AUTHORIZED",
+      "historical_data": "BLOCKED \u2014 DATASET NOT AUTHORIZED",
       "sealed_collector": "running; user-logon/crash task; unattended boot privilege pending",
       "engineering_complete": true,
       "offline_gate": "passed",
@@ -589,13 +589,21 @@
     },
     "P11e": {
       "title": "Acquire approved pre-2025 history",
-      "status": "in_progress",
+      "status": "done",
       "base_commit": "a454731",
       "branch": "codex/p11e-acquire-history",
       "report": "reports/phases/P11e.md",
       "strategy_evaluation": false,
       "dukascopy": "consent file not found; HistData fallback per B0",
-      "genuine_artifacts_publication": false
+      "genuine_artifacts_publication": false,
+      "publication_base_commit": "5a0787a",
+      "completed_utc": "2026-11-01 12:00 UTC",
+      "commit": "58efb4c7097435676ef9891fd86a7daacb244b5c",
+      "review": "queued",
+      "tests_passed": 1302,
+      "coverage": "documented_per_file_gold_fx_boundary_gaps",
+      "private_quality_table": "reports/data_quality/P11e-symbol-year-quality.md",
+      "sealed_collector": "untouched"
     }
   },
   "allowed_status": [
@@ -624,8 +632,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-01 09:15 UTC",
-  "next_phase": "Owner decision on reviewed PR #3; no automatic main merge. Historical dataset approval and operator boot privileges pending. No P11e/P14 unsealing, orders or hosted CI authorized.",
+  "last_updated_utc": "2026-11-01 12:00 UTC",
+  "next_phase": "Independent P11e implementation review; resolve documented boundary coverage, spread floors and source calendars before Stage 3. No automatic next phase, main merge, orders or P14 release.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
