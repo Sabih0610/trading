@@ -11,3 +11,4 @@
   Investigating boundary-safe archives before making any data request.
 - The dedicated sealed collector stays in its existing checkout/process; do not
   copy, inspect, list, repack or delete its files for this phase.
+- Original Vision PDF evidence path now passes 19 integration tests; the generic document limit remains unchanged. Registering the actual approved plan, then starting sequential checksum-verified pre-2025 acquisition through the existing medallion CLI.

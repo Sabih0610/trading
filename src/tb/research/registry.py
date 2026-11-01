@@ -106,19 +106,35 @@ def authorize(
             ):
                 raise ResearchRefused("dataset_documentary_evidence_required")
             artifact = safe(root, permission.evidence_artifact, base="work/rights")
+            # P11e requires the original official PDF (larger than the text-document cap).
+            # Keep the old cap for every other document; inspect bounded chunks below.
+            vision_pdf = (
+                isinstance(policy, VisionDatasetPlan)
+                and permission.evidence_kind == "provider_terms"
+                and permission.evidence
+                == "https://data.binance.vision/Binance_Vision-Terms_of_Use.pdf"
+                and artifact.name == "binance-vision-terms-v1.0-2026-08-26.pdf"
+            )
             if (
                 artifact.name.startswith(".env")
                 or not artifact.is_file()
-                or not 1 <= artifact.stat().st_size <= 131072
+                or not 1 <= artifact.stat().st_size <= (1048576 if vision_pdf else 131072)
                 or sha256_file(artifact) != permission.evidence_sha256
             ):
                 raise ResearchRefused("dataset_evidence_identity_or_hash_invalid")
-            text = artifact.read_bytes().upper()
-            if (
-                any(marker in text for marker in (b"OWNED TEST", b"FICTIONAL", b"FABRICATED"))
-                and os.environ.get("TB_OFFLINE_VALIDATION") != "1"
-            ):
-                raise ResearchRefused("fabricated_approvals_are_test_only")
+            with artifact.open("rb") as stream:
+                if vision_pdf and stream.read(5) != b"%PDF-":
+                    raise ResearchRefused("dataset_evidence_identity_or_hash_invalid")
+                stream.seek(0)
+                tail = b""
+                while chunk := stream.read(65536):
+                    text = tail + chunk.upper()
+                    if (
+                        any(m in text for m in (b"OWNED TEST", b"FICTIONAL", b"FABRICATED"))
+                        and os.environ.get("TB_OFFLINE_VALIDATION") != "1"
+                    ):
+                        raise ResearchRefused("fabricated_approvals_are_test_only")
+                    tail = text[-16:]
     if policy.source_class == "owned_synthetic":
         if not isinstance(policy, DatasetPolicy):
             raise ResearchRefused("dataset_owned_policy_type_invalid")
