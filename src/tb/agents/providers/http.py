@@ -38,7 +38,9 @@ class OllamaProvider:
             raise ValueError("local models must use 4-bit quantization")
         self.model = model
         self.host = host.rstrip("/") if host else None
-        self._client = httpx.Client() if client is None else client
+        self._client = (
+            httpx.Client(trust_env=False, follow_redirects=False) if client is None else client
+        )
         self._timeout = timeout_seconds
 
     @property
@@ -97,7 +99,9 @@ class OpenAICompatibleProvider:
         self.model = model
         self.base_url = base_url.rstrip("/")
         self._api_key = api_key
-        self._client = httpx.Client() if client is None else client
+        self._client = (
+            httpx.Client(trust_env=False, follow_redirects=False) if client is None else client
+        )
         self._timeout = timeout_seconds
 
     @property
@@ -168,7 +172,9 @@ class AnthropicProvider:
         self.model = model
         self._api_key = api_key
         self.base_url = base_url.rstrip("/")
-        self._client = httpx.Client() if client is None else client
+        self._client = (
+            httpx.Client(trust_env=False, follow_redirects=False) if client is None else client
+        )
         self._timeout = timeout_seconds
 
     @property

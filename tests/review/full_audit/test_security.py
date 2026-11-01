@@ -423,12 +423,6 @@ def test_llm_providers_disabled_without_key() -> None:
             provider.generate(None)  # type: ignore[arg-type]
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING S-3: LLM provider httpx clients default to "
-    "trust_env=True, so HTTP(S)_PROXY/.netrc env can reroute bearer keys "
-    "(every other adapter pins trust_env=False)",
-)
 def test_llm_provider_default_clients_ignore_proxy_environment() -> None:
     from tb.agents.providers.http import AnthropicProvider, OllamaProvider, OpenAICompatibleProvider
 
