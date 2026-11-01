@@ -21,6 +21,7 @@ from tb.features.engine import FeatureEngine
 from tb.features.pipeline import build_feature_frame
 from tb.ingest.history.core import (
     IntegrityError,
+    atomic_write_bytes,
     atomic_write_json,
     require_disk_space,
     sha256_file,
@@ -163,6 +164,7 @@ def quality(
         "gaps": gaps,
         "gap_heat_strip": heat,
         "zero_volume_runs": zero_runs,
+        "zero_volume_minutes": zero_minutes,
         "ohlc_invalid": 0,
         "spike_flags": cleaned.flagged_spikes,
         "duplicates_removed": cleaned.duplicates_removed,
@@ -191,6 +193,63 @@ def _output_relative(
     ):
         raise ResearchRefused("vision_output_identity_invalid")
     return f"data/{layer}/{provider}/{dataset_id}/{symbol}/{timeframe}/{generation}/{year}.parquet"
+
+
+def bound_quality_report(
+    root: Path,
+    plan: VisionDatasetPlan | ForexDatasetPlan,
+    report: dict[str, Any],
+    *,
+    inputs: list[dict[str, str]],
+    clock: Callable[[], datetime],
+) -> dict[str, Any]:
+    """Keep full private quality evidence while bounding metadata summaries; scores never change."""
+    payload = (
+        json.dumps(report, indent=2, sort_keys=True, default=str, allow_nan=False) + "\n"
+    ).encode()
+    if len(payload) <= 131072:
+        return report
+    if len(payload) > 64 * 1024**2:
+        raise IntegrityError("Detailed yearly quality report exceeds bound")
+    symbol, year = report.get("symbol"), report.get("year")
+    if symbol not in plan.instruments or not isinstance(year, int) or not 2020 <= year <= 2024:
+        raise ResearchRefused("quality_detail_identity_outside_scope")
+    summary = dict(report)
+    counts, truncated = {}, []
+    for key, value in report.items():
+        if isinstance(value, list):
+            counts[key] = len(value)
+            if len(value) > 128:
+                summary[key] = value[:128]
+                truncated.append(key)
+    if "zero_volume_runs" in report:
+        summary.setdefault(
+            "zero_volume_minutes", sum(item["minutes"] for item in report["zero_volume_runs"])
+        )
+    checksum = hashlib.sha256(payload).hexdigest()
+    relative = f"reports/data_quality/details/{plan.provider}/{plan.dataset_id}/{symbol}-{year}-{checksum}.json"
+    summary.update(
+        details_artifact={"path": relative, "sha256": checksum, "bytes": len(payload)},
+        detail_record_counts=counts,
+        arrays_truncated=sorted(truncated),
+    )
+    if (
+        len(json.dumps(summary, indent=2, sort_keys=True, default=str, allow_nan=False).encode())
+        > 131072
+    ):
+        raise IntegrityError("Yearly quality summary exceeds metadata bound")
+    if isinstance(plan, VisionDatasetPlan):
+        load_vision_plan(root, plan.dataset_id, clock())
+    else:
+        load_forex_plan(root, plan.dataset_id, clock())
+    path = safe(root, relative, base="reports/data_quality/details")
+    declare_artifact(root, plan, path, ["reports"], [item["sha256"] for item in inputs])
+    if path.exists():
+        if sha256_file(path) != checksum:
+            raise IntegrityError("Immutable detailed quality artifact changed")
+    else:
+        atomic_write_bytes(path, payload)
+    return summary
 
 
 def publish(
@@ -266,6 +325,7 @@ def publish(
         "price_side": plan.price_side if isinstance(plan, ForexDatasetPlan) else "trade",
         "last_refresh": clock().isoformat(),
     }
+    report = bound_quality_report(root, plan, report, inputs=inputs, clock=clock)
     quality_relative = (
         f"reports/data_quality/{symbol}-{year}.json"
         if isinstance(plan, VisionDatasetPlan)

@@ -456,3 +456,46 @@ def test_utc_cadence_and_partition_gap_seed_ignore_dst(start):
     result = normalize(raw, previous_timestamp_ns=prior)
     assert result.frame["gap_minutes_before"].to_list() == [3, 0, 0, 0, 0]
     assert result.missing_minutes == 3
+
+
+def test_large_quality_details_preserved_with_bounded_health_summary(admitted):
+    from tb.dashboard.data_health import health_rows
+    from tb.ingest.history.core import sha256_file
+    from tb.research.registry import read_metadata
+
+    root, plan = admitted
+    with client_for(archive_bytes()) as client:
+        acquire(root, plan, client)
+    original = build_year(root, plan.dataset_id, "BTCUSDT", 2024, clock=lambda: NOW)
+    report = dict(original["quality"])
+    report["zero_volume_runs"] = [
+        {"start_ns": i * 60_000_000_000, "end_ns": i * 60_000_000_000, "minutes": 1}
+        for i in range(12000)
+    ]
+    report["zero_volume_minutes"] = 12000
+    frames = {
+        key: pl.read_parquet(root / value["path"]) for key, value in original["outputs"].items()
+    }
+    result = publish(
+        root, plan, "BTCUSDT", 2024, frames, report, inputs=original["inputs"], clock=lambda: NOW
+    )
+    pointer = f"data/manifests/binance_vision/{plan.dataset_id}/BTCUSDT-2024.json"
+    assert (root / pointer).stat().st_size < 524288
+    assert read_metadata(root, pointer)["generation"] == original["generation"]
+    summary = result["quality"]
+    assert summary["quality_score"] == report["quality_score"]
+    assert summary["zero_volume_minutes"] == 12000
+    assert summary["detail_record_counts"]["zero_volume_runs"] == 12000
+    assert summary["arrays_truncated"] == ["zero_volume_runs"]
+    assert len(summary["zero_volume_runs"]) == 128
+    details = root / summary["details_artifact"]["path"]
+    assert sha256_file(details) == summary["details_artifact"]["sha256"]
+    full = json.loads(details.read_text(encoding="utf-8"))
+    assert full["zero_volume_runs"] == report["zero_volume_runs"]
+    with pytest.raises(ResearchRefused, match="oversized"):
+        read_metadata(root, details.relative_to(root).as_posix())
+    row = next(r for r in health_rows(root) if r["symbol"] == "BTCUSDT" and r["year"] == 2024)
+    assert row["quality_score"] == report["quality_score"]
+    assert {k: v["content_sha256"] for k, v in result["outputs"].items()} == {
+        k: v["content_sha256"] for k, v in original["outputs"].items()
+    }

@@ -36,3 +36,14 @@
   including before retaining a partial original. FeedUnavailable expiry remains an
   authorization stop and cannot be mislabeled as technical failure/fallback. Two
   owned expiry regressions pass; all 28 FX tests pass. No genuine Dukascopy contact.
+
+- 2026-11-01 11:33 UTC: Both genuine builds finished. Real-data integration exposed
+  an oversized yearly quality manifest. Kept the generic metadata reader limit;
+  split complete private details into an immutable SHA-256 artifact with finite
+  retention, preserving scores/counters and a bounded explicit sample in summaries.
+  Fifty-one combined Vision/FX/health fixture tests pass; strict mypy remains clean.
+- Scoped maintenance repaired only approved derived metadata after identity checks,
+  preserving output paths, generations and all bar files. Full private details are
+  retained. Vendor checksum records, yearly one-file layout, all-five metadata
+  health and the populated private symbol/year table now verify successfully.
+  Exact runtime provenance is recorded privately; no sealed or Bronze file changed.
