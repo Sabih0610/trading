@@ -16,8 +16,9 @@ pass. Bounded summaries retain complete hashed private quality details; scores,
 counters, generations, bar bytes and generic reader bounds are unchanged. Runtime
 provenance is recorded privately. No genuine strategy evaluation or external orders.
 
-Next: publish the task branch/PR for independent review with skip-ci/no tags, then
-stop. Do not merge main or run a subsequent phase. Sealed XAUT checkout, task,
+Published with skip-ci/no tags: [PR #4](https://github.com/Sabih0610/trading/pull/4) is open and unmerged.
+Next: independent implementation review and documented coverage/cost/calendar
+review before Stage 3. Do not merge main or run a subsequent phase. Sealed XAUT checkout, task,
 process and all archive files remained untouched. See [report](../reports/phases/P11e.md),
 [validation](../reports/validation/P11e/summary.json), [runbook](how-to/forex-history.md).
 

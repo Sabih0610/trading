@@ -58,3 +58,8 @@
   exact prompt/review copies. Every corresponding commit tree matches its original;
   final source 58efb4c is tree-identical to clean-tested local ad2a1af. Source mapping
   is recorded in validation metadata. No main merge or force push.
+
+- 2026-11-01 12:05 UTC: Published task branch with skip-ci/no tags
+  and opened [PR #4](https://github.com/Sabih0610/trading/pull/4), unmerged. Final commits update documentation/publication
+  evidence only; runtime/tests/scripts/lockfile match the clean-tested source.
+  No genuine artifacts, tags, strategy evaluation or main merge.
