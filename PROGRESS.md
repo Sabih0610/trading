@@ -1,3 +1,8 @@
+# P11e fix round in progress
+
+PR #4 clock correction follows the owner's raw-byte duplicate rule; 69 focused
+fixtures and strict mypy pass. Private rebuild and full clean gate pending.
+
 # Build progress
 
 P11e acquisition is complete with documented gold/FX boundary gaps. Approved

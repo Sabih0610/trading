@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import csv
 import hashlib
 import io
 import lzma
@@ -10,7 +9,9 @@ import math
 import time
 import zipfile
 from collections.abc import Callable
+from dataclasses import asdict, dataclass, field
 from datetime import UTC, date, datetime, timedelta
+from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
@@ -27,6 +28,7 @@ from tb.ingest.history.core import (
     sha256_file,
 )
 from tb.ingest.history.dukascopy import Side, candle_url, decode_candles
+from tb.ingest.history.histdata_clock import CLOCK_MODEL, fall_sunday, week_offset
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.research.forex_registry import load_forex_plan
 from tb.research.models import HOLDOUT, ForexDatasetPlan, ResearchRefused
@@ -42,6 +44,21 @@ class ProviderFailure(RuntimeError):
     def __init__(self, details: dict[str, Any]) -> None:
         self.details = details
         super().__init__("historical_provider_technical_failure")
+
+
+def _retry_after(value: str | None, now: datetime) -> float | None:
+    """A usable Retry-After is a bounded wait; absent/invalid values stop on 429."""
+    if value is None:
+        return None
+    try:
+        seconds = (
+            float(value)
+            if value.isascii() and value.isdecimal()
+            else (parsedate_to_datetime(value).astimezone(UTC) - now).total_seconds()
+        )
+    except (ValueError, TypeError, OverflowError):
+        return None
+    return min(60.0, max(0.0, seconds)) if math.isfinite(seconds) else None
 
 
 def request_bytes(
@@ -60,8 +77,10 @@ def request_bytes(
     if not 1 <= attempts <= 3:
         raise ValueError("historical request attempts outside bound")
     error_class, sample, status = "unknown", "request failed", None
+    retry_delay = 0.0
     for attempt in range(attempts):
-        sleep(1 if not attempt else min(2**attempt, 8))
+        sleep(max(1 if not attempt else min(2**attempt, 8), retry_delay))
+        retry_delay = 0.0
         admit()
         try:
             with client.stream(
@@ -77,6 +96,11 @@ def request_bytes(
                     return None
                 if status != 200:
                     error_class, sample = "HTTPStatusError", f"HTTP {status}"
+                    if status == 429:
+                        wait = _retry_after(response.headers.get("Retry-After"), clock())
+                        if wait is None:
+                            break
+                        retry_delay = wait
                     continue
                 parts, size = [], 0
                 for part in response.iter_bytes():
@@ -97,7 +121,7 @@ def request_bytes(
             "http_status": status,
             "error_class": error_class,
             "successful_requests": 0,
-            "failed_requests": attempts,
+            "failed_requests": attempt + 1,
             "error_sample": sample,
         }
     )
@@ -129,7 +153,7 @@ class DownloadForm(HTMLParser):
 
 
 def histdata_window(period: date, cadence: str = "monthly") -> tuple[datetime, datetime]:
-    """Nominal file bounds in UTC: EST is constant UTC-5, including DST dates."""
+    """Whole source-file bounds under the reviewed weekly clock; January is +5 h."""
     if cadence not in {"monthly", "yearly"} or (cadence == "yearly" and period.month != 1):
         raise ResearchRefused("histdata_archive_cadence_invalid")
     if cadence == "yearly":
@@ -137,10 +161,11 @@ def histdata_window(period: date, cadence: str = "monthly") -> tuple[datetime, d
             datetime(period.year, 1, 1, tzinfo=UTC) + timedelta(hours=5),
             datetime(period.year + 1, 1, 1, tzinfo=UTC) + timedelta(hours=5),
         )
-    start = datetime(period.year, period.month, 1, tzinfo=UTC) + timedelta(hours=5)
-    stop = datetime(
-        period.year + (period.month == 12), period.month % 12 + 1, 1, tzinfo=UTC
-    ) + timedelta(hours=5)
+    start = datetime(period.year, period.month, 1, tzinfo=UTC) + timedelta(
+        hours=week_offset(period)
+    )
+    stop = datetime(period.year + (period.month == 12), period.month % 12 + 1, 1, tzinfo=UTC)
+    stop += timedelta(hours=week_offset(stop.date()))
     return start, stop
 
 
@@ -207,54 +232,126 @@ def validate_period(
         raise ResearchRefused("forex_archive_outside_UTC_scope_or_holdout_boundary")
 
 
+@dataclass
+class HistDataAudit:
+    """Price-free source normalization diagnostics retained in manifests and quality."""
+
+    provider_duplicate_hours: list[dict[str, Any]] = field(default_factory=list)
+    quarantined_days: list[dict[str, str]] = field(default_factory=list)
+
+    @property
+    def duplicate_minutes(self) -> int:
+        return sum(int(item["minutes"]) for item in self.provider_duplicate_hours)
+
+
 def decode_histdata(
-    payload: bytes, symbol: str, period: date, cadence: str = "monthly"
+    payload: bytes,
+    symbol: str,
+    period: date,
+    cadence: str = "monthly",
+    *,
+    audit: HistDataAudit | None = None,
 ) -> pl.DataFrame:
-    """Generic ASCII M1, fixed +5 hours, bid-only; never infer an ask/spread."""
+    """EU-week clock; drop only a verified byte-identical autumn provider hour."""
     if symbol not in {"EURUSD", "XAUUSD"}:
         raise ResearchRefused("forex_symbol_not_approved")
     start, stop = histdata_window(period, cadence)
-    rows: list[dict[str, Any]] = []
-    for fields in csv.reader(io.StringIO(payload.decode("ascii")), delimiter=";"):
-        if not fields:
+    audit = audit if audit is not None else HistDataAudit()
+    if len(payload) > MAX_ARCHIVE_BYTES:
+        raise IntegrityError("HistData source size bound exceeded")
+    days: dict[date, list[tuple[datetime, list[str]]]] = {}
+    source_rows = 0
+    for line in payload.decode("ascii").splitlines():
+        if not line:
             continue
+        fields = line.split(";")  # Preserve exact ASCII field representation, including zeros.
         if len(fields) != 6:
             raise IntegrityError("HistData M1 field count invalid")
-        instant = datetime.strptime(fields[0], "%Y%m%d %H%M%S").replace(tzinfo=UTC) + timedelta(
-            hours=5
-        )
+        local = datetime.strptime(fields[0], "%Y%m%d %H%M%S")
+        instant = local.replace(tzinfo=UTC) + timedelta(hours=week_offset(local.date()))
+        # Check every source row, including duplicates/quarantined days, before numeric parsing.
         if not start <= instant < min(stop, HOLDOUT) or instant.second:
             raise ResearchRefused("histdata_row_outside_UTC_scope_or_holdout")
-        values = [float(v) for v in fields[1:]]
-        o, h, low, c, volume = values
-        if (
-            not all(math.isfinite(v) for v in values)
-            or min(o, h, low, c) <= 0
-            or volume < 0
-            or low > min(o, c)
-            or h < max(o, c)
-            or low > h
-        ):
-            raise IntegrityError("HistData OHLC or numeric value invalid")
-        if len(rows) >= (600000 if cadence == "yearly" else 50000):
+        source_rows += 1
+        if source_rows > (600000 if cadence == "yearly" else 50000):
             raise IntegrityError("HistData oversized archive row count")
-        rows.append(
-            {
-                "timestamp_ns": int(instant.timestamp()) * 10**9,
-                "open": o,
-                "high": h,
-                "low": low,
-                "close": c,
-                "volume": volume,
-                "symbol": symbol,
-                "source": "histdata",
-                "price_side": "bid",
-                "volume_unreliable": True,
-            }
-        )
-    if not rows or len(rows) > (600000 if cadence == "yearly" else 50000):
-        raise IntegrityError("HistData empty or oversized archive row count")
-    return pl.DataFrame(rows).with_columns(pl.col("timestamp_ns").cast(pl.Int64))
+        days.setdefault(local.date(), []).append((instant, fields))
+    rows: list[dict[str, Any]] = []
+    for day, entries in days.items():
+        skipped: set[int] = set()
+        if fall_sunday(day):
+            repeated = [(i, f) for i, (_, f) in enumerate(entries) if f[0][9:11] == "19"]
+            if len({f[0] for _, f in repeated}) < len(repeated):
+                first, second = repeated[:60], repeated[60:]
+                expected = [f"{day:%Y%m%d} 19{m:02d}00" for m in range(60)]
+                identical = (
+                    len(first) == len(second) == 60
+                    and [i for i, _ in repeated]
+                    == list(range(repeated[0][0], repeated[0][0] + 120))
+                    and [f[0] for _, f in first] == expected
+                    and [f[0] for _, f in second] == expected
+                    and all(a[1:] == b[1:] for (_, a), (_, b) in zip(first, second, strict=True))
+                )
+                if not identical:
+                    audit.quarantined_days.append(
+                        dict(
+                            source_date=day.isoformat(),
+                            reason="nonidentical_or_incomplete_provider_duplicate_hour",
+                        )
+                    )
+                    continue
+                skipped = {i for i, _ in second}
+                audit.provider_duplicate_hours.append(
+                    dict(
+                        source_date=day.isoformat(),
+                        minutes=60,
+                        reason="provider_duplicate_hour",
+                        all_OHLCV_fields_byte_identical=True,
+                    )
+                )
+        for i, (instant, fields) in enumerate(entries):
+            if i in skipped:
+                continue
+            values = [float(v) for v in fields[1:]]
+            o, h, low, c, volume = values
+            if (
+                not all(math.isfinite(v) for v in values)
+                or min(o, h, low, c) <= 0
+                or volume < 0
+                or low > min(o, c)
+                or h < max(o, c)
+                or low > h
+            ):
+                raise IntegrityError("HistData OHLC or numeric value invalid")
+            rows.append(
+                dict(
+                    timestamp_ns=int(instant.timestamp()) * 10**9,
+                    open=o,
+                    high=h,
+                    low=low,
+                    close=c,
+                    volume=volume,
+                    symbol=symbol,
+                    source="histdata",
+                    price_side="bid",
+                    volume_unreliable=True,
+                )
+            )
+    schema = {
+        "timestamp_ns": pl.Int64,
+        "open": pl.Float64,
+        "high": pl.Float64,
+        "low": pl.Float64,
+        "close": pl.Float64,
+        "volume": pl.Float64,
+        "symbol": pl.String,
+        "source": pl.String,
+        "price_side": pl.String,
+        "volume_unreliable": pl.Boolean,
+    }
+    if not rows and not audit.quarantined_days:
+        raise IntegrityError("HistData empty archive row count")
+    return pl.DataFrame(rows, schema=schema)
 
 
 def _folder(root: Path, plan: ForexDatasetPlan, symbol: str, period: date) -> Path:
@@ -303,6 +400,7 @@ def download_period(
             "source": plan.provider,
             "price_side": plan.price_side,
             "source_timezone": plan.source_timezone,
+            "clock_model": CLOCK_MODEL if plan.provider == "histdata" else "UTC",
             "symbol": symbol,
             "interval": "1m",
             "period": period.isoformat(),
@@ -364,7 +462,9 @@ def download_period(
                 if len(members) != 1 or members[0].file_size > MAX_ARCHIVE_BYTES:
                     raise IntegrityError("HistData archive member identity or size invalid")
                 csv_bytes = archive.read(members[0])
-            frame = decode_histdata(csv_bytes, symbol, period, cadence)
+            source_audit = HistDataAudit()
+            frame = decode_histdata(csv_bytes, symbol, period, cadence, audit=source_audit)
+            common["normalization"] = asdict(source_audit)
             blobs = {stem + ".zip": payload, stem + ".csv": csv_bytes}
             urls = [page, endpoint]
         else:
@@ -485,7 +585,7 @@ def download_period(
             )
         load_forex_plan(root, dataset_id, clock())
         first, last = frame["timestamp_ns"].min(), frame["timestamp_ns"].max()
-        if (
+        if not frame.is_empty() and (
             not isinstance(first, int)
             or not isinstance(last, int)
             or first < int(plan.coverage_start.timestamp()) * 10**9
@@ -510,7 +610,7 @@ def download_period(
             artifacts.append({"path": path.relative_to(root).as_posix(), "sha256": expected_hash})
         result = {
             **common,
-            "status": "complete",
+            "status": "quarantined" if frame.is_empty() else "complete",
             "source_urls": urls,
             "artifacts": artifacts,
             "parquet": (folder / (stem + ".parquet")).relative_to(root).as_posix(),

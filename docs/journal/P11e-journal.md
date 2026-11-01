@@ -63,3 +63,12 @@
   and opened [PR #4](https://github.com/Sabih0610/trading/pull/4), unmerged. Final commits update documentation/publication
   evidence only; runtime/tests/scripts/lockfile match the clean-tested source.
   No genuine artifacts, tags, strategy evaluation or main merge.
+
+- 2026-11-01 14:48 UTC: Started PR #4 fix round from main 544db3f. Rebased as explicitly requested; retained the published tip as a second parent so publication can fast-forward without force. Resolved an intermediate CRLF normalization conflict in our handoff. Owner checkout edits and sealed collector remain untouched. Replacing the constant +5 h fixture contract corrects the wrong specification; it does not weaken a test. Bronze originals and old converted Parquet will stay immutable; Silver will verify and re-decode original CSV bytes. Consent file remains absent. Asked owner to resolve the pre-repeat fall-back mapping conflict before rebuilding.
+
+- 2026-11-01 fix round: Owner checked the real repeated hours and corrected the
+  two-real-hour interpretation: use one offset per week (+5 throughout autumn
+  Sunday), remove a second hour only after exact whole-block OHLCV byte equality.
+  Stop/quarantine conflicting days. Stopped the interim rebuild before its first
+  publication; retain the original pre-fix snapshot and verify pointer identities.
+  Updated code/fixtures/docs to the owner's rule, superseding the earlier prompt.

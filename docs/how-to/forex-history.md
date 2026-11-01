@@ -51,7 +51,11 @@ A pointer in `data/manifests/<provider>/<dataset-id>/` selects the verified gene
 Missing years get explicit gap metadata and no invented Parquet bars. Data Health
 reads JSON only and shows all five instruments, source, side, score and gap flags.
 
-HistData is fixed EST without DST: every source timestamp gets exactly +5 hours.
+HistData uses the reviewed EU-week clock: +4 h for weeks whose Sunday noon London
+is BST, +5 h otherwise. Fall-back Sunday uses +5 h throughout. Its repeated 19:00
+hour is a provider duplicate: keep the first copy and drop the second only if both
+complete hours have byte-identical OHLCV fields. Otherwise quarantine that whole
+day and flag it. Weekly late/missing opens are flagged without shifting bars.
 Bid bars have no inferred ask. The private quality JSON exposes the configured asset
 spread floor and whether Stage 3 cost review is required. Long entries need an added
 spread; nonpositive data-only defaults are insufficient. No defaults change here.
@@ -75,7 +79,8 @@ Large quality summaries expose `arrays_truncated`, `detail_record_counts` and a
 aggregate counters are unchanged; Data Health never opens the large detail file.
 Do not raise the generic metadata reader bound to display a report.
 
-The rollover flag convention is 17:00–18:00 in the source's session clock. It is a
+The rollover flag convention is 17:00–18:00 New York, expressed in the same
+source week clock, including US/EU mismatch weeks. It is a
 quality-report window, not a claim that every instrument is closed for the full
 hour. Review instrument-specific calendar assumptions alongside costs before Stage 3.
 
@@ -83,3 +88,34 @@ Private artifacts from this run remain in the sibling `trading-p11e` checkout,
 identified by `git worktree list`. Keep it until the reviewed retention/disposal
 decision. Merging the PR publishes code/docs; Stage 3 must use the authorized
 private root for datasets, registered evidence and quality reports.
+
+
+## Rebuild an existing HistData conversion
+
+Use the same build command above; do not run download to repair timestamps.
+Silver verifies the immutable original CSV and the existing Bronze Parquet hashes,
+re-decodes the CSV under `histdata-eu-week-provider-duplicate-v2`, and publishes new derived
+generations atomically. Original ZIP/CSV/Parquet/manifests are never rewritten.
+The historical plan's declared clock/digest/retention stays unchanged. Keep a
+private before/after quality snapshot and verify all Bronze hashes after rebuilding.
+
+Inspect `week_open_checks`, `week_open_checked` and `week_open_flagged` in the
+private quality metadata. EURUSD expects 21:00/22:00 UTC and XAUUSD 22:00/23:00 UTC
+in US summer/winter. Signed `offset_minutes` distinguishes early and late opens;
+a wholly absent week is `missing_week`. Review flags instead of shifting observations.
+The P11e private quality table includes old/new duplicate counts and open checks.
+
+A legacy offline Dukascopy fixture must construct `OwnedDukascopyFixtureClient`
+with an explicitly injected `httpx.MockTransport`, set `TB_OFFLINE_VALIDATION=1`,
+and pass `owned_fixture=True`. An ordinary client is refused even with that flag.
+On HTTP 429, valid Retry-After seconds/HTTP-date waits are capped at 60 seconds
+with at most three attempts; absent/invalid headers stop immediately for fallback.
+
+`provider_duplicate_hour` counts verified duplicate hours and
+`provider_duplicate_minutes` counts their removed bars; `duplicates_removed`
+includes these plus any ordinary duplicates removed by Silver. Details are in
+`provider_duplicate_hours`. `quarantined_days` names source dates/reasons only;
+no day with a conflicting repeated block contributes bars. An entirely quarantined
+archive/year is explicitly marked `quarantined` rather than reported complete.
+If a genuine file contradicts the owner's duplicate rule, stop and ask; retain all
+raw bytes and diagnostics instead of silently selecting a different clock.

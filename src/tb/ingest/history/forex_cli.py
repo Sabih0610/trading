@@ -186,7 +186,7 @@ def download_history(
                                 period=period.isoformat(),
                                 cadence="yearly",
                                 status="withheld",
-                                reason="nominal_fixed_EST_archive_crosses_approved_UTC_boundary",
+                                reason="nominal_source_clock_archive_crosses_approved_UTC_boundary",
                             )
                         )
                         continue

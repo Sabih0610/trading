@@ -1,3 +1,9 @@
+# Current handoff — P11e clock fix in progress
+
+PR #4 fix round on the existing credential-free P11e checkout, rebased onto main 544db3f. Preserve all original Bronze artifacts; correct derived Silver/Gold by parsing verified original CSV. Consent is absent. Owner clarified one offset per week and byte-identical provider duplicate removal, otherwise whole-day quarantine. The interim fold rebuild was stopped before publication. Corrected tests and rebuild proceed. Do not touch the sealed collector or read .env. Full clean gates and private rebuild remain pending.
+
+## Previous completion
+
 # Current handoff — P11e complete with documented coverage gaps
 
 Task branch `codex/p11e-acquire-history`; clean-tested source 58efb4c.

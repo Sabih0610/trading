@@ -69,16 +69,23 @@ Health — ready for Stage 3 backtests. **No strategy evaluation in this phase.*
    Dataset ID `histdata-xauusd-eurusd-m1-2020-2024`; XAUUSD and EURUSD; 2020-10 → 2024-12.
 3. Bronze: original zip/CSV bytes + manifest (URL, SHA-256, download time, evidence pointer).
    Polite sequential downloads with resume; no parallel requests.
-4. Silver: **timestamps are fixed EST without DST — convert with a constant +5 h
-   (`Etc/GMT+5`), never `America/New_York`**; prices are **bid-only** — store a `price_side: bid`
-   column/manifest field; volume is not meaningful (store, flag as zero/unreliable). Same quality
-   checks as Binance, with the expected grid excluding the weekend close (Fri ~17:00 NY →
-   Sun ~17:00 NY, expressed in fixed UTC−5) and daily rollover gaps flagged, not treated as errors.
-5. Gold: same yearly layout and shared causal FeatureEngine; resamples 5m/15m/1h/4h.
+4. Silver: the reviewed original files contradict the FAQ's fixed-EST claim. Convert per
+   trading week: **+4 h** when its Sunday noon `Europe/London` is BST, **+5 h** otherwise.
+   Fall-back Sunday is entirely +5 h. Its repeated 19:00 hour is a provider duplicate:
+   keep the first copy, remove the second only if both complete 60-minute blocks
+   have byte-identical OHLCV fields, and record `provider_duplicate_hour`.
+   If any bar differs, quarantine the whole day and flag it. Stop and ask if genuine
+   data contradicts this rule. Never shift late/missing weekly opens to fit expectations.
+   See `P11e-fix-histdata-clock.md` and ADR 0021. Rebuild from verified original CSV
+   bytes without editing existing Bronze conversions or approval/retention identity.
+5. Quality: build the weekend/rollover grid from the same source clock and US session
+   boundaries. EURUSD opens 21:00/22:00 UTC, XAUUSD 22:00/23:00 UTC (US summer/winter).
+   Flag every full in-scope week's early/late/absent open and signed minute offset.
+   Weekend closures and the daily rollover flag remain separate from missing errors.
 6. Cost model note for Stage 3: Dukascopy bars carry real BID/ASK spread; HistData bid-only bars
    need an added spread for long entries — expose the configured XAUUSD/EURUSD spread defaults as
    the floor; do not infer spread from bid bars. Record per symbol-year which source was used.
-7. Tests (fixtures only): fixed-offset conversion across March/November DST dates (no shift),
+7. Tests (fixtures only): summer/winter EU-week offsets, US/EU mismatch weeks and verified autumn duplicate and conflicting-day quarantine,
    weekend gap not counted as missing, bid-side marking, resume after partial download, terms
    evidence missing → registry refusal, nothing ≥ 2025 accepted.
 
@@ -92,7 +99,7 @@ Health — ready for Stage 3 backtests. **No strategy evaluation in this phase.*
 
 ## Scenarios to self-test
 Interrupted download → resume · checksum mismatch → refused · missing month → recorded gap ·
-HistData DST boundary → no hour shift · weekend/rollover gaps → flagged not errors · 2024-12-31
+HistData seasonal/mismatch/fall-back clocks → correct UTC and verified provider duplicates · weekend/rollover gaps → flagged not errors · 2024-12-31
 23:59 boundary · approval/evidence missing → BLOCKED · Dukascopy without consent → refused · Dukascopy 403/429/
 blocked → bounded back-off, failure report written, HistData fallback ·
 compacted vs uncompacted → identical Gold hashes · Data Health with all five instruments.

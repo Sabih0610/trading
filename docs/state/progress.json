@@ -589,7 +589,7 @@
     },
     "P11e": {
       "title": "Acquire approved pre-2025 history",
-      "status": "done",
+      "status": "in_progress",
       "base_commit": "a454731",
       "branch": "codex/p11e-acquire-history",
       "report": "reports/phases/P11e.md",
@@ -599,13 +599,21 @@
       "publication_base_commit": "5a0787a",
       "completed_utc": "2026-11-01 12:00 UTC",
       "commit": "58efb4c7097435676ef9891fd86a7daacb244b5c",
-      "review": "queued",
+      "review": "fix_round_in_progress",
       "tests_passed": 1302,
       "coverage": "documented_per_file_gold_fx_boundary_gaps",
       "private_quality_table": "reports/data_quality/P11e-symbol-year-quality.md",
       "sealed_collector": "untouched",
       "pr_url": "https://github.com/Sabih0610/trading/pull/4",
-      "publication": "open_unmerged"
+      "publication": "open_unmerged",
+      "fix_round": {
+        "base_commit": "544db3f",
+        "focused_tests_passed": 69,
+        "clock_model": "histdata-eu-week-provider-duplicate-v2",
+        "status": "private_rebuild_then_clean_gate",
+        "dukascopy": "consent file not found",
+        "sealed_collector": "untouched"
+      }
     }
   },
   "allowed_status": [
@@ -634,7 +642,7 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-01 12:00 UTC",
+  "last_updated_utc": "2026-11-01 15:05 UTC",
   "next_phase": "Independent P11e implementation review; resolve documented boundary coverage, spread floors and source calendars before Stage 3. No automatic next phase, main merge, orders or P14 release.",
   "audits": {
     "third_party_repository_adoption": {

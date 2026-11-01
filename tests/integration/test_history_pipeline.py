@@ -14,6 +14,7 @@ import polars as pl
 from tb.ingest.history.core import sha256_bytes
 from tb.ingest.history.pipeline import (
     JobStatus,
+    OwnedDukascopyFixtureClient,
     download_binance_archive,
     download_binance_rest_klines,
     download_dukascopy_day,
@@ -116,7 +117,7 @@ def test_dukascopy_day_combines_sides_and_weekend_gap_is_recorded(
         payload = bid if "BID_" in request.url.path else ask
         return httpx.Response(200, content=payload, request=request)
 
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with OwnedDukascopyFixtureClient(httpx.MockTransport(handler)) as client:
         downloaded = download_dukascopy_day(
             client,
             tmp_path,
@@ -155,7 +156,7 @@ def test_dukascopy_partial_side_fails_without_manifest(tmp_path: Path, monkeypat
             return httpx.Response(200, content=bid, request=request)
         return httpx.Response(404, request=request)
 
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with OwnedDukascopyFixtureClient(httpx.MockTransport(handler)) as client:
         try:
             download_dukascopy_day(
                 client,
@@ -190,7 +191,7 @@ def test_dukascopy_tick_hour_downloads_resumes_and_records_gap(tmp_path: Path, m
             return httpx.Response(404, request=request)
         return httpx.Response(200, content=payload, request=request)
 
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with OwnedDukascopyFixtureClient(httpx.MockTransport(handler)) as client:
         downloaded = download_dukascopy_tick_hour(
             client,
             tmp_path,

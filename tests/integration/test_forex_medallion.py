@@ -113,7 +113,7 @@ def archive(*, count=60, duplicate=False):
     return output.getvalue()
 
 
-def transport(payload, calls, *, fail=False):
+def transport(payload, calls, *, fail=False, period=PERIOD):
     def handle(request):
         calls.append(request.method)
         if request.method == "POST":
@@ -122,8 +122,8 @@ def transport(payload, calls, *, fail=False):
             return httpx.Response(200, content=payload)
         fields = {
             "tk": "owned-token",
-            "date": "2024",
-            "datemonth": "202403",
+            "date": str(period.year),
+            "datemonth": f"{period:%Y%m}",
             "platform": "ASCII",
             "timeframe": "M1",
             "fxpair": "EURUSD",
@@ -138,13 +138,15 @@ def transport(payload, calls, *, fail=False):
     return httpx.MockTransport(handle)
 
 
-@pytest.mark.parametrize("day", [date(2024, 3, 11), date(2024, 11, 4)])
-def test_histdata_fixed_offset_has_no_DST_shift_and_bid_side(day):
+@pytest.mark.parametrize(
+    "day,hour", [(date(2024, 3, 11), 13), (date(2024, 7, 1), 12), (date(2024, 11, 4), 13)]
+)
+def test_histdata_reviewed_week_offset_and_bid_side(day, hour):
     raw = f"{day:%Y%m%d} 080000;1.1;1.2;1.0;1.15;0\n".encode()
     result = decode_histdata(raw, "EURUSD", day.replace(day=1))
     assert (
         result["timestamp_ns"][0]
-        == int(datetime(day.year, day.month, day.day, 13, tzinfo=UTC).timestamp()) * 10**9
+        == int(datetime(day.year, day.month, day.day, hour, tzinfo=UTC).timestamp()) * 10**9
     )
     assert result["price_side"].to_list() == ["bid"]
     assert "ask_close" not in result.columns and result["volume_unreliable"].all()
@@ -285,15 +287,16 @@ def test_dukascopy_refusal_has_bounded_retries_and_price_free_report(approved, s
                 clock=lambda: NOW,
                 sleep=delays.append,
             )
-    assert len(calls) == 3 and delays == [1, 2, 4]
+    expected = 1 if status == 429 else 3
+    assert len(calls) == expected and delays == ([1] if status == 429 else [1, 2, 4])
     assert caught.value.details["http_status"] == status
-    assert caught.value.details["failed_requests"] == 3
+    assert caught.value.details["failed_requests"] == expected
     assert "price" not in json.dumps(caught.value.details)
 
 
 def test_weekend_and_rollover_are_not_missing_errors():
     start = datetime(2024, 3, 8, 21, 59, tzinfo=UTC)
-    stop = datetime(2024, 3, 10, 23, 1, tzinfo=UTC)
+    stop = datetime(2024, 3, 10, 22, 1, tzinfo=UTC)
     raw = pl.DataFrame(
         {
             "timestamp_ns": [
@@ -464,9 +467,10 @@ def test_dukascopy_failure_writes_report_and_uses_histdata_fallback(approved, st
             )
 
     assert with_fallback(root, primary, lambda: backup.append("histdata") or "backup") == "backup"
-    assert len(calls) == 3 and backup == ["histdata"]
+    expected = 1 if status == 429 else 3
+    assert len(calls) == expected and backup == ["histdata"]
     report = (root / "reports/phases/P11e-dukascopy-failure.md").read_text()
-    assert f"http_status: {status}" in report and "failed_requests: 3" in report
+    assert f"http_status: {status}" in report and f"failed_requests: {expected}" in report
     assert "error_sample: HTTP" in report
 
 
@@ -526,7 +530,7 @@ def test_dukascopy_ask_and_spread_retained_in_every_gold_timeframe(approved):
     assert result["outputs"]["gold/4h"]["rows"] == 1
 
 
-def test_final_allowed_UTC_minute_and_fixed_EST_boundary():
+def test_final_allowed_UTC_minute_and_winter_boundary_unchanged():
     result = decode_histdata(b"20241231 185900;1.1;1.2;1.0;1.15;0\n", "EURUSD", date(2024, 12, 1))
     assert (
         result["timestamp_ns"][0]
@@ -687,7 +691,7 @@ def test_consented_duka_retains_completed_side_after_ASK_failure(approved):
             sleep=lambda _: None,
         )
     originals = list((root / "data").rglob("*.bi5"))
-    assert len(calls) == 4 and len(originals) == 1
+    assert len(calls) == 2 and len(originals) == 1
     assert originals[0].read_bytes() == payload
     assert not list((root / "data").rglob("*.manifest.json"))
 
@@ -746,3 +750,293 @@ def test_expired_primary_rights_are_not_reported_as_provider_failure(approved, m
         )
     assert calls == [primary.dataset_id]
     assert not (root / "reports/phases/P11e-dukascopy-failure.md").exists()
+
+
+@pytest.mark.parametrize(
+    "header,wait", [("120", 60), ("7", 7), ("Sun, 01 Nov 2026 00:00:09 GMT", 9)]
+)
+def test_429_retry_after_respected_and_capped(header, wait):
+    from tb.ingest.history.forex import request_bytes
+
+    calls, delays = [], []
+
+    def handle(request):
+        calls.append(request)
+        return httpx.Response(429, headers={"Retry-After": header})
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        with pytest.raises(ProviderFailure) as caught:
+            request_bytes(
+                client,
+                "GET",
+                "https://example.invalid/owned",
+                clock=lambda: NOW,
+                sleep=delays.append,
+            )
+    assert len(calls) == 3 and delays == [1, max(2, wait), max(4, wait)]
+    assert caught.value.details["failed_requests"] == 3
+
+
+@pytest.mark.parametrize("header", [None, "invalid", "-1", "NaN"])
+def test_429_without_usable_retry_after_stops_immediately(header):
+    from tb.ingest.history.forex import request_bytes
+
+    calls, delays = [], []
+
+    def handle(request):
+        calls.append(request)
+        return httpx.Response(429, headers={} if header is None else {"Retry-After": header})
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        with pytest.raises(ProviderFailure) as caught:
+            request_bytes(client, "GET", "https://example.invalid/owned", sleep=delays.append)
+    assert len(calls) == 1 and delays == [1]
+    assert caught.value.details["failed_requests"] == 1
+
+
+def test_legacy_dukascopy_explicit_fixture_client_still_requires_offline_and_flag(
+    tmp_path, monkeypatch
+):
+    from tb.ingest.history.pipeline import OwnedDukascopyFixtureClient, download_dukascopy_day
+
+    with pytest.raises(ResearchRefused, match="MockTransport"):
+        OwnedDukascopyFixtureClient(httpx.HTTPTransport())
+    calls = []
+    for offline, flag in ((False, True), (True, False)):
+        monkeypatch.setenv("TB_OFFLINE_VALIDATION", "1" if offline else "0")
+        with OwnedDukascopyFixtureClient(httpx.MockTransport(lambda r: calls.append(r))) as client:
+            with pytest.raises(ResearchRefused, match="provider_confirmation"):
+                download_dukascopy_day(
+                    client,
+                    tmp_path,
+                    symbol="EURUSD",
+                    day=date(2024, 1, 2),
+                    code_version="owned",
+                    resume=True,
+                    owned_fixture=flag,
+                )
+    assert calls == [] and not list(tmp_path.iterdir())
+
+
+@pytest.mark.parametrize("sunday", [date(2021, 10, 31), date(2022, 10, 30), date(2023, 10, 29)])
+def test_identical_autumn_provider_hour_dropped_once_with_one_week_offset(sunday):
+    from tb.ingest.history.forex import HistDataAudit
+
+    local = datetime.combine(sunday, datetime.min.time()).replace(hour=18)
+    stamps = [local + timedelta(minutes=i) for i in range(120)] + [
+        local + timedelta(hours=1, minutes=i) for i in range(120)
+    ]
+    raw = "".join(f"{t:%Y%m%d %H%M%S};1.1;1.2;1.0;1.15;0\n" for t in stamps).encode()
+    audit = HistDataAudit()
+    result = decode_histdata(raw, "EURUSD", sunday.replace(day=1), audit=audit)
+    assert result.height == 180 and audit.duplicate_minutes == 60
+    assert result["timestamp_ns"].diff().drop_nulls().to_list() == [60_000_000_000] * 179
+    assert (
+        result["timestamp_ns"][0]
+        == int((local.replace(tzinfo=UTC) + timedelta(hours=5)).timestamp()) * 10**9
+    )
+    assert len(audit.provider_duplicate_hours) == 1 and audit.quarantined_days == []
+    assert audit.provider_duplicate_hours[0]["reason"] == "provider_duplicate_hour"
+    assert audit.provider_duplicate_hours[0]["all_OHLCV_fields_byte_identical"] is True
+
+
+@pytest.mark.parametrize("symbol,local_hour,utc_hour", [("EURUSD", 16, 21), ("XAUUSD", 17, 22)])
+@pytest.mark.parametrize("sunday", [date(2022, 3, 13), date(2022, 3, 20), date(2022, 10, 30)])
+def test_US_EU_mismatch_week_has_expected_open(symbol, local_hour, utc_hour, sunday):
+    from tb.silver.forex import week_open_checks
+
+    raw = f"{sunday:%Y%m%d} {local_hour:02d}0000;1;2;1;2;0\n".encode()
+    result = decode_histdata(raw, symbol, sunday.replace(day=1))
+    expected = datetime(sunday.year, sunday.month, sunday.day, utc_hour, tzinfo=UTC)
+    assert result["timestamp_ns"][0] == int(expected.timestamp()) * 10**9
+    checks = week_open_checks(
+        result, expected - timedelta(hours=2), expected + timedelta(days=2), symbol
+    )
+    assert (
+        len(checks) == 1 and checks[0]["status"] == "on_time" and checks[0]["offset_minutes"] == 0
+    )
+
+
+@pytest.mark.parametrize(
+    "symbol,month,day,local_hour,late",
+    [
+        ("EURUSD", 7, 3, 17, 0),
+        ("XAUUSD", 7, 3, 18, 0),
+        ("EURUSD", 1, 2, 17, 0),
+        ("XAUUSD", 1, 2, 18, 0),
+        ("EURUSD", 7, 3, 18, 60),
+        ("XAUUSD", 7, 3, 19, 60),
+        ("EURUSD", 10, 30, 16, 0),
+        ("EURUSD", 7, 3, 16, -60),
+    ],
+)
+def test_week_open_offset_flags_late_or_early_without_shifting(
+    symbol, month, day, local_hour, late
+):
+    from tb.silver.forex import calendar_grid, week_open_checks
+
+    start = datetime(2022, month, day, tzinfo=UTC)
+    raw = f"2022{month:02d}{day:02d} {local_hour:02d}0000;1;2;1;2;0\n".encode()
+    result = decode_histdata(raw, symbol, date(2022, month, 1))
+    before = result["timestamp_ns"].to_list()
+    checks = week_open_checks(result, start, start + timedelta(days=2), symbol)
+    assert len(checks) == 1 and checks[0]["offset_minutes"] == late
+    assert checks[0]["status"] == ("on_time" if late == 0 else "late" if late > 0 else "early")
+    assert result["timestamp_ns"].to_list() == before
+    grid = calendar_grid(start, start + timedelta(days=2), "histdata", symbol)
+    opening = next(r for r in grid.to_dicts() if not r["weekend_closed"])
+    assert opening["timestamp_utc"].isoformat() == checks[0]["expected_utc"]
+
+
+def test_original_CSV_drives_clock_rebuild_and_all_Bronze_bytes_remain_unchanged(approved):
+    from tb.ingest.history.core import sha256_file
+
+    root, plan = approved()
+    with httpx.Client(transport=transport(archive(), [])) as client:
+        item = download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=PERIOD,
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    parquet = root / item["parquet"]
+    # Simulate an immutable, checksummed legacy conversion with wrong UTC values.
+    legacy = pl.read_parquet(parquet).with_columns(pl.col("timestamp_ns") + 3600_000_000_000)
+    legacy.write_parquet(parquet)
+    manifest = next((root / "data/bronze/histdata").rglob("*.manifest.json"))
+    old = json.loads(manifest.read_text())
+    for a in old["artifacts"]:
+        if a["path"] == item["parquet"]:
+            a["sha256"] = sha256_file(parquet)
+    manifest.write_text(json.dumps(old))
+    baseline = {
+        p: sha256_file(p) for p in (root / "data/bronze/histdata").rglob("*") if p.is_file()
+    }
+    result = build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW)
+    actual = pl.read_parquet(root / result["outputs"]["silver/1m"]["path"])
+    assert (
+        actual["timestamp_ns"][0] == int(datetime(2024, 3, 11, 13, tzinfo=UTC).timestamp()) * 10**9
+    )
+    assert result["inputs"][0]["path"].endswith(".csv")
+    assert result["quality"]["clock_model"] == "histdata-eu-week-provider-duplicate-v2"
+    assert all(sha256_file(p) == checksum for p, checksum in baseline.items())
+    source = root / result["inputs"][0]["path"]
+    source.write_bytes(b"OWNED corrupted original")
+    with pytest.raises(IntegrityError, match="original CSV checksum"):
+        build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW)
+
+
+def test_autumn_calendar_uses_single_week_offset_and_missing_week_flags():
+    from tb.silver.forex import calendar_grid, week_open_checks
+
+    sunday = date(2022, 10, 30)
+    local = datetime(2022, 10, 30, 19)
+    stamps = [local + timedelta(minutes=i) for i in range(60)] * 2
+    raw = "".join(f"{t:%Y%m%d %H%M%S};1;2;1;2;0\n" for t in stamps).encode()
+    decoded = decode_histdata(raw, "EURUSD", sunday.replace(day=1))
+    grid = calendar_grid(
+        datetime(2022, 10, 31, 0, tzinfo=UTC), datetime(2022, 10, 31, 1, tzinfo=UTC), "histdata"
+    )
+    assert grid["timestamp_ns"].to_list() == decoded["timestamp_ns"].to_list()
+    assert grid["timestamp_source"].dt.strftime("%Y%m%d %H%M%S").to_list() == [
+        f"{t:%Y%m%d %H%M%S}" for t in stamps[:60]
+    ]
+    assert grid["clock_offset_hours"].to_list() == [5] * 60
+    assert not grid["weekend_closed"].any()
+    checks = week_open_checks(
+        decoded.head(0),
+        datetime(2022, 10, 30, tzinfo=UTC),
+        datetime(2022, 11, 7, tzinfo=UTC),
+        "EURUSD",
+    )
+    assert len(checks) == 2 and all(
+        c["status"] == "missing_week" and c["offset_minutes"] is None for c in checks
+    )
+
+
+def test_429_retry_after_then_success():
+    from tb.ingest.history.forex import request_bytes
+
+    calls, delays = [], []
+
+    def handle(request):
+        calls.append(request)
+        return (
+            httpx.Response(429, headers={"Retry-After": "8"})
+            if len(calls) == 1
+            else httpx.Response(200, content=b"OWNED")
+        )
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        assert (
+            request_bytes(client, "GET", "https://example.invalid/owned", sleep=delays.append)
+            == b"OWNED"
+        )
+    assert len(calls) == 2 and delays == [1, 8]
+
+
+@pytest.mark.parametrize("field", [1, 2, 3, 4, 5])
+def test_autumn_duplicate_any_different_OHLCV_field_quarantines_whole_day(field):
+    from tb.ingest.history.forex import HistDataAudit
+
+    start = datetime(2022, 10, 30, 18)
+    stamps = [start + timedelta(minutes=i) for i in range(120)] + [
+        start + timedelta(hours=1, minutes=i) for i in range(120)
+    ]
+    lines = [f"{t:%Y%m%d %H%M%S};1.1;1.2;1.0;1.15;0" for t in stamps]
+    changed = lines[125].split(";")
+    # Numeric equality still differs at the byte level for price fields; volume differs numerically.
+    changed[field] += "0" if field < 5 else ".0"
+    lines[125] = ";".join(changed)
+    lines.append("20221031 080000;1.1;1.2;1.0;1.15;0")
+    audit = HistDataAudit()
+    result = decode_histdata(
+        ("\n".join(lines) + "\n").encode(), "EURUSD", date(2022, 10, 1), audit=audit
+    )
+    assert result.height == 1 and audit.duplicate_minutes == 0
+    assert audit.quarantined_days == [
+        dict(source_date="2022-10-30", reason="nonidentical_or_incomplete_provider_duplicate_hour")
+    ]
+    assert (
+        result["timestamp_ns"][0] == int(datetime(2022, 10, 31, 13, tzinfo=UTC).timestamp()) * 10**9
+    )
+
+
+def test_quarantined_autumn_day_publishes_flags_without_any_bars(approved):
+    root, plan = approved()
+    day = date(2022, 10, 30)
+    start = datetime(2022, 10, 30, 19)
+    rows = [
+        f"{start + timedelta(minutes=i):%Y%m%d %H%M%S};1.1;1.2;1.0;1.15;0\n" for i in range(60)
+    ] * 2
+    rows[62] = rows[62].replace(";1.15;", ";1.16;")
+    payload = io.BytesIO()
+    with ZipFile(payload, "w") as archive:
+        archive.writestr("DAT_ASCII_EURUSD_M1_202210.csv", "".join(rows))
+    with httpx.Client(
+        transport=transport(payload.getvalue(), [], period=day.replace(day=1))
+    ) as client:
+        item = download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=day.replace(day=1),
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    assert item["status"] == "quarantined" and item["rows"] == 0
+    assert len(item["normalization"]["quarantined_days"]) == 1 and len(item["artifacts"]) == 3
+    built = build_year(root, plan.dataset_id, "EURUSD", 2022, clock=lambda: NOW)
+    assert built["status"] == "quarantined" and built["outputs"] == {}
+    assert "quarantined_day" in built["quality"]["flags"]
+    assert len(built["quality"]["quarantined_days"]) == 1
+
+    # A quarantined source archive cannot leak diagnostics into another UTC year.
+    other = build_year(root, plan.dataset_id, "EURUSD", 2023, clock=lambda: NOW)
+    assert other["status"] == "missing" and other["quality"]["quarantined_days"] == []
