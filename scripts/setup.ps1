@@ -13,6 +13,25 @@ param([switch]$SkipPreCommit)
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
 
+function New-PrivateEnvFile {
+    param([string]$Template, [string]$Destination)
+    if (Test-Path -LiteralPath $Destination) { return }
+    # CreateNew refuses a concurrent creator; set the ACL before writing any bytes.
+    $empty = [IO.File]::Open($Destination, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None)
+    $empty.Dispose()
+    $owner = [Security.Principal.WindowsIdentity]::GetCurrent().User
+    $system = [Security.Principal.SecurityIdentifier]::new('S-1-5-18')
+    $acl = [Security.AccessControl.FileSecurity]::new()
+    $acl.SetOwner($owner)
+    $acl.SetAccessRuleProtection($true, $false)
+    foreach ($identity in @($owner, $system)) {
+        $rule = [Security.AccessControl.FileSystemAccessRule]::new($identity, 'FullControl', 'Allow')
+        $acl.AddAccessRule($rule)
+    }
+    Set-Acl -LiteralPath $Destination -AclObject $acl
+    [IO.File]::WriteAllBytes($Destination, [IO.File]::ReadAllBytes($Template))
+}
+
 function Get-RequiredCommand {
     param(
         [Parameter(Mandatory)]
@@ -47,7 +66,7 @@ else { Write-Warning 'Node is missing. Core setup continues; Node-dependent opti
 Push-Location -LiteralPath $ProjectRoot
 try {
     if (-not (Test-Path -LiteralPath '.env')) {
-        Copy-Item -LiteralPath '.env.example' -Destination '.env'
+        New-PrivateEnvFile -Template (Join-Path $ProjectRoot '.env.example') -Destination (Join-Path $ProjectRoot '.env')
         Write-Host 'Created .env from .env.example (all keys remain empty).' -ForegroundColor Green
     }
     else {
