@@ -8,6 +8,7 @@ import ctypes
 import hashlib
 import io
 import json
+import math
 import os
 import time
 from collections import deque
@@ -36,6 +37,7 @@ SNAPSHOT_URL = "https://data-api.binance.vision/api/v3/depth?symbol=XAUTUSDT&lim
 TERMS = "Binance API Terms (accessed 2026-11-01; provider version string unverified)"
 TERMS_URL = "https://www.binance.com/en/terms"
 HOLDOUT = "forward_sealed"
+MAX_BUFFER_ROWS = 200_000
 
 
 class SequenceGap(ValueError):
@@ -154,7 +156,10 @@ class SealedBookWriter:
         started: datetime,
         code_version: str,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
+        flush_interval: float = 900,
     ) -> None:
+        if not math.isfinite(flush_interval) or flush_interval <= 0:
+            raise ValueError("sealed capture flush interval must be positive and finite")
         self.root, self.started, self.code_version, self.clock = (
             root.resolve(),
             started,
@@ -162,14 +167,16 @@ class SealedBookWriter:
             clock,
         )
         self.rows: list[dict[str, Any]] = []
+        self.flush_interval = flush_interval
+        self.buffer_started: datetime | None = None
         self.hour: datetime | None = None
         self.last_depth: int | None = None
         self.gaps = 0
         self.reconnects = 0
         self.file_sizes: deque[int] = deque(maxlen=48)
+        self.files_by_utc_hour: dict[str, int] = {}
         self.connected = False
         self.last_error = "none"
-        self.last_flush = time.monotonic()
         self.last_heartbeat = float("-inf")
 
     def heartbeat(self, *, force: bool = False) -> None:
@@ -191,6 +198,8 @@ class SealedBookWriter:
                 "sequence_gap_count": self.gaps,
                 "reconnects": self.reconnects,
                 "file_sizes": list(self.file_sizes),
+                "files_by_utc_hour": dict(self.files_by_utc_hour),
+                "flush_interval_seconds": self.flush_interval,
                 "connected": self.connected,
                 "last_error_category": self.last_error,
             },
@@ -202,6 +211,17 @@ class SealedBookWriter:
         self.connected = False
         self.reconnects += 1
         self.heartbeat(force=True)
+
+    def flush_if_due(self) -> None:
+        """Flush an elapsed buffer or UTC hour boundary, including on receive timeouts."""
+        if self.buffer_started is None:
+            return
+        now = self.clock()
+        if (
+            now.replace(minute=0, second=0, microsecond=0) != self.hour
+            or (now - self.buffer_started).total_seconds() >= self.flush_interval
+        ):
+            self.flush()
 
     def accept(self, payload: str, *, snapshot: bool = False) -> None:
         """Inspect transport identity/sequence only; seal the exact original JSON payload."""
@@ -232,9 +252,10 @@ class SealedBookWriter:
         else:
             _integer(data.get("u"))  # bookTicker IDs need not be contiguous.
         hour = now.replace(minute=0, second=0, microsecond=0)
-        if self.hour is not None and hour != self.hour:
-            self.flush()
+        self.flush_if_due()
         self.hour = hour
+        if not self.rows:
+            self.buffer_started = now
         self.rows.append(
             {
                 "received_at": now,
@@ -249,7 +270,7 @@ class SealedBookWriter:
             self.flush()
             self.heartbeat()
             raise SequenceGap("public_depth_sequence_gap")
-        if len(self.rows) >= 1000:
+        if len(self.rows) >= MAX_BUFFER_ROWS:
             self.flush()
         self.heartbeat()
 
@@ -303,61 +324,63 @@ class SealedBookWriter:
             (json.dumps(manifest, sort_keys=True) + "\n").encode(),
         )
         self.file_sizes.append(len(payload))
+        hour_key = self.hour.isoformat()
+        self.files_by_utc_hour[hour_key] = self.files_by_utc_hour.get(hour_key, 0) + 1
+        while len(self.files_by_utc_hour) > 48:
+            del self.files_by_utc_hour[next(iter(self.files_by_utc_hour))]
         self.rows.clear()
-        self.last_flush = time.monotonic()
+        self.buffer_started = None
         self.heartbeat(force=True)
 
 
-def collect(root: Path, *, seconds: int = 3600, code_version: str) -> None:
+def collect(
+    root: Path, *, seconds: int = 3600, code_version: str, flush_interval: float = 900
+) -> None:
     """Forward-only sockets with current snapshots, bounded buffering and reconnect/resync."""
     started = datetime.now(UTC)
     register_capture(root, started)
-    writer = SealedBookWriter(root, started=started, code_version=code_version)
+    writer = SealedBookWriter(
+        root, started=started, code_version=code_version, flush_interval=flush_interval
+    )
     deadline = time.monotonic() + seconds
     with writer_lease(root / "work/sealed-xaut/collector.lock"):
         with httpx.Client(trust_env=False, follow_redirects=False, timeout=20) as client:
-            while time.monotonic() < deadline:
-                try:
-                    writer.heartbeat()
-                    with connect(
-                        STREAM_URL,
-                        proxy=None,
-                        open_timeout=20,
-                        close_timeout=5,
-                        max_size=1_048_576,
-                        max_queue=64,
-                    ) as socket:
-                        # Snapshot is current live state, not a historical/back-fill request.
-                        response = client.get(SNAPSHOT_URL)
-                        response.raise_for_status()
-                        writer.accept(response.text, snapshot=True)
-                        writer.connected = True
-                        while time.monotonic() < deadline:
-                            try:
-                                message = socket.recv(timeout=10)
-                            except TimeoutError:
-                                if time.monotonic() - writer.last_flush >= 60:
-                                    writer.flush()
-                                writer.heartbeat()
-                                continue
-                            writer.accept(
-                                message.decode() if isinstance(message, bytes) else message
-                            )
-                            # Bound data loss on process failure; at most 60 seconds buffered.
-                            if writer.rows and (
-                                len(writer.rows) >= 100
-                                or time.monotonic() - writer.last_flush >= 60
-                            ):
-                                writer.flush()
-                except (ConnectionClosed, OSError, ValueError, httpx.HTTPError, TimeoutError):
-                    writer.last_error = "transport_or_sequence_refused"
-                    writer.flush()
-                    writer.reset()
-                    time.sleep(min(5.0, max(0.0, deadline - time.monotonic())))
-                finally:
-                    writer.flush()
-            writer.connected = False
-            writer.heartbeat(force=True)
+            try:
+                while time.monotonic() < deadline:
+                    try:
+                        writer.heartbeat()
+                        with connect(
+                            STREAM_URL,
+                            proxy=None,
+                            open_timeout=20,
+                            close_timeout=5,
+                            max_size=1_048_576,
+                            max_queue=64,
+                        ) as socket:
+                            # Snapshot is current live state, not a historical/back-fill request.
+                            response = client.get(SNAPSHOT_URL)
+                            response.raise_for_status()
+                            writer.accept(response.text, snapshot=True)
+                            writer.connected = True
+                            while time.monotonic() < deadline:
+                                try:
+                                    message = socket.recv(timeout=10)
+                                except TimeoutError:
+                                    writer.flush_if_due()
+                                    writer.heartbeat()
+                                    continue
+                                writer.accept(
+                                    message.decode() if isinstance(message, bytes) else message
+                                )
+                    except (ConnectionClosed, OSError, ValueError, httpx.HTTPError, TimeoutError):
+                        writer.last_error = "transport_or_sequence_refused"
+                        writer.flush_if_due()
+                        writer.reset()
+                        time.sleep(min(5.0, max(0.0, deadline - time.monotonic())))
+            finally:
+                writer.flush()
+                writer.connected = False
+                writer.heartbeat(force=True)
 
 
 def main() -> None:
@@ -366,6 +389,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=repo_root())
     parser.add_argument("--seconds", type=int, default=86400)
+    parser.add_argument("--flush-interval", type=float, default=900)
     parser.add_argument("--capture", action="store_true")
     args = parser.parse_args()
     if not args.capture or not 1 <= args.seconds <= 86400:
@@ -374,7 +398,12 @@ def main() -> None:
         raise SystemExit("Use the credential-free task checkout for sealed collection")
     from tb.ingest.history.cli import _code_version
 
-    collect(args.root.resolve(), seconds=args.seconds, code_version=_code_version())
+    collect(
+        args.root.resolve(),
+        seconds=args.seconds,
+        code_version=_code_version(),
+        flush_interval=args.flush_interval,
+    )
 
 
 if __name__ == "__main__":

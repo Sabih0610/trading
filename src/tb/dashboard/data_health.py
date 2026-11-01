@@ -130,6 +130,8 @@ def collector_health(root: Path) -> dict[str, Any]:
         "sequence_gap_count",
         "reconnects",
         "file_sizes",
+        "files_by_utc_hour",
+        "flush_interval_seconds",
         "connected",
         "last_error_category",
     }

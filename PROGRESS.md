@@ -1,5 +1,9 @@
 # Build progress
 
+P11d PR #3 review: **APPROVED WITH FIXES**. P11d-1/2/3 remediation is in
+validation; old sealed files remain untouched. Full gates and live cadence check
+are pending. See [review](reports/reviews/P11d-review.md).
+
 Current P11d (2026-11-01): Part A audit fixes committed individually; historical
 medallion and sealed-forward implementation pass lint/format/strict typing and five
 consecutive full suites (1253 passes in each clean run; 1247 with the empty .env

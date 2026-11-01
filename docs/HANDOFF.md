@@ -1,4 +1,16 @@
-# Current handoff — P11d ready for review with external blockers
+# Current handoff — P11d review fixes in validation
+
+Owner approved PR #3 with fixes before merge. Original review is copied unchanged
+to [P11d review](../reports/reviews/P11d-review.md). Cadence now uses a configurable
+900-second first-row interval, UTC-hour/gap/shutdown triggers and 200000-row cap;
+seal/write/checksum primitives are unchanged. Registry type refusal is explicit,
+including a python -O regression. Dedicated-checkout/post-merge steps and the
+permanent legacy small-file shape are documented. 56 focused tests pass.
+Full clean-checkout gates and then live restart/health-only cadence verification
+remain pending. Keep all existing sealed files untouched and do not merge main.
+The currently running collector still uses the previous source until deployment.
+
+## Previous handoff — initial P11d publication
 
 P11d branch `codex/p11d-audit-fixes-real-data` is rebased onto main `66be38c`,
 including the owner's sealed-forward exception. Part A fixes and Part B engineering

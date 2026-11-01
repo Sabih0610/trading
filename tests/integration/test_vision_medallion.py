@@ -16,7 +16,7 @@ from tb.ingest.history.vision import download_archive
 from tb.ingest.retention import lifetime
 from tb.ingest.rights import Permission
 from tb.research.models import DatasetRights, ResearchRefused, VisionDatasetPlan
-from tb.research.registry import inventory, load_vision_plan, register_vision_plan
+from tb.research.registry import authorize, inventory, load_vision_plan, register_vision_plan
 from tb.silver.vision import build_year, frame_digest, normalize, publish
 
 NOW = datetime(2026, 11, 1, tzinfo=UTC)
@@ -71,6 +71,46 @@ def admitted(tmp_path, monkeypatch):
     proposal.write_text(plan.model_dump_json())
     register_vision_plan(tmp_path, proposal.relative_to(tmp_path).as_posix(), NOW)
     return tmp_path, plan
+
+
+def test_owned_authorization_refuses_non_dataset_policy_explicitly(admitted):
+    root, plan = admitted
+    malformed = plan.model_copy(update={"source_class": "owned_synthetic"})
+    with pytest.raises(ResearchRefused, match="dataset_owned_policy_type_invalid"):
+        authorize(root, malformed, NOW)
+
+
+def test_owned_authorization_type_refusal_survives_python_optimization(admitted):
+    import subprocess
+    import sys
+
+    root, plan = admitted
+    code = """
+import sys
+from datetime import datetime
+from pathlib import Path
+from tb.research.models import ResearchRefused
+from tb.research.registry import authorize, load_vision_plan
+root, dataset, stamp = sys.argv[1:]
+now = datetime.fromisoformat(stamp)
+policy = load_vision_plan(Path(root), dataset, now).model_copy(update={'source_class': 'owned_synthetic'})
+try:
+    authorize(Path(root), policy, now)
+except ResearchRefused as exc:
+    if str(exc) != 'dataset_owned_policy_type_invalid':
+        raise
+    print('explicit refusal under python -O')
+else:
+    raise RuntimeError('malformed owned policy was not refused')
+"""
+    result = subprocess.run(
+        [sys.executable, "-O", "-c", code, str(root), plan.dataset_id, NOW.isoformat()],
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "explicit refusal under python -O" in result.stdout
 
 
 def archive_bytes(*, period=PERIOD, cadence="monthly", interval="1m", start=START, count=60):

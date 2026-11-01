@@ -120,7 +120,8 @@ def authorize(
             ):
                 raise ResearchRefused("fabricated_approvals_are_test_only")
     if policy.source_class == "owned_synthetic":
-        assert isinstance(policy, DatasetPolicy)
+        if not isinstance(policy, DatasetPolicy):
+            raise ResearchRefused("dataset_owned_policy_type_invalid")
         from tb.research.fixtures import source_bytes
 
         if digest_bytes(source_bytes(policy)) != policy.source_sha256:

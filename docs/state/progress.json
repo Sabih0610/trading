@@ -525,7 +525,7 @@
       "started_utc": "2026-11-01 UTC",
       "base_commit": "66be38c",
       "report": "reports/phases/P11d.md",
-      "review": "queued",
+      "review": "approved_with_fixes; remediation validation",
       "historical_data": "BLOCKED — DATASET NOT AUTHORIZED",
       "sealed_collector": "running; user-logon/crash task; unattended boot privilege pending",
       "engineering_complete": true,
@@ -542,7 +542,17 @@
       "publication": "task branch pushed; open review PR; main unmerged",
       "branch": "codex/p11d-audit-fixes-real-data",
       "pull_request": "https://github.com/Sabih0610/trading/pull/3",
-      "commit_lookup": "git log --oneline -- reports/phases/P11d.md"
+      "commit_lookup": "git log --oneline -- reports/phases/P11d.md",
+      "review_remediation": {
+        "findings": [
+          "P11d-1",
+          "P11d-2",
+          "P11d-3"
+        ],
+        "status": "focused_passed; full_clean_gate_pending; live_deployment_pending",
+        "focused_tests_passed": 56,
+        "legacy_sealed_files": "approximately 1100; preserved untouched"
+      }
     }
   },
   "allowed_status": [

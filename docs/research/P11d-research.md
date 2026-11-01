@@ -70,3 +70,20 @@ never substitute the Vision archive licence. P14 needs separately reviewed right
 and its one-use logged release. ADR 0020 records capture-only authority and sealing.
 
 Native write-time sealing follows Microsoft SetNamedSecurityInfoW, ConvertStringSecurityDescriptorToSecurityDescriptorW and GetSecurityDescriptorDacl (accessed 2026-11-01): https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setnamedsecurityinfow ; https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertstringsecuritydescriptortosecuritydescriptorw ; https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptordacl . Cache the descriptor, deny ReadData explicitly before bytes, reject null DACLs and release native storage at exit. This removes per-file shell churn without changing read-denial policy.
+
+
+## PR #3 review follow-up (2026-11-01)
+
+The independent [review](../../reports/reviews/P11d-review.md) supplies operational
+file-count evidence, not permission to inspect sealed files. Choose a first-row
+900-second buffer interval instead of small-row flushes; retain 200,000 rows only
+as a memory cap. UTC-hour and sequence-gap boundaries remain immediate. No readable
+spool is acceptable; hard-crash loss of up to one interval is the explicit trade-off
+in ADR 0020. Operational write counters are updated when sealing completes, not by
+scanning or reading the archive.
+
+Python 3.12 documents that `-O` removes assertions; registry authorization must use
+an explicit `ResearchRefused` check. A subprocess regression runs that same branch
+under optimization. Sources accessed 2026-11-01:
+[Python optimization](https://docs.python.org/3.12/using/cmdline.html#cmdoption-O),
+[UTC-aware timedelta arithmetic](https://docs.python.org/3.12/library/datetime.html#datetime.timedelta.total_seconds).

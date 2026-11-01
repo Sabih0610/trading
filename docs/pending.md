@@ -1,5 +1,10 @@
 # Pending items
 
+- **P11d legacy sealed file shape:** the reviewed collector created approximately
+  1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,
+  compaction or deletion. New capture uses 15-minute intervals; this existing
+  shape is permanent until a separately authorized P14 release.
+
 - **P11d historical admission:** BTC/ETH/SOL are BLOCKED — DATASET NOT AUTHORIZED.
   Need actual owner + distinct reviewer documentary approval, terms version,
   finite retention and private derivative/report scope. Fixtures grant no genuine rights.

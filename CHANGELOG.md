@@ -4,6 +4,15 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### P11d PR #3 review fixes — 2026-11-01 UTC
+
+- Replaced small-row/time flushes with a configurable 15-minute interval and fixed
+  200000-row safety cap; retained immediate UTC-hour/gap/shutdown sealing.
+- Added session-local operational hourly write counters without archive access.
+- Made registry type refusal explicit under Python optimization; preserved the
+  independent review and documented the dedicated collector checkout/update steps.
+- Left all legacy sealed files untouched; accepted one interval of hard-crash loss.
+
 ### P11d audit fixes and sealed medallion — 2026-11-01 UTC
 
 - Removed optimistic same-bar limit targets and fill-volume lookahead; enforced
