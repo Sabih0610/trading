@@ -47,3 +47,8 @@ Refuse both before network access, record precise private reasons, and leave mis
 bars absent. Source calendars exclude weekend/rollover from coverage penalties.
 Source-specific quality paths avoid collisions when backup and primary coexist.
 See [ADR 0021](../adr/0021-approved-forex-history.md).
+
+Admission is rechecked around every bounded FX transport attempt and before partial
+original persistence. Retention expiry is an authorization refusal, not a provider
+technical failure: it must stop without producing a technical report or invoking
+backup. Owned tests advance the clock during a response and assert no raw write.

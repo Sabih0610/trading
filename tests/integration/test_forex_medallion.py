@@ -690,3 +690,59 @@ def test_consented_duka_retains_completed_side_after_ASK_failure(approved):
     assert len(calls) == 4 and len(originals) == 1
     assert originals[0].read_bytes() == payload
     assert not list((root / "data").rglob("*.manifest.json"))
+
+
+def test_retention_expiring_during_response_prevents_partial_write(approved):
+    import lzma
+    import struct
+
+    from tb.ingest.mt5.models import FeedUnavailable
+
+    root, plan = approved("dukascopy")
+    instant, calls = [NOW], []
+    payload = lzma.compress(
+        struct.pack(">IIIIIf", 0, 110000, 110100, 109900, 110200, 1.0), format=lzma.FORMAT_ALONE
+    )
+
+    def handler(request):
+        calls.append(request)
+        instant[0] = NOW + timedelta(days=8)
+        return httpx.Response(200, content=payload)
+
+    with (
+        httpx.Client(transport=httpx.MockTransport(handler)) as client,
+        pytest.raises(FeedUnavailable, match="expired"),
+    ):
+        download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=date(2024, 3, 12),
+            code_version="owned",
+            clock=lambda: instant[0],
+            sleep=lambda _: None,
+        )
+    assert len(calls) == 1
+    assert not list((root / "data").rglob("*.bi5")) if (root / "data").exists() else True
+
+
+def test_expired_primary_rights_are_not_reported_as_provider_failure(approved, monkeypatch):
+    import tb.ingest.history.forex_cli as cli
+    from tb.ingest.mt5.models import FeedUnavailable
+
+    root, backup = approved()
+    _, primary = approved("dukascopy")
+    calls = []
+
+    def fetch(root, dataset_id, client, **kwargs):
+        calls.append(dataset_id)
+        raise FeedUnavailable("owned_expired_retention")
+
+    monkeypatch.setattr(cli, "download_period", fetch)
+    with pytest.raises(FeedUnavailable):
+        cli.download_history(
+            root, backup.dataset_id, primary_id=primary.dataset_id, clock=lambda: NOW
+        )
+    assert calls == [primary.dataset_id]
+    assert not (root / "reports/phases/P11e-dukascopy-failure.md").exists()

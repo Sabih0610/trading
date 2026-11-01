@@ -30,3 +30,9 @@
   for blocked transport/decode fallback and retaining a completed BID original
   after ASK failure: all 26 FX scenarios pass. Corrected working-copy UTF-8/line
   ending noise in handoff text without changing the historical handoff content.
+
+- 2026-11-01 11:19 UTC: Final audit closed a lifetime edge in the new FX transport:
+  current admission is checked before every retry and after successful responses,
+  including before retaining a partial original. FeedUnavailable expiry remains an
+  authorization stop and cannot be mislabeled as technical failure/fallback. Two
+  owned expiry regressions pass; all 28 FX tests pass. No genuine Dukascopy contact.
