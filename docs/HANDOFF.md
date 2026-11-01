@@ -1,3 +1,19 @@
+# Current handoff — P11e acquisition in progress
+
+Task branch codex/p11e-acquire-history, separate credential-free checkout, main
+base a454731. Owner's untracked prompt and dataset-rights review copied unchanged.
+Dukascopy consent file not found at the specified owner path: B0 requires HistData
+fallback, no Dukascopy network requests. Source review permits private pre-2025
+history and finite retention only; no evaluation or publication of genuine artifacts.
+Evidence copies saved under work/rights (ignored). Official Vision PDF is 144891
+bytes, above the generic 128 KiB registry inspection limit; implementing a narrow,
+bounded PDF evidence path before genuine registration/acquisition. HistData fixed
+UTC−5 month boundaries need a holdout-safe refusal before archive GET. No genuine
+market archive requested yet; sealed XAUT checkout/task/files untouched.
+See [P11e plan](../reports/phases/P11e.md), [journal](journal/P11e-journal.md).
+
+## Previous handoff — P11d review fixes
+
 # Current handoff — P11d review fixes complete
 
 Owner approved PR #3 with fixes before merge. Original review is copied unchanged
