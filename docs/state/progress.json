@@ -539,7 +539,10 @@
       "paper_studies": 14,
       "external_orders_enabled": false,
       "hosted_ci_active": false,
-      "publication": "authorized; preparing review PR"
+      "publication": "task branch pushed; open review PR; main unmerged",
+      "branch": "codex/p11d-audit-fixes-real-data",
+      "pull_request": "https://github.com/Sabih0610/trading/pull/3",
+      "commit_lookup": "git log --oneline -- reports/phases/P11d.md"
     }
   },
   "allowed_status": [
@@ -568,7 +571,7 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-01 07:25 UTC",
+  "last_updated_utc": "2026-11-01 07:28 UTC",
   "next_phase": "Review P11d; historical dataset approval and unattended boot operator privileges pending. No P11e, P14 unsealing, main merge, orders or hosted CI authorized.",
   "audits": {
     "third_party_repository_adoption": {

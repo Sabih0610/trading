@@ -48,5 +48,7 @@
   "owner_presence": "empty owned fixture .env in a separate checkout; private owner file untouched",
   "validated_source_unchanged": true,
   "independent_audit_top_level_bodies_unchanged": 86,
-  "independent_audit_nested_bodies_unchanged": 7
+  "independent_audit_nested_bodies_unchanged": 7,
+  "pull_request": "https://github.com/Sabih0610/trading/pull/3",
+  "publication": "task branch only; no main merge or hosted CI"
 }

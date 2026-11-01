@@ -7,7 +7,7 @@ fixture and expected checkout skips). Offline smoke and 14 paper studies pass. R
 SOL history is **BLOCKED — DATASET NOT AUTHORIZED**. Owner-authorized XAUT capture
 is running with sealed files; the current-user logon/crash task is registered.
 Windows denied unattended boot registration; operator privileges remain pending.
-[Phase report](reports/phases/P11d.md) · [Sealed collector](docs/how-to/sealed-xaut-collector.md).
+[PR #3](https://github.com/Sabih0610/trading/pull/3) · [Phase report](reports/phases/P11d.md) · [Sealed collector](docs/how-to/sealed-xaut-collector.md).
 
 Current P11c.0: broker-independent registry/import/evaluation/replay/dashboard and
 dry-run retention inventory implemented on local branch `codex/p11c-0-research-mvp`

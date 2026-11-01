@@ -2,7 +2,7 @@
 
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|
-| P11d | queued for independent review | 2026-11-01 UTC | [report](../reports/phases/P11d.md) | Audit fixes, rights-gated yearly medallion, fixture scenarios and sealed forward reader refusal. Five consecutive full suites and offline gate pass. Genuine history blocked. Collector running; boot privilege limitation explicit. |
+| P11d | queued for independent review | 2026-11-01 UTC | [report](../reports/phases/P11d.md), [PR #3](https://github.com/Sabih0610/trading/pull/3) | Audit fixes, rights-gated yearly medallion, fixture scenarios and sealed forward reader refusal. Five consecutive full suites and offline gate pass. Genuine history blocked. Collector running; boot privilege limitation explicit. |
 | P11c.0 | queued for independent review | 2026-10-27 UTC | [report](../reports/phases/P11c.0.md) | Repaired-source provenance; metadata-first dataset rights and expiry; causal shared features/strategies; matched frozen labels; crash/replay integrity; exact dry-run inventory and gated read-only UI. Owned evidence only; no push/CI/genuine/P11c.1. |
 | P11b-RC-remediation | automated self-review; independent human review pending | 2026-10-27 UTC | [report](../reports/phases/P11b-RC-remediation.md) | Six findings fixed with owned regressions; 992 tests and 14 studies pass; no genuine/push/CI authorization. |
 | P11b.1a-RC | queued | 2026-10-27 10:59 UTC | [report](../reports/phases/P11b.1a-RC.md) | Review unchanged b669d43 candidate, complete owned workflow, public-artifact isolation and redirect acceptance/contingency. 937 pass; all 14 states identical; no source changes, new commit/tag, genuine flow or hosted CI. |

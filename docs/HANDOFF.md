@@ -24,8 +24,9 @@ occurred before the scheduled writer's fresh session; no back-fill was attempted
 Historical BTC/ETH/SOL admission remains BLOCKED — DATASET NOT AUTHORIZED.
 No genuine historical acquisition, evaluation, credentials, orders or hosted CI.
 The owner's original `.env` and other worktrees remain untouched.
-Next: publish the validated task branch and open the review PR; then independent
-review, genuine historical dataset approval and operator boot-task setup remain.
+Published task branch with `--no-follow-tags` and `[skip ci]`; [PR #3](https://github.com/Sabih0610/trading/pull/3)
+is open and unmerged. Next: independent review, genuine historical dataset approval
+and operator boot-task setup.
 Do not merge main or start P11e/P14. See [report](../reports/phases/P11d.md) and
 [journal](journal/P11d-journal.md).
 

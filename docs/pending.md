@@ -20,7 +20,7 @@
   pipeline behavior still requires a separate repair. Existing strict xfails retained.
 - **P11d independent review:** five serial full suites, the empty-.env presence matrix,
   offline gate, smoke and 14 owned paper studies pass on unchanged source d1e4e18.
-  Review the [phase report](../reports/phases/P11d.md); publication is authorized.
+  Review [PR #3](https://github.com/Sabih0610/trading/pull/3) and the [phase report](../reports/phases/P11d.md); branch published, main unmerged.
   The notes below are historical and do not revoke the owner's explicit P11d
   sealed capture/publication scope.
 
