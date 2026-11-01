@@ -39,7 +39,7 @@ The repo's Dukascopy adapter (`src/tb/ingest/history/dukascopy.py`) downloads pr
 
 Routes for gold/FX bid/ask data, in order of preference:
 1. **Written consent from Dukascopy** for personal, non-commercial research use of historical XAUUSD/EURUSD data (owner sends the request; a draft was given to the owner on 2026-11-01).
-2. **HistData.com** XAUUSD/EURUSD M1 — publishes no terms restricting use (research finding 14); bid-only and fixed UTC−5 (findings 11–12). Usable for private research with a conservative spread model. Medium-confidence permission (absence of terms, not explicit grant).
+2. **HistData.com** XAUUSD/EURUSD M1 — publishes no terms restricting use (research finding 14); bid-only (finding 12); timezone corrected in finding 11. Usable for private research with a conservative spread model. Medium-confidence permission (absence of terms, not explicit grant).
 
 Verdict: **NOT APPROVED** (automated). HistData **APPROVED for private research** with the conditions in §3.
 
@@ -51,7 +51,7 @@ Verdict: **NOT APPROVED** (automated). HistData **APPROVED for private research*
 | Source | <https://www.histdata.com/download-free-forex-data/?/ascii/1-minute-bar-quotes> (Generic ASCII M1) |
 | Terms | None published (homepage/FAQ: no warranty, "use the data at your own will and risk"). Store a dated copy of the homepage and FAQ under `work/rights/` as evidence. |
 | Instruments | XAUUSD, EURUSD · M1 bid bars · 2020-10 → 2024-12 |
-| Conditions | Timestamps are **fixed EST (UTC−5), no DST** — convert with a constant +5 h. Bars are **bid-only**: long entries must add a spread (config default as floor). Polite download, no parallel hammering. Private only, no redistribution, nothing committed. |
+| Conditions | Timestamps: ~~fixed EST, constant +5 h~~ **corrected (P11e review): UTC−4 while Europe is on summer time, UTC−5 otherwise — convert per trading week; the EU fall-back Sunday hour repeats and is two real hours, not a duplicate.** Bars are **bid-only**: long entries must add a spread (config default as floor). Polite download, no parallel hammering. Private only, no redistribution, nothing committed. |
 | Retention | Until 2028-11-01. |
 
 Verdict: **APPROVED** within these conditions.

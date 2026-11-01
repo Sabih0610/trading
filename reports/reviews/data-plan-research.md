@@ -46,7 +46,7 @@ Date: 2026-11-01 · 22 sources fetched, 100 claims extracted, 25 verified (24 co
 
 | # | Finding | Confidence | Effect on plan | Source |
 |---|---|---|---|---|
-| 11 | **HistData timestamps are fixed EST (UTC−5) all year, no daylight saving** — in every file format. Convert with a constant +5 h (`Etc/GMT+5`), **not** `America/New_York`, or summer bars shift by 1 h. | High (3-0) | Any HistData importer must use fixed UTC−5. Validate around DST change dates. | [HistData spec](http://www.histdata.com/f-a-q/data-files-detailed-specification/), [FAQ](https://www.histdata.com/f-a-q/) |
+| 11 | ~~HistData timestamps are fixed EST (UTC−5) all year, no daylight saving~~ **Corrected 2026-11-01 (P11e review, P11e-1):** real 2021–2023 files show UTC−4 while Europe is on summer time and UTC−5 otherwise (week opens shift only in US/EU DST-mismatch weeks; the EU fall-back Sunday repeats one hour). Convert per trading week, not with a constant +5 h. Original claim: — in every file format. Convert with a constant +5 h (`Etc/GMT+5`), **not** `America/New_York`, or summer bars shift by 1 h. | High (3-0) | Any HistData importer must use fixed UTC−5. Validate around DST change dates. | [HistData spec](http://www.histdata.com/f-a-q/data-files-detailed-specification/), [FAQ](https://www.histdata.com/f-a-q/) |
 | 12 | **HistData M1 bars are bid-only**; ask exists only in Generic ASCII **tick** files (`DateTime,Bid,Ask,Volume`, ms timestamps). Volume is effectively 0. | High (3-0) | Bid-only bars understate a long entry's cost by the spread. Use HistData as a cross-check, not the primary gold/FX source; keep Dukascopy (bid **and** ask, already decoded by the repo). | Same |
 | 13 | HistData is free, organised by pair/year/month, and lists **XAU/USD**. History depth for XAU/USD not established. | High (3-0) | Usable backup source. | [HistData](https://www.histdata.com/) |
 | 14 | HistData publishes **no licence or terms** — no warranty, nothing permitting or restricting research/ML. | Medium (3-0, based on absence of terms) | Private, non-redistributed use is the low-risk reading; never commit raw files. | [HistData](https://www.histdata.com/) |
@@ -70,7 +70,7 @@ Date: 2026-11-01 · 22 sources fetched, 100 claims extracted, 25 verified (24 co
 | Instrument | Primary | Backup / cross-check | Do not use |
 |---|---|---|---|
 | BTC, ETH, SOL | Binance Vision 1m (+1s for intrabar) — research only; revisit licence before live | — | tvDatafeed, yfinance |
-| XAUUSD, EURUSD | Dukascopy M1 bid/ask (repo decoder exists) — **terms pending owner review** | HistData (fixed UTC−5, bid-only) | tvDatafeed, yfinance |
+| XAUUSD, EURUSD | Dukascopy M1 bid/ask (repo decoder exists) — **terms pending owner review** | HistData (EU-DST-following UTC−4/−5, bid-only; see finding 11) | tvDatafeed, yfinance |
 | XAUT | Binance from 2026-03-26 (forward / validation only) | Bitfinex as a separate, flagged sparse proxy | Stitching Bitfinex onto Binance |
 | US yields | US Treasury archive (≤2023) + Daily Treasury Rates (2024+) | — | FRED |
 | Oil | EIA (attribute source) | Dukascopy WTI (terms pending) | FRED |

@@ -47,7 +47,7 @@ Data sources (see the research report for citations):
 | Instrument | Source | Notes |
 |---|---|---|
 | BTC, ETH, SOL | Binance Vision 1m (+1s for intrabar resolution) | Research only; µs timestamps from 2025 already handled |
-| XAUUSD, EURUSD | Dukascopy M1 bid/ask (after O-2); HistData as cross-check | HistData is fixed UTC−5 and bid-only |
+| XAUUSD, EURUSD | Dukascopy M1 bid/ask (after O-2); HistData as cross-check | HistData is bid-only and follows EU DST (UTC−4/−5), not fixed EST — see P11e review |
 | XAUT | Binance from 2026-03-26, forward/validation only | Develop gold logic on XAUUSD; do not stitch Bitfinex |
 | US yields | US Treasury archive (≤2023) + Daily Treasury Rates (2024+) | Replace FRED |
 | Oil | EIA daily WTI/Brent, attributed | Replace FRED |
