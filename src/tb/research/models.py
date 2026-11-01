@@ -109,6 +109,80 @@ class VisionDatasetPlan(PolicyModel):
         return self
 
 
+class ForexDatasetPlan(PolicyModel):
+    """Prospective, private M1 archive scope; sources and price sides never interchangeable."""
+
+    schema_version: Literal[1] = 1
+    dataset_id: str = Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")
+    source_class: Literal["licensed_historical"] = "licensed_historical"
+    provider: Literal["histdata", "dukascopy"]
+    source: str
+    terms_version: str = Field(min_length=10, max_length=200)
+    scope: Literal["private non-production research"] = "private non-production research"
+    derived_report_rules: Literal["private only; no redistribution; source notices retained"] = (
+        "private only; no redistribution; source notices retained"
+    )
+    instruments: tuple[Symbol, ...]
+    interval: Literal["1m"] = "1m"
+    price_side: Literal["bid", "bid_ask"]
+    source_timezone: Literal["UTC", "UTC-05:00"]
+    coverage_start: AwareDatetime = RESEARCH_START
+    coverage_end: AwareDatetime = datetime(2024, 12, 31, 23, 59, tzinfo=UTC)
+    acquired_at: AwareDatetime
+    rights: DatasetRights
+    retention: EvidenceLifetime
+
+    @property
+    def digest(self) -> str:
+        return digest(self.model_dump(mode="json"))
+
+    @model_validator(mode="after")
+    def coherent(self) -> Self:
+        expected = {
+            "histdata": ("https://www.histdata.com", "bid", "UTC-05:00"),
+            "dukascopy": ("https://datafeed.dukascopy.com/datafeed", "bid_ask", "UTC"),
+        }[self.provider]
+        permissions = [
+            self.rights.personal_research,
+            self.rights.research_reports,
+            *self.rights.permissions.values(),
+        ]
+        if (
+            (self.source, self.price_side, self.source_timezone) != expected
+            or not self.instruments
+            or len(set(self.instruments)) != len(self.instruments)
+            or self.rights.provider != self.provider
+            or self.rights.dataset_id != self.dataset_id
+            or set(self.rights.instruments) != set(self.instruments)
+            or self.coverage_start.utcoffset() != timedelta(0)
+            or self.coverage_end.utcoffset() != timedelta(0)
+            or not RESEARCH_START <= self.coverage_start <= self.coverage_end < HOLDOUT
+            or self.coverage_start.second
+            or self.coverage_start.microsecond
+            or self.coverage_end.second
+            or self.coverage_end.microsecond
+            or self.acquired_at <= self.coverage_end
+            or self.retention.acquired_at != self.acquired_at
+            or self.retention.rights_digest != self.rights.digest
+        ):
+            raise ResearchRefused("forex_plan_scope_side_clock_or_lifetime_invalid")
+        if self.provider == "dukascopy" and any(
+            p.evidence_kind != "provider_confirmation"
+            or not p.evidence_artifact
+            or not p.evidence_artifact.startswith("work/rights/dukascopy-consent.")
+            for p in permissions
+        ):
+            raise ResearchRefused(
+                "dukascopy_registered_written_consent_required; see dataset rights review"
+            )
+        if self.provider == "histdata" and (
+            any(p.evidence_kind != "provider_terms" for p in permissions)
+            or len({p.evidence_artifact for p in permissions}) < 2
+        ):
+            raise ResearchRefused("histdata_homepage_and_FAQ_evidence_required")
+        return self
+
+
 class OwnedGeneration(PolicyModel):
     version: Literal["owned-local-bars-1.0.0"] = "owned-local-bars-1.0.0"
     bars: int = Field(default=320, ge=64, le=2048)

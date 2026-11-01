@@ -12,3 +12,4 @@
 - The dedicated sealed collector stays in its existing checkout/process; do not
   copy, inspect, list, repack or delete its files for this phase.
 - Original Vision PDF evidence path now passes 19 integration tests; the generic document limit remains unchanged. Registering the actual approved plan, then starting sequential checksum-verified pre-2025 acquisition through the existing medallion CLI.
+- Vision sequential acquisition finished through the approved final 2024 month for BTC/ETH/SOL, using original archives and vendor checksums. No ≥2025 archive was requested. The PowerShell wrapper positional-binding regression is fixed (two owned launcher tests pass). Thirty combined Vision/FX fixture cases pass; strict mypy is clean on 186 files. Starting actual approved HistData acquisition next; actual market and quality artifacts remain ignored.

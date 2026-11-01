@@ -26,7 +26,8 @@ from tb.ingest.history.core import (
     sha256_file,
 )
 from tb.ingest.history.vision import validate_scope
-from tb.research.models import HOLDOUT, ResearchRefused, VisionDatasetPlan, digest
+from tb.research.forex_registry import load_forex_plan
+from tb.research.models import HOLDOUT, ForexDatasetPlan, ResearchRefused, VisionDatasetPlan, digest
 from tb.research.registry import declare_artifact, load_vision_plan, read_metadata, safe
 from tb.silver.market import CleanResult, clean_minute_bars, resample_completed_bars
 
@@ -173,22 +174,28 @@ def quality(
     }
 
 
-def _output_relative(dataset_id: str, symbol: str, year: int, generation: str, key: str) -> str:
+def _output_relative(
+    dataset_id: str,
+    symbol: str,
+    year: int,
+    generation: str,
+    key: str,
+    provider: str = "binance_vision",
+) -> str:
     layer, timeframe = key.split("/")
     if (
         layer not in {"silver", "gold"}
         or timeframe not in TIMEFRAMES
         or not re.fullmatch(r"[a-f0-9]{64}", generation)
+        or provider not in {"binance_vision", "histdata", "dukascopy"}
     ):
         raise ResearchRefused("vision_output_identity_invalid")
-    return (
-        f"data/{layer}/binance_vision/{dataset_id}/{symbol}/{timeframe}/{generation}/{year}.parquet"
-    )
+    return f"data/{layer}/{provider}/{dataset_id}/{symbol}/{timeframe}/{generation}/{year}.parquet"
 
 
 def publish(
     root: Path,
-    plan: VisionDatasetPlan,
+    plan: VisionDatasetPlan | ForexDatasetPlan,
     symbol: str,
     year: int,
     frames: Mapping[str, pl.DataFrame],
@@ -199,13 +206,15 @@ def publish(
     fault: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
     """Verify logical contents before replacing the one pointer; old outputs survive precommit crashes."""
+    from tb.ingest.history.cli import _code_version
+
     hashes = {key: frame_digest(frame) for key, frame in frames.items()}
     generation = digest([plan.digest, inputs, hashes])
-    pointer = safe(root, f"data/manifests/binance_vision/{plan.dataset_id}/{symbol}-{year}.json")
+    pointer = safe(root, f"data/manifests/{plan.provider}/{plan.dataset_id}/{symbol}-{year}.json")
     old = read_metadata(root, pointer.relative_to(root).as_posix()) if pointer.exists() else None
     outputs: dict[str, Any] = {}
     for key, frame in frames.items():
-        relative = _output_relative(plan.dataset_id, symbol, year, generation, key)
+        relative = _output_relative(plan.dataset_id, symbol, year, generation, key, plan.provider)
         path = safe(root, relative)
         declare_artifact(
             root,
@@ -244,16 +253,22 @@ def publish(
             temporary.unlink(missing_ok=True)
     if fault:
         fault("before_manifest")
-    load_vision_plan(root, plan.dataset_id, clock())
+    if isinstance(plan, VisionDatasetPlan):
+        load_vision_plan(root, plan.dataset_id, clock())
+    else:
+        load_forex_plan(root, plan.dataset_id, clock())
     report = {
         **report,
         "generation": generation,
         "dataset_id": plan.dataset_id,
         "terms_version": plan.terms_version,
+        "source": plan.provider,
+        "price_side": plan.price_side if isinstance(plan, ForexDatasetPlan) else "trade",
         "last_refresh": clock().isoformat(),
     }
     manifest = {
         "schema_version": 1,
+        "code_version": _code_version(),
         "status": "complete",
         "dataset_id": plan.dataset_id,
         "symbol": symbol,
@@ -261,6 +276,8 @@ def publish(
         "generation": generation,
         "policy_digest": plan.digest,
         "terms_version": plan.terms_version,
+        "source": plan.provider,
+        "price_side": plan.price_side if isinstance(plan, ForexDatasetPlan) else "trade",
         "scope": plan.scope,
         "retention": plan.retention.model_dump(mode="json"),
         "inputs": inputs,
@@ -280,7 +297,7 @@ def publish(
     if old and old.get("generation") != generation and old.get("policy_digest") == plan.digest:
         old_gen = str(old["generation"])
         for key, item in old["outputs"].items():
-            expected = _output_relative(plan.dataset_id, symbol, year, old_gen, key)
+            expected = _output_relative(plan.dataset_id, symbol, year, old_gen, key, plan.provider)
             if item["path"] != expected:
                 raise IntegrityError("Old compaction path identity changed")
             safe(root, expected).unlink(missing_ok=True)
