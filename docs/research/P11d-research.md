@@ -1,8 +1,8 @@
 # P11d research — audit fixes and bounded historical data
 
-Work in progress, accessed 2026-11-01. No genuine dataset is authorized yet.
+Research completed; primary sources accessed 2026-11-01. No genuine dataset is authorized yet.
 Implementation and validation use fictional fixtures in a credential-free checkout.
-The 2025+ holdout is outside this phase, including archive inspection.
+Historical 2025+ data remains locked. The later owner decision permits sealed forward capture only.
 
 | Question / options | Decision and reason | Primary source |
 |---|---|---|
@@ -12,9 +12,8 @@ The 2025+ holdout is outside this phase, including archive inspection.
 | MLflow default tracking versus local-only telemetry opt-out | Set MLFLOW_DISABLE_TELEMETRY=true and DO_NOT_TRACK=1 before import; deny external sockets in default tests. | https://mlflow.org/docs/latest/community/usage-tracking/ |
 | Vision licence | Terms version 1.0, updated 2026-08-26; CC BY-NC-SA 4.0 plus dataset terms; derived artifacts remain governed. Admission requires actual owner and distinct reviewer evidence. | https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md |
 
-Installed package versions and Parquet/API guidance will be recorded before Part B.
-Open questions: per-symbol first 1s archive dates, current dataset admission scope,
-retention/report rules, crash-safe multi-file manifest publication.
+The sections below record installed versions, availability metadata and publication choices.
+Outstanding: actual historical dataset approvals and the one-use P14 release/rights review.
 
 ## Part B primary-source verification
 
@@ -69,4 +68,5 @@ The public terms page exposes no verified API version string; /en/terms-api was
 inaccessible to the research browser. Record that uncertainty and access date,
 never substitute the Vision archive licence. P14 needs separately reviewed rights
 and its one-use logged release. ADR 0020 records capture-only authority and sealing.
-`nNative write-time sealing follows Microsoft SetNamedSecurityInfoW, ConvertStringSecurityDescriptorToSecurityDescriptorW and GetSecurityDescriptorDacl (accessed 2026-11-01): https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setnamedsecurityinfow ; https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertstringsecuritydescriptortosecuritydescriptorw ; https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptordacl . Cache the descriptor, deny ReadData explicitly before bytes, reject null DACLs and release native storage at exit. This removes per-file shell churn without changing read-denial policy.
+
+Native write-time sealing follows Microsoft SetNamedSecurityInfoW, ConvertStringSecurityDescriptorToSecurityDescriptorW and GetSecurityDescriptorDacl (accessed 2026-11-01): https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setnamedsecurityinfow ; https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertstringsecuritydescriptortosecuritydescriptorw ; https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptordacl . Cache the descriptor, deny ReadData explicitly before bytes, reject null DACLs and release native storage at exit. This removes per-file shell churn without changing read-denial policy.

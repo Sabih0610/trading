@@ -1,5 +1,14 @@
 # Build progress
 
+Current P11d (2026-11-01): Part A audit fixes committed individually; historical
+medallion and sealed-forward implementation pass lint/format/strict typing and five
+consecutive full suites (1253 passes in each clean run; 1247 with the empty .env
+fixture and expected checkout skips). Offline smoke and 14 paper studies pass. Real BTC/ETH/
+SOL history is **BLOCKED — DATASET NOT AUTHORIZED**. Owner-authorized XAUT capture
+is running with sealed files; the current-user logon/crash task is registered.
+Windows denied unattended boot registration; operator privileges remain pending.
+[Phase report](reports/phases/P11d.md) · [Sealed collector](docs/how-to/sealed-xaut-collector.md).
+
 Current P11c.0: broker-independent registry/import/evaluation/replay/dashboard and
 dry-run retention inventory implemented on local branch `codex/p11c-0-research-mvp`
 from repaired `978aad2`. Final **1,084 tests pass / 3 live deselected**, all quality

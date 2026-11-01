@@ -4,6 +4,20 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### P11d audit fixes and sealed medallion — 2026-11-01 UTC
+
+- Removed optimistic same-bar limit targets and fill-volume lookahead; enforced
+  XAUT weekends and per-asset circuit limits. Independent audit assertions preserved.
+- Hardened endpoint scanning, telemetry/socket isolation, provider proxy settings,
+  newly created private-file ACLs, traceback redaction and CLI logging.
+- Corrected calendar availability, checkout-sensitive tests and process deadlines;
+  clarified policy defaults versus ceilings and installation from main.
+- Added rights-gated pre-2025 archive plans, immutable ZIP/checksum provenance,
+  bounded yearly Silver/Gold compaction, quality JSON and metadata-only Data Health.
+- Implemented the owner's sealed-forward exception with write-time read denial,
+  shared reader refusal, raw XAUT capture/resync and operational health only.
+  Historical dataset admission remains blocked; boot-task privileges remain pending.
+
 ### P11c.0 local market research — 2026-10-27 UTC
 
 - Integrated repaired 978aad2 in a dedicated local branch, preserving owner work.

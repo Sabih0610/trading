@@ -1,5 +1,29 @@
 # Pending items
 
+- **P11d historical admission:** BTC/ETH/SOL are BLOCKED — DATASET NOT AUTHORIZED.
+  Need actual owner + distinct reviewer documentary approval, terms version,
+  finite retention and private derivative/report scope. Fixtures grant no genuine rights.
+- **P11d unattended boot:** Windows denied S4U/boot task registration. The collector
+  runs under the current user's logon/crash task; an operator with appropriate local
+  privileges must enable unattended boot recovery. Do not introduce credentials.
+- **P11d sealed P14 release:** no archive reads/unsealing now. API terms version is
+  unverified; settle documentary rights and separately logged one-use owner release
+  before P14. Capture-only registry entry is not research admission.
+- **S-5 existing owner file:** setup protects newly created files only. The owner's
+  existing `.env` was not accessed or changed; its environmental audit xfail remains
+  until the owner independently resolves/verifies its ACL. Clean tests skip it.
+- **Remaining full-audit minors:** R-3 (symbol validation rejection shape), R-4
+  (default quantity rounding), D-3 (touch queue realism), D-4 (gap-through ML labels),
+  D-6 (legacy synthetic dashboard timestamp exemption), S-1 (tracked dev kit),
+  S-7 (unpinned skill installers), S-9 (missing-feature startup log policy).
+  D-7 is fixed for the new medallion's boundary seeds/partial bars; legacy partition
+  pipeline behavior still requires a separate repair. Existing strict xfails retained.
+- **P11d independent review:** five serial full suites, the empty-.env presence matrix,
+  offline gate, smoke and 14 owned paper studies pass on unchanged source d1e4e18.
+  Review the [phase report](../reports/phases/P11d.md); publication is authorized.
+  The notes below are historical and do not revoke the owner's explicit P11d
+  sealed capture/publication scope.
+
 - **P11c.0 review:** [local completion report](../reports/phases/P11c.0.md),
   [ADR0018](adr/0018-permission-gated-local-market-research.md). Review end-to-end
   owned demonstration, current-rights read boundaries, immutable report/schema,

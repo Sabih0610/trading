@@ -47,3 +47,9 @@ Disable-ScheduledTask -TaskName 'TradingBot-P11d-Sealed-XAUT'
 
 No unseal command is supplied. P14 needs a separate reviewed one-use release and an
 entry in `reports/final_test_log.md`; this phase cannot grant or perform it.
+
+Windows task termination can leave an already-running Python child. After stopping,
+verify that the health heartbeat stops advancing. If it continues, an operator must
+stop the matching `tb.ingest.sealed_book --root <this checkout>` child processes;
+do not start a competing writer. The OS lease rejects duplicates. A hard stop can
+lose the unflushed buffer; the next session records a fresh live snapshot, never back-fill.

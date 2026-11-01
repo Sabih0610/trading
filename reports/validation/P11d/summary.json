@@ -1,0 +1,52 @@
+{
+  "phase": "P11d",
+  "base_commit": "66be38c",
+  "source_candidate": "d1e4e18",
+  "source_tree": "291373a1fe17d2228b118f4c352a6cc55efe459d",
+  "lint": "passed",
+  "format": "passed",
+  "strict_mypy_source_files": 183,
+  "historical_data": "BLOCKED — DATASET NOT AUTHORIZED",
+  "sealed_forward": "owner-authorized capture only; no archive reads or evaluation",
+  "orders_enabled": false,
+  "hosted_ci_enabled": false,
+  "boot_recovery": "operator privilege required; user-logon/crash task active",
+  "runs": [
+    {
+      "run": 1,
+      "mode": "clean_offline_suite",
+      "status": "passed",
+      "summary": "1253 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 562.72s (0:09:22)"
+    },
+    {
+      "run": 2,
+      "mode": "clean_offline_suite",
+      "status": "passed",
+      "summary": "1253 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 467.90s (0:07:47)"
+    },
+    {
+      "run": 3,
+      "mode": "clean_offline_suite",
+      "status": "passed",
+      "summary": "1253 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 473.92s (0:07:53)"
+    },
+    {
+      "run": 4,
+      "mode": "offline_quality_gate",
+      "status": "passed",
+      "summary": "1253 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 477.60s (0:07:57)"
+    },
+    {
+      "run": 5,
+      "mode": "owner_presence_fixture",
+      "status": "passed",
+      "summary": "1247 passed, 6 skipped, 3 deselected, 6 xfailed, 23 warnings in 474.08s (0:07:54)"
+    }
+  ],
+  "five_consecutive_full_suites": true,
+  "offline_gate": "passed; smoke and 14 owned paper studies",
+  "owner_presence": "empty owned fixture .env in a separate checkout; private owner file untouched",
+  "validated_source_unchanged": true,
+  "independent_audit_top_level_bodies_unchanged": 86,
+  "independent_audit_nested_bodies_unchanged": 7
+}

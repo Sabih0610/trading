@@ -1,10 +1,33 @@
-# Current handoff — P11d in progress
+# Current handoff — P11d ready for review with external blockers
 
-P11d starts from main b4d8edf after audit integration. Work is isolated on
-codex/p11d-audit-fixes-real-data in a credential-free worktree. Next: implement
-Part A one finding per commit, preserving independent assertions; then use fixtures
-for Part B until registry approval exists. See reports/phases/P11d.md and
-docs/journal/P11d-journal.md. No .env or 2025+ datasets may be accessed.
+P11d branch `codex/p11d-audit-fixes-real-data` is rebased onto main `66be38c`,
+including the owner's sealed-forward exception. Part A fixes and Part B engineering
+are committed; lint, format, strict mypy (183 files) and 58 focused cases pass.
+Five consecutive serial full suites passed on source d1e4e18: three clean suites,
+the full clean offline gate, then an empty-fixture-.env owner-presence checkout.
+Each clean run has 1253 passes / 5 known minor xfails / 1 skip / 3 live deselected;
+the presence fixture has 1247 passes / 6 expected skips / 6 xfails. Offline smoke
+and all 14 owned paper studies pass. The source tree remains
+291373a1fe17d2228b118f4c352a6cc55efe459d; subsequent commits update docs only.
+See [sanitized validation](../reports/validation/P11d/summary.json).
+Ignored raw logs remain local; earlier concurrent/timing diagnostics do not count.
+
+The sealed XAUT collector is running from this worktree under scheduled task
+`TradingBot-P11d-Sealed-XAUT`. Inspect **only**
+`reports/data_quality/xaut-collector-health.json` or Data Health. Never open/hash/
+scan/copy files under `data/bronze/forward_sealed/`; they are read-denied until a
+separately authorized one-use P14 release. Keep this worktree/environment available.
+Current-user logon/crash recovery is installed; Windows denied unattended boot
+registration, so operator privileges remain pending. A brief manual-helper transfer
+occurred before the scheduled writer's fresh session; no back-fill was attempted.
+
+Historical BTC/ETH/SOL admission remains BLOCKED — DATASET NOT AUTHORIZED.
+No genuine historical acquisition, evaluation, credentials, orders or hosted CI.
+The owner's original `.env` and other worktrees remain untouched.
+Next: publish the validated task branch and open the review PR; then independent
+review, genuine historical dataset approval and operator boot-task setup remain.
+Do not merge main or start P11e/P14. See [report](../reports/phases/P11d.md) and
+[journal](journal/P11d-journal.md).
 
 ## Previous handoff — P11c.0 local market research
 

@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11c.0",
+  "current_phase": "P11d",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -518,6 +518,28 @@
         "main_merge_authorized": false,
         "hosted_ci_activation_authorized": false
       }
+    },
+    "P11d": {
+      "title": "Audit fixes, historical medallion and sealed forward capture",
+      "status": "blocked_on_data",
+      "started_utc": "2026-11-01 UTC",
+      "base_commit": "66be38c",
+      "report": "reports/phases/P11d.md",
+      "review": "queued",
+      "historical_data": "BLOCKED — DATASET NOT AUTHORIZED",
+      "sealed_collector": "running; user-logon/crash task; unattended boot privilege pending",
+      "engineering_complete": true,
+      "validated_utc": "2026-11-01 07:25 UTC",
+      "source_candidate": "d1e4e18",
+      "source_tree": "291373a1fe17d2228b118f4c352a6cc55efe459d",
+      "five_consecutive_full_suites": true,
+      "clean_tests_passed": 1253,
+      "owner_presence_fixture_passed": 1247,
+      "offline_gate": "passed",
+      "paper_studies": 14,
+      "external_orders_enabled": false,
+      "hosted_ci_active": false,
+      "publication": "authorized; preparing review PR"
     }
   },
   "allowed_status": [
@@ -546,8 +568,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-10-27 17:53 UTC",
-  "next_phase": "Review P11c.0 publication branch codex/p11c-0-research-mvp. P11c.1 unstarted; licensed dataset and independent scope review required. No provider/OAuth/order/main merge/hosted CI authorization.",
+  "last_updated_utc": "2026-11-01 07:25 UTC",
+  "next_phase": "Review P11d; historical dataset approval and unattended boot operator privileges pending. No P11e, P14 unsealing, main merge, orders or hosted CI authorized.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
