@@ -549,9 +549,16 @@
           "P11d-2",
           "P11d-3"
         ],
-        "status": "focused_passed; full_clean_gate_pending; live_deployment_pending",
+        "status": "clean_gate_passed; deployed; live_health_hour_running",
         "focused_tests_passed": 56,
-        "legacy_sealed_files": "approximately 1100; preserved untouched"
+        "legacy_sealed_files": "approximately 1100; preserved untouched",
+        "source_candidate": "87f7bf9",
+        "source_tree": "752f85b5a963daa15ad0a046aa98c251b51bb39e",
+        "full_clean_gate": "passed",
+        "full_suite": "1267 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 698.21s (0:11:38)",
+        "smoke": "passed",
+        "paper_studies": 14,
+        "deployment": "restarted 2026-11-01 08:14 UTC; health-only hour observation running"
       }
     }
   },
@@ -581,7 +588,7 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-01 07:28 UTC",
+  "last_updated_utc": "2026-11-01 08:17 UTC",
   "next_phase": "Review P11d; historical dataset approval and unattended boot operator privileges pending. No P11e, P14 unsealing, main merge, orders or hosted CI authorized.",
   "audits": {
     "third_party_repository_adoption": {

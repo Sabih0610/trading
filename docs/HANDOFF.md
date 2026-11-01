@@ -6,9 +6,11 @@ to [P11d review](../reports/reviews/P11d-review.md). Cadence now uses a configur
 seal/write/checksum primitives are unchanged. Registry type refusal is explicit,
 including a python -O regression. Dedicated-checkout/post-merge steps and the
 permanent legacy small-file shape are documented. 56 focused tests pass.
-Full clean-checkout gates and then live restart/health-only cadence verification
-remain pending. Keep all existing sealed files untouched and do not merge main.
-The currently running collector still uses the previous source until deployment.
+Full clean-checkout gate passed on 87f7bf9: 1267 tests pass, five known xfails,
+one environmental skip, three live deselected; Ruff/format/mypy, smoke and 14 paper
+studies pass. Restarted the collector at 2026-11-01 08:14 UTC on that source.
+One-hour health-only cadence verification is running (observer session 37791).
+Keep all existing sealed files untouched and do not merge main.
 
 ## Previous handoff — initial P11d publication
 

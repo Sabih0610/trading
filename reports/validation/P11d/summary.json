@@ -50,5 +50,19 @@
   "independent_audit_top_level_bodies_unchanged": 86,
   "independent_audit_nested_bodies_unchanged": 7,
   "pull_request": "https://github.com/Sabih0610/trading/pull/3",
-  "publication": "task branch only; no main merge or hosted CI"
+  "publication": "task branch only; no main merge or hosted CI",
+  "review_remediation": {
+    "source_candidate": "87f7bf9",
+    "source_tree": "752f85b5a963daa15ad0a046aa98c251b51bb39e",
+    "focused_tests_passed": 56,
+    "ruff": "passed",
+    "format": "passed",
+    "strict_mypy_source_files": 183,
+    "full_clean_gate": "passed",
+    "deployment": "restarted 2026-11-01 08:14 UTC; health-only hour observation running",
+    "legacy_sealed_files": "untouched; no read/list/repack/delete",
+    "full_suite": "1267 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 698.21s (0:11:38)",
+    "smoke": "passed",
+    "paper_studies": 14
+  }
 }

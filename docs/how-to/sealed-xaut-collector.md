@@ -80,7 +80,10 @@ $collectorRoot = 'E:\trading-p11d'
 $taskName = 'TradingBot-P11d-Sealed-XAUT'
 Set-Location -LiteralPath $collectorRoot
 git status --short
-# Require an empty status before continuing. Do not open .env or archive files.
+if (git status --porcelain) { throw 'Local changes exist; preserve them and leave the task unchanged.' }
+# Do not open .env or archive files. Record health before restarting.
+$beforeHealth = Get-Content -Raw -LiteralPath './reports/data_quality/xaut-collector-health.json' | ConvertFrom-Json
+$beforeHealth | Select-Object collector_start, heartbeat, sequence_gap_count
 Disable-ScheduledTask -TaskName $taskName
 Stop-ScheduledTask -TaskName $taskName
 # Task termination can leave Python children. Stop only this checkout's collector.
