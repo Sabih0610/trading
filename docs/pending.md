@@ -6,9 +6,19 @@
   shape is retained permanently; no maintenance authorization is inferred from
   a future separately authorized P14 read.
 
-- **P11d historical admission:** BTC/ETH/SOL are BLOCKED — DATASET NOT AUTHORIZED.
-  Need actual owner + distinct reviewer documentary approval, terms version,
-  finite retention and private derivative/report scope. Fixtures grant no genuine rights.
+- **P11e history gaps:** Dukascopy consent file not found at the supplied owner
+  path. Existing authorization remains conditional on the registered file; supply
+  its actual local path if available. Whole HistData 2020/2024 source archives cross
+  the exact approved UTC window and are withheld before HTTP. Per-file reasons and
+  full quality table remain private. Legacy Dukascopy samples are not for evaluation.
+- **P11e Stage 3 readiness:** independent implementation review, safe boundary history,
+  positive owner-reviewed XAUUSD/EURUSD spread floors and instrument-specific calendar
+  assumptions remain to resolve. Existing data-only defaults are not execution costs.
+  No strategy evaluation, orders or risk widening is authorized here.
+- **P11d historical admission superseded:** P11e's owner/distinct-reviewer approval
+  admits only the specified private pre-2025 datasets and finite retention in the
+  [rights review](../reports/reviews/dataset-rights-review-2026-11-01.md). Other provider
+  and execution gates remain unchanged; fixtures confer no genuine rights.
 - **P11d unattended boot:** Windows denied S4U/boot task registration. The collector
   runs under the current user's logon/crash task; an operator with appropriate local
   privileges must enable unattended boot recovery. Do not introduce credentials.

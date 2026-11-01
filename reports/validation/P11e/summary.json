@@ -1,0 +1,30 @@
+{
+  "phase": "P11e",
+  "source_commit": "58efb4c7097435676ef9891fd86a7daacb244b5c",
+  "validated_local_commit": "ad2a1afc1b748d23d880c796623548400d8b7077",
+  "identical_tree_after_rebase": true,
+  "source_tree": "c8f9f98399e586fb112dd7a581cf728659725450",
+  "validated_utc": "2026-11-01 12:00 UTC",
+  "full_suite": "1302 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 611.22s (0:10:11)",
+  "tests_passed": 1302,
+  "ruff": "pass",
+  "format": "pass",
+  "strict_mypy": "pass; 187 source files",
+  "offline_smoke": "pass",
+  "owned_paper_acceptance": "pass; 14 existing studies",
+  "hosted_ci": "inactive; not run",
+  "earlier_diagnostic": "One unchanged Hypothesis property exceeded its 200 ms deadline once, then passed on retry and isolated rerun; test/deadline unchanged. Final clean gate below is authoritative.",
+  "fixture_only_tests": true,
+  "genuine_data_and_quality_artifacts_committed": false,
+  "strategy_evaluation": false,
+  "sealed_collector": "untouched",
+  "original_to_public_source_commits": {
+    "ad2a1afc1b748d23d880c796623548400d8b7077": "58efb4c7097435676ef9891fd86a7daacb244b5c",
+    "6f43d756b04ec35e5a5b4b14afd86441a3f38af3": "b46fac17c35fb090d1027c27468b32be136f9cc5",
+    "ee132b296a0b74197f714950198a1fe8ba8a243c": "cdb63ea785a0d1e2021b2b1cec1d0386750b4d63",
+    "442818ded04424208839b6d8986390f98116dbf9": "978fa7a1972571ecb0ca11dabc4757c5550e3400",
+    "a4d938579f03f9e93a1488ab5b99f2e662b001bc": "faeb9c499a1602f0cc33bee153040f05d45b6084",
+    "dedfd58fa074af6286225011d20b0831dac13b23": "531d99b5edae40f609e2c2fbcab911c44f7f9479",
+    "24336a37c30cee5cb99f77a9a9103fb8ee6a9bde": "0b34d0ce0462a36afa1f9df2f6327ebe71232d5f"
+  }
+}

@@ -47,3 +47,14 @@
   retained. Vendor checksum records, yearly one-file layout, all-five metadata
   health and the populated private symbol/year table now verify successfully.
   Exact runtime provenance is recorded privately; no sealed or Bronze file changed.
+
+- 2026-11-01 12:00 UTC: Final source 58efb4c passes the full clean credential-free offline
+  gate: 1302 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 611.22s (0:10:11). Ruff/format/strict mypy, smoke and all 14 owned acceptance studies
+  pass. Private all-symbol/year quality evidence and runtime provenance verify.
+  Final publication changes are documentation only; no runtime/test changes follow.
+
+- 2026-11-01 12:02 UTC: Origin main advanced with earlier P11e documents during
+  the run. Rebased the unpublished task branch, preserving the owner's newer
+  exact prompt/review copies. Every corresponding commit tree matches its original;
+  final source 58efb4c is tree-identical to clean-tested local ad2a1af. Source mapping
+  is recorded in validation metadata. No main merge or force push.
