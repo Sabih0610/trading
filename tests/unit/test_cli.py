@@ -24,7 +24,9 @@ def test_collect_doctor_report_is_offline_and_handles_missing_data(tmp_path: Pat
     assert report["data_layers"] == {"bronze": False, "silver": False, "gold": False}
 
 
-def test_doctor_command_runs_without_keys() -> None:
+def test_doctor_command_runs_without_keys(monkeypatch, tmp_path) -> None:
+    # The owner's checkout may contain genuine settings; this test needs only zero-key fixtures.
+    monkeypatch.setattr("tb.cli.load_settings", lambda: load_settings(tmp_path / "missing.env"))
     result = CliRunner().invoke(app, ["doctor"])
 
     assert result.exit_code == 0, result.output

@@ -15,9 +15,11 @@ Get-ScheduledTask -TaskName 'TradingBot-P11d-Sealed-XAUT'
 Get-Content -LiteralPath './reports/data_quality/xaut-collector-health.json'
 ```
 
-The scheduled action runs hidden, starts at boot/logon, restarts on failure, and
-ignores concurrent launches. Windows may require local task-registration privileges.
-If registration fails, record the actual error; do not claim boot recovery is active.
+The scheduled action runs hidden and restarts on failure, ignoring concurrent launches.
+It first attempts boot/logon registration; if Windows denies it, it installs a
+current-user logon/crash task instead and explicitly reports that unattended boot
+requires operator privileges. The P11d execution host allowed that fallback only.
+Do not claim unattended boot recovery is active after that fallback.
 For a bounded manual capture, without a scheduler:
 
 ```powershell
