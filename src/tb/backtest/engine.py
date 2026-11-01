@@ -12,7 +12,7 @@ from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validato
 
 from tb.backtest.costs import CostAssumptions
 from tb.risk.account import AccountCircuitBreaker, SafetyState
-from tb.risk.config import AssetDefinition
+from tb.risk.config import AssetDefinition, effective_risk_limits
 from tb.risk.guards import OrderSide, assert_tradable
 from tb.risk.manager import EntryRequest, RejectionCode, RiskManager, RiskState
 
@@ -253,7 +253,7 @@ class BacktestEngine:
         entries_today = 0
         circuit = AccountCircuitBreaker(
             SafetyState(day=active_day, day_start=cash, peak=cash),
-            self.risk_manager.bundle.risk.limits,
+            effective_risk_limits(self.asset, self.risk_manager.bundle.risk.limits),
         )
 
         def reject(timestamp: datetime, code: str, detail: str) -> None:

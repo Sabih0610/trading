@@ -613,14 +613,6 @@ def test_backtest_invariants(
         assert planned <= pre_equity * limits.risk_per_trade_pct / 100 * D("1.000000001")
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "FINDING R-2: BacktestEngine builds its AccountCircuitBreaker from global "
-        "bundle.risk.limits instead of effective_risk_limits(asset, ...), so a tighter "
-        "per-asset daily_loss_limit_pct override is not used by the intraday circuit."
-    ),
-)
 def test_backtest_circuit_uses_effective_asset_limits(monkeypatch: pytest.MonkeyPatch) -> None:
     bundle = _bundle_with_asset_changes("XAUTUSDT", risk_overrides={"daily_loss_limit_pct": "1.0"})
     captured: list[RiskLimits] = []

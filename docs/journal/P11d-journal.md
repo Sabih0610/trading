@@ -9,3 +9,4 @@
 - D-1: stop-only limit fill bar; independent regression passed, existing engine suite 25 passed. Audit collection delay traced to Hypothesis local constant discovery on Windows.
 - D-2: previous completed volume; independent regression passed and engine suite 25 passed. Updated one legacy fixture to cap prior volume while preserving its quantity assertion.
 - R-1: bundle rejects XAUT weekend widening; session guard consults effective limits and defaults closed for XAUT. Independent weekend checks and 31 risk unit tests pass.
+- R-2: circuit breaker now uses effective asset limits; independent regression passed.
