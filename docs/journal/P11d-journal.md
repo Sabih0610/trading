@@ -17,3 +17,4 @@
 - S-4: redact formatted exception/cache/stack before handlers; CLI entrypoints install redaction using process settings without opening private files. Independent redaction and unit/CLI checks pass.
 - D-5: calendar known_at is fetch/first-seen time; independent lead-time regression and eight Silver/context checks pass. Legacy integration expectation now asserts fetch time and retains schedule timestamp; independent assertions unchanged.
 - T-1: affected zero-key/gate subprocess tests explicitly skip when ROOT/.env exists; six cases pass in clean worktree.
+- T-2: child emits explicit READY after imports, OS-held parent lease spans completion; both subprocess tests permit bounded 120s cold-start deadlines. Focused tests pass; five full-suite repetitions remain required.

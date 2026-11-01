@@ -202,7 +202,8 @@ def test_default_cli_missing_keys_is_inert_and_has_no_sensitive_fields():
         [sys.executable, "-m", "tb.ingest.broker.onboarding.cli"],
         capture_output=True,
         text=True,
-        timeout=20,
+        # Process completion and its JSON are the readiness signal; allow cold imports.
+        timeout=120,
     )
     assert result.returncode == 0
     report = json.loads(result.stdout)

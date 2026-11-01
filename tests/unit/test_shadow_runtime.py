@@ -271,6 +271,7 @@ from pathlib import Path
 from tb.shadow.journal import ShadowJournal
 from tb.shadow.models import SourcePin,ShadowConfig
 from tb.ingest.mt5.models import FeedUnavailable
+print("READY", flush=True)
 try:
  j=ShadowJournal(Path(sys.argv[1]),SourcePin.model_validate_json(sys.argv[2]),ShadowConfig())
  j.close()
@@ -280,8 +281,11 @@ except FeedUnavailable:
     result = subprocess.run(
         [sys.executable, "-c", code, str(journal.folder), journal.pin.model_dump_json()],
         capture_output=True,
-        timeout=20,
+        # Keep the parent's OS-held lease through child import/readiness and exit.
+        timeout=120,
+        text=True,
     )
+    assert result.stdout.splitlines() == ["READY"]
     assert result.returncode == 7
 
 
