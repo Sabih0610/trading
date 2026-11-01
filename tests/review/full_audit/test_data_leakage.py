@@ -191,11 +191,6 @@ def test_build_feature_frame_prefix_invariance_with_future_htf_and_calendar() ->
         assert row["htf_structure_direction"] == expected
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING D-5: calendar_to_silver sets known_at=scheduled_utc, so the "
-    "minutes_to_high_impact_event feature is null before every event (lead time never usable)",
-)
 def test_calendar_event_lead_time_is_available_before_event() -> None:
     event_time = _T0 + timedelta(minutes=60)
     raw = pl.DataFrame(

@@ -104,5 +104,6 @@ def test_calendar_schedule_does_not_claim_later_values_were_known() -> None:
 
     result = calendar_to_silver(frame)
 
-    assert result["known_at"].to_list() == [scheduled]
+    assert result["known_at"].to_list() == [fetched]
+    assert result["timestamp_utc"].to_list() == [scheduled]
     assert not {"actual", "forecast", "previous"}.intersection(result.columns)

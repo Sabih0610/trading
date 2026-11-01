@@ -280,7 +280,7 @@ def calendar_to_silver(frame: pl.DataFrame) -> pl.DataFrame:
             "currency",
             "importance",
             pl.col("scheduled_utc").alias("timestamp_utc"),
-            pl.col("scheduled_utc").alias("known_at"),
+            pl.col("fetched_at").alias("known_at"),
             "source",
             "source_url",
             "fetched_at",

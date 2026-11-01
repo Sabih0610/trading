@@ -15,3 +15,4 @@
 - S-5: setup creates an empty file exclusively, installs explicit owner/SYSTEM-only protected ACL before template bytes, and preserves existing files. Temporary-file ACL/preservation test passes. Existing owner .env is not accessed or modified.
 - S-3: all three default provider clients disable environment proxy/netrc and redirects; six provider regressions pass.
 - S-4: redact formatted exception/cache/stack before handlers; CLI entrypoints install redaction using process settings without opening private files. Independent redaction and unit/CLI checks pass.
+- D-5: calendar known_at is fetch/first-seen time; independent lead-time regression and eight Silver/context checks pass. Legacy integration expectation now asserts fetch time and retains schedule timestamp; independent assertions unchanged.
