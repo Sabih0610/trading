@@ -18,6 +18,7 @@ from tb.risk.config import (
     AssetDefinition,
     AssetRegistry,
     AssetRole,
+    RiskLimits,
     SessionName,
     ShariahStatus,
     load_asset_registry,
@@ -162,7 +163,13 @@ def check_risk_per_trade(
     return risk_pct
 
 
-def check_session(asset: AssetDefinition, timestamp: datetime, *, is_entry: bool) -> datetime:
+def check_session(
+    asset: AssetDefinition,
+    timestamp: datetime,
+    *,
+    is_entry: bool,
+    limits: RiskLimits | None = None,
+) -> datetime:
     """Return UTC time when an action is session-valid; exits are always permitted."""
 
     if timestamp.tzinfo is None or timestamp.utcoffset() is None:
@@ -170,7 +177,10 @@ def check_session(asset: AssetDefinition, timestamp: datetime, *, is_entry: bool
     instant = timestamp.astimezone(UTC)
     if not is_entry:
         return instant
-    if instant.weekday() >= 5 and not asset.weekend_trading:
+    xaut_weekend_blocked = asset.symbol.startswith("XAUT") and (
+        limits is None or not limits.allow_xaut_weekend_entries
+    )
+    if instant.weekday() >= 5 and (not asset.weekend_trading or xaut_weekend_blocked):
         raise RiskViolation(f"New {asset.symbol} entries are disabled on weekends")
     if SessionName.CRYPTO_24X7 in asset.sessions:
         return instant

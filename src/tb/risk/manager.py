@@ -139,11 +139,11 @@ class RiskManager:
             assert_spot(intent)
         except RiskViolation as exc:
             return _reject(RejectionCode.MARKET_POLICY, str(exc))
+        limits = effective_risk_limits(asset, self.bundle.risk.limits)
         try:
-            check_session(asset, request.timestamp, is_entry=True)
+            check_session(asset, request.timestamp, is_entry=True, limits=limits)
         except RiskViolation as exc:
             return _reject(RejectionCode.SESSION_POLICY, str(exc))
-        limits = effective_risk_limits(asset, self.bundle.risk.limits)
         breach = equity_breach(
             min(state.equity, state.start_of_day_equity + state.realized_pnl_day),
             state.start_of_day_equity,

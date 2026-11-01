@@ -423,14 +423,6 @@ def test_xaut_weekend_entry_rejected_in_utc_and_offsets() -> None:
     ).approved
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "FINDING R-1: allow_xaut_weekend_entries is validated but never consulted; "
-        "check_session only reads AssetDefinition.weekend_trading, so setting "
-        "XAUTUSDT weekend_trading: true in assets.yaml enables weekend XAUT entries."
-    ),
-)
 def test_xaut_weekend_rule_cannot_be_reenabled_via_asset_registry() -> None:
     try:
         bundle = _bundle_with_asset_changes("XAUTUSDT", weekend_trading=True)

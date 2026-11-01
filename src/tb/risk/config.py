@@ -275,6 +275,8 @@ class PolicyBundle(PolicyModel):
         """Reject an asset override that is looser than active global config."""
 
         for asset in self.registry.assets:
+            if asset.symbol.startswith("XAUT") and asset.weekend_trading:
+                raise ValueError("XAUT weekend entries must remain disabled")
             effective_risk_limits(asset, self.risk.limits)
         return self
 
