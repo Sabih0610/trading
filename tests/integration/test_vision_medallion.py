@@ -80,6 +80,44 @@ def test_owned_authorization_refuses_non_dataset_policy_explicitly(admitted):
         authorize(root, malformed, NOW)
 
 
+@pytest.mark.parametrize(
+    "name,header,allowed",
+    [
+        ("binance-vision-terms-v1.0-2026-08-26.pdf", b"%PDF-1.7\n", True),
+        ("other.pdf", b"%PDF-1.7\n", False),
+        ("binance-vision-terms-v1.0-2026-08-26.pdf", b"not a pdf", False),
+    ],
+)
+def test_original_vision_pdf_has_narrow_bounded_evidence_path(admitted, name, header, allowed):
+    root, plan = admitted
+    path = root / "work/rights" / name
+    payload = header + b"x" * 144891
+    path.write_bytes(payload)
+    permission = plan.rights.personal_research.model_copy(
+        update={
+            "evidence": "https://data.binance.vision/Binance_Vision-Terms_of_Use.pdf",
+            "evidence_artifact": path.relative_to(root).as_posix(),
+            "evidence_sha256": hashlib.sha256(payload).hexdigest(),
+        }
+    )
+    rights = plan.rights.model_copy(
+        update={
+            "personal_research": permission,
+            "research_reports": permission,
+            "permissions": {key: permission for key in plan.rights.permissions},
+        }
+    )
+    candidate = plan.model_copy(update={"rights": rights, "retention": lifetime(rights, NOW)})
+    if allowed:
+        authorize(root, candidate, NOW)
+        path.write_bytes(b"%PDF-" + b"x" * 1048576)
+        with pytest.raises(ResearchRefused, match="evidence_identity_or_hash"):
+            authorize(root, candidate, NOW)
+    else:
+        with pytest.raises(ResearchRefused, match="evidence_identity_or_hash"):
+            authorize(root, candidate, NOW)
+
+
 def test_owned_authorization_type_refusal_survives_python_optimization(admitted):
     import subprocess
     import sys

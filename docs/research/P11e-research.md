@@ -17,3 +17,10 @@ fixed-offset month boundaries (December 2024 can nominally extend into UTC 2025)
 calendar-aware expected grids and source-specific rollover flags; bounded acquisition
 and yearly shared feature runtime. Unsafe partitions must be refused before network,
 with precise private gap reasons rather than reading holdout observations.
+
+The required original Vision PDF is larger than the existing text-document bound.
+Retain the generic 128 KiB limit and add a narrow 1 MiB PDF path only for the exact
+closed Vision terms URL/name, with PDF header, digest and bounded 64 KiB scanning.
+All owner/reviewer, fake-evidence, lifetime and other-document checks stay intact.
+Nineteen existing/new Vision integration cases pass, including non-PDF/wrong-name
+refusal and the hard PDF bound.
