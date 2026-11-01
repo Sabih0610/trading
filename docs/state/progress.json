@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11d",
+  "current_phase": "P11e",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -586,6 +586,16 @@
       "source_tree": "752f85b5a963daa15ad0a046aa98c251b51bb39e",
       "tests_passed": 1267,
       "validated_utc": "2026-11-01 09:15 UTC"
+    },
+    "P11e": {
+      "title": "Acquire approved pre-2025 history",
+      "status": "in_progress",
+      "base_commit": "a454731",
+      "branch": "codex/p11e-acquire-history",
+      "report": "reports/phases/P11e.md",
+      "strategy_evaluation": false,
+      "dukascopy": "consent file not found; HistData fallback per B0",
+      "genuine_artifacts_publication": false
     }
   },
   "allowed_status": [
