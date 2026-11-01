@@ -617,3 +617,76 @@ def test_full_orchestration_stops_duka_after_refusal_then_uses_backup(approved, 
     assert len(fallback) == 6 and len(result["results"]) == 10
     report = (root / "reports/phases/P11e-dukascopy-failure.md").read_text()
     assert "successful_requests: 0" in report and "failed_requests: 3" in report
+
+
+@pytest.mark.parametrize("failure", ["blocked", "decode"])
+def test_duka_blocked_or_bad_decode_stops_and_falls_back(approved, failure):
+    from tb.ingest.history.forex_cli import with_fallback
+
+    root, plan = approved("dukascopy")
+    calls, delays, fallback = [], [], []
+
+    def handler(request):
+        calls.append(request)
+        if failure == "blocked":
+            raise httpx.ConnectError("owned blocked transport", request=request)
+        return httpx.Response(200, content=b"owned invalid compressed archive")
+
+    def primary():
+        with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+            return download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="EURUSD",
+                period=date(2024, 3, 12),
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=delays.append,
+            )
+
+    assert with_fallback(root, primary, lambda: fallback.append("histdata")) is None
+    assert fallback == ["histdata"]
+    assert len(calls) == (3 if failure == "blocked" else 1)
+    assert delays == ([1, 2, 4] if failure == "blocked" else [1])
+    report = (root / "reports/phases/P11e-dukascopy-failure.md").read_text()
+    assert ("ConnectError" if failure == "blocked" else "LZMAError") in report
+    assert not list((root / "data").rglob("*.manifest.json")) if (root / "data").exists() else True
+
+
+def test_consented_duka_retains_completed_side_after_ASK_failure(approved):
+    import lzma
+    import struct
+
+    root, plan = approved("dukascopy")
+    payload = lzma.compress(
+        struct.pack(">IIIIIf", 0, 110000, 110100, 109900, 110200, 1.0), format=lzma.FORMAT_ALONE
+    )
+    calls = []
+
+    def handler(request):
+        calls.append(str(request.url))
+        return (
+            httpx.Response(200, content=payload)
+            if "BID_" in str(request.url)
+            else httpx.Response(429)
+        )
+
+    with (
+        httpx.Client(transport=httpx.MockTransport(handler)) as client,
+        pytest.raises(ProviderFailure),
+    ):
+        download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=date(2024, 3, 12),
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    originals = list((root / "data").rglob("*.bi5"))
+    assert len(calls) == 4 and len(originals) == 1
+    assert originals[0].read_bytes() == payload
+    assert not list((root / "data").rglob("*.manifest.json"))

@@ -24,3 +24,9 @@
   source-separated quality paths, all-five-symbol Data Health, and ASK/mid/spread retention
   in higher Gold timeframes. Twenty-eight focused FX/legacy/dashboard tests pass; strict
   mypy passes on 187 files. Vision yearly build continues with bounded memory.
+
+- 2026-11-01 11:08 UTC: Frozen source candidate 442818d passed Ruff, format,
+  strict mypy and the full pre-commit suite. Added three targeted owned scenarios
+  for blocked transport/decode fallback and retaining a completed BID original
+  after ASK failure: all 26 FX scenarios pass. Corrected working-copy UTF-8/line
+  ending noise in handoff text without changing the historical handoff content.
