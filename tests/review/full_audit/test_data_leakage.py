@@ -560,11 +560,6 @@ def test_limit_fill_cannot_also_take_profit_in_the_same_bar() -> None:
     assert not entry_bar_exits
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING D-2: entry size is capped by the fill bar's total volume, which is only "
-    "known at that bar's close (sizing lookahead at the open fill)",
-)
 def test_fill_size_does_not_depend_on_fill_bar_future_volume() -> None:
     def run(fill_volume: str) -> Decimal:
         bars = [

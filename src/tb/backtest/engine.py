@@ -391,7 +391,9 @@ class BacktestEngine:
                         else:
                             fee_rate = self.costs.stressed_fee_bps / Decimal("10000")
                             cash_quantity = cash / (fill_price * (Decimal("1") + fee_rate))
-                            volume_quantity = bar.volume * pending_signal.participation_rate
+                            volume_quantity = (
+                                bars[index - 1].volume * pending_signal.participation_rate
+                            )
                             proposed_quantity = min(
                                 refreshed.quantity, cash_quantity, volume_quantity
                             )

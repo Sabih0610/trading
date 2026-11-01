@@ -108,7 +108,7 @@ def test_limit_touch_is_partially_filled_by_volume_cap() -> None:
     )
 
     result = BacktestEngine("BTCUSDT", initial_cash=Decimal("10000")).run(
-        [_bar(0), _bar(1, low="98", volume="10")], [signal]
+        [_bar(0, volume="10"), _bar(1, low="98", volume="1000")], [signal]
     )
 
     assert result.trades[0].quantity == Decimal("1.0")

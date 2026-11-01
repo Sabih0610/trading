@@ -7,3 +7,4 @@
   Began primary-source research and offline locked dependency preparation.
   Genuine dataset admission remains unproven; do not download market observations.
 - D-1: stop-only limit fill bar; independent regression passed, existing engine suite 25 passed. Audit collection delay traced to Hypothesis local constant discovery on Windows.
+- D-2: previous completed volume; independent regression passed and engine suite 25 passed. Updated one legacy fixture to cap prior volume while preserving its quantity assertion.
