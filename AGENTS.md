@@ -28,10 +28,11 @@ P11b.2b genuine integration requires separate authorization and verified rights/
 - Tradable assets: listed in `config/assets.yaml` with `shariah_status: approved`. Initial list:
   XAUT/USDT (phase 1), then BTC/USDT, ETH/USDT, SOL/USDT. USDT is a quote currency only.
 - Data-only instruments (never traded): XAUUSD, FX pairs for synthetic DXY, oil, US yields.
-- Risk limits (hard-coded defaults, only changeable by a human editing config, never by any model):
-  risk per trade ≤ 1% of equity; total exposure ≤ 1.0× equity; daily loss limit (default 3%);
-  max trades per day per asset (default 3); flat by end of the trading day; no new entries on
-  weekends for XAUT.
+- Risk hard ceilings: risk per trade ≤ 1% of equity, daily loss ≤ 3%, exposure ≤ 1.0× equity,
+  and at most 3 trades per day per asset. Configured research/paper defaults are tighter:
+  0.5% all-in planned risk, 2% daily net equity loss, 5% peak equity drawdown, one position.
+  Only a human editing config may change defaults within those ceilings; models cannot.
+  Flat by end of the trading day; no new entries on weekends for XAUT.
 - The risk manager is deterministic code and has the final say. No ML model, LLM, Jev, agent or
   human-approval flow can override or widen it.
 - AI components (LLMs, Jev, local models) may only: classify, score, veto, or reduce size.

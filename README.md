@@ -11,7 +11,7 @@ P11c.0 adds the [offline local market-research workflow](docs/how-to/local-marke
 owned CSV/Parquet demonstration, permission-gated historical registry/import,
 frozen EMA/channel evaluation, replay, reports and the read-only Local Market Research view.
 Genuine historical research is blocked until independently authorized data exists.
-The current MVP is on `codex/p11c-0-research-mvp`, pending independent review.
+The current MVP is merged into `main`; independent review remains pending.
 
 ## Install and run (Windows)
 
@@ -20,7 +20,7 @@ If uv is missing, run `winget install --id astral-sh.uv -e`, then reopen PowerSh
 uv installs Python 3.12 and the project's locked dependencies:
 
 ```powershell
-git clone --branch codex/p11c-0-research-mvp --single-branch https://github.com/Sabih0610/trading.git
+git clone --branch main --single-branch https://github.com/Sabih0610/trading.git
 Set-Location -LiteralPath '.\trading'
 uv python install 3.12
 uv sync --locked
