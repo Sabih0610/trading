@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import io
+import lzma
 import math
 import time
 import zipfile
@@ -121,8 +122,15 @@ class DownloadForm(HTMLParser):
             self.active = False
 
 
-def histdata_window(period: date) -> tuple[datetime, datetime]:
+def histdata_window(period: date, cadence: str = "monthly") -> tuple[datetime, datetime]:
     """Nominal file bounds in UTC: EST is constant UTC-5, including DST dates."""
+    if cadence not in {"monthly", "yearly"} or (cadence == "yearly" and period.month != 1):
+        raise ResearchRefused("histdata_archive_cadence_invalid")
+    if cadence == "yearly":
+        return (
+            datetime(period.year, 1, 1, tzinfo=UTC) + timedelta(hours=5),
+            datetime(period.year + 1, 1, 1, tzinfo=UTC) + timedelta(hours=5),
+        )
     start = datetime(period.year, period.month, 1, tzinfo=UTC) + timedelta(hours=5)
     stop = datetime(
         period.year + (period.month == 12), period.month % 12 + 1, 1, tzinfo=UTC
@@ -130,10 +138,55 @@ def histdata_window(period: date) -> tuple[datetime, datetime]:
     return start, stop
 
 
-def validate_period(plan: ForexDatasetPlan, symbol: str, period: date) -> None:
+def download_form(
+    client: httpx.Client,
+    page: str,
+    symbol: str,
+    period: date,
+    *,
+    clock: Callable[[], datetime],
+    sleep: Callable[[float], None],
+    cadence: str = "monthly",
+) -> dict[str, str] | None:
+    """Refresh an incomplete public form at most twice; refusals do not multiply retries."""
+    for attempt in range(3):
+        if attempt:
+            sleep(2**attempt)
+        html = request_bytes(client, "GET", page, clock=clock, sleep=sleep)
+        if html is None:
+            return None
+        form = DownloadForm()
+        form.feed(html.decode("utf-8", errors="replace"))
+        fields = form.fields
+        expected = {
+            "fxpair": symbol,
+            "datemonth": f"{period:%Y}" if cadence == "yearly" else f"{period:%Y%m}",
+            "date": str(period.year),
+            "platform": "ASCII",
+            "timeframe": "M1",
+        }
+        if fields.get("tk") and all(fields.get(k) == v for k, v in expected.items()):
+            return fields
+    raise ProviderFailure(
+        {
+            "endpoint": page,
+            "utc": clock().isoformat(),
+            "http_status": 200,
+            "error_class": "DownloadFormInvalid",
+            "successful_requests": 3,
+            "failed_requests": 0,
+            "validation_failures": 3,
+            "error_sample": "Expected bounded ASCII M1 archive form unavailable",
+        }
+    )
+
+
+def validate_period(
+    plan: ForexDatasetPlan, symbol: str, period: date, cadence: str = "monthly"
+) -> None:
     """Refuse unsafe whole archives before even requesting their download page."""
     if plan.provider == "histdata":
-        start, stop = histdata_window(period)
+        start, stop = histdata_window(period, cadence)
     else:
         start = datetime.combine(period, datetime.min.time(), UTC)
         stop = start + timedelta(days=1)
@@ -147,11 +200,13 @@ def validate_period(plan: ForexDatasetPlan, symbol: str, period: date) -> None:
         raise ResearchRefused("forex_archive_outside_UTC_scope_or_holdout_boundary")
 
 
-def decode_histdata(payload: bytes, symbol: str, period: date) -> pl.DataFrame:
+def decode_histdata(
+    payload: bytes, symbol: str, period: date, cadence: str = "monthly"
+) -> pl.DataFrame:
     """Generic ASCII M1, fixed +5 hours, bid-only; never infer an ask/spread."""
     if symbol not in {"EURUSD", "XAUUSD"}:
         raise ResearchRefused("forex_symbol_not_approved")
-    start, stop = histdata_window(period)
+    start, stop = histdata_window(period, cadence)
     rows: list[dict[str, Any]] = []
     for fields in csv.reader(io.StringIO(payload.decode("ascii")), delimiter=";"):
         if not fields:
@@ -174,6 +229,8 @@ def decode_histdata(payload: bytes, symbol: str, period: date) -> pl.DataFrame:
             or low > h
         ):
             raise IntegrityError("HistData OHLC or numeric value invalid")
+        if len(rows) >= (600000 if cadence == "yearly" else 50000):
+            raise IntegrityError("HistData oversized archive row count")
         rows.append(
             {
                 "timestamp_ns": int(instant.timestamp()) * 10**9,
@@ -188,8 +245,8 @@ def decode_histdata(payload: bytes, symbol: str, period: date) -> pl.DataFrame:
                 "volume_unreliable": True,
             }
         )
-    if not rows or len(rows) > 50000:
-        raise IntegrityError("HistData empty or oversized monthly row count")
+    if not rows or len(rows) > (600000 if cadence == "yearly" else 50000):
+        raise IntegrityError("HistData empty or oversized archive row count")
     return pl.DataFrame(rows).with_columns(pl.col("timestamp_ns").cast(pl.Int64))
 
 
@@ -205,14 +262,15 @@ def download_period(
     symbol: str,
     period: date,
     code_version: str,
+    cadence: str = "monthly",
     clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     sleep: Callable[[float], None] = time.sleep,
 ) -> dict[str, Any]:
     """Admit before requests/reads; resume complete original artifacts without overwriting."""
     plan = load_forex_plan(root, dataset_id, clock())
-    validate_period(plan, symbol, period)
+    validate_period(plan, symbol, period, cadence)
     folder = _folder(root, plan, symbol, period)
-    stem = f"{symbol}-{period.isoformat()}"
+    stem = f"{symbol}-{period.isoformat()}" + ("-yearly" if cadence == "yearly" else "")
     manifest_path = folder / f"{stem}.manifest.json"
     with writer_lease(safe(root, f"work/research/locks/forex-{dataset_id}-{symbol}.lock")):
         if manifest_path.exists():
@@ -237,6 +295,7 @@ def download_period(
             "symbol": symbol,
             "interval": "1m",
             "period": period.isoformat(),
+            "cadence": cadence if plan.provider == "histdata" else "daily",
             "terms_version": plan.terms_version,
             "scope": plan.scope,
             "derived_report_rules": plan.derived_report_rules,
@@ -251,8 +310,12 @@ def download_period(
         urls: list[str] = []
         if plan.provider == "histdata":
             page = f"{plan.source}/download-free-forex-data/?/ascii/1-minute-bar-quotes/{symbol.lower()}/{period.year}/{period.month}"
-            html = request_bytes(client, "GET", page, clock=clock, sleep=sleep)
-            if html is None:
+            if cadence == "yearly":
+                page = page.rsplit("/", 1)[0]
+            fields = download_form(
+                client, page, symbol, period, clock=clock, sleep=sleep, cadence=cadence
+            )
+            if fields is None:
                 result = {
                     **common,
                     "status": "missing",
@@ -262,28 +325,6 @@ def download_period(
                 }
                 atomic_write_json(manifest_path, result)
                 return result
-            form = DownloadForm()
-            form.feed(html.decode("utf-8", errors="replace"))
-            fields = form.fields
-            if (
-                not fields.get("tk")
-                or fields.get("fxpair") != symbol
-                or fields.get("datemonth") != f"{period:%Y%m}"
-                or fields.get("date") != str(period.year)
-                or fields.get("platform") != "ASCII"
-                or fields.get("timeframe") != "M1"
-            ):
-                raise ProviderFailure(
-                    {
-                        "endpoint": page,
-                        "utc": clock().isoformat(),
-                        "http_status": 200,
-                        "error_class": "DownloadFormInvalid",
-                        "successful_requests": 1,
-                        "failed_requests": 1,
-                        "error_sample": "Expected bounded monthly ASCII M1 form unavailable",
-                    }
-                )
             endpoint = plan.source + "/get.php"
             payload = request_bytes(
                 client, "POST", endpoint, data=fields, referer=page, clock=clock, sleep=sleep
@@ -299,12 +340,13 @@ def download_period(
                 atomic_write_json(manifest_path, result)
                 return result
             with zipfile.ZipFile(io.BytesIO(payload)) as archive:
-                expected = f"DAT_ASCII_{symbol}_M1_{period:%Y%m}.csv"
+                stamp = f"{period:%Y}" if cadence == "yearly" else f"{period:%Y%m}"
+                expected = f"DAT_ASCII_{symbol}_M1_{stamp}.csv"
                 members = [m for m in archive.infolist() if m.filename.upper() == expected.upper()]
                 if len(members) != 1 or members[0].file_size > MAX_ARCHIVE_BYTES:
                     raise IntegrityError("HistData archive member identity or size invalid")
                 csv_bytes = archive.read(members[0])
-            frame = decode_histdata(csv_bytes, symbol, period)
+            frame = decode_histdata(csv_bytes, symbol, period, cadence)
             blobs = {stem + ".zip": payload, stem + ".csv": csv_bytes}
             urls = [page, endpoint]
         else:
@@ -315,7 +357,44 @@ def download_period(
                 urls.append(url)
                 if payload is None:
                     continue
-                decoded = decode_candles(payload, symbol, period, side)
+                raw_path = folder / (stem + f"-{side}.bi5")
+                declare_artifact(root, plan, raw_path, ["raw", "original_source"], [])
+                if (
+                    raw_path.exists()
+                    and sha256_file(raw_path) != hashlib.sha256(payload).hexdigest()
+                ):
+                    raise IntegrityError("Dukascopy original partial artifact changed")
+                if not raw_path.exists():
+                    atomic_write_bytes(raw_path, payload)
+                atomic_write_json(
+                    folder / (stem + f"-{side}.partial.json"),
+                    {
+                        "status": "raw_only_not_for_evaluation",
+                        "source_url": url,
+                        "sha256": sha256_file(raw_path),
+                        "downloaded_at": clock().isoformat(),
+                        "policy_digest": plan.digest,
+                        "code_version": code_version,
+                    },
+                )
+                try:
+                    decompressor = lzma.LZMADecompressor(format=lzma.FORMAT_ALONE)
+                    bounded = decompressor.decompress(payload, max_length=1440 * 24 + 1)
+                    if len(bounded) > 1440 * 24 or not decompressor.eof or decompressor.unused_data:
+                        raise ValueError("M1 decompressed daily size bound exceeded")
+                    decoded = decode_candles(payload, symbol, period, side)
+                except (ValueError, EOFError, lzma.LZMAError) as exc:
+                    raise ProviderFailure(
+                        {
+                            "endpoint": url,
+                            "utc": clock().isoformat(),
+                            "http_status": 200,
+                            "error_class": type(exc).__name__,
+                            "successful_requests": len(sides) + 1,
+                            "failed_requests": 0,
+                            "error_sample": "M1 archive cannot be decoded; original retained",
+                        }
+                    ) from None
                 if decoded.is_empty():
                     continue
                 blobs[stem + f"-{side}.bi5"] = payload
@@ -344,6 +423,28 @@ def download_period(
             frame = sides["BID"].join(sides["ASK"], on="timestamp_ns", how="inner", validate="1:1")
             if frame.height != sides["BID"].height or frame.height != sides["ASK"].height:
                 raise IntegrityError("Dukascopy sides are not aligned")
+            if frame.filter(
+                (pl.col("timestamp_ns") % 60_000_000_000 != 0)
+                | pl.any_horizontal(
+                    [
+                        ~pl.col(k).is_finite() | (pl.col(k) <= 0)
+                        for k in (
+                            "open",
+                            "high",
+                            "low",
+                            "close",
+                            "ask_open",
+                            "ask_high",
+                            "ask_low",
+                            "ask_close",
+                        )
+                    ]
+                )
+                | pl.any_horizontal(
+                    [~pl.col(k).is_finite() | (pl.col(k) < 0) for k in ("volume", "ask_volume")]
+                )
+            ).height:
+                raise IntegrityError("Dukascopy nonfinite prices, volume or minute cadence invalid")
             frame = frame.with_columns(
                 pl.lit(symbol).alias("symbol"),
                 pl.lit(plan.provider).alias("source"),

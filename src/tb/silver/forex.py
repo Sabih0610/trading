@@ -18,6 +18,7 @@ from tb.ingest.history.core import IntegrityError, require_disk_space, sha256_fi
 from tb.research.forex_registry import load_forex_plan
 from tb.research.models import HOLDOUT, ResearchRefused
 from tb.research.registry import read_metadata, safe
+from tb.risk.config import load_asset_registry
 from tb.silver.market import clean_minute_bars, resample_completed_bars
 from tb.silver.vision import PERIODS, TIMEFRAMES, publish
 
@@ -113,7 +114,7 @@ def quality(
         "expected_minutes": expected,
         "actual_minutes": frame.height,
         "actual_open_minutes": actual_open,
-        "last_timestamp_ns": int(frame["timestamp_ns"][-1]),
+        "last_timestamp_ns": int(frame["timestamp_ns"][-1]) if frame.height else None,
         "missing_minutes": missing.height,
         "gaps": gaps,
         "gap_heat_strip": heat,
@@ -181,7 +182,35 @@ def build_year(
             paths.append(parquet)
             inputs.append({"path": item["parquet"], "sha256": checksum})
         if not paths:
-            return {"status": "missing", "symbol": symbol, "year": year}
+            empty = pl.DataFrame(
+                schema={
+                    "timestamp_ns": pl.Int64,
+                    "open": pl.Float64,
+                    "high": pl.Float64,
+                    "low": pl.Float64,
+                    "close": pl.Float64,
+                    "volume": pl.Float64,
+                    "is_spike": pl.Boolean,
+                }
+            )
+            report = quality(
+                empty,
+                empty,
+                symbol=symbol,
+                year=year,
+                start=start,
+                stop=stop,
+                provider=plan.provider,
+                duplicates=0,
+            )
+            report.update(
+                status="missing",
+                reason="no_complete_admissible_source_archives",
+                flags=["no_admitted_bars", "gaps", "unreliable_volume"],
+            )
+            return publish(
+                root, plan, symbol, year, {}, report, inputs=[], clock=clock, fault=fault
+            )
         lazy = scan_unsealed_parquet(paths)
         bounds = (
             lazy.select(
@@ -219,6 +248,15 @@ def build_year(
             provider=plan.provider,
             duplicates=cleaned.duplicates_removed,
         )
+        config_path = root / "config/assets.yaml"
+        asset = load_asset_registry(config_path).asset(symbol) if config_path.is_file() else None
+        floor = str(asset.cost_model.spread_bps_default) if asset is not None else None
+        report["cost_model"] = {
+            "configured_spread_floor_bps": floor,
+            "long_entry_requires_added_spread": plan.price_side == "bid",
+            "stage3_cost_review_required": floor is None or float(floor) <= 0,
+            "spread_inferred_from_bid": False,
+        }
         frames = {"silver/1m": cleaned.frame}
         current = copy.deepcopy(engines) if engines is not None else {}
         partials = {}
@@ -229,6 +267,33 @@ def build_year(
             bars = cleaned.frame
             if timeframe != "1m":
                 sampled = resample_completed_bars(bars, timeframe, cutoff=stop)
+                if plan.price_side == "bid_ask":
+                    asks = (
+                        bars.sort("timestamp_utc")
+                        .group_by_dynamic(
+                            "timestamp_utc",
+                            every=timeframe,
+                            period=timeframe,
+                            closed="left",
+                            label="left",
+                        )
+                        .agg(
+                            pl.col("ask_open").first(),
+                            pl.col("ask_high").max(),
+                            pl.col("ask_low").min(),
+                            pl.col("ask_close").last(),
+                            pl.col("ask_volume").sum(),
+                        )
+                    )
+                    sampled = sampled.join(
+                        asks, on="timestamp_utc", how="left", validate="1:1"
+                    ).with_columns(
+                        *[
+                            ((pl.col(k) + pl.col(f"ask_{k}")) / 2).alias(f"mid_{k}")
+                            for k in ("open", "high", "low", "close")
+                        ],
+                        (pl.col("ask_close") - pl.col("close")).alias("spread_close"),
+                    )
                 bars = sampled.filter(pl.col("has_all_source_minutes")).with_columns(
                     pl.lit(plan.provider).alias("source"),
                     pl.lit(plan.price_side).alias("price_side"),

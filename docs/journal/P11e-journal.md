@@ -13,3 +13,14 @@
   copy, inspect, list, repack or delete its files for this phase.
 - Original Vision PDF evidence path now passes 19 integration tests; the generic document limit remains unchanged. Registering the actual approved plan, then starting sequential checksum-verified pre-2025 acquisition through the existing medallion CLI.
 - Vision sequential acquisition finished through the approved final 2024 month for BTC/ETH/SOL, using original archives and vendor checksums. No ≥2025 archive was requested. The PowerShell wrapper positional-binding regression is fixed (two owned launcher tests pass). Thirty combined Vision/FX fixture cases pass; strict mypy is clean on 186 files. Starting actual approved HistData acquisition next; actual market and quality artifacts remain ignored.
+
+- 2026-11-01 10:44 UTC: HistData monthly forms for archived years have empty tokens;
+  annual forms provide the expected public nonce. Added annual cadence behind the same
+  approval gate, with unsafe 2020/2024 nominal UTC windows refused before HTTP. Safe
+  original ZIP/CSV and converted Bronze acquisitions succeeded sequentially for both
+  FX instruments. All genuine results remain ignored. No date scope was widened.
+- 2026-11-01 10:50 UTC: Added explicit legacy Dukascopy refusal (fixture-only replay
+  requires both offline mode and MockTransport), bounded failure/fallback diagnostics,
+  source-separated quality paths, all-five-symbol Data Health, and ASK/mid/spread retention
+  in higher Gold timeframes. Twenty-eight focused FX/legacy/dashboard tests pass; strict
+  mypy passes on 187 files. Vision yearly build continues with bounded memory.
