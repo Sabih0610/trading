@@ -6,3 +6,4 @@
 - Read protocol, project rules, previous report, audit and regression tests.
   Began primary-source research and offline locked dependency preparation.
   Genuine dataset admission remains unproven; do not download market observations.
+- D-1: stop-only limit fill bar; independent regression passed, existing engine suite 25 passed. Audit collection delay traced to Hypothesis local constant discovery on Windows.

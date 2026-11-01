@@ -297,14 +297,14 @@ class BacktestEngine:
             position = None
             pending_exit_index = None
 
-        def process_exit(bar: Bar) -> None:
+        def process_exit(bar: Bar, *, allow_target: bool = True) -> None:
             if position is None:
                 return
             if bar.open <= position.stop_price:
                 close_position(bar, bar.open, ExitReason.STOP)
             elif bar.low <= position.stop_price:
                 close_position(bar, position.stop_price, ExitReason.STOP)
-            elif bar.high >= position.target_price:
+            elif allow_target and bar.high >= position.target_price:
                 close_position(bar, position.target_price, ExitReason.TARGET)
 
         for index, bar in enumerate(bars):
@@ -420,7 +420,11 @@ class BacktestEngine:
                                 )
                                 entries_today += 1
                                 pending = None
-                                process_exit(bar)
+                                # Intrabar OHLC cannot prove the high followed a limit fill.
+                                process_exit(
+                                    bar,
+                                    allow_target=pending_signal.order_type is EntryOrderType.MARKET,
+                                )
                             else:
                                 code = fill_decision.reason_code or RejectionCode.NO_CAPACITY
                                 reject(bar.timestamp, code.value, fill_decision.detail or "No fill")

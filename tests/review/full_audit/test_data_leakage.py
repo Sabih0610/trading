@@ -536,11 +536,6 @@ def test_stop_and_target_same_bar_resolves_to_stop_for_market_entry() -> None:
     assert trade.exit_reason is ExitReason.STOP
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING D-1: a limit entry filled intrabar is allowed to exit at the target in the "
-    "same bar although the bar high may have printed before the limit was touched (optimistic)",
-)
 def test_limit_fill_cannot_also_take_profit_in_the_same_bar() -> None:
     bars = [
         _bar(0, "100", "101", "99", "100"),
