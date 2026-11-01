@@ -10,6 +10,7 @@ from pathlib import Path
 from tb.backtest.engine import BacktestEngine, Bar, EntrySignal
 from tb.backtest.research import assess_research, load_research_policies
 from tb.core.instruments import ContractSpec, CurrencyConversion, MarketQuote
+from tb.core.logging import configure_cli_logging
 from tb.features.engine import FeatureEngine
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ledger.store import DecisionLedger
@@ -203,6 +204,8 @@ def create_alignment_smoke(output_root: Path) -> Path:
 
 def main() -> None:
     """Run the entirely local example without loading credentials or external providers."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=Path("reports/safety/P09.5"))

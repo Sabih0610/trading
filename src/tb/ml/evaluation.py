@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.strategies.evaluation import collect_coverage
 
 _MODEL_ROWS = (
@@ -88,6 +89,8 @@ def write_ml_report(output: Path, root: Path | None = None) -> Path:
 
 def main() -> None:
     """Parse the output path and reproduce the P08 evidence report."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("reports/ml/P08.md"))

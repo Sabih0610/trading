@@ -9,6 +9,7 @@ from pathlib import Path
 import polars as pl
 from pydantic import BaseModel, ConfigDict, Field
 
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import BronzeManifest, sha256_file
 
 
@@ -97,6 +98,8 @@ def validate_bronze(root: Path) -> BronzeValidationReport:
 
 def main() -> None:
     """Validate a Bronze tree and return a nonzero process status on any issue."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path, help="Bronze root to validate")

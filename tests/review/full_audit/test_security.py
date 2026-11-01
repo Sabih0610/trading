@@ -438,11 +438,6 @@ def test_llm_provider_default_clients_ignore_proxy_environment() -> None:
     assert all(c.trust_env is False for c in clients)
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING S-4: RedactingFilter redacts msg/extras but not "
-    "exc_info; JsonFormatter writes raw traceback text containing secrets",
-)
 def test_log_redaction_covers_exception_tracebacks() -> None:
     from tb.core.logging import JsonFormatter, RedactingFilter
 

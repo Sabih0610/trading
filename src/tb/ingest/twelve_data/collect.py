@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
+from tb.core.logging import configure_cli_logging
 from tb.ingest.assessment import source_version
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ingest.mt5.cli import collector_lease
@@ -315,6 +316,8 @@ def run(
 
 def main() -> None:
     """Opt-in bounded genuine run; missing credentials cleanly disable the component."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--polls", type=int, choices=range(1, 13), default=5)
     parser.add_argument(

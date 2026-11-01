@@ -10,6 +10,7 @@ from pathlib import Path
 from tb.backtest.baselines import BaselineName
 from tb.backtest.research import assess_research, load_research_policies
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.strategies.scenarios import load_scenarios
 
 _DEVELOPMENT_YEARS = frozenset(range(2020, 2024))
@@ -213,6 +214,8 @@ def write_report(output: Path, root: Path | None = None) -> Path:
 
 def main() -> None:
     """Run the fail-closed coverage gate and print the report path."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("reports/strategies/P07.md"))

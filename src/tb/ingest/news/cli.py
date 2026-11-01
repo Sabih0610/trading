@@ -13,6 +13,7 @@ from pathlib import Path
 import httpx
 
 from tb.core.config import features_enabled, load_settings, repo_root
+from tb.core.logging import configure_cli_logging
 from tb.core.timeutil import utc_now
 from tb.ingest.content_store import commit_news_snapshot, store_raw_payload
 from tb.ingest.coverage import news_coverage
@@ -288,6 +289,8 @@ def run_news_download(
 
 def main() -> None:
     """Parse command arguments and run news ingestion."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sources", required=True)

@@ -13,6 +13,7 @@ from tb.agents.budget import load_ai_budget
 from tb.agents.cache import ResponseCache
 from tb.agents.providers import MockProvider
 from tb.agents.schemas import MaskedSnapshot
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import atomic_write_json
 from tb.ledger import DecisionLedger, LedgerVersions
 
@@ -88,6 +89,7 @@ def run_mock_evaluation(root: Path, *, now: datetime | None = None) -> ArenaSmok
 def main(argv: list[str] | None = None) -> int:
     """Command-line entry point for the offline P09 acceptance run."""
 
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)

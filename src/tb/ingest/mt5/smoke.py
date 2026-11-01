@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import atomic_write_json
 from tb.ingest.mt5.adapter import MT5Feed, PythonReader
 from tb.ingest.mt5.mcp import ReadOnlyMCP
@@ -16,6 +17,8 @@ from tb.ingest.mt5.settings import MT5Settings
 
 def main() -> None:
     """Attach to the pinned demo; no account login, Market Watch change or execution API."""
+
+    configure_cli_logging()
     root = repo_root()
     settings = MT5Settings.from_root(root)
     config = load_feed_config(root / "config/mt5_feed.yaml")

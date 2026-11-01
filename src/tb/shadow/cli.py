@@ -12,6 +12,7 @@ from pathlib import Path
 import yaml
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.assessment import source_version
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.ingest.rights import SHADOW_USAGES, load_rights
@@ -33,6 +34,8 @@ from tb.shadow.source import read_committed
 
 
 def main() -> None:
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=("replay", "watch"))
     parser.add_argument("--output", type=Path)

@@ -14,6 +14,7 @@ from uuid import uuid4
 import polars as pl
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
 
+from tb.core.logging import configure_cli_logging
 from tb.core.timeutil import utc_now
 from tb.ingest.history.core import (
     BronzeManifest,
@@ -531,6 +532,8 @@ def build_silver(
 
 def main() -> None:
     """Run the incremental Silver builder from the command line."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bronze-root", type=Path, default=Path("data/bronze"))

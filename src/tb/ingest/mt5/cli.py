@@ -13,6 +13,7 @@ from typing import BinaryIO
 
 from tb.core.config import repo_root
 from tb.core.leases import WriterBusy, writer_lease
+from tb.core.logging import configure_cli_logging
 from tb.ingest.clock_profiles import load_profiles
 from tb.ingest.mt5.adapter import MT5Feed, PythonReader
 from tb.ingest.mt5.collector import Collector
@@ -36,6 +37,8 @@ def collector_lease(path: Path) -> Iterator[BinaryIO]:
 
 def main() -> None:
     """No-key offline path is explicit and cannot write the genuine monitoring namespace."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--offline", action="store_true")
     parser.add_argument("--polls", type=int, default=2)

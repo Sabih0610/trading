@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 import polars as pl
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
 
+from tb.core.logging import configure_cli_logging
 from tb.core.timeutil import utc_now
 from tb.features.context import (
     add_basis_features,
@@ -315,6 +316,8 @@ def build_gold(silver_root: Path, gold_root: Path) -> GoldBuildSummary:
 
 def main() -> None:
     """Run the incremental Gold feature builder."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--silver-root", type=Path, default=Path("data/silver"))

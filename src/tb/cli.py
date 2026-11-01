@@ -17,6 +17,7 @@ from rich.table import Table
 
 from tb import __version__
 from tb.core.config import Settings, features_enabled, load_settings, repo_root
+from tb.core.logging import configure_cli_logging
 
 app = typer.Typer(no_args_is_help=True, help="Trading Bot research and operations CLI.")
 console = Console()
@@ -25,6 +26,8 @@ console = Console()
 @app.callback()
 def main() -> None:
     """Run Trading Bot research and operations commands."""
+
+    configure_cli_logging()
 
 
 def _gpu_name() -> str | None:

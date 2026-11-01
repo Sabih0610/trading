@@ -8,6 +8,7 @@ import subprocess
 import sys
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.dashboard.shadow import read_shadow_snapshot
 from tb.ingest.history.core import atomic_write_json
 from tb.shadow.fixtures import SCENARIOS
@@ -15,6 +16,8 @@ from tb.shadow.fixtures import SCENARIOS
 
 def main() -> None:
     """Run ten independent immutable owned studies with their frozen configured hypotheses."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bars", type=int, choices=range(80, 181), default=128)
     args = parser.parse_args()

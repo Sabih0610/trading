@@ -1,10 +1,11 @@
 """Tests for structured log output and credential redaction."""
 
+import io
 import json
 import logging
 from pathlib import Path
 
-from tb.core.logging import REDACTED, configure_logging, redact
+from tb.core.logging import REDACTED, JsonFormatter, RedactingFilter, configure_logging, redact
 
 
 def _flush_handlers() -> None:
@@ -53,3 +54,22 @@ def test_logging_creates_directory_with_spaces(tmp_path: Path) -> None:
     _flush_handlers()
 
     assert (log_dir / "trading-bot.jsonl").is_file()
+
+
+def test_redaction_survives_multiple_formatters_and_cached_stack():
+    secret = "owned-exception-secret"
+    record = logging.LogRecord("owned", logging.ERROR, __file__, 1, "failed", (), None)
+    try:
+        raise RuntimeError(secret)
+    except RuntimeError:
+        import sys
+
+        record.exc_info = sys.exc_info()
+    record.stack_info = "owned stack " + secret
+    RedactingFilter([secret]).filter(record)
+    assert record.exc_info is None
+    for formatter in (JsonFormatter(), logging.Formatter()):
+        stream = io.StringIO()
+        stream.write(formatter.format(record))
+        assert secret not in stream.getvalue()
+        assert REDACTED in stream.getvalue()

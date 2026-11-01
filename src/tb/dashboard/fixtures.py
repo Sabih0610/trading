@@ -12,6 +12,7 @@ import polars as pl
 
 from tb.agents.schemas import ArenaAction, ArenaAnswer
 from tb.backtest.engine import BacktestEngine, Bar, EntrySignal
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ledger.store import DecisionLedger
 from tb.paper.simulation import VERSIONS, LocalPaperSimulator
@@ -216,6 +217,8 @@ def create_dashboard_fixtures(root: Path) -> Path:
 
 def main() -> None:
     """Generate explicitly labelled demo evidence outside the UI process."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=Path("reports/dashboard/P10-demo"))

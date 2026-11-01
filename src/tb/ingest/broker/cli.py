@@ -11,6 +11,7 @@ from pathlib import Path
 import yaml
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.broker.ctrader import BrokerAccess, CTraderQuoteSource, CTraderSettings
 from tb.ingest.broker.evaluation import align_reference
 from tb.ingest.broker.fixtures import fixture_decision, fixture_rights, fixture_source
@@ -112,6 +113,8 @@ def genuine_smoke(root: Path, seconds: int, max_events: int) -> Path:
 
 
 def main() -> None:
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "action", nargs="?", default="status", choices=["status", "owned-demo", "genuine-smoke"]

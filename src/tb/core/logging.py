@@ -69,6 +69,14 @@ class RedactingFilter(logging.Filter):
         # placeholders in the original logging template.
         record.msg = redact(record.getMessage(), self._known_secrets)
         record.args = ()
+        if record.exc_info:
+            record.exc_text = logging.Formatter().formatException(record.exc_info)
+            # Prevent later formatters (including Rich) rebuilding the raw traceback.
+            record.exc_info = None
+        if record.exc_text:
+            record.exc_text = redact(record.exc_text, self._known_secrets)
+        if record.stack_info:
+            record.stack_info = redact(record.stack_info, self._known_secrets)
         for field_name, value in vars(record).items():
             if field_name in _STANDARD_LOG_RECORD_FIELDS:
                 continue
@@ -100,8 +108,12 @@ class JsonFormatter(logging.Formatter):
         }
         if extras:
             payload["context"] = extras
-        if record.exc_info:
+        if record.exc_text:
+            payload["exception"] = record.exc_text
+        elif record.exc_info:
             payload["exception"] = self.formatException(record.exc_info)
+        if record.stack_info:
+            payload["stack"] = record.stack_info
         return json.dumps(payload, default=str, ensure_ascii=False, separators=(",", ":"))
 
 
@@ -140,3 +152,10 @@ def configure_logging(
         root_logger.addHandler(console_handler)
 
     return logging.getLogger("tb")
+
+
+def configure_cli_logging() -> None:
+    """Install redaction before CLI work, without opening any private settings file."""
+    from tb.core.config import Settings
+
+    configure_logging(known_secrets=Settings(_env_file=None).known_secret_values())  # type: ignore[call-arg]

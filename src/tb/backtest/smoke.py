@@ -10,6 +10,7 @@ from pathlib import Path
 from tb.backtest.engine import BacktestEngine, Bar, EntrySignal
 from tb.backtest.metrics import compute_metrics
 from tb.backtest.reporting import BacktestArtifacts, write_backtest_artifacts
+from tb.core.logging import configure_cli_logging
 
 
 def create_smoke_run(
@@ -65,6 +66,8 @@ def create_smoke_run(
 
 def main() -> None:
     """Parse smoke-run arguments and print the generated report path."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=Path("reports/backtests"))

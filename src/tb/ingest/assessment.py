@@ -11,6 +11,7 @@ from typing import Any
 from uuid import uuid4
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.clock_profiles import load_profiles
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ingest.mt5.adapter import MT5Feed, PythonReader
@@ -38,6 +39,8 @@ def source_version(root: Path) -> str:
 
 def main() -> None:
     """Produce evidence and a fresh read-only snapshot without starting an extended run."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--samples", type=int, choices=range(1, 6), default=5)
     args = parser.parse_args()

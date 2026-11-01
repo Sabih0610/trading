@@ -16,6 +16,7 @@ from tb.agents.budget import load_ai_budget
 from tb.backtest.research import assess_research, load_research_policies
 from tb.core.config import ConfigLoadError, repo_root
 from tb.core.contracts import DashboardSnapshot
+from tb.core.logging import configure_cli_logging
 from tb.dashboard.broker import broker_view
 from tb.dashboard.components import decisions_table, equity_chart, metric_grid, price_chart
 from tb.dashboard.feed import market_feed_view
@@ -356,6 +357,8 @@ def _implementation_status(root: Path) -> None:
 
 def main() -> None:
     """Render read-only evidence views with explicit empty and incomplete states."""
+
+    configure_cli_logging()
 
     st.set_page_config(
         page_title="Trading Research | Evidence Review", page_icon="◈", layout="wide"

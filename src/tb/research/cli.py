@@ -13,6 +13,7 @@ from typing import Any
 import polars as pl
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.research.fixtures import generate
 from tb.research.importer import import_dataset
 from tb.research.models import ResearchProtocol
@@ -81,6 +82,8 @@ def demo(root: Path, now: datetime) -> dict[str, Any]:
 
 
 def main() -> None:
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--root",

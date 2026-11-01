@@ -14,6 +14,7 @@ from pathlib import Path
 from pydantic import SecretStr
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.broker.onboarding.callback import receive_callback
 from tb.ingest.broker.onboarding.models import CallbackSession, OAuthRefused
 from tb.ingest.broker.onboarding.private import PrivateEnv
@@ -76,6 +77,8 @@ def _authorize(env: PrivateEnv, *, after_approval: bool, refresh: bool) -> None:
 
 def main() -> None:
     """Never accept keys/codes/tokens as command-line arguments or print their values."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "action",

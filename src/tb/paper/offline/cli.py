@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import atomic_write_bytes, atomic_write_json, sha256_file
 from tb.paper.offline.fixtures import CASES, package, strategy_inputs
 from tb.paper.offline.models import PaperInput, PaperRefused
@@ -96,6 +97,8 @@ def demonstrate(
 
 def main() -> None:
     """Default status is inert; demo always generates owned input rather than reading feeds."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", nargs="?", choices=["status", "demo"], default="status")
     parser.add_argument("--provider", choices=["owned_fixture"], default="owned_fixture")

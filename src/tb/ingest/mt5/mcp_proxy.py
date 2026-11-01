@@ -7,6 +7,7 @@ import sys
 from typing import Any
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.mt5.mcp import MCP_READ_TOOLS, EmptyArguments, ReadOnlyMCP, SymbolArguments
 from tb.ingest.mt5.models import FeedUnavailable, load_feed_config
 from tb.ingest.mt5.settings import MT5Settings
@@ -58,6 +59,8 @@ def dispatch(client: ReadOnlyMCP, message: dict[str, Any]) -> dict[str, Any] | N
 
 def main() -> None:
     """Load credentials privately; stdout carries only protocol messages and sanitized data."""
+
+    configure_cli_logging()
     root = repo_root()
     settings = MT5Settings.from_root(root)
     config = load_feed_config(root / "config/mt5_feed.yaml")

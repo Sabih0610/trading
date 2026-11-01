@@ -11,6 +11,7 @@ from pathlib import Path
 import httpx
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.binance import ArchiveCadence, ArchiveDataset
 from tb.ingest.history.core import estimate_required_bytes, require_disk_space
 from tb.ingest.history.pipeline import (
@@ -260,6 +261,8 @@ def run_download(
 
 def main() -> None:
     """Parse PowerShell-friendly arguments and run the download."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sources", required=True, help="Comma-separated source names")

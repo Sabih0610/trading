@@ -14,6 +14,7 @@ from typing import Any
 from uuid import uuid4
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import atomic_write_json, sha256_file
 from tb.ingest.mt5.adapter import MT5Feed, PythonReader, as_dict
 from tb.ingest.mt5.cli import collector_lease
@@ -301,6 +302,8 @@ def publish_diagnostic(root: Path, report: dict[str, Any]) -> None:
 
 def main() -> None:
     """Diagnose by default; --collect admits a finite run only after all fresh checks pass."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--samples", type=int, choices=range(1, 6), default=3)
     parser.add_argument("--collect", action="store_true")

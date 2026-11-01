@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 import yaml
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.assessment import source_version
 from tb.ingest.history.core import atomic_write_json
 from tb.ingest.mt5.cli import collector_lease
@@ -25,6 +26,8 @@ from tb.shadow.models import ShadowConfig, SourcePin
 
 
 def main() -> None:
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--supervised-minutes", type=int, choices=range(1, 121), required=True)
     args = parser.parse_args()

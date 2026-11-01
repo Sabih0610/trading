@@ -10,6 +10,7 @@ from typing import Literal
 import yaml
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.history.core import atomic_write_bytes, sha256_file
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.ingest.rights import SHADOW_USAGES, DataRights, Usage, load_rights
@@ -100,6 +101,8 @@ def apply_review(root: Path, proposal: Path, now: datetime) -> None:
 
 def main() -> None:
     """Check first; installing approvals requires the separate explicit --apply action."""
+
+    configure_cli_logging()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--proposal", type=Path, required=True)
     parser.add_argument("--apply", action="store_true")

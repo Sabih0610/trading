@@ -9,6 +9,7 @@ import tomllib
 from pathlib import Path
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.ingest.mt5.mcp import MCP_READ_TOOLS
 from tb.ingest.mt5.models import FeedUnavailable
 from tb.ingest.mt5.settings import MT5Settings
@@ -60,6 +61,8 @@ def configure(root: Path) -> Path:
 
 
 def main() -> None:
+
+    configure_cli_logging()
     try:
         configure(repo_root())
         print(

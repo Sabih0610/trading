@@ -10,6 +10,7 @@ from pathlib import Path
 import httpx
 
 from tb.core.config import repo_root
+from tb.core.logging import configure_cli_logging
 from tb.core.timeutil import utc_now
 from tb.ingest.calendar.adapters import (
     parse_bls_schedule,
@@ -306,6 +307,8 @@ def run_calendar_download(
 
 def main() -> None:
     """Parse command arguments and run calendar ingestion."""
+
+    configure_cli_logging()
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sources", required=True)
