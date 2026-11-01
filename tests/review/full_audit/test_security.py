@@ -186,11 +186,6 @@ def _load_existing_forbidden_test():
         'ORDER = "https://api.binance.com/api/v3/order"',
     ],
 )
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING S-2: tests/scenario/test_forbidden_endpoints.py "
-    "misses fapi/sapi/withdraw/camelCase/concatenated/ccxt/order-endpoint variants",
-)
 def test_existing_forbidden_scanner_catches_variants(tmp_path, monkeypatch, snippet) -> None:
     module = _load_existing_forbidden_test()
     (tmp_path / "src").mkdir()

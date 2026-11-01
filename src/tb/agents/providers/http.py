@@ -55,9 +55,8 @@ class OllamaProvider:
             "stream": False,
             "format": request.json_schema,
         }
-        # Compose this vendor field because the project-wide source scanner reserves the
-        # corresponding full word for a prohibited financial product.
-        payload["opt" + "ions"] = {
+        # Reviewed scanner exception: Ollama generation parameters.
+        payload["options"] = {
             "temperature": request.temperature,
             "num_predict": request.max_output_tokens,
         }
