@@ -11,3 +11,4 @@
 - R-1: bundle rejects XAUT weekend widening; session guard consults effective limits and defaults closed for XAUT. Independent weekend checks and 31 risk unit tests pass.
 - R-2: circuit breaker now uses effective asset limits; independent regression passed.
 - S-2: case-insensitive Python/YAML/PowerShell scan, AST SDK import and constant concatenation checks; exact Ollama field and existing unsafe-skill denylist exceptions. Six independent variants and 16 scanner cases pass.
+- S-6: telemetry disabled before MLflow import and test collection; default fixture blocks external DNS/TCP/UDP, loopback preserved. Tracking regression and four guard cases pass.

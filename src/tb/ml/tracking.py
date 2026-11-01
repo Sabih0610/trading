@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+import os
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Protocol
 
-import mlflow
 from pydantic import BaseModel, ConfigDict
+
+os.environ["MLFLOW_DISABLE_TELEMETRY"] = "true"
+os.environ["DO_NOT_TRACK"] = "1"
+
+import mlflow
 
 
 class TrackingRun(BaseModel):

@@ -547,11 +547,6 @@ def test_src_never_requests_withdrawal_or_puts_keys_in_query_strings() -> None:
     assert hits == []
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING S-6: MLflow telemetry is never disabled; default test "
-    "tests/unit/test_ml_tracking.py resolves config.mlflow-telemetry.io (outbound network)",
-)
 def test_mlflow_telemetry_is_disabled_by_project_code() -> None:
     sources = [p.read_text(encoding="utf-8") for p in sorted(SRC.rglob("*.py"))]
     sources.append((ROOT / "tests" / "conftest.py").read_text(encoding="utf-8"))
