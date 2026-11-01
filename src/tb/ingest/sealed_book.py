@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import atexit
+import ctypes
 import hashlib
 import io
 import json
 import os
-import subprocess
 import time
+from collections import deque
 from collections.abc import Callable
 from datetime import UTC, datetime
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -45,30 +48,62 @@ def _integer(value: Any) -> int:
     return value
 
 
+@lru_cache(maxsize=1)
+def _native_acl() -> tuple[Any, Any]:
+    """Build one protected DACL; reuse native APIs rather than spawning per-file shells."""
+    from tb.ingest.broker.onboarding.private import owner_sid
+
+    sid = owner_sid()
+    sddl = f"D:P(D;;0x1;;;{sid})(A;;FA;;;SY)(A;;FA;;;{sid})"
+    api = ctypes.WinDLL("advapi32", use_last_error=True)
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    pointer = ctypes.c_void_p
+    descriptor = pointer()
+    convert = api.ConvertStringSecurityDescriptorToSecurityDescriptorW
+    convert.argtypes = [ctypes.c_wchar_p, ctypes.c_uint32, ctypes.POINTER(pointer), pointer]
+    convert.restype = ctypes.c_int
+    if not convert(sddl, 1, ctypes.byref(descriptor), None):
+        raise RuntimeError("sealed_archive_descriptor_failed")
+    kernel.LocalFree.argtypes = [pointer]
+    kernel.LocalFree.restype = pointer
+    atexit.register(kernel.LocalFree, descriptor)
+    present, defaulted, dacl = ctypes.c_int(), ctypes.c_int(), pointer()
+    get_dacl = api.GetSecurityDescriptorDacl
+    get_dacl.argtypes = [
+        pointer,
+        ctypes.POINTER(ctypes.c_int),
+        ctypes.POINTER(pointer),
+        ctypes.POINTER(ctypes.c_int),
+    ]
+    get_dacl.restype = ctypes.c_int
+    if (
+        not get_dacl(descriptor, ctypes.byref(present), ctypes.byref(dacl), ctypes.byref(defaulted))
+        or not present.value
+        or not dacl.value
+    ):
+        raise RuntimeError("sealed_archive_dacl_failed")
+    install = api.SetNamedSecurityInfoW
+    install.argtypes = [
+        ctypes.c_wchar_p,
+        ctypes.c_int,
+        ctypes.c_uint32,
+        pointer,
+        pointer,
+        pointer,
+        pointer,
+    ]
+    install.restype = ctypes.c_uint32
+    return install, dacl
+
+
 def deny_data_reads(path: Path) -> None:
-    """Protect a newly created empty file before writing; existing archives are never opened."""
+    """Protect an empty new file before writing, without reopening any archived bytes."""
     if os.name != "nt":
         path.chmod(0o200)
         return
-    command = """
-$ErrorActionPreference = 'Stop'
-$owner = [Security.Principal.WindowsIdentity]::GetCurrent().User
-$system = [Security.Principal.SecurityIdentifier]::new('S-1-5-18')
-$acl = [Security.AccessControl.FileSecurity]::new()
-$acl.SetOwner($owner); $acl.SetAccessRuleProtection($true, $false)
-$acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new($owner, 'FullControl', 'Allow'))
-$acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new($system, 'FullControl', 'Allow'))
-$acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new($owner, 'ReadData', 'Deny'))
-Set-Acl -LiteralPath $env:TB_NEW_SEALED_FILE -AclObject $acl
-"""
-    result = subprocess.run(
-        ["pwsh", "-NoProfile", "-NonInteractive", "-Command", command],
-        env={**os.environ, "TB_NEW_SEALED_FILE": str(path)},
-        capture_output=True,
-        timeout=60,
-        creationflags=0x08000000,
-    )
-    if result.returncode:
+    install, dacl = _native_acl()
+    # SE_FILE_OBJECT; protected DACL with ReadData deny (0x1), no inherited grants.
+    if install(str(path), 1, 0x80000004, None, None, dacl, None) != 0:
         raise RuntimeError("sealed_archive_acl_failed")
 
 
@@ -131,13 +166,17 @@ class SealedBookWriter:
         self.last_depth: int | None = None
         self.gaps = 0
         self.reconnects = 0
-        self.file_sizes: list[int] = []
+        self.file_sizes: deque[int] = deque(maxlen=48)
         self.connected = False
         self.last_error = "none"
         self.last_flush = time.monotonic()
+        self.last_heartbeat = float("-inf")
 
-    def heartbeat(self) -> None:
+    def heartbeat(self, *, force: bool = False) -> None:
         """Metadata only: never prices, spreads, depth, volumes, or inferred market statistics."""
+        monotonic = time.monotonic()
+        if not force and monotonic - self.last_heartbeat < 5:
+            return
         now = self.clock()
         atomic_write_json(
             self.root / "reports/data_quality/xaut-collector-health.json",
@@ -151,17 +190,18 @@ class SealedBookWriter:
                 "uptime_seconds": max(0.0, (now - self.started).total_seconds()),
                 "sequence_gap_count": self.gaps,
                 "reconnects": self.reconnects,
-                "file_sizes": self.file_sizes[-48:],
+                "file_sizes": list(self.file_sizes),
                 "connected": self.connected,
                 "last_error_category": self.last_error,
             },
         )
+        self.last_heartbeat = monotonic
 
     def reset(self) -> None:
         self.last_depth = None
         self.connected = False
         self.reconnects += 1
-        self.heartbeat()
+        self.heartbeat(force=True)
 
     def accept(self, payload: str, *, snapshot: bool = False) -> None:
         """Inspect transport identity/sequence only; seal the exact original JSON payload."""
@@ -265,7 +305,7 @@ class SealedBookWriter:
         self.file_sizes.append(len(payload))
         self.rows.clear()
         self.last_flush = time.monotonic()
-        self.heartbeat()
+        self.heartbeat(force=True)
 
 
 def collect(root: Path, *, seconds: int = 3600, code_version: str) -> None:
@@ -317,7 +357,7 @@ def collect(root: Path, *, seconds: int = 3600, code_version: str) -> None:
                 finally:
                     writer.flush()
             writer.connected = False
-            writer.heartbeat()
+            writer.heartbeat(force=True)
 
 
 def main() -> None:

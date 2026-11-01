@@ -64,6 +64,7 @@ def code_digest() -> str:
             "ledger/store.py",
             "paper/offline/integrity.py",
             "silver/market.py",
+            "core/holdout.py",
         )
     ]
     return digest({p.relative_to(base).as_posix(): sha256_file(p) for p in sorted(paths)})

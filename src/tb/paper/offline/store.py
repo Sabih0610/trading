@@ -48,6 +48,7 @@ def code_digest() -> str:
         for p in (
             "core/instruments.py",
             "core/leases.py",
+            "core/holdout.py",
             "ledger/store.py",
             "ingest/broker/book.py",
             "ingest/broker/models.py",
