@@ -3,7 +3,8 @@
 - **P11d legacy sealed file shape:** the reviewed collector created approximately
   1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,
   compaction or deletion. New capture uses 15-minute intervals; this existing
-  shape is permanent until a separately authorized P14 release.
+  shape is retained permanently; no maintenance authorization is inferred from
+  a future separately authorized P14 read.
 
 - **P11d historical admission:** BTC/ETH/SOL are BLOCKED — DATASET NOT AUTHORIZED.
   Need actual owner + distinct reviewer documentary approval, terms version,
@@ -23,11 +24,12 @@
   S-7 (unpinned skill installers), S-9 (missing-feature startup log policy).
   D-7 is fixed for the new medallion's boundary seeds/partial bars; legacy partition
   pipeline behavior still requires a separate repair. Existing strict xfails retained.
-- **P11d independent review:** five serial full suites, the empty-.env presence matrix,
-  offline gate, smoke and 14 owned paper studies pass on unchanged source d1e4e18.
-  Review [PR #3](https://github.com/Sabih0610/trading/pull/3) and the [phase report](../reports/phases/P11d.md); branch published, main unmerged.
-  The notes below are historical and do not revoke the owner's explicit P11d
-  sealed capture/publication scope.
+- **P11d review follow-up:** P11d-1/2/3 are addressed on validated source 87f7bf9.
+  Clean full gate: 1267 passes; one-hour health-only check: four parts plus four
+  manifests, maximum four parts per UTC-hour bucket, sequence gaps unchanged at zero.
+  Owner merge/review decision remains; [PR #3](https://github.com/Sabih0610/trading/pull/3)
+  is open and main is unmerged. Original review is preserved in the PR.
+  The notes below are historical and do not revoke the owner's explicit P11d scope.
 
 - **P11c.0 review:** [local completion report](../reports/phases/P11c.0.md),
   [ADR0018](adr/0018-permission-gated-local-market-research.md). Review end-to-end

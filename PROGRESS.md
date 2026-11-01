@@ -1,10 +1,13 @@
 # Build progress
 
-P11d PR #3 review: **APPROVED WITH FIXES**. P11d-1/2/3 remediation passed the full clean-checkout offline gate (1267 passes);
-old sealed files remain untouched. The restarted collector is undergoing its
-one-hour health-only cadence check. See [review](reports/reviews/P11d-review.md).
+P11d PR #3 review fixes **P11d-1/2/3 addressed**: clean offline gate passed
+(1267 tests; lint/format/mypy, smoke and 14 paper studies). Restarted collector
+passed a one-hour health-only check: four Parquet parts plus four manifests,
+maximum four parts per UTC-hour bucket, sequence gaps unchanged at zero; one
+reconnect recovered. Legacy files remain untouched. Main unmerged.
+See [review](reports/reviews/P11d-review.md) and [evidence](reports/validation/P11d/summary.json).
 
-Current P11d (2026-11-01): Part A audit fixes committed individually; historical
+Initial P11d publication (2026-11-01): Part A audit fixes committed individually; historical
 medallion and sealed-forward implementation pass lint/format/strict typing and five
 consecutive full suites (1253 passes in each clean run; 1247 with the empty .env
 fixture and expected checkout skips). Offline smoke and 14 paper studies pass. Real BTC/ETH/

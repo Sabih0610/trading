@@ -87,10 +87,11 @@ $beforeHealth | Select-Object collector_start, heartbeat, sequence_gap_count
 Disable-ScheduledTask -TaskName $taskName
 Stop-ScheduledTask -TaskName $taskName
 # Task termination can leave Python children. Stop only this checkout's collector.
+$rootArgument = '--root\s+"?' + [regex]::Escape($collectorRoot) + '"?(?:\s|$)'
 $collectorChildren = Get-CimInstance Win32_Process | Where-Object {
     $_.Name -like 'python*' -and
     $_.CommandLine -match '-m tb\.ingest\.sealed_book(?:\s|$)' -and
-    $_.CommandLine -like "*$collectorRoot*"
+    $_.CommandLine -match $rootArgument
 }
 $collectorChildren | Select-Object ProcessId, ParentProcessId, CommandLine
 $collectorChildren | ForEach-Object { Stop-Process -Id $_.ProcessId -ErrorAction SilentlyContinue }

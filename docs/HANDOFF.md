@@ -1,4 +1,4 @@
-# Current handoff — P11d review fixes in validation
+# Current handoff — P11d review fixes complete
 
 Owner approved PR #3 with fixes before merge. Original review is copied unchanged
 to [P11d review](../reports/reviews/P11d-review.md). Cadence now uses a configurable
@@ -9,8 +9,16 @@ permanent legacy small-file shape are documented. 56 focused tests pass.
 Full clean-checkout gate passed on 87f7bf9: 1267 tests pass, five known xfails,
 one environmental skip, three live deselected; Ruff/format/mypy, smoke and 14 paper
 studies pass. Restarted the collector at 2026-11-01 08:14 UTC on that source.
-One-hour health-only cadence verification is running (observer session 37791).
-Keep all existing sealed files untouched and do not merge main.
+One-hour health-only observation passed from 2026-11-01T08:14:39.373068+00:00
+to 2026-11-01T09:14:39.374879+00:00: four Parquet parts plus four manifests,
+maximum four parts per UTC-hour bucket, sequence gaps unchanged at zero. One
+reconnect recovered; collector remained connected at completion. The counters
+are session-local; no archive files were listed or read.
+Fixes are pushed to [PR #3](https://github.com/Sabih0610/trading/pull/3); final
+evidence updates are documentation only. Keep the dedicated collector checkout
+available; follow its [runbook](how-to/sealed-xaut-collector.md) only after merge.
+Next: owner merge/review decision, historical admission and optional privileged
+boot setup. Keep all existing sealed files untouched and do not merge main.
 
 ## Previous handoff — initial P11d publication
 

@@ -525,16 +525,10 @@
       "started_utc": "2026-11-01 UTC",
       "base_commit": "66be38c",
       "report": "reports/phases/P11d.md",
-      "review": "approved_with_fixes; remediation validation",
+      "review": "approved_with_fixes_addressed",
       "historical_data": "BLOCKED — DATASET NOT AUTHORIZED",
       "sealed_collector": "running; user-logon/crash task; unattended boot privilege pending",
       "engineering_complete": true,
-      "validated_utc": "2026-11-01 07:25 UTC",
-      "source_candidate": "d1e4e18",
-      "source_tree": "291373a1fe17d2228b118f4c352a6cc55efe459d",
-      "five_consecutive_full_suites": true,
-      "clean_tests_passed": 1253,
-      "owner_presence_fixture_passed": 1247,
       "offline_gate": "passed",
       "paper_studies": 14,
       "external_orders_enabled": false,
@@ -549,7 +543,7 @@
           "P11d-2",
           "P11d-3"
         ],
-        "status": "clean_gate_passed; deployed; live_health_hour_running",
+        "status": "addressed; clean gate and live hour passed",
         "focused_tests_passed": 56,
         "legacy_sealed_files": "approximately 1100; preserved untouched",
         "source_candidate": "87f7bf9",
@@ -558,8 +552,40 @@
         "full_suite": "1267 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 698.21s (0:11:38)",
         "smoke": "passed",
         "paper_studies": 14,
-        "deployment": "restarted 2026-11-01 08:14 UTC; health-only hour observation running"
-      }
+        "deployment": "running on validated source",
+        "completed_utc": "2026-11-01 09:15 UTC",
+        "live_health_check": {
+          "status": "passed",
+          "source": "health JSON only",
+          "collector_start": "2026-11-01T08:14:33.986040+00:00",
+          "observation_start_utc": "2026-11-01T08:14:39.373068+00:00",
+          "observation_end_utc": "2026-11-01T09:14:39.374879+00:00",
+          "observed_seconds": 3600.0,
+          "flush_interval_seconds": 900,
+          "files_by_utc_hour": {
+            "2026-11-01T08:00:00+00:00": 4
+          },
+          "maximum_parts_per_utc_hour": 4,
+          "parquet_parts_written": 4,
+          "paired_manifests": 4,
+          "sequence_gap_count_before_restart": 0,
+          "sequence_gap_count_after": 0,
+          "reconnects": 1,
+          "connected_at_end": true
+        }
+      },
+      "initial_validation": {
+        "source_candidate": "d1e4e18",
+        "source_tree": "291373a1fe17d2228b118f4c352a6cc55efe459d",
+        "five_consecutive_full_suites": true,
+        "clean_tests_passed": 1253,
+        "owner_presence_fixture_passed": 1247,
+        "validated_utc": "2026-11-01 07:25 UTC"
+      },
+      "source_candidate": "87f7bf9",
+      "source_tree": "752f85b5a963daa15ad0a046aa98c251b51bb39e",
+      "tests_passed": 1267,
+      "validated_utc": "2026-11-01 09:15 UTC"
     }
   },
   "allowed_status": [
@@ -588,8 +614,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-01 08:17 UTC",
-  "next_phase": "Review P11d; historical dataset approval and unattended boot operator privileges pending. No P11e, P14 unsealing, main merge, orders or hosted CI authorized.",
+  "last_updated_utc": "2026-11-01 09:15 UTC",
+  "next_phase": "Owner decision on reviewed PR #3; no automatic main merge. Historical dataset approval and operator boot privileges pending. No P11e/P14 unsealing, orders or hosted CI authorized.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
