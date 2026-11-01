@@ -50,3 +50,13 @@ location and include only a blank template.
 
 See [research](../research/P11e-research.md), [runbook](../how-to/forex-history.md),
 and [rights review](../../reports/reviews/dataset-rights-review-2026-11-01.md).
+
+
+## Bounded quality metadata
+
+Yearly quality details can exceed the existing metadata reader bound. Preserve the
+complete private report in an immutable hashed artifact with the same retention;
+keep scores, counters, monthly heat strips and explicitly labeled bounded list
+samples in the manifest/health summary. Record full list lengths and the detail
+pointer/hash. Do not widen the generic reader limit or discard quality evidence.
+This changes no Bronze bytes, bar data, quality formula or canonical Gold hashes.

@@ -1,23 +1,21 @@
-# Current handoff — P11e acquisition in progress
+# Current handoff — P11e final validation pending
 
-Task branch `codex/p11e-acquire-history`, credential-free P11e worktree, main
-base a454731. Rights evidence and actual finite-retention plans are registered
-privately. Vision archives are acquired; yearly build session 49471 is running.
-FX build session 19859 is running. Safe HistData annual archives are acquired;
-whole 2020/2024 files are withheld before HTTP because their nominal UTC windows
-cross the approved scope. Actual artifacts and per-file reasons stay ignored.
+All approved historical acquisition/build work is finished in the credential-free
+P11e checkout. Vendor checksum records, yearly compaction, all-five Data Health and
+`reports/data_quality/P11e-symbol-year-quality.md` plus JSON verify privately.
+Gold/FX whole source 2020/2024 annual archives are withheld before HTTP; precise
+per-file UTC boundary reasons remain private. Dukascopy consent file not found;
+no Dukascopy requests. No strategy evaluation or sealed-collector changes.
 
-Dukascopy consent file not found at the specified owner path. No Dukascopy requests;
-B0 selects HistData. Asked owner for an alternative local path; absent that file,
-legacy samples stay not for evaluation. Do not widen date scope or inspect holdout
-rows to decide whether an unsafe archive happens to have an empty tail.
-
-Source candidate 442818d passed all commit hooks. Twenty-six focused FX tests also
-cover blocked/decode fallback and successful-side retention after ASK failure.
-Next: commit these last regression scenarios, run the full clean offline gate,
-wait for both builds, generate private all-symbol/year quality table, finalize docs,
-privacy-review history, push skip-ci/no tags and open PR. No main merge or evaluation.
-Sealed XAUT checkout/task/process/archive remain untouched throughout P11e.
+Current source adds bounded quality summaries without losing complete private detail
+reports or changing scores, counters, bars or generic reader limits. Twenty-eight FX
+and combined 51 Vision/FX/health tests pass. Expiry stops retry/partial writes and
+cannot masquerade as a provider failure. Next: commit frozen source, update the clean
+validation checkout to that source and run `scripts/check-offline.ps1`; finalize
+living docs/privacy evidence, push skip-ci/no tags and open the task PR. No main merge.
+Runtime/source provenance and all genuine artifacts remain ignored. Legacy Dukascopy
+samples stay not for evaluation. Review missing history, spread floors and source
+calendar assumptions before Stage 3. Sealed XAUT archive/task/checkout untouched.
 See [P11e report](../reports/phases/P11e.md), [journal](journal/P11e-journal.md).
 
 ## Previous handoff — P11d review fixes

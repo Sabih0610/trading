@@ -67,3 +67,14 @@ Resume verifies every committed original checksum before skipping a download. A 
 checksum refuses reuse. Expired, missing or revoked evidence blocks requests and reads.
 Keep the sealed XAUT collector checkout/task/archive untouched; these commands never
 use its namespace. Never request, open or store 2025+ historical partitions.
+
+
+Large quality summaries expose `arrays_truncated`, `detail_record_counts` and a
+`details_artifact` path/SHA-256. Complete private evidence stays under ignored
+`reports/data_quality/details/` with the source's finite retention. Scores and
+aggregate counters are unchanged; Data Health never opens the large detail file.
+Do not raise the generic metadata reader bound to display a report.
+
+The rollover flag convention is 17:00–18:00 in the source's session clock. It is a
+quality-report window, not a claim that every instrument is closed for the full
+hour. Review instrument-specific calendar assumptions alongside costs before Stage 3.
