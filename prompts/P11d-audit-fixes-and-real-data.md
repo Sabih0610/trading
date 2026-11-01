@@ -11,16 +11,41 @@ Start from `main` after `claude/full-audit` is merged; work on branch `codex/p11
    evidence visible on the dashboard.
 
 This phase does **not** run strategy evaluation on the real data (that is P11e / roadmap Stage 3),
-does not touch 2025+ data, and adds no orders, OAuth, broker or provider credentials.
+does not read or evaluate 2025+ data (the only exception is the sealed forward collector, below), and
+adds no orders, OAuth, broker or provider credentials.
 
 ## Hard rules for this phase
 - Never weaken an existing test or risk rule. Each audit finding has a strict `xfail` in
   `tests/review/full_audit/`; when you fix it the test XPASSes — **remove only that `xfail` marker**
   so it becomes a permanent regression test. Do not edit the test's assertions.
 - Never read, copy or print `.env`. Run gates in a clean checkout without `.env` (see T-1).
-- Nothing from 2025-01-01 UTC onward is downloaded or opened.
+- Nothing from 2025-01-01 UTC onward is downloaded, back-filled, read or evaluated — **except** the
+  sealed forward collector in Part B step 8, which may only *write* new live data. See "Sealed forward
+  collection" below.
 - Real datasets are admitted only through the existing P11c.0 registry with the owner's approval;
-  if approval is missing, stop at Part B step 4 with a clear BLOCKED status.
+  if approval is missing, stop at Part B step 3 with a clear BLOCKED status.
+
+## Sealed forward collection (owner decision, 2026-11-01)
+
+Order-book history cannot be obtained later, so the owner authorizes recording it now. The 2025+
+final-test lock (AGENTS.md §7) protects against *looking at* that period, not against recording it.
+The rule is **record now, seal immediately, open once**:
+
+1. **Write-only, forward-only.** The XAUT collector appends live data from the moment it starts.
+   No back-fill of any past 2025–2026 data, from any source.
+2. **Sealed on write.** Every Bronze file and manifest it produces carries
+   `holdout: forward_sealed` (plus collector start time, source = Binance spot WebSocket, terms =
+   Binance API terms — not the Vision dataset licence).
+3. **Nothing reads it.** The existing final-test lock must refuse `forward_sealed` data in every
+   reader: research runner/importer, Silver/Gold pipelines, FeatureEngine, backtester, ML, arena,
+   shadow, paper engine and dashboard data readers. Add tests that try each reader and prove refusal.
+4. **Health only on the dashboard.** The Data Health view may show collector heartbeat, uptime,
+   sequence-gap count, reconnects and file sizes. It must not show prices, spreads, depth or any
+   statistic derived from the sealed data.
+5. **Opened once, later.** Unsealing is reserved for the P14 forward evaluation under its own logged
+   owner authorization (`reports/final_test_log.md`). Not in this phase.
+6. Record this as a decision in `docs/decisions/DECISIONS.md` and an ADR; do not change AGENTS.md §7
+   wording beyond adding a one-line pointer to this exception.
 
 ## Part A — Audit fixes (do these first, one commit each)
 
@@ -78,16 +103,20 @@ Confirm against primary sources and record URL + access date:
    flag or skip partial higher-timeframe bars (audit D-7).
 7. **Dashboard: Data Health view** (read-only) — per symbol × year: manifest status, terms version,
    quality score, gap heat-strip, flags, last refresh. Reads only manifests and quality JSON.
-8. **Order-book collector (start now)** — minimal Binance spot WebSocket depth + bookTicker collector
-   for XAUTUSDT writing hourly Bronze Parquet with sequence-gap detection; runnable via a PowerShell
-   script; no keys. Can be a separate small commit.
+8. **Sealed XAUT order-book collector (start now)** — minimal Binance spot WebSocket depth +
+   bookTicker collector for XAUTUSDT writing hourly Bronze Parquet with sequence-gap detection,
+   reconnect/resync, and the `forward_sealed` marking described above; runnable via a PowerShell
+   script (and a Windows Task Scheduler entry to restart on boot/crash); no keys. Can be a separate
+   small commit. After tests pass, start it running on the owner's machine.
 
 ### Scenarios to self-test
 Interrupted download → resume · corrupt zip / checksum mismatch → rejected and retried · missing month
 → recorded gap, not invented data · duplicate rows across daily/monthly files · DST dates (no effect in
 UTC) · 2024-12-31 23:59 boundary (nothing from 2025 read) · compaction crash mid-swap → old data intact
 · compacted vs uncompacted inputs produce **identical** Gold features (hash compare) · dashboard with
-missing quality files · disk-space preflight failure · registry approval missing → BLOCKED.
+missing quality files · disk-space preflight failure · registry approval missing → BLOCKED ·
+WebSocket disconnect / sequence gap → resync, gap recorded · every reader refuses `forward_sealed`
+files (one test per reader) · dashboard shows collector health but no sealed prices.
 
 ## Acceptance
 - All Part A majors fixed, their `xfail` markers removed, full suite + `tests/review/` green in both a
@@ -95,7 +124,9 @@ missing quality files · disk-space preflight failure · registry approval missi
 - BTC/ETH/SOL 2020-10 → 2024-12 in Bronze with manifests; Silver/Gold compacted per symbol-year;
   quality reports written; Data Health view shows them. (Or BLOCKED status recorded if approval is
   missing.)
-- No 2025+ data touched; no new network endpoints beyond Binance public data/WebSocket; no order code.
+- No 2025+ data read, back-filled or evaluated; the XAUT collector is running, writing only
+  `forward_sealed` files that every reader refuses (tested). No new network endpoints beyond Binance
+  public data/WebSocket; no order code.
 - Phase report `reports/phases/P11d.md`, ADR for compaction layout, `PROGRESS.md`, `docs/HANDOFF.md`,
   `CHANGELOG.md` updated. Push the task branch with `[skip ci]` and `--no-follow-tags`; open a PR; do
   not merge `main`.
