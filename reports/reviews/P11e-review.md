@@ -5,7 +5,7 @@
 | Date | 2026-11-01 |
 | Reviewer | Claude (reviewer role per `CLAUDE.md`, template `prompts/REVIEW_CLAUDE.md`) |
 | Scope | [PR #4](https://github.com/Sabih0610/trading/pull/4), `origin/main` `5a0787a` → `c104464` (9 commits, 32 files, +2,960 / −48), plus the private outputs in `E:\trading-p11e` (quality metadata and raw Bronze CSVs, all pre-2025) |
-| Verdict | **CHANGES REQUIRED before merge**: one major finding in the gold/FX timestamp conversion; Binance and the rest of the code are sound |
+| Verdict | **APPROVED** after fix round (`caaa9a5`, §7). Initial verdict: changes required (P11e-1). |
 
 ## 1. Rules audit
 
@@ -55,3 +55,32 @@ described; P11e-1 was found by checking the real files, not by the suite.
 ## 6. Recommendation
 
 Do not merge yet. Codex should fix P11e-1 and P11e-4/5 on the PR branch, then rebuild the HistData Silver/Gold. Binance BTC/ETH/SOL is clean and can go to Stage 3 as soon as this PR merges. The owner should save the Dukascopy consent file (P11e-2) so the fix round can also fetch the exact-UTC BID/ASK history. P11e-3 is a Stage 3 entry gate.
+
+## 7. Fix round re-review (PR #4 head `caaa9a5`)
+
+| Finding | Status | Evidence |
+|---|---|---|
+| P11e-1 HistData clock | **Fixed** | `histdata_clock.week_offset`: one offset per Sunday-anchored week, +4 h when London noon on that Sunday is BST, +5 h otherwise. By hand: the 2022-03-13/20 and 2022-10-30 mismatch weeks get +5 h, and 2022-03-27 gets +4 h. The repeat is dropped only for a contiguous 120-row block with byte-identical OHLCV; otherwise the day is quarantined. The Silver weekend/rollover grid uses the same mapping. |
+| P11e-4 `_transport` inspection | **Fixed** | Explicit fixture marker; still fails closed. |
+| P11e-5 429 handling | **Fixed** | `Retry-After` honoured, capped at 60 s, at most 3 attempts; stops on a missing or invalid header. `failed_requests` now counts real attempts. |
+| P11e-2 Dukascopy coverage | Open (owner) | Consent file still absent; acquisition correctly skipped. Gold/FX remains 2021–2023. |
+| P11e-3 spread floor | Open (Stage 3 gate) | Unchanged by design. |
+
+**Independent data check** (my own script over the rebuilt private Silver, not Codex's table):
+
+| File | Strictly increasing UTC | Week opens on time | Early | Late (reason) |
+|---|---|---|---|---|
+| EURUSD 2021 | yes | 50 | 0 | 1 (< 1 h) |
+| EURUSD 2022 | yes | 51 | 0 | 0 |
+| EURUSD 2023 | yes | 39 | 0 | 12 (1–2 h, 2023 source gaps) |
+| XAUUSD 2021 | yes | 51 | 0 | 0 |
+| XAUUSD 2022 | yes | 50 | 0 | 1 (Monday holiday open) |
+| XAUUSD 2023 | yes | 35 | 0 | 16 (1–2 h source gaps, 1 holiday) |
+
+No week opens early anywhere; before the fix every BST week opened 60 min late. Exactly 60 provider-duplicate minutes per year are recorded.
+
+**Gates** (rerun independently on `caaa9a5`, clean credential-free worktree): pytest **1,337 passed**,
+1 skipped (S-5 environmental), 3 live deselected, 5 xfailed (unchanged audit minors); 11 m 07 s.
+Ruff clean, 503 files formatted, strict mypy clean on 188 source files. The branch merges cleanly into `main` (`ec75191`).
+
+**Verdict: APPROVED.** Merge PR #4. BTC/ETH/SOL 2020-10 → 2024 are ready for Stage 3. Gold/FX 2021–2023 are usable for development only. Gold validation on 2024 needs Dukascopy (P11e-2), and gold/FX costs need P11e-3 before any Stage 3 gold result counts.
