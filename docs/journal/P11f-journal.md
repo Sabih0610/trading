@@ -75,3 +75,14 @@ registration and new digest are committed and published. No main merge.
   Promoted the exact clean-tested candidate d58cd8fd13a9714c71cc0ec82378bb8fa4f01612
   to the existing PR branch with a guarded fast-forward. No source/config/test or
   registration change after that gate. Publish before the first genuine access.
+
+- 2026-11-02 10:33 UTC: Started the authorized genuine background batch only AFTER
+  amended registration 05cd0f1 and clean evaluator/gate head 1ebe185 were pushed.
+  Registration SHA unchanged; implementation identity is
+  8c690d2833426c7683ac095a80bb6bed23f9bcb5d102c9039ebb68cc230d0b26.
+  Monitor operational status only until completion. No source/config/registration
+  changes, intermediate performance inspection, retuning, holdout or sealed access.
+
+- 2026-11-02 10:38 UTC: All 162 cells of the 2021 training fold completed. The 2022
+  expanding training fold has started; operational peak RSS about 435 MB and
+  stderr remains empty. No intermediate performance read. Keep source frozen.

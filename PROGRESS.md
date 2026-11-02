@@ -1,5 +1,6 @@
-P11f Part B is in progress on PR #5 after Claude approval and the owner-authorized
->=20-trade amendment (05cd0f1). N=162; fixture gate precedes genuine evaluation.
+P11f Part B is running on PR #5 after Claude approval and the >=20-trade amendment
+(05cd0f1). The full clean gate passed before genuine access: 1455 tests. N=162;
+the registered background batch is checkpointing, with no intermediate performance inspection.
 
 # P11f Part A complete — pre-registration review required
 

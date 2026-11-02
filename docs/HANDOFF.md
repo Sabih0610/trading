@@ -1,3 +1,20 @@
+# Current handoff — P11f registered genuine batch running
+
+Part B background run started after amended registration 05cd0f1 and full-gated
+source/gate head 1ebe185 were pushed. Exact tested runtime source is d58cd8f;
+implementation SHA-256 8c690d2833426c7683ac095a80bb6bed23f9bcb5d102c9039ebb68cc230d0b26.
+Registration SHA-256 f7109e15baf3cecbc0f21d28df3e671d886be424947fed5e9f9c1ec801ddf396.
+Initial PID 12992. First training checkpoints completed; peak RSS about 150 MB.
+Read operational status only in admitted DataRoot work/stage3/P11f/registered-162-v1/status.json.
+No intermediate performance inspection or runtime/config/registration changes.
+Completed checkpoints are immutable and resume only identical work. A recorded
+refusal or software defect requires human review; do not clear or relabel a run.
+Next: monitor to completion, read private results through current registry rights,
+write only permitted aggregate verdicts/metrics and required per-fold circuit counts,
+update phase/living docs and push same PR #5. No main merge or subsequent phase.
+
+## Previous handoff
+
 # Current handoff — P11f Part B gate passed; registered genuine batch next
 
 The amended registration was pushed in 05cd0f1 before any genuine access.

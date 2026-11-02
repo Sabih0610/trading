@@ -626,21 +626,22 @@
       "branch": "codex/p11f-stage3-crypto",
       "report": "reports/phases/P11f.md",
       "part_a": "complete_pr_open_stopped_for_review",
-      "part_b": "fixture_implementation",
-      "genuine_data_read": false,
+      "part_b": "registered_genuine_batch_running",
+      "genuine_data_read": true,
       "strategy_evaluation": false,
       "candidate_trials": 162,
       "risk_cost_defaults": "unchanged",
       "sealed_collector": "untouched",
       "review": "part_a_approved_with_p11f_1_amended",
-      "source_commit": "41fde32e7bef3250cdeedbb0075bbe7b7d34a15a",
-      "source_tree": "1f41b5db972d92fba60d30bd9732b4ffc2465e4e",
-      "tests_passed": 1412,
+      "source_commit": "d58cd8fd13a9714c71cc0ec82378bb8fa4f01612",
+      "source_tree": "10ce8791b6737d350195f4dd7f7a383d8e79b65f",
+      "tests_passed": 1455,
       "preregistration_sha256": "f7109e15baf3cecbc0f21d28df3e671d886be424947fed5e9f9c1ec801ddf396",
       "validated_utc": "2026-11-02 08:10 UTC",
       "pr_url": "https://github.com/Sabih0610/trading/pull/5",
       "publication": "open_unmerged",
-      "amendment_commit": "05cd0f11bf30349cb80dc53da2024d0e53268ac6"
+      "amendment_commit": "05cd0f11bf30349cb80dc53da2024d0e53268ac6",
+      "implementation_sha256": "8c690d2833426c7683ac095a80bb6bed23f9bcb5d102c9039ebb68cc230d0b26"
     }
   },
   "allowed_status": [
@@ -669,8 +670,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-02 08:15 UTC",
-  "next_phase": "P11f Part B: clean fixture gate, freeze code, registered genuine batch; no next phase or main merge.",
+  "last_updated_utc": "2026-11-02 10:38 UTC",
+  "next_phase": "Finish registered P11f Part B, report and push PR #5; no main merge or next phase.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
