@@ -7,7 +7,7 @@ distinct from owner). Scopes, permissions, conditions and retention in that revi
 
 ## Goal
 Real pre-2025 1-minute history for **BTCUSDT, ETHUSDT, SOLUSDT** (Binance Vision) and **XAUUSD,
-EURUSD** (HistData) in Bronze → Silver → Gold, yearly-compacted, quality-scored and visible in Data
+EURUSD** (Dukascopy under the owner's written permission; HistData as backup) in Bronze → Silver → Gold, yearly-compacted, quality-scored and visible in Data
 Health — ready for Stage 3 backtests. **No strategy evaluation in this phase.**
 
 ## Hard rules
@@ -15,8 +15,8 @@ Health — ready for Stage 3 backtests. **No strategy evaluation in this phase.*
 - No genuine data, derived prices or quality artifacts committed to git (the repo is public).
   Commit only code, tests, docs, and metadata templates without real values.
 - Never weaken tests or risk rules; never read `.env`.
-- Dukascopy: **no automated downloads** (its Terms of Use §3 prohibit bots/scrapers and database
-  storage without written consent). See Part C.
+- Dukascopy: download **only** with the owner's written-permission file registered (Part B). Its
+  Terms of Use §3 prohibit automated access and database storage without written consent.
 
 ## Part A — Binance Vision acquisition (existing P11d path)
 1. Save the Vision terms PDF (<https://data.binance.vision/Binance_Vision-Terms_of_Use.pdf>) under
@@ -35,7 +35,31 @@ Health — ready for Stage 3 backtests. **No strategy evaluation in this phase.*
 4. Confirm per symbol-year: checksums verified, quality JSON written, Silver/Gold one file per
    symbol(×timeframe)/year, Data Health shows them. SOL starts at its first available month ≥ 2020-10.
 
-## Part B — Gold and FX from HistData (new adapter)
+## Part B — Gold and FX: Dukascopy first, HistData as backup
+
+### B0. Try Dukascopy first (owner has written permission — rights review §2a)
+1. Look for the owner's permission file `work/rights/dukascopy-consent.*`. Do not open it beyond
+   computing its SHA-256 and checking it is non-empty. If it is **missing**, record
+   "Dukascopy consent file not found" in the phase report and go straight to B1 (HistData).
+2. If present: register `dukascopy-xauusd-eurusd-m1-2020-2024` in the registry with
+   `owner_approved_by: "Sabih0610"`, `reviewer: "Claude (AI reviewer)"`,
+   `evidence_kind: provider_confirmation`, the artifact path and SHA-256, retention 2028-11-01.
+   Extend the plan model/registry if needed, with the same owner + distinct reviewer checks.
+3. Gate the existing Dukascopy downloader on that registered consent (refuse without it; test it).
+4. **Probe**: download one XAUUSD and one EURUSD day (BID and ASK M1) from 2024. Success means
+   valid decoded candles with plausible prices. Then run the full 2020-10 → 2024-12 range for both
+   symbols, sequentially and rate-limited, with resume.
+5. **Failure rule:** if the probe or bulk download fails technically (HTTP 403/429, connection
+   refused/blocked, empty or undecodable files for most requested hours, or the endpoint is gone),
+   stop Dukascopy after a bounded number of retries with back-off — do not hammer — and record
+   for the owner: endpoint, UTC time, HTTP status/error class, how many requests succeeded/failed,
+   and a short sample of the error message (no data). Write it to
+   `reports/phases/P11e-dukascopy-failure.md` so the owner can report it to Dukascopy. Keep
+   whatever completed successfully. Then continue with B1 for anything Dukascopy did not deliver.
+6. Dukascopy Silver: UTC timestamps, BID and ASK columns kept, mid and spread derived, same quality
+   checks and yearly layout as Binance; weekend close and daily rollover gaps flagged, not errors.
+
+### B1. Backup: HistData (new adapter) — only for what Dukascopy did not deliver
 1. Research note: confirm the HistData Generic ASCII M1 download flow, file naming, and that no
    terms page has appeared since 2026-11-01; save dated copies of the homepage and FAQ under
    `work/rights/` with SHA-256.
@@ -45,29 +69,39 @@ Health — ready for Stage 3 backtests. **No strategy evaluation in this phase.*
    Dataset ID `histdata-xauusd-eurusd-m1-2020-2024`; XAUUSD and EURUSD; 2020-10 → 2024-12.
 3. Bronze: original zip/CSV bytes + manifest (URL, SHA-256, download time, evidence pointer).
    Polite sequential downloads with resume; no parallel requests.
-4. Silver: **timestamps are fixed EST without DST — convert with a constant +5 h
-   (`Etc/GMT+5`), never `America/New_York`**; prices are **bid-only** — store a `price_side: bid`
-   column/manifest field; volume is not meaningful (store, flag as zero/unreliable). Same quality
-   checks as Binance, with the expected grid excluding the weekend close (Fri ~17:00 NY →
-   Sun ~17:00 NY, expressed in fixed UTC−5) and daily rollover gaps flagged, not treated as errors.
-5. Gold: same yearly layout and shared causal FeatureEngine; resamples 5m/15m/1h/4h.
-6. Cost model note for Stage 3: bid-only bars need an added spread for long entries — expose the
-   configured XAUUSD/EURUSD spread defaults as the floor; do not infer spread from bid bars.
-7. Tests (fixtures only): fixed-offset conversion across March/November DST dates (no shift),
+4. Silver: the reviewed original files contradict the FAQ's fixed-EST claim. Convert per
+   trading week: **+4 h** when its Sunday noon `Europe/London` is BST, **+5 h** otherwise.
+   Fall-back Sunday is entirely +5 h. Its repeated 19:00 hour is a provider duplicate:
+   keep the first copy, remove the second only if both complete 60-minute blocks
+   have byte-identical OHLCV fields, and record `provider_duplicate_hour`.
+   If any bar differs, quarantine the whole day and flag it. Stop and ask if genuine
+   data contradicts this rule. Never shift late/missing weekly opens to fit expectations.
+   See `P11e-fix-histdata-clock.md` and ADR 0021. Rebuild from verified original CSV
+   bytes without editing existing Bronze conversions or approval/retention identity.
+5. Quality: build the weekend/rollover grid from the same source clock and US session
+   boundaries. EURUSD opens 21:00/22:00 UTC, XAUUSD 22:00/23:00 UTC (US summer/winter).
+   Flag every full in-scope week's early/late/absent open and signed minute offset.
+   Weekend closures and the daily rollover flag remain separate from missing errors.
+6. Cost model note for Stage 3: Dukascopy bars carry real BID/ASK spread; HistData bid-only bars
+   need an added spread for long entries — expose the configured XAUUSD/EURUSD spread defaults as
+   the floor; do not infer spread from bid bars. Record per symbol-year which source was used.
+7. Tests (fixtures only): summer/winter EU-week offsets, US/EU mismatch weeks and verified autumn duplicate and conflicting-day quarantine,
    weekend gap not counted as missing, bid-side marking, resume after partial download, terms
    evidence missing → registry refusal, nothing ≥ 2025 accepted.
 
 ## Part C — Dukascopy compliance
-- Make the Dukascopy downloader refuse to run unless a `provider_confirmation` evidence artifact
+- The Dukascopy downloader refuses to run unless a `provider_confirmation` evidence artifact
   (Dukascopy's written consent) is registered; clear refusal message pointing to the rights review.
-- Keep the decoder code and existing 7-day sample (do not delete); mark the sample "not for
-  evaluation" in its manifest/pending list.
-- Test: downloader refuses without consent evidence.
+- Keep the existing 7-day sample; it may be re-acquired under the consented dataset, otherwise mark
+  it "not for evaluation".
+- Never mix sources silently: each Silver/Gold file records its source (`dukascopy` or `histdata`)
+  and price side (`bid_ask` or `bid`).
 
 ## Scenarios to self-test
 Interrupted download → resume · checksum mismatch → refused · missing month → recorded gap ·
-HistData DST boundary → no hour shift · weekend/rollover gaps → flagged not errors · 2024-12-31
-23:59 boundary · approval/evidence missing → BLOCKED · Dukascopy without consent → refused ·
+HistData seasonal/mismatch/fall-back clocks → correct UTC and verified provider duplicates · weekend/rollover gaps → flagged not errors · 2024-12-31
+23:59 boundary · approval/evidence missing → BLOCKED · Dukascopy without consent → refused · Dukascopy 403/429/
+blocked → bounded back-off, failure report written, HistData fallback ·
 compacted vs uncompacted → identical Gold hashes · Data Health with all five instruments.
 
 ## Acceptance

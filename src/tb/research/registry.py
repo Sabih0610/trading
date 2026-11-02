@@ -16,6 +16,7 @@ from tb.ingest.rights import Usage
 from tb.research.models import (
     STORAGE_USES,
     DatasetPolicy,
+    ForexDatasetPlan,
     ResearchRefused,
     VisionDatasetPlan,
     digest,
@@ -65,7 +66,7 @@ def immutable_json(path: Path, value: dict[str, Any]) -> None:
 
 def authorize(
     root: Path,
-    policy: DatasetPolicy | VisionDatasetPlan,
+    policy: DatasetPolicy | VisionDatasetPlan | ForexDatasetPlan,
     now: datetime,
     *,
     display: bool = False,
@@ -106,19 +107,41 @@ def authorize(
             ):
                 raise ResearchRefused("dataset_documentary_evidence_required")
             artifact = safe(root, permission.evidence_artifact, base="work/rights")
+            # P11e requires the original official PDF (larger than the text-document cap).
+            # Keep the old cap for every other document; inspect bounded chunks below.
+            vision_pdf = (
+                isinstance(policy, VisionDatasetPlan)
+                and permission.evidence_kind == "provider_terms"
+                and permission.evidence
+                == "https://data.binance.vision/Binance_Vision-Terms_of_Use.pdf"
+                and artifact.name == "binance-vision-terms-v1.0-2026-08-26.pdf"
+            )
+            opaque_consent = isinstance(policy, ForexDatasetPlan) and policy.provider == "dukascopy"
             if (
                 artifact.name.startswith(".env")
                 or not artifact.is_file()
-                or not 1 <= artifact.stat().st_size <= 131072
+                or not 1
+                <= artifact.stat().st_size
+                <= (1048576 if vision_pdf or opaque_consent else 131072)
                 or sha256_file(artifact) != permission.evidence_sha256
             ):
                 raise ResearchRefused("dataset_evidence_identity_or_hash_invalid")
-            text = artifact.read_bytes().upper()
-            if (
-                any(marker in text for marker in (b"OWNED TEST", b"FICTIONAL", b"FABRICATED"))
-                and os.environ.get("TB_OFFLINE_VALIDATION") != "1"
-            ):
-                raise ResearchRefused("fabricated_approvals_are_test_only")
+            if opaque_consent:
+                # Owner instruction: non-empty/hash verification only; never inspect the letter.
+                continue
+            with artifact.open("rb") as stream:
+                if vision_pdf and stream.read(5) != b"%PDF-":
+                    raise ResearchRefused("dataset_evidence_identity_or_hash_invalid")
+                stream.seek(0)
+                tail = b""
+                while chunk := stream.read(65536):
+                    text = tail + chunk.upper()
+                    if (
+                        any(m in text for m in (b"OWNED TEST", b"FICTIONAL", b"FABRICATED"))
+                        and os.environ.get("TB_OFFLINE_VALIDATION") != "1"
+                    ):
+                        raise ResearchRefused("fabricated_approvals_are_test_only")
+                    tail = text[-16:]
     if policy.source_class == "owned_synthetic":
         if not isinstance(policy, DatasetPolicy):
             raise ResearchRefused("dataset_owned_policy_type_invalid")
@@ -274,7 +297,7 @@ def artifact(
 
 def declare_artifact(
     root: Path,
-    policy: DatasetPolicy | VisionDatasetPlan,
+    policy: DatasetPolicy | VisionDatasetPlan | ForexDatasetPlan,
     path: Path,
     kinds: list[str],
     dependencies: list[str],
@@ -294,6 +317,7 @@ def declare_artifact(
             if isinstance(policy, DatasetPolicy)
             else policy.digest,
             **({"registry_kind": "vision"} if isinstance(policy, VisionDatasetPlan) else {}),
+            **({"registry_kind": "forex"} if isinstance(policy, ForexDatasetPlan) else {}),
             "policy_digest": policy.digest,
             "path": relative,
             "sha256": None,
@@ -322,6 +346,10 @@ def inventory(root: Path, now: datetime) -> dict[str, Any]:
         try:
             if item.get("registry_kind") == "vision":
                 load_vision_plan(root, item["dataset_id"], now)
+            elif item.get("registry_kind") == "forex":
+                from tb.research.forex_registry import load_forex_plan
+
+                load_forex_plan(root, item["dataset_id"], now)
             else:
                 load(root, item["dataset_id"], now)
             allowed = True

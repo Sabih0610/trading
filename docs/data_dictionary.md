@@ -405,3 +405,42 @@ No financial value below can be relabelled as a genuine broker account or empiri
 | paper_recoveries / interventions | Stable checkpoint-bound recovery proof and matching append-only DecisionLedger intervention. Repeated reconciliation does not duplicate it. |
 | inputs.manifest.json / paper.manifest.json | Owned source bytes/counts/package version and account/code/risk pins. Corruption/change refuses rather than migrates. |
 | reports/offline_paper/current.json | Hash pointer to an immutable bounded owned projection; read-only UI verifies checkpoint/ledger and independently sums fill cash flows. |
+
+
+## P11e source-separated historical FX
+
+HistData Generic ASCII M1 uses one EU-week UTC−4/−5 offset, despite the FAQ
+claim. The whole fall-back week is +5 h. Its byte-identical repeated source hour
+is recorded as `provider_duplicate_hour`; keep the first copy only after exact
+OHLCV verification, otherwise quarantine that source day. Dukascopy M1 uses UTC. Source-year manifests always name the
+provider and price side. XAUUSD is USD per troy ounce; EURUSD is USD per EUR.
+
+| Field | Type / meaning |
+|---|---|
+| `timestamp_ns` | Int64 UTC minute-open epoch nanoseconds. Legacy HistData Bronze Parquet clocks are superseded by re-decoding original CSV in Silver; original bytes stay unchanged. |
+| `timestamp_utc` | UTC datetime with nanosecond precision in Silver/Gold |
+| `open/high/low/close` | Float64 bid OHLC for HistData and Dukascopy |
+| `source` / `price_side` | `histdata` + `bid`, or `dukascopy` + `bid_ask`; never silently mixed |
+| `ask_open/high/low/close` | Float64 Dukascopy ASK OHLC, retained in higher timeframes |
+| `mid_open/high/low/close` | Arithmetic averages of corresponding bid/ask OHLC, not exact tick-derived mid extremes |
+| `spread_close` | ASK close minus BID close, in the instrument's quote-price units, not bps |
+| `volume` / `ask_volume` | Original provider values; `volume_unreliable: true`; no invented volume/spread |
+| `cost_model.configured_spread_floor_bps` | Private quality metadata from asset config; a nonpositive/missing floor requires Stage 3 review |
+| `quality_path` | Manifest pointer to the source-specific private quality summary |
+| `details_artifact` | Path/SHA-256 of a complete private quality report when summaries need bounded lists |
+| `arrays_truncated` / `detail_record_counts` | Explicit sampled-list labels and full counts; scores and aggregates are unchanged |
+
+No ask is inferred for HistData. Missing years have explicit gap metadata and no
+invented bars. See the [FX runbook](how-to/forex-history.md) for acquisition,
+retention, calendar conventions and the private quality table location.
+
+| Clock quality field | Meaning |
+|---|---|
+| `clock_model` | `histdata-eu-week-provider-duplicate-v2`, or `UTC` for Dukascopy. Original plan `source_timezone` is preserved documentary metadata, not a decoder instruction. |
+| `week_open_checks` | Per full in-scope week: Sunday date, expected/observed UTC open, signed `offset_minutes`, `on_time`/`early`/`late`/`missing_week`. No quote values or automatic shifts. |
+| `week_open_checked` / `week_open_flagged` | Aggregate checks/offset flags, preserved even if detail lists are sampled. |
+| HistData manifest `inputs` | Original verified CSV paths/hashes plus explicit clock model; the original converted Bronze Parquet is not rewritten. |
+
+| `provider_duplicate_hour` / `provider_duplicate_minutes` | Verified whole duplicate hours / removed minute bars; these bars are included in `duplicates_removed`. |
+| `provider_duplicate_hours` | Source date, removed-minute count, reason and exact-OHLCV-verification fact. No prices. |
+| `quarantined_days` | Source dates/reasons whose conflicting or incomplete duplicate blocks exclude the entire day from derived bars. Original bytes stay unchanged. |

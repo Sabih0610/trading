@@ -1,3 +1,47 @@
+# Current handoff — P11e PR #4 fix round complete
+
+Corrected HistData to one EU-week offset and verified provider duplicate removal;
+conflicting repeats quarantine the whole day. Six private FX generations are rebuilt
+from unchanged Bronze. Old/new duplicate counts and weekly-open offsets remain private.
+Clean offline gate: 1337 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 828.39s (0:13:48). Ruff, format, strict mypy (188 sources), smoke and 14 owned
+studies pass on 56964f6b3c4d5789462c6690b2e25a3aad8c470a. Later edits are documentation only.
+Dukascopy consent remains absent; no requests/cross-check. Stage 3 spreads still need
+owner review. No strategy evaluation, holdout access, sealed changes or main merge.
+
+Keep the credential-free P11e worktree, private data and finite-retention evidence.
+The original published PR tip remains an ancestor, permitting a non-force push after
+the requested rebase. Corrected owner prompt/review copies include main ec75191.
+Next: independent fix-round re-review; consent, safe boundary history and spread-floor
+approval remain separate. [Report](../reports/phases/P11e.md) and [validation](../reports/validation/P11e/summary.json).
+
+## Previous completion
+
+# Current handoff — P11e complete with documented coverage gaps
+
+Task branch `codex/p11e-acquire-history`; clean-tested source 58efb4c.
+Approved historical acquisition, yearly Silver/Gold and all-five metadata health
+verify privately in the credential-free P11e checkout. The populated quality table
+is `reports/data_quality/P11e-symbol-year-quality.md` plus JSON. Genuine artifacts
+and quality values remain ignored; finite retention ends at the reviewed deadline.
+
+Dukascopy consent file not found at the specified owner path, so no Dukascopy
+requests were made. HistData safe annual files are acquired; 2020/2024 whole-file
+UTC boundary gaps have exact private reasons. Legacy Dukascopy samples remain not
+for evaluation. Review spread floors and instrument calendars before Stage 3.
+
+Clean offline gate: 1302 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 611.22s (0:10:11); Ruff/format/strict mypy, smoke and 14 owned paper studies
+pass. Bounded summaries retain complete hashed private quality details; scores,
+counters, generations, bar bytes and generic reader bounds are unchanged. Runtime
+provenance is recorded privately. No genuine strategy evaluation or external orders.
+
+Published with skip-ci/no tags: [PR #4](https://github.com/Sabih0610/trading/pull/4) is open and unmerged.
+Next: independent implementation review and documented coverage/cost/calendar
+review before Stage 3. Do not merge main or run a subsequent phase. Sealed XAUT checkout, task,
+process and all archive files remained untouched. See [report](../reports/phases/P11e.md),
+[validation](../reports/validation/P11e/summary.json), [runbook](how-to/forex-history.md).
+
+## Previous handoff — P11d review fixes
+
 # Current handoff — P11d review fixes complete
 
 Owner approved PR #3 with fixes before merge. Original review is copied unchanged

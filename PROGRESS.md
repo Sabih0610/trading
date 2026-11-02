@@ -1,4 +1,26 @@
+# P11e PR #4 fix round complete
+
+Corrected HistData to one EU-week offset and verified provider duplicate removal;
+conflicting repeats quarantine the whole day. Six private FX generations are rebuilt
+from unchanged Bronze. Old/new duplicate counts and weekly-open offsets remain private.
+Clean offline gate: 1337 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 828.39s (0:13:48). Ruff, format, strict mypy (188 sources), smoke and 14 owned
+studies pass on 56964f6b3c4d5789462c6690b2e25a3aad8c470a. Later edits are documentation only.
+Dukascopy consent remains absent; no requests/cross-check. Stage 3 spreads still need
+owner review. No strategy evaluation, holdout access, sealed changes or main merge.
+
+[PR #4](https://github.com/Sabih0610/trading/pull/4) awaits re-review.
+
+## Original acquisition checkpoint
+
 # Build progress
+
+P11e acquisition is complete with documented gold/FX boundary gaps. Approved
+private history is built through yearly Silver/Gold; Data Health covers all five
+instruments. The consent file was absent, so HistData was used without Dukascopy
+contact. 1302 tests pass in a clean credential-free offline gate; Ruff, format,
+strict mypy, smoke and 14 owned studies pass. All genuine artifacts and quality
+values remain private. No evaluation, sealed-file access or main merge.
+[PR #4](https://github.com/Sabih0610/trading/pull/4) · [Phase report](reports/phases/P11e.md) · [Validation](reports/validation/P11e/summary.json).
 
 P11d PR #3 review fixes **P11d-1/2/3 addressed**: clean offline gate passed
 (1267 tests; lint/format/mypy, smoke and 14 paper studies). Restarted collector
@@ -94,6 +116,7 @@ A1 is now implemented locally in P11b.2a.1 with hosted activation gated; A2 rema
 | P11b.2a.1 | Independent paper-engine validation and gated Windows CI | done; offline only | 2026-10-27 | 2026-10-27 06:42 UTC | `phase-P11b.2a.1-done` | [report](reports/phases/P11b.2a.1.md) | queued; hosted inactive, P11b.2b NO-GO |
 | P11b.1a-Prep | Secure owner-assisted OAuth readiness | done; offline only | 2026-10-27 | 2026-10-27 10:11 UTC | `phase-P11b.1a-prep-done` | [report](reports/phases/P11b.1a-prep.md) | queued; genuine authorization pending |
 | P11b.1a-RC | Integrated offline release review | review complete; documentation publication authorized | 2026-10-27 | 2026-10-27 10:59 UTC | `b669d43` local source candidate; cleaned publication history | [report](reports/phases/P11b.1a-RC.md) | queued; genuine NO-GO |
+| P11e | Approved pre-2025 historical medallion | done; precise boundary gaps recorded | 2026-11-01 | 2026-11-01 12:00 UTC | `58efb4c` source | [report](reports/phases/P11e.md) | queued; no strategy evaluation |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |
 | P13 | Controlled offline learning and AI value evaluation | not started | — | — | — | — | — |
 | P14 | 30+ day forward paper/demo evaluation | not started | — | — | — | — | — |

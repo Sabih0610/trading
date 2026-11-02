@@ -21,12 +21,14 @@ from tb.features.engine import FeatureEngine
 from tb.features.pipeline import build_feature_frame
 from tb.ingest.history.core import (
     IntegrityError,
+    atomic_write_bytes,
     atomic_write_json,
     require_disk_space,
     sha256_file,
 )
 from tb.ingest.history.vision import validate_scope
-from tb.research.models import HOLDOUT, ResearchRefused, VisionDatasetPlan, digest
+from tb.research.forex_registry import load_forex_plan
+from tb.research.models import HOLDOUT, ForexDatasetPlan, ResearchRefused, VisionDatasetPlan, digest
 from tb.research.registry import declare_artifact, load_vision_plan, read_metadata, safe
 from tb.silver.market import CleanResult, clean_minute_bars, resample_completed_bars
 
@@ -162,6 +164,7 @@ def quality(
         "gaps": gaps,
         "gap_heat_strip": heat,
         "zero_volume_runs": zero_runs,
+        "zero_volume_minutes": zero_minutes,
         "ohlc_invalid": 0,
         "spike_flags": cleaned.flagged_spikes,
         "duplicates_removed": cleaned.duplicates_removed,
@@ -173,22 +176,85 @@ def quality(
     }
 
 
-def _output_relative(dataset_id: str, symbol: str, year: int, generation: str, key: str) -> str:
+def _output_relative(
+    dataset_id: str,
+    symbol: str,
+    year: int,
+    generation: str,
+    key: str,
+    provider: str = "binance_vision",
+) -> str:
     layer, timeframe = key.split("/")
     if (
         layer not in {"silver", "gold"}
         or timeframe not in TIMEFRAMES
         or not re.fullmatch(r"[a-f0-9]{64}", generation)
+        or provider not in {"binance_vision", "histdata", "dukascopy"}
     ):
         raise ResearchRefused("vision_output_identity_invalid")
-    return (
-        f"data/{layer}/binance_vision/{dataset_id}/{symbol}/{timeframe}/{generation}/{year}.parquet"
+    return f"data/{layer}/{provider}/{dataset_id}/{symbol}/{timeframe}/{generation}/{year}.parquet"
+
+
+def bound_quality_report(
+    root: Path,
+    plan: VisionDatasetPlan | ForexDatasetPlan,
+    report: dict[str, Any],
+    *,
+    inputs: list[dict[str, str]],
+    clock: Callable[[], datetime],
+) -> dict[str, Any]:
+    """Keep full private quality evidence while bounding metadata summaries; scores never change."""
+    payload = (
+        json.dumps(report, indent=2, sort_keys=True, default=str, allow_nan=False) + "\n"
+    ).encode()
+    if len(payload) <= 131072:
+        return report
+    if len(payload) > 64 * 1024**2:
+        raise IntegrityError("Detailed yearly quality report exceeds bound")
+    symbol, year = report.get("symbol"), report.get("year")
+    if symbol not in plan.instruments or not isinstance(year, int) or not 2020 <= year <= 2024:
+        raise ResearchRefused("quality_detail_identity_outside_scope")
+    summary = dict(report)
+    counts, truncated = {}, []
+    for key, value in report.items():
+        if isinstance(value, list):
+            counts[key] = len(value)
+            if len(value) > 128:
+                summary[key] = value[:128]
+                truncated.append(key)
+    if "zero_volume_runs" in report:
+        summary.setdefault(
+            "zero_volume_minutes", sum(item["minutes"] for item in report["zero_volume_runs"])
+        )
+    checksum = hashlib.sha256(payload).hexdigest()
+    relative = f"reports/data_quality/details/{plan.provider}/{plan.dataset_id}/{symbol}-{year}-{checksum}.json"
+    summary.update(
+        details_artifact={"path": relative, "sha256": checksum, "bytes": len(payload)},
+        detail_record_counts=counts,
+        arrays_truncated=sorted(truncated),
     )
+    if (
+        len(json.dumps(summary, indent=2, sort_keys=True, default=str, allow_nan=False).encode())
+        > 131072
+    ):
+        raise IntegrityError("Yearly quality summary exceeds metadata bound")
+    if isinstance(plan, VisionDatasetPlan):
+        load_vision_plan(root, plan.dataset_id, clock())
+    else:
+        load_forex_plan(root, plan.dataset_id, clock())
+    path = safe(root, relative, base="reports/data_quality/details")
+    declare_artifact(root, plan, path, ["reports"], [item["sha256"] for item in inputs])
+    if path.exists():
+        if sha256_file(path) != checksum:
+            raise IntegrityError("Immutable detailed quality artifact changed")
+    else:
+        atomic_write_bytes(path, payload)
+    return summary
 
 
 def publish(
     root: Path,
-    plan: VisionDatasetPlan,
+    plan: VisionDatasetPlan | ForexDatasetPlan,
     symbol: str,
     year: int,
     frames: Mapping[str, pl.DataFrame],
@@ -199,13 +265,15 @@ def publish(
     fault: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
     """Verify logical contents before replacing the one pointer; old outputs survive precommit crashes."""
+    from tb.ingest.history.cli import _code_version
+
     hashes = {key: frame_digest(frame) for key, frame in frames.items()}
     generation = digest([plan.digest, inputs, hashes])
-    pointer = safe(root, f"data/manifests/binance_vision/{plan.dataset_id}/{symbol}-{year}.json")
+    pointer = safe(root, f"data/manifests/{plan.provider}/{plan.dataset_id}/{symbol}-{year}.json")
     old = read_metadata(root, pointer.relative_to(root).as_posix()) if pointer.exists() else None
     outputs: dict[str, Any] = {}
     for key, frame in frames.items():
-        relative = _output_relative(plan.dataset_id, symbol, year, generation, key)
+        relative = _output_relative(plan.dataset_id, symbol, year, generation, key, plan.provider)
         path = safe(root, relative)
         declare_artifact(
             root,
@@ -244,28 +312,43 @@ def publish(
             temporary.unlink(missing_ok=True)
     if fault:
         fault("before_manifest")
-    load_vision_plan(root, plan.dataset_id, clock())
+    if isinstance(plan, VisionDatasetPlan):
+        load_vision_plan(root, plan.dataset_id, clock())
+    else:
+        load_forex_plan(root, plan.dataset_id, clock())
     report = {
         **report,
         "generation": generation,
         "dataset_id": plan.dataset_id,
         "terms_version": plan.terms_version,
+        "source": plan.provider,
+        "price_side": plan.price_side if isinstance(plan, ForexDatasetPlan) else "trade",
         "last_refresh": clock().isoformat(),
     }
+    report = bound_quality_report(root, plan, report, inputs=inputs, clock=clock)
+    quality_relative = (
+        f"reports/data_quality/{symbol}-{year}.json"
+        if isinstance(plan, VisionDatasetPlan)
+        else f"reports/data_quality/{plan.provider}/{plan.dataset_id}/{symbol}-{year}.json"
+    )
     manifest = {
         "schema_version": 1,
-        "status": "complete",
+        "code_version": _code_version(),
+        "status": report.get("status", "complete"),
         "dataset_id": plan.dataset_id,
         "symbol": symbol,
         "year": year,
         "generation": generation,
         "policy_digest": plan.digest,
         "terms_version": plan.terms_version,
+        "source": plan.provider,
+        "price_side": plan.price_side if isinstance(plan, ForexDatasetPlan) else "trade",
         "scope": plan.scope,
         "retention": plan.retention.model_dump(mode="json"),
         "inputs": inputs,
         "outputs": outputs,
         "quality": report,
+        "quality_path": quality_relative,
         "compression": "zstd",
         "compression_level": 6,
         "row_group_size": 131_072,
@@ -275,12 +358,12 @@ def publish(
     atomic_write_json(pointer, manifest)
     if fault:
         fault("after_manifest")
-    atomic_write_json(safe(root, f"reports/data_quality/{symbol}-{year}.json"), report)
+    atomic_write_json(safe(root, quality_relative), report)
     # Remove only superseded files whose full identity matches this symbol-year namespace.
     if old and old.get("generation") != generation and old.get("policy_digest") == plan.digest:
         old_gen = str(old["generation"])
         for key, item in old["outputs"].items():
-            expected = _output_relative(plan.dataset_id, symbol, year, old_gen, key)
+            expected = _output_relative(plan.dataset_id, symbol, year, old_gen, key, plan.provider)
             if item["path"] != expected:
                 raise IntegrityError("Old compaction path identity changed")
             safe(root, expected).unlink(missing_ok=True)

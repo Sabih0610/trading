@@ -43,6 +43,20 @@ Routes for gold/FX bid/ask data, in order of preference:
 
 Verdict: **NOT APPROVED** (automated). HistData **APPROVED for private research** with the conditions in §3.
 
+### 2a. Update 2026-11-01 — owner reports Dukascopy written permission
+
+The owner reports having received written permission from Dukascopy to download its historical data.
+Dukascopy is therefore **APPROVED as the primary gold/FX source**, on these conditions:
+
+| Item | Decision |
+|---|---|
+| Evidence | The owner saves Dukascopy's written permission (email as `.eml`/`.pdf`/`.txt`) under `work/rights/dukascopy-consent.*`. It is registered as `evidence_kind: provider_confirmation` with its SHA-256. **No consent file → no Dukascopy download** (the registry refuses), and the HistData backup is used instead. |
+| Dataset ID | `dukascopy-xauusd-eurusd-m1-2020-2024` |
+| Scope | XAUUSD, EURUSD · M1 BID and ASK candles · 2020-10-01 → 2024-12-31 UTC · private, non-commercial research only, as granted in the permission. |
+| Conditions | Polite, sequential, rate-limited requests; stop on repeated refusals (403/429/blocked) rather than retrying aggressively; no redistribution; nothing committed; keep Dukascopy's notices in manifests. If the permission text is narrower than this scope, the permission text wins. |
+| Fallback | If the download fails technically, use HistData (§3) and record the failure so the owner can report it to Dukascopy. |
+| Retention | Until 2028-11-01, or earlier if the permission says so. |
+
 ## 3. HistData — APPROVED for private research (conditions)
 
 | Item | Decision |

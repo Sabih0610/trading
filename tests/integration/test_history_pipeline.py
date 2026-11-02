@@ -14,6 +14,7 @@ import polars as pl
 from tb.ingest.history.core import sha256_bytes
 from tb.ingest.history.pipeline import (
     JobStatus,
+    OwnedDukascopyFixtureClient,
     download_binance_archive,
     download_binance_rest_klines,
     download_dukascopy_day,
@@ -97,7 +98,10 @@ def test_binance_xaut_prelisting_range_never_touches_network(tmp_path: Path) -> 
     assert status is JobStatus.NOT_LISTED
 
 
-def test_dukascopy_day_combines_sides_and_weekend_gap_is_recorded(tmp_path: Path) -> None:
+def test_dukascopy_day_combines_sides_and_weekend_gap_is_recorded(
+    tmp_path: Path, monkeypatch
+) -> None:
+    monkeypatch.setenv("TB_OFFLINE_VALIDATION", "1")
     bid = lzma.compress(
         struct.pack(">IIIIIf", 0, 110000, 110100, 109900, 110200, 1.0),
         format=lzma.FORMAT_ALONE,
@@ -113,7 +117,7 @@ def test_dukascopy_day_combines_sides_and_weekend_gap_is_recorded(tmp_path: Path
         payload = bid if "BID_" in request.url.path else ask
         return httpx.Response(200, content=payload, request=request)
 
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with OwnedDukascopyFixtureClient(httpx.MockTransport(handler)) as client:
         downloaded = download_dukascopy_day(
             client,
             tmp_path,
@@ -122,6 +126,7 @@ def test_dukascopy_day_combines_sides_and_weekend_gap_is_recorded(tmp_path: Path
             code_version="test",
             resume=True,
             rate_limit=False,
+            owned_fixture=True,
         )
         gap = download_dukascopy_day(
             client,
@@ -131,6 +136,7 @@ def test_dukascopy_day_combines_sides_and_weekend_gap_is_recorded(tmp_path: Path
             code_version="test",
             resume=True,
             rate_limit=False,
+            owned_fixture=True,
         )
 
     assert downloaded is JobStatus.DOWNLOADED
@@ -138,7 +144,8 @@ def test_dukascopy_day_combines_sides_and_weekend_gap_is_recorded(tmp_path: Path
     assert pl.read_parquet(next(tmp_path.rglob("*.parquet"))).height == 2
 
 
-def test_dukascopy_partial_side_fails_without_manifest(tmp_path: Path) -> None:
+def test_dukascopy_partial_side_fails_without_manifest(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("TB_OFFLINE_VALIDATION", "1")
     bid = lzma.compress(
         struct.pack(">IIIIIf", 0, 110000, 110100, 109900, 110200, 1.0),
         format=lzma.FORMAT_ALONE,
@@ -149,7 +156,7 @@ def test_dukascopy_partial_side_fails_without_manifest(tmp_path: Path) -> None:
             return httpx.Response(200, content=bid, request=request)
         return httpx.Response(404, request=request)
 
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with OwnedDukascopyFixtureClient(httpx.MockTransport(handler)) as client:
         try:
             download_dukascopy_day(
                 client,
@@ -159,6 +166,7 @@ def test_dukascopy_partial_side_fails_without_manifest(tmp_path: Path) -> None:
                 code_version="test",
                 resume=True,
                 rate_limit=False,
+                owned_fixture=True,
             )
         except ValueError as exc:
             assert "Only one Dukascopy side" in str(exc)
@@ -168,7 +176,8 @@ def test_dukascopy_partial_side_fails_without_manifest(tmp_path: Path) -> None:
     assert list(tmp_path.rglob("*_manifest.json")) == []
 
 
-def test_dukascopy_tick_hour_downloads_resumes_and_records_gap(tmp_path: Path) -> None:
+def test_dukascopy_tick_hour_downloads_resumes_and_records_gap(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("TB_OFFLINE_VALIDATION", "1")
     payload = lzma.compress(
         struct.pack(">IIIff", 250, 3_300_100, 3_300_000, 1.5, 2.5),
         format=lzma.FORMAT_ALONE,
@@ -182,7 +191,7 @@ def test_dukascopy_tick_hour_downloads_resumes_and_records_gap(tmp_path: Path) -
             return httpx.Response(404, request=request)
         return httpx.Response(200, content=payload, request=request)
 
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with OwnedDukascopyFixtureClient(httpx.MockTransport(handler)) as client:
         downloaded = download_dukascopy_tick_hour(
             client,
             tmp_path,
@@ -190,6 +199,7 @@ def test_dukascopy_tick_hour_downloads_resumes_and_records_gap(tmp_path: Path) -
             code_version="test",
             resume=True,
             rate_limit=False,
+            owned_fixture=True,
         )
         skipped = download_dukascopy_tick_hour(
             client,
@@ -198,6 +208,7 @@ def test_dukascopy_tick_hour_downloads_resumes_and_records_gap(tmp_path: Path) -
             code_version="test",
             resume=True,
             rate_limit=False,
+            owned_fixture=True,
         )
         gap = download_dukascopy_tick_hour(
             client,
@@ -206,6 +217,7 @@ def test_dukascopy_tick_hour_downloads_resumes_and_records_gap(tmp_path: Path) -
             code_version="test",
             resume=True,
             rate_limit=False,
+            owned_fixture=True,
         )
 
     assert (downloaded, skipped, gap) == (

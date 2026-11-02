@@ -39,6 +39,7 @@ from tb.ingest.history.core import (
     sha256_file,
 )
 from tb.ingest.history.dukascopy import candle_url, decode_candles, decode_ticks, tick_url
+from tb.research.models import ResearchRefused
 
 
 class JobStatus(StrEnum):
@@ -216,6 +217,28 @@ def download_binance_archive(
     return status
 
 
+class OwnedDukascopyFixtureClient(httpx.Client):
+    """Explicit injected offline marker: the only accepted transport cannot use sockets."""
+
+    def __init__(self, transport: httpx.MockTransport) -> None:
+        if not isinstance(transport, httpx.MockTransport):
+            raise ResearchRefused("owned Dukascopy fixture requires MockTransport")
+        super().__init__(transport=transport, trust_env=False, follow_redirects=False)
+
+
+def _require_owned_dukascopy_fixture(client: httpx.Client, owned_fixture: bool) -> None:
+    """Legacy samples cannot acquire genuine data; registered consent uses forex.download_period."""
+    if not (
+        owned_fixture
+        and os.environ.get("TB_OFFLINE_VALIDATION") == "1"
+        and isinstance(client, OwnedDukascopyFixtureClient)
+    ):
+        raise ResearchRefused(
+            "Dukascopy requires registered provider_confirmation consent; see "
+            "reports/reviews/dataset-rights-review-2026-11-01.md and the forex history command"
+        )
+
+
 def download_dukascopy_day(
     client: httpx.Client,
     bronze_root: Path,
@@ -226,8 +249,11 @@ def download_dukascopy_day(
     resume: bool,
     policy: RetryPolicy | None = None,
     rate_limit: bool = True,
+    owned_fixture: bool = False,
 ) -> JobStatus:
     """Download both side-specific M1 files for one UTC day and atomically commit Parquet."""
+
+    _require_owned_dukascopy_fixture(client, owned_fixture)
 
     partition = partition_directory(
         bronze_root,
@@ -348,8 +374,11 @@ def download_dukascopy_tick_hour(
     resume: bool,
     policy: RetryPolicy | None = None,
     rate_limit: bool = True,
+    owned_fixture: bool = False,
 ) -> JobStatus:
     """Download one recent UTC hour of XAUUSD ticks and atomically commit it."""
+
+    _require_owned_dukascopy_fixture(client, owned_fixture)
 
     if hour.tzinfo is None or hour.utcoffset() is None:
         raise ValueError("Tick hour must be timezone-aware")

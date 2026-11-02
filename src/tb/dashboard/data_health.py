@@ -10,15 +10,21 @@ import streamlit as st
 
 from tb.research.registry import read_metadata, safe
 
-SYMBOLS = ("BTCUSDT", "ETHUSDT", "SOLUSDT")
+SYMBOLS = ("BTCUSDT", "ETHUSDT", "SOLUSDT", "XAUUSD", "EURUSD")
+PROVIDERS = ("binance_vision", "histdata", "dukascopy")
 
 
 def health_rows(root: Path) -> list[dict[str, Any]]:
     """Bound the historical view to pre-holdout symbol-years and handle incomplete metadata."""
     rows: list[dict[str, Any]] = []
-    base = "data/manifests/binance_vision"
-    for path in sorted(safe(root, base).glob("*/*.json")):
-        match = re.fullmatch(r"(BTCUSDT|ETHUSDT|SOLUSDT)-(202[0-4])", path.stem)
+    paths = [
+        (provider, path)
+        for provider in PROVIDERS
+        for path in sorted(safe(root, f"data/manifests/{provider}").glob("*/*.json"))
+    ]
+    for provider, path in paths:
+        base = f"data/manifests/{provider}"
+        match = re.fullmatch(r"(BTCUSDT|ETHUSDT|SOLUSDT|XAUUSD|EURUSD)-(202[0-4])", path.stem)
         if not match:
             continue
         symbol, year_text = match.groups()
@@ -26,6 +32,7 @@ def health_rows(root: Path) -> list[dict[str, Any]]:
             "symbol": symbol,
             "year": int(year_text),
             "dataset_id": path.parent.name,
+            "source": provider,
         }
         try:
             manifest = read_metadata(root, path.relative_to(root).as_posix(), base=base)
@@ -33,11 +40,15 @@ def health_rows(root: Path) -> list[dict[str, Any]]:
                 manifest["symbol"] != symbol
                 or manifest["year"] != int(year_text)
                 or manifest["dataset_id"] != path.parent.name
+                or manifest.get("source", provider) != provider
+                or (symbol in {"XAUUSD", "EURUSD"} and provider == "binance_vision")
+                or (symbol not in {"XAUUSD", "EURUSD"} and provider != "binance_vision")
             ):
                 raise ValueError("metadata identity mismatch")
             item.update(
                 {
                     "manifest_status": manifest["status"],
+                    "price_side": manifest.get("price_side", "trade"),
                     "terms_version": manifest["terms_version"],
                     "last_refresh": manifest["last_refresh"],
                     "quality_score": None,
@@ -48,7 +59,7 @@ def health_rows(root: Path) -> list[dict[str, Any]]:
             try:
                 report = read_metadata(
                     root,
-                    f"reports/data_quality/{symbol}-{year_text}.json",
+                    manifest.get("quality_path", f"reports/data_quality/{symbol}-{year_text}.json"),
                     base="reports/data_quality",
                 )
                 if (

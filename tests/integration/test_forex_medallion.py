@@ -1,0 +1,1042 @@
+"""Fictional monthly archives and documentary fixtures only; no genuine observations."""
+
+import hashlib
+import io
+import json
+from datetime import UTC, date, datetime, timedelta
+from pathlib import Path
+from zipfile import ZipFile
+
+import httpx
+import polars as pl
+import pytest
+
+from tb.ingest.history.core import IntegrityError
+from tb.ingest.history.forex import ProviderFailure, decode_histdata, download_period
+from tb.ingest.retention import lifetime
+from tb.ingest.rights import Permission
+from tb.research.forex_registry import load_forex_plan, register_forex_plan
+from tb.research.models import DatasetRights, ForexDatasetPlan, ResearchRefused
+from tb.research.registry import authorize
+from tb.silver.forex import build_year, quality
+from tb.silver.market import clean_minute_bars
+
+NOW = datetime(2026, 11, 1, tzinfo=UTC)
+PERIOD = date(2024, 3, 1)
+
+
+@pytest.fixture
+def approved(tmp_path, monkeypatch):
+    monkeypatch.setenv("TB_OFFLINE_VALIDATION", "1")
+
+    def make(provider="histdata"):
+        folder = tmp_path / "work/rights"
+        folder.mkdir(parents=True, exist_ok=True)
+        names = (
+            ["homepage.html", "faq.html"] if provider == "histdata" else ["dukascopy-consent.txt"]
+        )
+        permissions = []
+        for name in names:
+            path = folder / name
+            path.write_bytes(b"FICTIONAL OWNED TEST; not real permission")
+            permissions.append(
+                Permission(
+                    status="confirmed",
+                    approved=True,
+                    approved_by="fixture-reviewer",
+                    evidence="https://example.invalid/owned-test",
+                    expires_at=NOW + timedelta(days=30),
+                    evidence_kind="provider_terms"
+                    if provider == "histdata"
+                    else "provider_confirmation",
+                    evidence_artifact=path.relative_to(tmp_path).as_posix(),
+                    evidence_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                    permitted_retention_seconds=7 * 86400,
+                )
+            )
+        rights = DatasetRights(
+            provider=provider,
+            dataset_id=f"fixture-{provider}",
+            instruments=("EURUSD", "XAUUSD"),
+            reviewed_at=NOW,
+            reviewer="fixture-reviewer",
+            owner_approved=True,
+            owner_approved_by="fixture-owner",
+            personal_research=permissions[0],
+            research_reports=permissions[-1],
+            permissions={
+                name: permissions[i % len(permissions)]
+                for i, name in enumerate(
+                    (
+                        "retrieval",
+                        "raw_cache",
+                        "historical_storage",
+                        "derived_storage",
+                        "private_display",
+                    )
+                )
+            },
+        )
+        plan = ForexDatasetPlan(
+            dataset_id=rights.dataset_id,
+            provider=provider,
+            source="https://www.histdata.com"
+            if provider == "histdata"
+            else "https://datafeed.dukascopy.com/datafeed",
+            terms_version="FICTIONAL OWNED TEST ONLY",
+            instruments=("EURUSD", "XAUUSD"),
+            price_side="bid" if provider == "histdata" else "bid_ask",
+            source_timezone="UTC-05:00" if provider == "histdata" else "UTC",
+            acquired_at=NOW,
+            rights=rights,
+            retention=lifetime(rights, NOW),
+        )
+        path = tmp_path / f"work/research/proposals/{plan.dataset_id}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(plan.model_dump_json())
+        register_forex_plan(tmp_path, path.relative_to(tmp_path).as_posix(), NOW)
+        return tmp_path, plan
+
+    return make
+
+
+def archive(*, count=60, duplicate=False):
+    start = datetime(2024, 3, 11, 8)
+    rows = [
+        f"{start + timedelta(minutes=i):%Y%m%d %H%M%S};1.1;1.2;1.0;1.15;0\n" for i in range(count)
+    ]
+    if duplicate:
+        rows.append(rows[0])
+    output = io.BytesIO()
+    with ZipFile(output, "w") as z:
+        z.writestr("DAT_ASCII_EURUSD_M1_202403.csv", "".join(rows))
+    return output.getvalue()
+
+
+def transport(payload, calls, *, fail=False, period=PERIOD):
+    def handle(request):
+        calls.append(request.method)
+        if request.method == "POST":
+            if fail:
+                raise httpx.ReadError("owned interruption", request=request)
+            return httpx.Response(200, content=payload)
+        fields = {
+            "tk": "owned-token",
+            "date": str(period.year),
+            "datemonth": f"{period:%Y%m}",
+            "platform": "ASCII",
+            "timeframe": "M1",
+            "fxpair": "EURUSD",
+        }
+        html = (
+            '<form action="/get.php">'
+            + "".join(f'<input name="{k}" value="{v}">' for k, v in fields.items())
+            + "</form>"
+        )
+        return httpx.Response(200, text=html)
+
+    return httpx.MockTransport(handle)
+
+
+@pytest.mark.parametrize(
+    "day,hour", [(date(2024, 3, 11), 13), (date(2024, 7, 1), 12), (date(2024, 11, 4), 13)]
+)
+def test_histdata_reviewed_week_offset_and_bid_side(day, hour):
+    raw = f"{day:%Y%m%d} 080000;1.1;1.2;1.0;1.15;0\n".encode()
+    result = decode_histdata(raw, "EURUSD", day.replace(day=1))
+    assert (
+        result["timestamp_ns"][0]
+        == int(datetime(day.year, day.month, day.day, hour, tzinfo=UTC).timestamp()) * 10**9
+    )
+    assert result["price_side"].to_list() == ["bid"]
+    assert "ask_close" not in result.columns and result["volume_unreliable"].all()
+    assert result.schema["close"] == pl.Float64
+
+
+def test_holdout_unsafe_month_refused_before_any_request(approved):
+    root, plan = approved()
+    calls = []
+    with httpx.Client(transport=transport(archive(), calls)) as client:
+        with pytest.raises(ResearchRefused, match="holdout_boundary"):
+            download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="EURUSD",
+                period=date(2024, 12, 1),
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=lambda _: None,
+            )
+    assert calls == []
+
+
+def test_histdata_UTC_2025_row_is_refused():
+    with pytest.raises(ResearchRefused, match="holdout"):
+        decode_histdata(b"20241231 190000;1;2;1;2;0\n", "EURUSD", date(2024, 12, 1))
+
+
+def test_interrupted_archive_resumes_and_detects_corruption(approved):
+    root, plan = approved()
+    calls = []
+    with httpx.Client(transport=transport(archive(), calls, fail=True)) as client:
+        with pytest.raises(ProviderFailure):
+            download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="EURUSD",
+                period=PERIOD,
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=lambda _: None,
+            )
+    assert calls == ["GET", "POST", "POST", "POST"]
+    assert not list((root / "data").rglob("*.manifest.json"))
+    with httpx.Client(transport=transport(archive(), calls)) as client:
+        item = download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=PERIOD,
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+        count = len(calls)
+        assert download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=PERIOD,
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )["resumed"]
+        assert len(calls) == count
+        (root / item["parquet"]).write_bytes(b"owned corruption")
+        with pytest.raises(IntegrityError):
+            download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="EURUSD",
+                period=PERIOD,
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=lambda _: None,
+            )
+    assert len(item["artifacts"]) == 3  # Original ZIP, original CSV, converted Bronze.
+
+
+def test_missing_evidence_refuses_before_provider_contact(approved):
+    root, plan = approved()
+    (root / "work/rights/faq.html").unlink()
+    calls = []
+    with httpx.Client(transport=transport(archive(), calls)) as client:
+        with pytest.raises(ResearchRefused):
+            download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="EURUSD",
+                period=PERIOD,
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=lambda _: None,
+            )
+    assert not calls
+
+
+def test_dukascopy_consent_is_only_hashed_not_content_inspected(approved, monkeypatch):
+    root, plan = approved("dukascopy")
+    consent = root / "work/rights/dukascopy-consent.txt"
+    original = Path.read_bytes
+
+    def refuse_content(path):
+        if path == consent:
+            raise AssertionError("Consent may be hashed, not inspected")
+        return original(path)
+
+    monkeypatch.setattr(Path, "read_bytes", refuse_content)
+    monkeypatch.delenv("TB_OFFLINE_VALIDATION")
+    authorize(root, plan, NOW)
+    assert load_forex_plan(root, plan.dataset_id, NOW) == plan
+
+
+@pytest.mark.parametrize("status", [403, 429])
+def test_dukascopy_refusal_has_bounded_retries_and_price_free_report(approved, status):
+    root, plan = approved("dukascopy")
+    calls, delays = [], []
+
+    def handle(request):
+        calls.append(str(request.url))
+        return httpx.Response(status, text="owned refusal")
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        with pytest.raises(ProviderFailure) as caught:
+            download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="XAUUSD",
+                period=date(2024, 1, 2),
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=delays.append,
+            )
+    expected = 1 if status == 429 else 3
+    assert len(calls) == expected and delays == ([1] if status == 429 else [1, 2, 4])
+    assert caught.value.details["http_status"] == status
+    assert caught.value.details["failed_requests"] == expected
+    assert "price" not in json.dumps(caught.value.details)
+
+
+def test_weekend_and_rollover_are_not_missing_errors():
+    start = datetime(2024, 3, 8, 21, 59, tzinfo=UTC)
+    stop = datetime(2024, 3, 10, 22, 1, tzinfo=UTC)
+    raw = pl.DataFrame(
+        {
+            "timestamp_ns": [
+                int(t.timestamp()) * 10**9 for t in (start, stop - timedelta(minutes=1))
+            ],
+            "open": [1.0, 1.0],
+            "high": [2.0, 2.0],
+            "low": [1.0, 1.0],
+            "close": [1.5, 1.5],
+            "volume": [0.0, 0.0],
+            "symbol": ["EURUSD"] * 2,
+            "source": ["histdata"] * 2,
+        }
+    )
+    cleaned = clean_minute_bars(raw, market_kind="weekday")
+    report = quality(
+        cleaned.frame,
+        raw,
+        symbol="EURUSD",
+        year=2024,
+        start=start,
+        stop=stop,
+        provider="histdata",
+        duplicates=0,
+    )
+    assert report["missing_minutes"] == 0 and report["quality_score"] == 100
+    assert report["weekend_closed_minutes"] > 0 and report["rollover_gap_minutes"] == 60
+
+
+def test_yearly_build_dedupe_source_side_and_atomic_publication(approved):
+    root, plan = approved()
+    with httpx.Client(transport=transport(archive(duplicate=True), [])) as client:
+        download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=PERIOD,
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    result = build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW)
+    assert result["source"] == "histdata" and result["price_side"] == "bid"
+    assert result["quality"]["duplicates_removed"] == 1
+    assert result["outputs"]["silver/1m"]["rows"] == 60
+    assert result["outputs"]["gold/5m"]["rows"] == 12
+    pointer = root / f"data/manifests/histdata/{plan.dataset_id}/EURUSD-2024.json"
+    old = pointer.read_bytes()
+
+    def fail(stage):
+        if stage == "before_manifest":
+            raise RuntimeError("owned publication crash")
+
+    with pytest.raises(RuntimeError, match="owned publication crash"):
+        build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW, fault=fail)
+    assert pointer.read_bytes() == old
+
+
+@pytest.mark.parametrize("year", [2020, 2024])
+def test_unsafe_annual_histdata_refused_before_contact(approved, year):
+    root, plan = approved()
+    calls = []
+    with httpx.Client(transport=transport(archive(), calls)) as client:
+        with pytest.raises(ResearchRefused, match="holdout_boundary"):
+            download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="EURUSD",
+                period=date(year, 1, 1),
+                cadence="yearly",
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=lambda _: None,
+            )
+    assert calls == []
+
+
+def test_histdata_annual_form_original_and_resume(approved):
+    root, plan = approved()
+    output = io.BytesIO()
+    with ZipFile(output, "w") as zipped:
+        zipped.writestr("DAT_ASCII_EURUSD_M1_2021.csv", "20210315 080000;1.1;1.2;1.0;1.15;0\n")
+    calls = []
+
+    def handle(request):
+        calls.append(request.method)
+        if request.method == "POST":
+            assert b"datemonth=2021&" in request.content
+            return httpx.Response(200, content=output.getvalue())
+        assert str(request.url).endswith("/eurusd/2021")
+        return httpx.Response(
+            200,
+            text='<form action="/get.php">'
+            + "".join(
+                f'<input name="{k}" value="{v}">'
+                for k, v in dict(
+                    tk="owned",
+                    date="2021",
+                    datemonth="2021",
+                    platform="ASCII",
+                    timeframe="M1",
+                    fxpair="EURUSD",
+                ).items()
+            )
+            + "</form>",
+        )
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        args = dict(
+            symbol="EURUSD",
+            period=date(2021, 1, 1),
+            cadence="yearly",
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+        result = download_period(root, plan.dataset_id, client, **args)
+        assert result["status"] == "complete" and result["cadence"] == "yearly"
+        assert len(result["artifacts"]) == 3
+        assert download_period(root, plan.dataset_id, client, **args)["resumed"]
+    assert calls == ["GET", "POST"]
+
+
+def test_legacy_dukascopy_refuses_genuine_and_unmarked_mock(tmp_path, monkeypatch):
+    from tb.ingest.history.pipeline import download_dukascopy_day
+
+    calls = []
+    monkeypatch.setenv("TB_OFFLINE_VALIDATION", "1")
+    for mock in (True, False):
+        client = httpx.Client(
+            transport=httpx.MockTransport(lambda r: calls.append(r)) if mock else None
+        )
+        with client, pytest.raises(ResearchRefused, match="provider_confirmation"):
+            download_dukascopy_day(
+                client,
+                tmp_path,
+                symbol="EURUSD",
+                day=date(2024, 1, 2),
+                code_version="owned",
+                resume=True,
+                owned_fixture=not mock,
+            )
+    assert calls == [] and not list(tmp_path.iterdir())
+
+
+@pytest.mark.parametrize("status", [403, 429])
+def test_dukascopy_failure_writes_report_and_uses_histdata_fallback(approved, status):
+    from tb.ingest.history.forex_cli import with_fallback
+
+    root, plan = approved("dukascopy")
+    calls, backup = [], []
+
+    def primary():
+        with httpx.Client(
+            transport=httpx.MockTransport(lambda r: calls.append(r) or httpx.Response(status))
+        ) as client:
+            return download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="XAUUSD",
+                period=date(2024, 3, 12),
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=lambda _: None,
+            )
+
+    assert with_fallback(root, primary, lambda: backup.append("histdata") or "backup") == "backup"
+    expected = 1 if status == 429 else 3
+    assert len(calls) == expected and backup == ["histdata"]
+    report = (root / "reports/phases/P11e-dukascopy-failure.md").read_text()
+    assert f"http_status: {status}" in report and f"failed_requests: {expected}" in report
+    assert "error_sample: HTTP" in report
+
+
+def test_missing_year_publishes_explicit_gap_without_invented_bars(approved):
+    root, plan = approved()
+    result = build_year(root, plan.dataset_id, "EURUSD", 2020, clock=lambda: NOW)
+    assert result["status"] == "missing" and result["outputs"] == {}
+    assert result["quality"]["reason"] == "no_complete_admissible_source_archives"
+    assert result["quality"]["actual_minutes"] == 0
+    assert result["quality"]["missing_minutes"] > 0
+    assert not list((root / "data").rglob("*.parquet"))
+
+
+def test_dukascopy_ask_and_spread_retained_in_every_gold_timeframe(approved):
+    import lzma
+    import struct
+
+    from tb.core.holdout import read_unsealed_parquet
+
+    root, plan = approved("dukascopy")
+
+    def handle(request):
+        increment = 10 if "ASK_" in str(request.url) else 0
+        payload = b"".join(
+            struct.pack(
+                ">IIIIIf",
+                t * 60,
+                110000 + increment,
+                110100 + increment,
+                109900 + increment,
+                110200 + increment,
+                1.0,
+            )
+            for t in range(240)
+        )
+        return httpx.Response(200, content=lzma.compress(payload, format=lzma.FORMAT_ALONE))
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=date(2024, 3, 12),
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    result = build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW)
+    for key, item in result["outputs"].items():
+        frame = read_unsealed_parquet(root / item["path"])
+        assert {"ask_open", "ask_high", "ask_low", "ask_close", "mid_close", "spread_close"} <= set(
+            frame.columns
+        )
+        assert frame["price_side"].unique().to_list() == ["bid_ask"]
+        assert (frame["spread_close"] > 0).all(), key
+    assert result["outputs"]["gold/4h"]["rows"] == 1
+
+
+def test_final_allowed_UTC_minute_and_winter_boundary_unchanged():
+    result = decode_histdata(b"20241231 185900;1.1;1.2;1.0;1.15;0\n", "EURUSD", date(2024, 12, 1))
+    assert (
+        result["timestamp_ns"][0]
+        == int(datetime(2024, 12, 31, 23, 59, tzinfo=UTC).timestamp()) * 10**9
+    )
+
+
+def test_compacted_gold_content_matches_uncompacted_owned_input(approved):
+    from tb.features.pipeline import build_feature_frame
+    from tb.silver.vision import frame_digest
+
+    root, plan = approved()
+    with httpx.Client(transport=transport(archive(duplicate=True), [])) as client:
+        item = download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=PERIOD,
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    result = build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW)
+    raw = pl.read_parquet(root / item["parquet"])
+    uncompacted = pl.concat([raw.head(30), raw.slice(30), raw.head(5)])
+    silver = clean_minute_bars(uncompacted, market_kind="weekday").frame
+    reference = build_feature_frame(silver, timeframe="1m").with_columns(
+        pl.col(pl.Float64).fill_nan(None)
+    )
+    assert result["outputs"]["gold/1m"]["content_sha256"] == frame_digest(reference)
+
+
+def test_no_consent_selects_backup_and_records_each_unsafe_file(approved, monkeypatch):
+    import tb.ingest.history.forex_cli as cli
+
+    root, plan = approved()
+    calls = []
+
+    def download(root, dataset_id, client, **kwargs):
+        calls.append((dataset_id, kwargs["symbol"], kwargs["period"].year))
+        return dict(
+            status="complete",
+            source="histdata",
+            symbol=kwargs["symbol"],
+            period=kwargs["period"].isoformat(),
+        )
+
+    monkeypatch.setattr(cli, "download_period", download)
+    result = cli.download_history(root, plan.dataset_id, clock=lambda: NOW)
+    assert len(calls) == 6 and all(
+        c[0] == plan.dataset_id and c[2] in (2021, 2022, 2023) for c in calls
+    )
+    assert result["primary"] == "Dukascopy consent file not found"
+    withheld = [r for r in result["results"] if r["status"] == "withheld"]
+    assert len(withheld) == 4 and all("UTC_boundary" in r["reason"] for r in withheld)
+
+
+def test_full_orchestration_stops_duka_after_refusal_then_uses_backup(approved, monkeypatch):
+    import tb.ingest.history.forex_cli as cli
+
+    root, backup = approved()
+    _, primary = approved("dukascopy")
+    original_client, original_download = httpx.Client, download_period
+    calls, fallback = [], []
+
+    def handler(request):
+        calls.append(str(request.url))
+        return httpx.Response(403)
+
+    monkeypatch.setattr(
+        cli.httpx,
+        "Client",
+        lambda **kwargs: original_client(transport=httpx.MockTransport(handler), **kwargs),
+    )
+
+    def fetch(root, dataset_id, client, **kwargs):
+        if dataset_id == primary.dataset_id:
+            return original_download(root, dataset_id, client, **kwargs, sleep=lambda _: None)
+        fallback.append((kwargs["symbol"], kwargs["period"]))
+        return dict(status="complete", source="histdata", symbol=kwargs["symbol"])
+
+    monkeypatch.setattr(cli, "download_period", fetch)
+    result = cli.download_history(
+        root, backup.dataset_id, primary_id=primary.dataset_id, clock=lambda: NOW
+    )
+    assert len(calls) == 3 and all("dukascopy.com" in url for url in calls)
+    assert len(fallback) == 6 and len(result["results"]) == 10
+    report = (root / "reports/phases/P11e-dukascopy-failure.md").read_text()
+    assert "successful_requests: 0" in report and "failed_requests: 3" in report
+
+
+@pytest.mark.parametrize("failure", ["blocked", "decode"])
+def test_duka_blocked_or_bad_decode_stops_and_falls_back(approved, failure):
+    from tb.ingest.history.forex_cli import with_fallback
+
+    root, plan = approved("dukascopy")
+    calls, delays, fallback = [], [], []
+
+    def handler(request):
+        calls.append(request)
+        if failure == "blocked":
+            raise httpx.ConnectError("owned blocked transport", request=request)
+        return httpx.Response(200, content=b"owned invalid compressed archive")
+
+    def primary():
+        with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+            return download_period(
+                root,
+                plan.dataset_id,
+                client,
+                symbol="EURUSD",
+                period=date(2024, 3, 12),
+                code_version="owned",
+                clock=lambda: NOW,
+                sleep=delays.append,
+            )
+
+    assert with_fallback(root, primary, lambda: fallback.append("histdata")) is None
+    assert fallback == ["histdata"]
+    assert len(calls) == (3 if failure == "blocked" else 1)
+    assert delays == ([1, 2, 4] if failure == "blocked" else [1])
+    report = (root / "reports/phases/P11e-dukascopy-failure.md").read_text()
+    assert ("ConnectError" if failure == "blocked" else "LZMAError") in report
+    assert not list((root / "data").rglob("*.manifest.json")) if (root / "data").exists() else True
+
+
+def test_consented_duka_retains_completed_side_after_ASK_failure(approved):
+    import lzma
+    import struct
+
+    root, plan = approved("dukascopy")
+    payload = lzma.compress(
+        struct.pack(">IIIIIf", 0, 110000, 110100, 109900, 110200, 1.0), format=lzma.FORMAT_ALONE
+    )
+    calls = []
+
+    def handler(request):
+        calls.append(str(request.url))
+        return (
+            httpx.Response(200, content=payload)
+            if "BID_" in str(request.url)
+            else httpx.Response(429)
+        )
+
+    with (
+        httpx.Client(transport=httpx.MockTransport(handler)) as client,
+        pytest.raises(ProviderFailure),
+    ):
+        download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=date(2024, 3, 12),
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    originals = list((root / "data").rglob("*.bi5"))
+    assert len(calls) == 2 and len(originals) == 1
+    assert originals[0].read_bytes() == payload
+    assert not list((root / "data").rglob("*.manifest.json"))
+
+
+def test_retention_expiring_during_response_prevents_partial_write(approved):
+    import lzma
+    import struct
+
+    from tb.ingest.mt5.models import FeedUnavailable
+
+    root, plan = approved("dukascopy")
+    instant, calls = [NOW], []
+    payload = lzma.compress(
+        struct.pack(">IIIIIf", 0, 110000, 110100, 109900, 110200, 1.0), format=lzma.FORMAT_ALONE
+    )
+
+    def handler(request):
+        calls.append(request)
+        instant[0] = NOW + timedelta(days=8)
+        return httpx.Response(200, content=payload)
+
+    with (
+        httpx.Client(transport=httpx.MockTransport(handler)) as client,
+        pytest.raises(FeedUnavailable, match="expired"),
+    ):
+        download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=date(2024, 3, 12),
+            code_version="owned",
+            clock=lambda: instant[0],
+            sleep=lambda _: None,
+        )
+    assert len(calls) == 1
+    assert not list((root / "data").rglob("*.bi5")) if (root / "data").exists() else True
+
+
+def test_expired_primary_rights_are_not_reported_as_provider_failure(approved, monkeypatch):
+    import tb.ingest.history.forex_cli as cli
+    from tb.ingest.mt5.models import FeedUnavailable
+
+    root, backup = approved()
+    _, primary = approved("dukascopy")
+    calls = []
+
+    def fetch(root, dataset_id, client, **kwargs):
+        calls.append(dataset_id)
+        raise FeedUnavailable("owned_expired_retention")
+
+    monkeypatch.setattr(cli, "download_period", fetch)
+    with pytest.raises(FeedUnavailable):
+        cli.download_history(
+            root, backup.dataset_id, primary_id=primary.dataset_id, clock=lambda: NOW
+        )
+    assert calls == [primary.dataset_id]
+    assert not (root / "reports/phases/P11e-dukascopy-failure.md").exists()
+
+
+@pytest.mark.parametrize(
+    "header,wait", [("120", 60), ("7", 7), ("Sun, 01 Nov 2026 00:00:09 GMT", 9)]
+)
+def test_429_retry_after_respected_and_capped(header, wait):
+    from tb.ingest.history.forex import request_bytes
+
+    calls, delays = [], []
+
+    def handle(request):
+        calls.append(request)
+        return httpx.Response(429, headers={"Retry-After": header})
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        with pytest.raises(ProviderFailure) as caught:
+            request_bytes(
+                client,
+                "GET",
+                "https://example.invalid/owned",
+                clock=lambda: NOW,
+                sleep=delays.append,
+            )
+    assert len(calls) == 3 and delays == [1, max(2, wait), max(4, wait)]
+    assert caught.value.details["failed_requests"] == 3
+
+
+@pytest.mark.parametrize("header", [None, "invalid", "-1", "NaN"])
+def test_429_without_usable_retry_after_stops_immediately(header):
+    from tb.ingest.history.forex import request_bytes
+
+    calls, delays = [], []
+
+    def handle(request):
+        calls.append(request)
+        return httpx.Response(429, headers={} if header is None else {"Retry-After": header})
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        with pytest.raises(ProviderFailure) as caught:
+            request_bytes(client, "GET", "https://example.invalid/owned", sleep=delays.append)
+    assert len(calls) == 1 and delays == [1]
+    assert caught.value.details["failed_requests"] == 1
+
+
+def test_legacy_dukascopy_explicit_fixture_client_still_requires_offline_and_flag(
+    tmp_path, monkeypatch
+):
+    from tb.ingest.history.pipeline import OwnedDukascopyFixtureClient, download_dukascopy_day
+
+    with pytest.raises(ResearchRefused, match="MockTransport"):
+        OwnedDukascopyFixtureClient(httpx.HTTPTransport())
+    calls = []
+    for offline, flag in ((False, True), (True, False)):
+        monkeypatch.setenv("TB_OFFLINE_VALIDATION", "1" if offline else "0")
+        with OwnedDukascopyFixtureClient(httpx.MockTransport(lambda r: calls.append(r))) as client:
+            with pytest.raises(ResearchRefused, match="provider_confirmation"):
+                download_dukascopy_day(
+                    client,
+                    tmp_path,
+                    symbol="EURUSD",
+                    day=date(2024, 1, 2),
+                    code_version="owned",
+                    resume=True,
+                    owned_fixture=flag,
+                )
+    assert calls == [] and not list(tmp_path.iterdir())
+
+
+@pytest.mark.parametrize("sunday", [date(2021, 10, 31), date(2022, 10, 30), date(2023, 10, 29)])
+def test_identical_autumn_provider_hour_dropped_once_with_one_week_offset(sunday):
+    from tb.ingest.history.forex import HistDataAudit
+
+    local = datetime.combine(sunday, datetime.min.time()).replace(hour=18)
+    stamps = [local + timedelta(minutes=i) for i in range(120)] + [
+        local + timedelta(hours=1, minutes=i) for i in range(120)
+    ]
+    raw = "".join(f"{t:%Y%m%d %H%M%S};1.1;1.2;1.0;1.15;0\n" for t in stamps).encode()
+    audit = HistDataAudit()
+    result = decode_histdata(raw, "EURUSD", sunday.replace(day=1), audit=audit)
+    assert result.height == 180 and audit.duplicate_minutes == 60
+    assert result["timestamp_ns"].diff().drop_nulls().to_list() == [60_000_000_000] * 179
+    assert (
+        result["timestamp_ns"][0]
+        == int((local.replace(tzinfo=UTC) + timedelta(hours=5)).timestamp()) * 10**9
+    )
+    assert len(audit.provider_duplicate_hours) == 1 and audit.quarantined_days == []
+    assert audit.provider_duplicate_hours[0]["reason"] == "provider_duplicate_hour"
+    assert audit.provider_duplicate_hours[0]["all_OHLCV_fields_byte_identical"] is True
+
+
+@pytest.mark.parametrize("symbol,local_hour,utc_hour", [("EURUSD", 16, 21), ("XAUUSD", 17, 22)])
+@pytest.mark.parametrize("sunday", [date(2022, 3, 13), date(2022, 3, 20), date(2022, 10, 30)])
+def test_US_EU_mismatch_week_has_expected_open(symbol, local_hour, utc_hour, sunday):
+    from tb.silver.forex import week_open_checks
+
+    raw = f"{sunday:%Y%m%d} {local_hour:02d}0000;1;2;1;2;0\n".encode()
+    result = decode_histdata(raw, symbol, sunday.replace(day=1))
+    expected = datetime(sunday.year, sunday.month, sunday.day, utc_hour, tzinfo=UTC)
+    assert result["timestamp_ns"][0] == int(expected.timestamp()) * 10**9
+    checks = week_open_checks(
+        result, expected - timedelta(hours=2), expected + timedelta(days=2), symbol
+    )
+    assert (
+        len(checks) == 1 and checks[0]["status"] == "on_time" and checks[0]["offset_minutes"] == 0
+    )
+
+
+@pytest.mark.parametrize(
+    "symbol,month,day,local_hour,late",
+    [
+        ("EURUSD", 7, 3, 17, 0),
+        ("XAUUSD", 7, 3, 18, 0),
+        ("EURUSD", 1, 2, 17, 0),
+        ("XAUUSD", 1, 2, 18, 0),
+        ("EURUSD", 7, 3, 18, 60),
+        ("XAUUSD", 7, 3, 19, 60),
+        ("EURUSD", 10, 30, 16, 0),
+        ("EURUSD", 7, 3, 16, -60),
+    ],
+)
+def test_week_open_offset_flags_late_or_early_without_shifting(
+    symbol, month, day, local_hour, late
+):
+    from tb.silver.forex import calendar_grid, week_open_checks
+
+    start = datetime(2022, month, day, tzinfo=UTC)
+    raw = f"2022{month:02d}{day:02d} {local_hour:02d}0000;1;2;1;2;0\n".encode()
+    result = decode_histdata(raw, symbol, date(2022, month, 1))
+    before = result["timestamp_ns"].to_list()
+    checks = week_open_checks(result, start, start + timedelta(days=2), symbol)
+    assert len(checks) == 1 and checks[0]["offset_minutes"] == late
+    assert checks[0]["status"] == ("on_time" if late == 0 else "late" if late > 0 else "early")
+    assert result["timestamp_ns"].to_list() == before
+    grid = calendar_grid(start, start + timedelta(days=2), "histdata", symbol)
+    opening = next(r for r in grid.to_dicts() if not r["weekend_closed"])
+    assert opening["timestamp_utc"].isoformat() == checks[0]["expected_utc"]
+
+
+def test_original_CSV_drives_clock_rebuild_and_all_Bronze_bytes_remain_unchanged(approved):
+    from tb.ingest.history.core import sha256_file
+
+    root, plan = approved()
+    with httpx.Client(transport=transport(archive(), [])) as client:
+        item = download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=PERIOD,
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    parquet = root / item["parquet"]
+    # Simulate an immutable, checksummed legacy conversion with wrong UTC values.
+    legacy = pl.read_parquet(parquet).with_columns(pl.col("timestamp_ns") + 3600_000_000_000)
+    legacy.write_parquet(parquet)
+    manifest = next((root / "data/bronze/histdata").rglob("*.manifest.json"))
+    old = json.loads(manifest.read_text())
+    for a in old["artifacts"]:
+        if a["path"] == item["parquet"]:
+            a["sha256"] = sha256_file(parquet)
+    manifest.write_text(json.dumps(old))
+    baseline = {
+        p: sha256_file(p) for p in (root / "data/bronze/histdata").rglob("*") if p.is_file()
+    }
+    result = build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW)
+    actual = pl.read_parquet(root / result["outputs"]["silver/1m"]["path"])
+    assert (
+        actual["timestamp_ns"][0] == int(datetime(2024, 3, 11, 13, tzinfo=UTC).timestamp()) * 10**9
+    )
+    assert result["inputs"][0]["path"].endswith(".csv")
+    assert result["quality"]["clock_model"] == "histdata-eu-week-provider-duplicate-v2"
+    assert all(sha256_file(p) == checksum for p, checksum in baseline.items())
+    source = root / result["inputs"][0]["path"]
+    source.write_bytes(b"OWNED corrupted original")
+    with pytest.raises(IntegrityError, match="original CSV checksum"):
+        build_year(root, plan.dataset_id, "EURUSD", 2024, clock=lambda: NOW)
+
+
+def test_autumn_calendar_uses_single_week_offset_and_missing_week_flags():
+    from tb.silver.forex import calendar_grid, week_open_checks
+
+    sunday = date(2022, 10, 30)
+    local = datetime(2022, 10, 30, 19)
+    stamps = [local + timedelta(minutes=i) for i in range(60)] * 2
+    raw = "".join(f"{t:%Y%m%d %H%M%S};1;2;1;2;0\n" for t in stamps).encode()
+    decoded = decode_histdata(raw, "EURUSD", sunday.replace(day=1))
+    grid = calendar_grid(
+        datetime(2022, 10, 31, 0, tzinfo=UTC), datetime(2022, 10, 31, 1, tzinfo=UTC), "histdata"
+    )
+    assert grid["timestamp_ns"].to_list() == decoded["timestamp_ns"].to_list()
+    assert grid["timestamp_source"].dt.strftime("%Y%m%d %H%M%S").to_list() == [
+        f"{t:%Y%m%d %H%M%S}" for t in stamps[:60]
+    ]
+    assert grid["clock_offset_hours"].to_list() == [5] * 60
+    assert not grid["weekend_closed"].any()
+    checks = week_open_checks(
+        decoded.head(0),
+        datetime(2022, 10, 30, tzinfo=UTC),
+        datetime(2022, 11, 7, tzinfo=UTC),
+        "EURUSD",
+    )
+    assert len(checks) == 2 and all(
+        c["status"] == "missing_week" and c["offset_minutes"] is None for c in checks
+    )
+
+
+def test_429_retry_after_then_success():
+    from tb.ingest.history.forex import request_bytes
+
+    calls, delays = [], []
+
+    def handle(request):
+        calls.append(request)
+        return (
+            httpx.Response(429, headers={"Retry-After": "8"})
+            if len(calls) == 1
+            else httpx.Response(200, content=b"OWNED")
+        )
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        assert (
+            request_bytes(client, "GET", "https://example.invalid/owned", sleep=delays.append)
+            == b"OWNED"
+        )
+    assert len(calls) == 2 and delays == [1, 8]
+
+
+@pytest.mark.parametrize("field", [1, 2, 3, 4, 5])
+def test_autumn_duplicate_any_different_OHLCV_field_quarantines_whole_day(field):
+    from tb.ingest.history.forex import HistDataAudit
+
+    start = datetime(2022, 10, 30, 18)
+    stamps = [start + timedelta(minutes=i) for i in range(120)] + [
+        start + timedelta(hours=1, minutes=i) for i in range(120)
+    ]
+    lines = [f"{t:%Y%m%d %H%M%S};1.1;1.2;1.0;1.15;0" for t in stamps]
+    changed = lines[125].split(";")
+    # Numeric equality still differs at the byte level for price fields; volume differs numerically.
+    changed[field] += "0" if field < 5 else ".0"
+    lines[125] = ";".join(changed)
+    lines.append("20221031 080000;1.1;1.2;1.0;1.15;0")
+    audit = HistDataAudit()
+    result = decode_histdata(
+        ("\n".join(lines) + "\n").encode(), "EURUSD", date(2022, 10, 1), audit=audit
+    )
+    assert result.height == 1 and audit.duplicate_minutes == 0
+    assert audit.quarantined_days == [
+        dict(source_date="2022-10-30", reason="nonidentical_or_incomplete_provider_duplicate_hour")
+    ]
+    assert (
+        result["timestamp_ns"][0] == int(datetime(2022, 10, 31, 13, tzinfo=UTC).timestamp()) * 10**9
+    )
+
+
+def test_quarantined_autumn_day_publishes_flags_without_any_bars(approved):
+    root, plan = approved()
+    day = date(2022, 10, 30)
+    start = datetime(2022, 10, 30, 19)
+    rows = [
+        f"{start + timedelta(minutes=i):%Y%m%d %H%M%S};1.1;1.2;1.0;1.15;0\n" for i in range(60)
+    ] * 2
+    rows[62] = rows[62].replace(";1.15;", ";1.16;")
+    payload = io.BytesIO()
+    with ZipFile(payload, "w") as archive:
+        archive.writestr("DAT_ASCII_EURUSD_M1_202210.csv", "".join(rows))
+    with httpx.Client(
+        transport=transport(payload.getvalue(), [], period=day.replace(day=1))
+    ) as client:
+        item = download_period(
+            root,
+            plan.dataset_id,
+            client,
+            symbol="EURUSD",
+            period=day.replace(day=1),
+            code_version="owned",
+            clock=lambda: NOW,
+            sleep=lambda _: None,
+        )
+    assert item["status"] == "quarantined" and item["rows"] == 0
+    assert len(item["normalization"]["quarantined_days"]) == 1 and len(item["artifacts"]) == 3
+    built = build_year(root, plan.dataset_id, "EURUSD", 2022, clock=lambda: NOW)
+    assert built["status"] == "quarantined" and built["outputs"] == {}
+    assert "quarantined_day" in built["quality"]["flags"]
+    assert len(built["quality"]["quarantined_days"]) == 1
+
+    # A quarantined source archive cannot leak diagnostics into another UTC year.
+    other = build_year(root, plan.dataset_id, "EURUSD", 2023, clock=lambda: NOW)
+    assert other["status"] == "missing" and other["quality"]["quarantined_days"] == []
