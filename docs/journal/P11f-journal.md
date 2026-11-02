@@ -39,7 +39,7 @@ registration and new digest are committed and published. No main merge.
   performance verdict, sealed access, order or main merge. Final changes only
   record publication metadata; source and exact registration digest are unchanged.
 
-- 2026-11-02: Claude review copied byte-for-byte from the owner checkout. P11f-1
+- 2026-11-02 09:11 UTC: Claude review copied byte-for-byte from the owner checkout. P11f-1
   requires >=20 completed training trades per cell per fold; otherwise the fold
   is insufficient evidence. N_trials stays 162. P11f-2 adds circuit-trip and
   halted-day reporting without changing risk. No genuine registry, metadata,
@@ -65,3 +65,13 @@ registration and new digest are committed and published. No main merge.
   algebra (avoiding known R4 division rounding) and to actually cross the prior
   channel. No production risk rule or existing test was weakened. No genuine input
   opened. Next: freeze candidate and full clean offline gate before genuine access.
+
+- 2026-11-02 10:30 UTC: Clean candidate d58cd8fd13a9714c71cc0ec82378bb8fa4f01612 passed
+  Ruff/format (526 files), strict mypy (197 sources), and pytest: 1455 passed,
+  1 skipped, 3 live deselected, 5 known xfailed, 23 warnings in 802.21s.
+  Safety smoke passed; finishing the owned acceptance gate before genuine access.
+
+- 2026-11-02 10:32 UTC: Full offline gate COMPLETE: all 14 owned studies and safety smoke pass.
+  Promoted the exact clean-tested candidate d58cd8fd13a9714c71cc0ec82378bb8fa4f01612
+  to the existing PR branch with a guarded fast-forward. No source/config/test or
+  registration change after that gate. Publish before the first genuine access.

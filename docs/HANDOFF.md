@@ -1,3 +1,16 @@
+# Current handoff — P11f Part B gate passed; registered genuine batch next
+
+The amended registration was pushed in 05cd0f1 before any genuine access.
+The full clean gate passed on d58cd8fd13a9714c71cc0ec82378bb8fa4f01612:
+1455 passed, 1 skipped, 3 live deselected, 5 known xfailed; Ruff/format,
+strict mypy (197 sources), smoke and 14 owned studies pass. Runtime/config/
+registration bytes are frozen. Genuine registry and observations are still unopened.
+Next: publish gate metadata, then launch the authorized fixed batch via
+scripts/run-stage3-crypto.ps1 with the existing P11e DataRoot. Monitor status only;
+no intermediate performance, retuning, checkpoint deletion, main merge or next phase.
+
+## Previous handoff
+
 # Current handoff — P11f Part B implementation before genuine access
 
 Claude approved Part A subject to P11f-1. The owner authorized >=20 completed
