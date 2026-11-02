@@ -86,3 +86,17 @@ registration and new digest are committed and published. No main merge.
 - 2026-11-02 10:38 UTC: All 162 cells of the 2021 training fold completed. The 2022
   expanding training fold has started; operational peak RSS about 435 MB and
   stderr remains empty. No intermediate performance read. Keep source frozen.
+
+- 2026-11-02 10:59 UTC: First three training folds completed (162 cells each).
+  Final 2024 selector training is underway using observations only through 2023.
+  Operational peak RSS about 884 MB; stderr empty. No intermediate performance
+  inspection or runtime/config/registration changes.
+
+- 2026-11-02 11:17 UTC: All 648 training runs completed; all four selectors frozen
+  before any evaluation. Registered evaluation/sensitivity/comparison jobs now
+  running. Peak RSS about 884 MB, stderr empty. Operational monitoring only;
+  no intermediate performance inspection or source/config/registration edits.
+
+- 2026-11-02 11:44 UTC: Registered first experiment reached its 2024 comparison
+  paths. No errors; peak RSS about 884 MB. No intermediate outcome inspection.
+  Public phase status refreshed; runtime/config/tests/registration unchanged.
