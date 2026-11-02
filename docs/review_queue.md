@@ -1,3 +1,6 @@
+P11f Part A approved with P11f-1 amended/published in 05cd0f1. Part B implementation
+is underway on the same PR #5; its completed results and gate need final review.
+
 # Claude review queue
 
 | Phase | Status | Added (UTC) | Report | Notes |

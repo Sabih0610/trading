@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import StrEnum
@@ -175,6 +175,16 @@ class _Position:
     max_holding_bars: int | None
 
 
+@dataclass
+class ReplayAudit:
+    """Optional private research observations; never an input to risk decisions."""
+
+    initial_risk: dict[datetime, Decimal] = field(default_factory=dict)
+    equity_bounds: list[tuple[datetime, Decimal]] = field(default_factory=list)
+    ambiguous_bars: int = 0
+    peak_trip_at: datetime | None = None
+
+
 class BacktestEngine:
     """Replay bars with next-event entries, OCO exits, and deterministic risk checks."""
 
@@ -188,6 +198,8 @@ class BacktestEngine:
         tick_size: Decimal | None = None,
         risk_manager: RiskManager | None = None,
         kill_switch_at: datetime | None = None,
+        research_target_first: bool = False,
+        audit: ReplayAudit | None = None,
     ) -> None:
         if initial_cash <= 0:
             raise ValueError("initial_cash must be positive")
@@ -206,6 +218,8 @@ class BacktestEngine:
         if kill_switch_at is not None and kill_switch_at.utcoffset() != timedelta(0):
             raise ValueError("kill_switch_at must use UTC")
         self.kill_switch_at = kill_switch_at
+        self.research_target_first = research_target_first
+        self.audit = audit
 
     @staticmethod
     def _validate_bars(bars: list[Bar]) -> None:
@@ -302,8 +316,29 @@ class BacktestEngine:
         def process_exit(bar: Bar, *, allow_target: bool = True) -> None:
             if position is None:
                 return
+            both = bar.low <= position.stop_price and bar.high >= position.target_price
+            if self.audit is not None:
+                self.audit.ambiguous_bars += int(both and allow_target)
+                held = position
+
+                # Conservative high-before-low liquidation envelope, capped by OCO.
+                # This is diagnostic only: it never observes/changes the risk circuit.
+                def mark(raw: Decimal) -> Decimal:
+                    proceeds = held.quantity * self.costs.exit_price(raw)
+                    return cash + proceeds - self.costs.fee(proceeds)
+
+                if bar.open <= position.stop_price:
+                    self.audit.equity_bounds.append((bar.timestamp, mark(bar.open)))
+                else:
+                    upper = min(bar.high, position.target_price) if allow_target else bar.high
+                    lower = max(bar.low, position.stop_price)
+                    self.audit.equity_bounds.extend(
+                        ((bar.timestamp, mark(upper)), (bar.timestamp, mark(lower)))
+                    )
             if bar.open <= position.stop_price:
                 close_position(bar, bar.open, ExitReason.STOP)
+            elif self.research_target_first and allow_target and bar.high >= position.target_price:
+                close_position(bar, position.target_price, ExitReason.TARGET)
             elif bar.low <= position.stop_price:
                 close_position(bar, position.stop_price, ExitReason.STOP)
             elif allow_target and bar.high >= position.target_price:
@@ -323,6 +358,9 @@ class BacktestEngine:
                 proceeds = position.quantity * self.costs.exit_price(bar.open)
                 liquidation += proceeds - self.costs.fee(proceeds)
             account_halt = circuit.observe(bar.timestamp, liquidation)
+            if self.audit is not None and circuit.state.peak_halted:
+                if self.audit.peak_trip_at is None:
+                    self.audit.peak_trip_at = bar.timestamp
             if position is not None and position.quantity * bar.open > liquidation:
                 account_halt = account_halt or "exposure"
             kill_active = kill_active or account_halt is not None
@@ -422,6 +460,13 @@ class BacktestEngine:
                                     entry_index=index,
                                     max_holding_bars=pending_signal.max_holding_bars,
                                 )
+                                if self.audit is not None:
+                                    stop_fill = self.costs.exit_price(pending_signal.stop_price)
+                                    self.audit.initial_risk[bar.timestamp] = (
+                                        quantity * (fill_price - stop_fill)
+                                        + entry_fee
+                                        + self.costs.fee(quantity * stop_fill)
+                                    )
                                 entries_today += 1
                                 pending = None
                                 # Intrabar OHLC cannot prove the high followed a limit fill.
@@ -506,6 +551,9 @@ class BacktestEngine:
                 proceeds = position.quantity * self.costs.exit_price(bar.close)
                 liquidation += proceeds - self.costs.fee(proceeds)
             account_halt = circuit.observe(bar.timestamp, liquidation)
+            if self.audit is not None and circuit.state.peak_halted:
+                if self.audit.peak_trip_at is None:
+                    self.audit.peak_trip_at = bar.timestamp
             if position is not None and position.quantity * bar.close > liquidation:
                 account_halt = account_halt or "exposure"
             if account_halt is not None:
@@ -541,6 +589,8 @@ class BacktestEngine:
                     exposure=exposure,
                 )
             )
+            if self.audit is not None:
+                self.audit.equity_bounds.append((bar.timestamp, curve[-1].equity))
         return BacktestResult(
             trades=tuple(trades), rejections=tuple(rejections), equity=tuple(curve)
         )

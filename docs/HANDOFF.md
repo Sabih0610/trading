@@ -1,3 +1,17 @@
+# Current handoff — P11f Part B implementation before genuine access
+
+Claude approved Part A subject to P11f-1. The owner authorized >=20 completed
+training trades per eligible cell and Part B on PR #5; N_trials remains 162.
+The amended registration and current digest were committed/pushed first in
+05cd0f11bf30349cb80dc53da2024d0e53268ac6. No genuine registry or observations
+have been opened yet. Building/testing fixed evaluator and read-only lab now.
+Keep all private results under the admitted data root work/stage3/P11f with
+original rights/retention. Never access 2025+, sealed XAUT or external orders.
+No main merge. Next: fixture scenarios, full clean gate, freeze implementation,
+then one checkpointed genuine batch under the amended registration.
+
+## Previous handoff
+
 # Current handoff — P11f Part A validated; stop for review
 
 [PR #5](https://github.com/Sabih0610/trading/pull/5) is open and unmerged. **STOP for Claude pre-registration review.**

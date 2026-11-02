@@ -47,3 +47,21 @@ registration and new digest are committed and published. No main merge.
 - PRE-REGISTRATION SHA-256: f7109e15baf3cecbc0f21d28df3e671d886be424947fed5e9f9c1ec801ddf396
   Current amended registration, superseding the original digest above. Commit
   and publish this exact registration before any genuine access.
+
+- Amendment publication verified remotely: 05cd0f11bf30349cb80dc53da2024d0e53268ac6.
+  Focused hash/protocol test passed. Ruff/format passed; full source gate follows
+  Part B fixture implementation. No genuine access before publication.
+- Building Part B using registry-admitted Gold, next-event engine, opt-in audit
+  observations, the fixed selector/metrics/comparisons and immutable checkpoints.
+  Risk manager/config and canonical stop-first behavior remain unchanged.
+
+- Part B focused owned scenarios: 43 pass in 21.74s. Includes eligible-20/ties,
+  original R denominators and every side/component at 1/1.5/2 costs, audit/default
+  equality, gap/ambiguity, persistent circuit/flat days, embargo, 2025 anywhere,
+  deterministic random/replay, shared reference parity, daily buy-hold DD, full
+  passing and always-losing checklists, insufficiency, DSR units/compounding,
+  fixed weekly bootstrap, registry/checksum/retention/display refusals and resume.
+  Early test fixtures were corrected to request exactly one unit for exact Decimal
+  algebra (avoiding known R4 division rounding) and to actually cross the prior
+  channel. No production risk rule or existing test was weakened. No genuine input
+  opened. Next: freeze candidate and full clean offline gate before genuine access.

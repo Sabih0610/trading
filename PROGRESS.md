@@ -1,3 +1,6 @@
+P11f Part B is in progress on PR #5 after Claude approval and the owner-authorized
+>=20-trade amendment (05cd0f1). N=162; fixture gate precedes genuine evaluation.
+
 # P11f Part A complete — pre-registration review required
 
 [PR #5](https://github.com/Sabih0610/trading/pull/5) is open and unmerged. **STOP for Claude pre-registration review.**

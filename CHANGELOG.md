@@ -1,3 +1,7 @@
+P11f Part B (in progress): reviewed >=20 completed training trades per eligible
+cell, N=162 unchanged; fixed private evaluator and read-only lab with unchanged
+risk, cost/ambiguity sensitivities and circuit-trip/halting-day observations.
+
 # Changelog
 
 All notable project changes are documented here. The project follows Keep a Changelog style and phase-based versioning during initial development.

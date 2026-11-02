@@ -28,3 +28,18 @@ Cost inspection found that the existing engine halves configured quoted spread.
 The prompt states per-side floors; the registration therefore requires effective
 spread_bps twice the registry value in Part B, preserving the existing cost class
 and all config fields while preventing an accidentally cheaper test.
+
+## Part B, after approval
+
+Research accessed 2026-11-02 before genuine input. Rechecked the original
+[DSR derivation](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf)
+for the fixed Euler-gamma expected-maximum benchmark and
+[Polars streaming guidance](https://docs.pola.rs/user-guide/concepts/streaming/)
+for bounded lazy projection. Installed Polars 2.0.0 and Python 3.12 stay pinned.
+We choose registry-verified yearly inputs, 8192-row projections and one cached
+symbol/timeframe prefix rather than loading minute history or many experiments.
+Immutable per-cell/per-fold checkpoints bind source/config/dependencies, exact
+registration and data-manifest identities; a crash resumes identical work only.
+Optional audit observations record original filled risk, conservative OCO-capped
+intrabar equity bounds and actual peak-circuit latching without feeding them
+back into risk. All derived result content retains original disposal deadlines.

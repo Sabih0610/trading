@@ -57,6 +57,7 @@ VIEWS = (
     "Offline Paper Lab",
     "Local Market Research",
     "Data Health",
+    "Backtest Lab",
 )
 
 
@@ -410,6 +411,11 @@ def main() -> None:
         from tb.dashboard.offline_paper import offline_paper_view
 
         offline_paper_view(root)
+        return
+    if view == "Backtest Lab":
+        from tb.dashboard.stage3 import stage3_view
+
+        stage3_view()
         return
     if view == "Local Market Research":
         from tb.dashboard.research import research_view

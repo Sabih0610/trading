@@ -1,8 +1,8 @@
 # Pending items
 
-- **P11f Part A review:** clean fixture gates passed; [PR #5](https://github.com/Sabih0610/trading/pull/5) is open,
-  then STOP for Claude approval of the exact registered bytes. No genuine data
-  or Part B run yet. F waits for Stage 5; gold/FX and costs remain outside crypto.
+- **P11f Part B:** Part A approved; P11f-1 amendment published before genuine access.
+  Fixed evaluator and fixture gate in progress. P11f-2 circuit diagnostics required.
+  Same PR #5, no main merge or follow-on phase.
 
 - **P11d legacy sealed file shape:** the reviewed collector created approximately
   1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,

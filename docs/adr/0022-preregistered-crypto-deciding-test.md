@@ -41,3 +41,30 @@ These are explicit Part B implementation requirements, not invented Part A resul
 Part B remains gated on Claude approval of the exact committed registration.
 See [research](../research/P11f-research.md), [runbook](../how-to/stage3-crypto.md),
 [phase report](../../reports/phases/P11f.md) and [journal](../journal/P11f-journal.md).
+
+## Approved Part B implementation (2026-11-02)
+
+Claude approved with P11f-1 and the owner authorized Part B. Commit 05cd0f1
+published the >=20 completed-training-trades eligibility rule and new journal
+SHA-256 before genuine access. All 162 trials remain in multiplicity correction.
+
+Use the existing engine with optional observational ReplayAudit, not a second risk
+engine. Audit retains original all-in stop risk for filled quantity, OCO-capped
+high-before-low liquidation bounds, ambiguous bars and first actual peak-circuit
+latch. The envelope is conservative because OHLC does not establish the intrabar
+path; it never feeds the account circuit. Canonical risk/stop-first results are
+identical with and without auditing. Only an explicit research diagnostic changes
+same-bar priority; a gap through the stop remains a stop at adverse open.
+
+Register derived work in the admitted source root, retaining its original rights
+and disposal deadline. One atomic JSON envelope binds policy/result SHA-256;
+immutable checkpoints bind all source/config/dependency, registration and manifest
+identities. Keep one symbol/timeframe prefix cached. Sample RSS every 0.2 seconds.
+Freeze all four training selectors before any evaluation. Jan 1 embargo contributes
+a flat daily return; no eligible cell means cash and explicit insufficient evidence,
+with unavailable selected-timeframe comparators nonpassing. Bootstrap includes all
+calendar weeks of 2021–2023. Diagnostic references reuse pure shared direction
+functions and shared FeatureEngine; existing EURUSD/XAUUSD reference-class guards
+remain intact. The read-only lab admits private result JSON only after current
+registry/retention/private-display checks. No rule/grid/cost/metric changes after
+observation, no holdout, sealed access, external orders, main merge or next phase.
