@@ -1,3 +1,11 @@
+# P11f Part A in progress
+
+D/E crypto plugins, shared replay properties and 162-cell pre-registration are
+implemented on owned fixtures. Full clean gate and pre-registration PR remain.
+STOP at that PR for Claude; no genuine input, Part B, performance claim or merge.
+
+## Previous progress
+
 # P11e PR #4 fix round complete
 
 Corrected HistData to one EU-week offset and verified provider duplicate removal;

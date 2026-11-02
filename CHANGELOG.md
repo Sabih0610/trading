@@ -4,6 +4,15 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### P11f Part A crypto pre-registration — 2026-11-02 UTC
+
+- Added causal long-only D volatility breakout and E time-series momentum plugins,
+  bounded prior state, missing-input/gap refusal and optional Decimal source volume.
+- Added D/E only to BTC/ETH/SOL strategy allowlists; risk and costs unchanged.
+- Frozen 162 C/D/E trial cells and exact protocol before genuine observations.
+- Added shared replay/causality, symbol, bracket and holdout-preflight fixtures.
+- Part B and all genuine evaluation remain blocked on Claude's pre-registration review.
+
 ### P11e PR #4 clock/retry review fixes — 2026-11-01 UTC
 
 - Corrected HistData to one London-scheduled +4/+5 h offset per trading week.

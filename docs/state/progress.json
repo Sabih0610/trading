@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11e",
+  "current_phase": "P11f",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -618,6 +618,21 @@
         "full_suite": "1337 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 828.39s (0:13:48)",
         "private_rebuild": "complete_bronze_unchanged"
       }
+    },
+    "P11f": {
+      "title": "Stage 3 crypto \u2014 Part A pre-registration",
+      "status": "in_progress",
+      "base_commit": "6a0cbb9",
+      "branch": "codex/p11f-stage3-crypto",
+      "report": "reports/phases/P11f.md",
+      "part_a": "implemented_on_fixtures_pending_clean_gate",
+      "part_b": "not_started_blocked_on_preregistration_review",
+      "genuine_data_read": false,
+      "strategy_evaluation": false,
+      "candidate_trials": 162,
+      "risk_cost_defaults": "unchanged",
+      "sealed_collector": "untouched",
+      "review": "pending_part_a_pr"
     }
   },
   "allowed_status": [
@@ -646,8 +661,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-01 15:42 UTC",
-  "next_phase": "Independent PR #4 fix-round review; safe boundary history and owner Stage 3 spread-floor approval remain. No main merge, strategy evaluation or P14 release.",
+  "last_updated_utc": "2026-11-02 07:46 UTC",
+  "next_phase": "Finish only P11f Part A; open the pre-registration PR, then STOP for Claude. No genuine data or Part B.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",

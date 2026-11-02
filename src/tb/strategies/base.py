@@ -27,6 +27,7 @@ class StrategyBar(BaseModel):
     high: Decimal = Field(gt=0)
     low: Decimal = Field(gt=0)
     close: Decimal = Field(gt=0)
+    volume: Decimal | None = Field(default=None, ge=0)
     atr14: Decimal | None = Field(default=None, gt=0)
     realized_vol20: Decimal | None = Field(default=None, ge=0)
     ema20: Decimal | None = Field(default=None, gt=0)

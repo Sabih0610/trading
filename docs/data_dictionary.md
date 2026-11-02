@@ -444,3 +444,16 @@ retention, calendar conventions and the private quality table location.
 | `provider_duplicate_hour` / `provider_duplicate_minutes` | Verified whole duplicate hours / removed minute bars; these bars are included in `duplicates_removed`. |
 | `provider_duplicate_hours` | Source date, removed-minute count, reason and exact-OHLCV-verification fact. No prices. |
 | `quarantined_days` | Source dates/reasons whose conflicting or incomplete duplicate blocks exclude the entire day from derived bars. Original bytes stay unchanged. |
+
+
+## P11f Part A strategy inputs and catalogue
+
+StrategyBar.volume is optional Decimal >=0 (None means unavailable, not zero).
+C and E retain their previous feature contract; D requires actual present/rising
+volume before proposing. ATR14/EMA20/EMA50/slopes remain shared Gold features.
+VolatilityBreakoutConfig defines prior-only history/compression lengths;
+TsMomentumConfig defines a prior close return horizon and ATR stop distance.
+A frozen StrategyTrial records candidate name, exact symbol, timeframe and config.
+It is neither a result nor an execution permission. All 162 trial cells are defined
+without provider I/O. generate_stage3_decisions checks every timestamp before replay;
+future Part B disk reads additionally require the existing registry/partition guards.

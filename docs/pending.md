@@ -1,5 +1,9 @@
 # Pending items
 
+- **P11f Part A review:** open the pre-registration PR after clean fixture gates,
+  then STOP for Claude approval of the exact registered bytes. No genuine data
+  or Part B run yet. F waits for Stage 5; gold/FX and costs remain outside crypto.
+
 - **P11d legacy sealed file shape:** the reviewed collector created approximately
   1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,
   compaction or deletion. New capture uses 15-minute intervals; this existing
@@ -11,7 +15,7 @@
   its actual local path if available. Whole HistData 2020/2024 source archives cross
   the exact approved UTC window and are withheld before HTTP. Per-file reasons and
   full quality table remain private. Legacy Dukascopy samples are not for evaluation.
-- **P11e Stage 3 readiness:** independent PR #4 fix-round re-review, safe boundary history,
+- **P11e Stage 3 readiness:** safe boundary history,
   positive owner-reviewed XAUUSD/EURUSD spread floors and instrument-specific calendar
   assumptions remain to resolve. Existing data-only defaults are not execution costs.
   No strategy evaluation, orders or risk widening is authorized here.

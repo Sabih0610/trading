@@ -1,3 +1,13 @@
+# Current handoff — P11f Part A in progress
+
+Branch codex/p11f-stage3-crypto from main 6a0cbb9 in the credential-free P11f
+worktree. Implement D/E, freeze 162 candidate trials, test on owned fixtures,
+push the pre-registration PR and STOP for Claude. No genuine P11e reads, Part B,
+2025+ data, sealed-archive access, orders, merge or cost/risk changes.
+See [phase plan](../reports/phases/P11f.md) and [journal](journal/P11f-journal.md).
+
+## Previous handoff
+
 # Current handoff — P11e PR #4 fix round complete
 
 Corrected HistData to one EU-week offset and verified provider duplicate removal;

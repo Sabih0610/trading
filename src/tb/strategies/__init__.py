@@ -9,6 +9,8 @@ from tb.strategies.reference import (
     ReferenceStrategyConfig,
 )
 from tb.strategies.trend_vwap import TrendVwapConfig, TrendVwapStrategy
+from tb.strategies.ts_momentum import TsMomentumConfig, TsMomentumStrategy
+from tb.strategies.volatility_breakout import VolatilityBreakoutConfig, VolatilityBreakoutStrategy
 from tb.strategies.xaut_catchup import XautCatchUpConfig, XautCatchUpStrategy
 
 __all__ = [
@@ -22,6 +24,10 @@ __all__ = [
     "StrategyDecision",
     "TrendVwapConfig",
     "TrendVwapStrategy",
+    "TsMomentumConfig",
+    "TsMomentumStrategy",
+    "VolatilityBreakoutConfig",
+    "VolatilityBreakoutStrategy",
     "XautCatchUpConfig",
     "XautCatchUpStrategy",
     "generate_decisions",
