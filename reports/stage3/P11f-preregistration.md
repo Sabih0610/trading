@@ -1,8 +1,9 @@
 # P11f Stage 3 crypto pre-registration — Part A
 
-Status: proposed for Claude review. This is a hypothesis and a fixed protocol,
-not performance evidence or permission to run Part B. No genuine dataset has been
-opened for this task. Part A ends at its review PR; do not merge main or proceed.
+Status: Claude approved with P11f-1 amended before genuine access; owner authorized
+Part B on PR #5 (2026-11-02). This is a hypothesis and a fixed protocol, not
+performance evidence. No genuine dataset was opened before this amendment.
+Do not merge main or proceed beyond Part B.
 Authority: owner request (2026-11-02), P11f prompt and project record §§7, 8.2, 10.3.
 
 ## Universe, data, clocks and unchanged safety
@@ -108,8 +109,9 @@ For each default expanding fold and each strategy-symbol, select jointly from it
 18 cells using that fold's training data only: highest finite mean net R/trade,
 then fewer completed trades, then shorter timeframe seconds, then the tuple of
 parameter values in the grid's displayed parameter order, ascending numerically.
-Zero-trade training cells are ineligible. If all are ineligible, record insufficient
-evidence; do not substitute a later year's parameters. No test-year score enters
+A cell is eligible only with >= 20 completed training trades in that fold.
+Cells with fewer than 20 are ineligible. If none qualifies, record the fold as
+"insufficient evidence"; do not substitute a later year's parameters. No test-year score enters
 selection. Hold the chosen cell fixed for that fold's evaluation and every cost/
 ambiguity sensitivity. Comparisons are not eligible for this selector.
 
@@ -230,7 +232,7 @@ Technical resume uses identical preregistration digest, code/config/data identit
 and checkpoint; a defect after observation requires stopping and human review, not
 re-labeling a new run as the old preregistration. No follow-on phase is authorized.
 
-## Owner evaluation protocol and pass bar — verbatim, Part B not started
+## Owner evaluation protocol and pass bar — verbatim
 
 1. **Walk-forward** with `default_walk_forward_windows()`: expanding folds evaluating 2021, 2022
    and 2023 (development) and 2024 (validation), training from 2020-10. In each fold, choose
@@ -272,5 +274,6 @@ prices, equity curves, trade lists, per-trade input/output and bootstrap samples
 stay private in ignored work/ and the private read-only dashboard. No genuine
 performance artifact or pre-registration outcome exists in Part A.
 
-STOP after opening the Part A PR. Claude's approval of this exact registration is
-required before Part B, including any genuine development or validation run.
+Claude approved Part A subject to P11f-1 in reports/reviews/P11f-review.md.
+The owner authorized this amendment and Part B on the same PR. Commit this
+amendment and journal digest before opening any genuine input. No main merge.

@@ -13,8 +13,13 @@ def test_registration_hash_matches_journal_and_owner_protocol_is_verbatim():
     path = ROOT / "reports/stage3/P11f-preregistration.md"
     raw = path.read_bytes()
     journal = (ROOT / "docs/journal/P11f-journal.md").read_text(encoding="utf-8")
-    hashes = re.findall(r"PRE-REGISTRATION SHA-256: ([0-9a-f]{64})", journal)
+    hashes = re.findall(r"(?m)^- PRE-REGISTRATION SHA-256: ([0-9a-f]{64})", journal)
     assert hashes == [hashlib.sha256(raw).hexdigest()]
+    assert (
+        "ORIGINAL PRE-REGISTRATION SHA-256: 63efaa6e246d2f24d94a68a961ff268a046877ad6df68fcc4af0cceb96c02db6"
+        in journal
+    )
+    assert ">= 20 completed training trades in that fold" in raw.decode("utf-8")
     assert b"\r" not in raw
     prompt = (ROOT / "prompts/P11f-stage3-crypto.md").read_text(encoding="utf-8")
     required = prompt.split("## Part B: after approval, run the test once\n", 1)[1].split(

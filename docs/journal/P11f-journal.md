@@ -1,7 +1,8 @@
 # P11f Part A journal
 
-Only fixture implementation and pre-registration are authorized in this task.
-Stop after the review PR; no genuine data reads, evaluation or Part B execution.
+Part A stopped for review. The owner has now authorized the reviewed P11f-1
+amendment and Part B on PR #5. Genuine access remains blocked until the amended
+registration and new digest are committed and published. No main merge.
 
 - 2026-11-02 07:27 UTC: Pulled main 6a0cbb9 and created codex/p11f-stage3-crypto in a new
   credential-free worktree. Read project rules, protocol, P11e approval, roadmap,
@@ -18,7 +19,7 @@ Stop after the review PR; no genuine data reads, evaluation or Part B execution.
   replay properties pass. Checked all nine grid settings and both timeframe choices.
   C's missing parent context, spread half-width semantics and DSR's required benchmark
   are fixed explicitly in the registration; Part B adapters/metrics are not executed.
-- PRE-REGISTRATION SHA-256: 63efaa6e246d2f24d94a68a961ff268a046877ad6df68fcc4af0cceb96c02db6
+- ORIGINAL PRE-REGISTRATION SHA-256: 63efaa6e246d2f24d94a68a961ff268a046877ad6df68fcc4af0cceb96c02db6
   File: reports/stage3/P11f-preregistration.md (UTF-8, LF, exact bytes).
   Frozen before any genuine input or evaluation; reviewer approval is still pending.
 
@@ -37,3 +38,12 @@ Stop after the review PR; no genuine data reads, evaluation or Part B execution.
   Part A is complete and STOPPED for review. No genuine inputs, Part B run,
   performance verdict, sealed access, order or main merge. Final changes only
   record publication metadata; source and exact registration digest are unchanged.
+
+- 2026-11-02: Claude review copied byte-for-byte from the owner checkout. P11f-1
+  requires >=20 completed training trades per cell per fold; otherwise the fold
+  is insufficient evidence. N_trials stays 162. P11f-2 adds circuit-trip and
+  halted-day reporting without changing risk. No genuine registry, metadata,
+  quality report or observations read before this amendment.
+- PRE-REGISTRATION SHA-256: f7109e15baf3cecbc0f21d28df3e671d886be424947fed5e9f9c1ec801ddf396
+  Current amended registration, superseding the original digest above. Commit
+  and publish this exact registration before any genuine access.
