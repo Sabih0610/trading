@@ -25,6 +25,7 @@ veto or reduce, locked 2025+ final test, secrets only in `.env`.
 | O-3 | Accept Binance Vision licence for research; note live-trading restriction | CC BY-NC-SA 4.0, "purely personal non-production research"; derived models restricted for live use |
 | O-4 | Fix `.env` ACL (`icacls .env /inheritance:r /grant:r "%USERNAME%:(F)" "SYSTEM:(F)"`) | Audit S-5 |
 | O-5 | Approve each dataset in the P11c.0 registry (owner + distinct reviewer) | Required before any genuine evaluation |
+| O-6 | **Deferred (owner, 2026-11-02):** Shariah stock track: SEC EDGAR screener (business activity + AAOIFI-style ratios), earnings analysis, optional congressional-trade tracker | Needs a non-Binance broker and an `AGENTS.md` venue change; revisit only after Stage 3 |
 
 ## 2. Stages
 
@@ -57,8 +58,18 @@ Data sources (see the research report for citations):
 Also: compaction job (daily Silver → yearly, verified by row count + content hash, atomic swap),
 Treasury/EIA downloaders, live XAUT order-book collector.
 
+**Venue announcement monitor** (adopted from day-trader-skill `trader-news`): poll Binance's
+official announcements for XAUT/BTC/ETH/SOL (delisting, trading halt, deposit/withdrawal
+suspension, maintenance, network upgrade). Store with `known_at`, deduplicate, tag, alert once.
+Use it as a **veto-only** input: block new entries for an affected asset; never create trades.
+Check the announcement source's terms first (same rights registry).
+
 ### Stage 3 — The deciding test
 - Strategies D/E/F (crypto) and A/B/C (developed on XAUUSD), plus the EMA/channel references.
+- **Candidate G — session opening-range breakout** (adopted from `trader-entry`): XAUUSD at the
+  London and New York opens; buy the first completed bar that closes above the first 15-minute
+  range, stop at the range midpoint or low, target 2R. Pre-registered before any run; not for
+  24/7 crypto. Every added candidate counts in the multiple-testing correction (deflated Sharpe).
 - Walk-forward: train 2020-10 → 2023-12, validate 2024. Purge ≥ label horizon, embargo after.
 - Costs: Dukascopy real spread for gold/FX; config costs as a floor for crypto; EDGE (`bidask`) only as a
   cross-check. Same-bar ambiguity resolved with Binance 1s klines where available, stop-first otherwise.
@@ -125,7 +136,9 @@ concludes "close to a coin flip". Its value is process design, not a proven edge
 | Risk check PASS/BLOCK with reasons | Max loss, daily loss, trades/day, R:R, entry window, size, cash | `risk/manager.py` (stricter, compiled ceilings) | Keep ours; consider adding an explicit minimum reward-to-risk rule |
 | Two-step human approval | Typed "yes" + Claude's Allow-once card | Owner gates, no order path | Adopt the pattern for P12 |
 | Alerts (stop/target/flat-by-close) | Price alerts | None | Later, P11/P12 via Telegram |
-| Scanner, news, analyst, Pelosi | US equities, SEC/House data | Not in scope | Skip |
+| News (`trader-news`) | Headlines + SEC 8-K per stock, new-only, tagged | RSS/GDELT + official macro calendar with `known_at` (better for gold/crypto) | **Adopt the per-asset event-alert idea** as the Binance announcement monitor (Stage 2) |
+| Entry (`trader-entry`) | Opening-range breakout | Strategies A–F + channel reference | **Adopt as Stage 3 candidate G** (gold session opens) |
+| Analyst, Pelosi, scanner | US equities, SEC/House data | Not in venue scope | **Deferred** to owner decision O-6 (stock track) |
 | Yahoo data | Unofficial endpoint | — | **Do not use** |
 
 Adoption follows the repo's third-party process (D-0036): independent reimplementation with
