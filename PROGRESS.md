@@ -1,5 +1,7 @@
 # P11f Part A complete — pre-registration review required
 
+[PR #5](https://github.com/Sabih0610/trading/pull/5) is open and unmerged. **STOP for Claude pre-registration review.**
+
 Part A implements D/E and freezes C/D/E at 162 candidate cells. All tests use
 owned fixtures; no genuine data, P11e registry/quality, holdout or sealed archive
 was read. Part B is unstarted and blocked on Claude's review of the registration.

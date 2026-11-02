@@ -1,5 +1,7 @@
 # Current handoff — P11f Part A validated; stop for review
 
+[PR #5](https://github.com/Sabih0610/trading/pull/5) is open and unmerged. **STOP for Claude pre-registration review.**
+
 Part A implements D/E and freezes C/D/E at 162 candidate cells. All tests use
 owned fixtures; no genuine data, P11e registry/quality, holdout or sealed archive
 was read. Part B is unstarted and blocked on Claude's review of the registration.
@@ -10,8 +12,7 @@ Pre-registration SHA-256: 63efaa6e246d2f24d94a68a961ff268a046877ad6df68fcc4af0cc
 Branch codex/p11f-stage3-crypto, credential-free P11f worktree. The clean gate
 ran in its separate P11f-clean worktree, with no .env or genuine datasets. Keep
 the registration unchanged; its journal digest identifies exactly what is reviewed.
-Next exact action: publish/open the Part A pre-registration PR, then STOP for
-Claude. Do not load P11e data or run Part B in this task.
+Next exact action: wait for Claude approval of this registration. STOP here. Do not load P11e data or run Part B in this task.
 [Registration](../reports/stage3/P11f-preregistration.md), [phase report](../reports/phases/P11f.md),
 [validation](../reports/validation/P11f/summary.json), [runbook](how-to/stage3-crypto.md).
 

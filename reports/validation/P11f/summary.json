@@ -26,5 +26,12 @@
   "sealed_collector": "untouched",
   "orders": false,
   "main_merged": false,
-  "next_action": "Open pre-registration PR, then STOP for Claude approval."
+  "next_action": "STOP for Claude pre-registration review; no genuine inputs or Part B.",
+  "publication": {
+    "pr_url": "https://github.com/Sabih0610/trading/pull/5",
+    "branch": "codex/p11f-stage3-crypto",
+    "status": "open_unmerged",
+    "skip_ci": true,
+    "follow_tags": false
+  }
 }

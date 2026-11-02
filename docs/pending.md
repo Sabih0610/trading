@@ -1,6 +1,6 @@
 # Pending items
 
-- **P11f Part A review:** clean fixture gates passed; publish the pre-registration PR,
+- **P11f Part A review:** clean fixture gates passed; [PR #5](https://github.com/Sabih0610/trading/pull/5) is open,
   then STOP for Claude approval of the exact registered bytes. No genuine data
   or Part B run yet. F waits for Stage 5; gold/FX and costs remain outside crypto.
 

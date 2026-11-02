@@ -32,3 +32,8 @@ Stop after the review PR; no genuine data reads, evaluation or Part B execution.
   Config comparison proves only the three allowed-strategy additions; no risk/cost
   changes or weakened tests/deadlines. Registration bytes remain unchanged.
   No genuine reads, evaluation, Part B, sealed access or orders. Publication next.
+
+- 2026-11-02 08:15 UTC: Published skip-ci/no tags and opened [PR #5](https://github.com/Sabih0610/trading/pull/5).
+  Part A is complete and STOPPED for review. No genuine inputs, Part B run,
+  performance verdict, sealed access, order or main merge. Final changes only
+  record publication metadata; source and exact registration digest are unchanged.
