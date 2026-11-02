@@ -26,3 +26,9 @@ Stop after the review PR; no genuine data reads, evaluation or Part B execution.
   properties, injected-lookahead detection, both timeframe choices, all grid
   windows, unchanged-engine bracket/risk/EOD fixture and exact registration bytes.
   Ruff/format pass and strict mypy checks 192 source files. Full clean gate next.
+
+- 2026-11-02 08:10 UTC: Full clean credential-free offline gate passed on 41fde32e7bef3250cdeedbb0075bbe7b7d34a15a:
+  1412 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 669.21s (0:11:09). Ruff/format, strict mypy (192 sources), smoke and 14 owned studies pass.
+  Config comparison proves only the three allowed-strategy additions; no risk/cost
+  changes or weakened tests/deadlines. Registration bytes remain unchanged.
+  No genuine reads, evaluation, Part B, sealed access or orders. Publication next.

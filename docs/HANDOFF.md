@@ -1,10 +1,19 @@
-# Current handoff — P11f Part A in progress
+# Current handoff — P11f Part A validated; stop for review
 
-Branch codex/p11f-stage3-crypto from main 6a0cbb9 in the credential-free P11f
-worktree. Implement D/E, freeze 162 candidate trials, test on owned fixtures,
-push the pre-registration PR and STOP for Claude. No genuine P11e reads, Part B,
-2025+ data, sealed-archive access, orders, merge or cost/risk changes.
-See [phase plan](../reports/phases/P11f.md) and [journal](journal/P11f-journal.md).
+Part A implements D/E and freezes C/D/E at 162 candidate cells. All tests use
+owned fixtures; no genuine data, P11e registry/quality, holdout or sealed archive
+was read. Part B is unstarted and blocked on Claude's review of the registration.
+Clean offline gate: 1412 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 669.21s (0:11:09). Ruff/format, strict mypy (192 sources), safety smoke
+and 14 owned paper studies pass on 41fde32e7bef3250cdeedbb0075bbe7b7d34a15a. Later edits are docs only.
+Pre-registration SHA-256: 63efaa6e246d2f24d94a68a961ff268a046877ad6df68fcc4af0cceb96c02db6.
+
+Branch codex/p11f-stage3-crypto, credential-free P11f worktree. The clean gate
+ran in its separate P11f-clean worktree, with no .env or genuine datasets. Keep
+the registration unchanged; its journal digest identifies exactly what is reviewed.
+Next exact action: publish/open the Part A pre-registration PR, then STOP for
+Claude. Do not load P11e data or run Part B in this task.
+[Registration](../reports/stage3/P11f-preregistration.md), [phase report](../reports/phases/P11f.md),
+[validation](../reports/validation/P11f/summary.json), [runbook](how-to/stage3-crypto.md).
 
 ## Previous handoff
 

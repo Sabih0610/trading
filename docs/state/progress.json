@@ -621,18 +621,23 @@
     },
     "P11f": {
       "title": "Stage 3 crypto \u2014 Part A pre-registration",
-      "status": "in_progress",
+      "status": "blocked_on_review",
       "base_commit": "6a0cbb9",
       "branch": "codex/p11f-stage3-crypto",
       "report": "reports/phases/P11f.md",
-      "part_a": "implemented_on_fixtures_pending_clean_gate",
-      "part_b": "not_started_blocked_on_preregistration_review",
+      "part_a": "complete_fixture_gate_passed",
+      "part_b": "not_started",
       "genuine_data_read": false,
       "strategy_evaluation": false,
       "candidate_trials": 162,
       "risk_cost_defaults": "unchanged",
       "sealed_collector": "untouched",
-      "review": "pending_part_a_pr"
+      "review": "awaiting_claude_preregistration_approval",
+      "source_commit": "41fde32e7bef3250cdeedbb0075bbe7b7d34a15a",
+      "source_tree": "1f41b5db972d92fba60d30bd9732b4ffc2465e4e",
+      "tests_passed": 1412,
+      "preregistration_sha256": "63efaa6e246d2f24d94a68a961ff268a046877ad6df68fcc4af0cceb96c02db6",
+      "validated_utc": "2026-11-02 08:10 UTC"
     }
   },
   "allowed_status": [
@@ -661,8 +666,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-02 07:46 UTC",
-  "next_phase": "Finish only P11f Part A; open the pre-registration PR, then STOP for Claude. No genuine data or Part B.",
+  "last_updated_utc": "2026-11-02 08:10 UTC",
+  "next_phase": "STOP after publishing the Part A PR; wait for Claude approval of the exact pre-registration. No genuine data or Part B in this task.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",

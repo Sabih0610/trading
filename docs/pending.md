@@ -1,6 +1,6 @@
 # Pending items
 
-- **P11f Part A review:** open the pre-registration PR after clean fixture gates,
+- **P11f Part A review:** clean fixture gates passed; publish the pre-registration PR,
   then STOP for Claude approval of the exact registered bytes. No genuine data
   or Part B run yet. F waits for Stage 5; gold/FX and costs remain outside crypto.
 
