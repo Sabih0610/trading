@@ -15,7 +15,7 @@ assets:
       fee_bps: "10"
       spread_bps_default: "8"
       slippage_bps_default: "5"
-    allowed_strategies: [london_sweep_mss_fvg, xaut_catch_up, trend_vwap_pullback]
+    allowed_strategies: [london_sweep_mss_fvg, xaut_catch_up, trend_vwap_pullback, session_orb]
     risk_overrides:
       risk_per_trade_pct: "0.25"
       max_trades_per_day_per_asset: 2
