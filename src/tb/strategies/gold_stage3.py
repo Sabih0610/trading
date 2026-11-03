@@ -114,14 +114,27 @@ def gold_development_verdict(
     beats_random: bool,
 ) -> GoldVerdict:
     """Development evidence can reject or be promising, and can never be a validated pass."""
-    required = [y.expectancy_r for y in (*years, *stressed_years)]
     if (
         any(y.expectancy_r is not None and y.expectancy_r <= 0 for y in years)
         or (aggregate.profit_factor is not None and aggregate.profit_factor < 1.1)
         or any(y.expectancy_r is not None and y.expectancy_r <= 0 for y in stressed_years)
     ):
         return "reject"
-    if any(x is None for x in required) or aggregate.profit_factor is None:
+    # DSR is explicitly informational; every other reported statistic must be defined.
+    evidence = (*years, aggregate, *stressed_years)
+    required = [
+        value
+        for record in evidence
+        for value in (
+            record.expectancy_r,
+            record.profit_factor,
+            record.max_dd_pct,
+            record.net_return,
+            record.sharpe,
+            record.win_rate,
+        )
+    ]
+    if any(x is None or not math.isfinite(x) for x in required):
         return "insufficient evidence"
     if (
         aggregate.profit_factor >= 1.3

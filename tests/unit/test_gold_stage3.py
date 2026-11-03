@@ -405,3 +405,44 @@ def test_proxy_refuses_unregistered_candidate_timeframe(minutes, plugin):
     )
     with pytest.raises(ResearchRefused, match="timeframe_not_registered"):
         batch.replay(plugin("XAUTUSDT"), purpose="historical_research")
+
+
+@pytest.mark.parametrize(
+    "field,value", [("session_vwap", Decimal("100")), ("volume", Decimal("1"))]
+)
+def test_histdata_proxy_refuses_invented_volume_or_vwap(field, value):
+    original = row(quality_delta=15)
+    forged = original.model_copy(update={"bar": original.bar.model_copy(update={field: value})})
+    with pytest.raises(ResearchRefused, match="no_observed_volume_or_vwap"):
+        GoldProxyBatch((forged,), timedelta(minutes=15), purpose="historical_research")
+
+
+@pytest.mark.parametrize("field", ["expectancy_r", "profit_factor", "sharpe", "win_rate"])
+@pytest.mark.parametrize("position", [0, 2, 4])
+def test_undefined_non_dsr_statistics_cannot_promote_gold(field, position):
+    records = [summary() for _ in range(5)]
+    records[position] = records[position].model_copy(update={field: None})
+    assert (
+        gold_development_verdict(
+            (records[0], records[1]), records[2], (records[3], records[4]), beats_random=True
+        )
+        == "insufficient evidence"
+    )
+
+
+def test_dsr_remains_informational_while_nonfinite_statistics_refuse_promotion():
+    good = summary().model_copy(update={"dsr": None})
+    assert (
+        gold_development_verdict((good, good), good, (good, good), beats_random=True) == "promising"
+    )
+    invalid = good.model_copy(update={"sharpe": float("inf")})
+    assert (
+        gold_development_verdict((good, good), invalid, (good, good), beats_random=True)
+        == "insufficient evidence"
+    )
+    assert (
+        gold_development_verdict(
+            (summary(exp=-1), invalid), invalid, (good, good), beats_random=True
+        )
+        == "reject"
+    )

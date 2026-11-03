@@ -21,3 +21,11 @@
 - 2026-11-03 06:13 UTC: Final focused owned43cases pass in9.25s. No actual G registry,
   quality or source observations opened. Checkpointing unpublished work and
   rebasing onto the now-approved F/main baseline before review.
+
+- 2026-11-03 21:47 UTC: Resumed after F merged and Claude approved Part B on main.
+  Strict mypy200sources and44focused cases passed on the timeframe boundary fix.
+  Read-only source review then reproduced undefined-Sharpe promotion and forged
+  HistData VWAP using owned fixtures. Stopped the obsolete clean gate during setup;
+  require all non-DSR statistics defined/finite, and reject any claimed HistData
+  VWAP or positive traded volume before replay. Explicit known Reject keeps priority.
+  Registration bytes unchanged; no genuine G observations/metadata opened.

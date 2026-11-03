@@ -117,6 +117,8 @@ class GoldProxyBatch:
         rows = tuple(rows)  # preserve preflight scope even if a caller supplied a mutable list
         previous = None
         for row in rows:
+            if row.bar.session_vwap is not None or row.bar.volume not in (None, Decimal("0")):
+                raise ResearchRefused("gold_proxy_histdata_has_no_observed_volume_or_vwap")
             if (
                 row.bar.symbol != "XAUUSD"
                 or not START <= row.bar.timestamp < STOP
