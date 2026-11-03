@@ -29,3 +29,14 @@ Shared living-document updates belong in the phase report for later integration.
   unit/integration cases pass: 45 in 14.66s, including the new clock-jump case.
   Persisted UTC reservations and Retry-After still govern restart/concurrency.
   No genuine API fetch, orders or shared living-document edits. Full gate queued.
+
+- 2026-11-03 21:44 UTC: Recovered and verified the completed full offline gate on
+  clean source candidate 2d109f6a36e9dcd8403f34162806af3d4b21d5ee, rebased onto
+  main 6a64b22a55caa7e5c3e44462f28ab07be312c676. Ruff and format passed (543
+  files); strict mypy passed (200 source files). Pytest: 1,500 passed, 1 skipped,
+  3 deselected, 5 existing xfailed in 668.11s. Safety smoke and 14 owned studies
+  passed. Released the exclusive full-suite slot to the other tracks immediately.
+  Fetched main again: unchanged; no H review exists yet. Final publication adds
+  documentation/evidence and the empty P11h.ready marker only. No runtime, test,
+  risk configuration or backtest changes after the validated candidate; no
+  genuine status capture, provider data, sealed archive reads or external orders.
