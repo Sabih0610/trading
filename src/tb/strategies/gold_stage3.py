@@ -134,7 +134,7 @@ def gold_development_verdict(
             record.win_rate,
         )
     ]
-    if any(x is None or not math.isfinite(x) for x in required):
+    if any(x is None or not math.isfinite(x) for x in required) or aggregate.profit_factor is None:
         return "insufficient evidence"
     if (
         aggregate.profit_factor >= 1.3
