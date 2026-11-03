@@ -193,7 +193,10 @@ def test_quality_threshold_equality_and_no_invented_volume_or_vwap():
     assert len(result.entries) == 1 and "XAUUSD(histdata, bid)" in result.proxy_label
     assert spy.seen[0].symbol == "XAUTUSDT" and spy.seen[0].volume is None
     assert spy.seen[0].session_vwap is None
-    assert not batch.replay(TrendVwapStrategy("XAUTUSDT"), purpose="historical_research").entries
+    c_batch = GoldProxyBatch(
+        (row(quality_delta=15),), timedelta(minutes=15), purpose="historical_research"
+    )
+    assert not c_batch.replay(TrendVwapStrategy("XAUTUSDT"), purpose="historical_research").entries
     registry = load_policy_bundle().registry
     assert registry.asset("XAUUSD").role == AssetRole.DATA_ONLY
     assert registry.asset("XAUUSD").allowed_strategies == ()
@@ -393,3 +396,12 @@ def test_proxy_copies_input_scope_before_later_list_mutation():
     spy = Spy()
     batch.replay(spy, purpose="historical_research")
     assert len(spy.seen) == 1 and spy.seen[0].timestamp.year == 2021
+
+
+@pytest.mark.parametrize("minutes,plugin", [(5, TrendVwapStrategy), (60, SessionOrbStrategy)])
+def test_proxy_refuses_unregistered_candidate_timeframe(minutes, plugin):
+    batch = GoldProxyBatch(
+        (row(quality_delta=minutes),), timedelta(minutes=minutes), purpose="historical_research"
+    )
+    with pytest.raises(ResearchRefused, match="timeframe_not_registered"):
+        batch.replay(plugin("XAUTUSDT"), purpose="historical_research")

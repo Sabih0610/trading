@@ -137,6 +137,16 @@ class GoldProxyBatch:
         require_historical_research(purpose)
         if plugin.symbol != "XAUTUSDT" or plugin.name not in CANDIDATES:
             raise ResearchRefused("gold_proxy_candidate_not_registered")
+        allowed = {
+            "london_sweep_mss_fvg": {timedelta(minutes=5), timedelta(minutes=15)},
+            "trend_vwap_pullback": {timedelta(minutes=15), timedelta(hours=1)},
+            "session_orb": {timedelta(minutes=5), timedelta(minutes=15)},
+        }
+        if (
+            self.timeframe not in allowed[plugin.name]
+            or getattr(plugin, "timeframe", self.timeframe) != self.timeframe
+        ):
+            raise ResearchRefused("gold_proxy_candidate_timeframe_not_registered")
         entries, exits, vetoes = [], [], []
         for row in self._rows:
             mapped = row.bar.model_copy(update={"symbol": "XAUTUSDT"})
