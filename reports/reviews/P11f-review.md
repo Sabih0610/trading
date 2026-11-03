@@ -57,3 +57,7 @@ Stronger than the prompt in several places, all in the conservative direction:
 ## 6. Decision
 
 Part B may start once P11f-1 is applied to the pre-registration on the same PR, with its new SHA-256 recorded and no genuine data read before then. Report P11f-2 in Part B.
+
+## Part B (2026-11-03)
+
+**APPROVED**: see [P11f-partB-review.md](P11f-partB-review.md). No crypto candidate passes; PR #5 merged.
