@@ -35,7 +35,7 @@ remains parseable. Existing provider-specific disabled status reports remain int
 
 Keep property assertions/example counts unchanged. Untimed module fixtures warm
 native paths. Warm-up alone still measured 1.108s under concurrent Windows load;
-only the two owner-named properties receive an explicit2s deadline. No global
+only the two owner-named properties receive an explicit 2s deadline. No global
 Hypothesis relaxation. pytest faulthandler_timeout=600 dumps stacks without skipping
 or failing a test. Add missing process/socket/thread bounds and document the audit.
 

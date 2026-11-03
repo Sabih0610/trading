@@ -12,7 +12,7 @@ Master conflict rule overrides shared living-doc edits; entries go in the phase 
 - S1 index-only cleanup covers 30 kit and 92 legacy quality-metadata paths. All local files retain sizes/mtimes; their contents were not opened. No history rewrite.
 - S7 pins the two existing reviewed source commits, verifies detached identity and refuses dirty cache. No installer or third-party skill was executed.
 - S9 logs missing optional configuration once by feature name, sends logs to stderr and defers private-dotenv status until actual load.
-- Reliability: untimed module fixtures warm the existing Polars/native paths; both Hypothesis assertions and 200 ms deadline remain unchanged. Added faulthandler_timeout=600 and bounded missing Git/icacls/junction subprocess waits; callback thread termination is asserted.
+- Reliability: untimed module fixtures warm the existing Polars/native paths; the initial warm-up experiment retained both Hypothesis assertions and the 200 ms deadline; the measured result and authorized narrow adjustment are recorded below. Added faulthandler_timeout=600 and bounded missing Git/icacls/junction subprocess waits; callback thread termination is asserted.
 - Focused validation in progress; full gate will run in the coordinated slot.
 
 - Focused first pass:127 passed,1environmental skip; two timing failures remained despite untimed warm-up, including1107.85ms against200ms on this concurrent Windows workload. Per explicit P11j authority, only those two properties now have a2s deadline; assertions and example counts are unchanged. The new exact boundary tests passed15/15 before this adjustment. No global Hypothesis deadline changes.
@@ -31,3 +31,15 @@ Master conflict rule overrides shared living-doc edits; entries go in the phase 
   Causality assertion ASTs match main; shared living docs, engine and labels have
   no J1 diff. Full gate is queued after I and H, with root coordinating one heavy
   suite at a time. No genuine F rerun, provider data, holdout or sealed access.
+
+- 2026-11-03 23:11 UTC: Clean full offline gate passed at commit
+  6b132f6cbffc306581c495a54a90da995896a47b / tree
+  0c709e85ef9581e7accc0410cbf9f8d73cc7d9b0, based on main 6a64b22.
+  Ruff/540-file format/strict mypy197 passed. Full pytest: 1,480 passed,
+  2 environmental skips (no private .env; optional kit zip absent), 3 live
+  deselected, 2 deferred Wave 2 xfails, 23 dependency warnings, 1,176.58s.
+  Safety smoke and 14 owned acceptance studies passed; zero external orders.
+  Earlier host-interrupted gate is excluded from pass evidence. Final docs and
+  empty queue marker reuse this unchanged validated runtime. Fresh main fetch
+  remains 6a64b22; no shared living-doc or engine/label diff, no genuine-data read.
+  Heavy gate slot released to G; Wave 2 stays blocked until G Part B merges.

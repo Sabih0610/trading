@@ -1,6 +1,6 @@
 # Audit hardening and test diagnostics
 
-J1 Wave 1 hardens research mechanics without widening risk or changing fills/labels.
+J1 Wave 1 hardens research mechanics without widening risk or changing engine fill-price/priority rules or labels.
 Noncanonical entry symbols reject, quantity capacity arithmetic rounds down and
 all chart modes refuse 2025+ observations. Default commands need no provider keys.
 
@@ -21,9 +21,9 @@ A test exceeding 600s causes pytest to dump all thread stacks, then continue. Th
 is diagnostic evidence, not a test skip/pass or abort. Preserve the log and identify
 the blocked operation. Never rerun silently to hide a semantic failure.
 
-Direct test subprocess calls have explicit30s/120s bounds. The owned OAuth test
-uses5s socket operations, a10s/64KiB response bound, and a5s joined-thread assertion;
-the source callback listener already has a300s/20-request bound. Writer leases
+Direct test subprocess calls have explicit 30s/120s bounds. The owned OAuth test
+uses 5s socket operations, a 10s/64KiB response bound, and a 5s joined-thread assertion;
+the source callback listener already has a 300s/20-request bound. Writer leases
 are OS-held nonblocking locks; SQLite connections use bounded library waits.
 
 ## Optional configuration logs

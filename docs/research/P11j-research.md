@@ -6,7 +6,7 @@ Pinned versions remain Python 3.12, pytest 9.1.1 and Hypothesis 6.170.5.
 | Question | Options | Decision |
 |---|---|---|
 | Quantity rounding | Ambient half-even / directed positive division | ROUND_DOWN in local Decimal contexts; step flooring also uses directed division, including null-filter quantity precision. No fabricated exchange filter. |
-| Cold query deadline | Relax assertions / disable deadline / untimed warm-up | Warm exact feature/resample paths in module fixtures; observed loaded examples still reached1.108s. Apply an explicit2s deadline only to those two properties as authorized, preserving every assertion/example count and all other default deadlines. |
+| Cold query deadline | Relax assertions / disable deadline / untimed warm-up | Warm exact feature/resample paths in module fixtures; observed loaded examples still reached 1.108s. Apply an explicit 2s deadline only to those two properties as authorized, preserving every assertion/example count and all other default deadlines. |
 | Six-hour hang evidence | Fail tests by timer / built-in stack dump | pytest faulthandler_timeout=600 dumps stacks without failing or skipping; add explicit missing subprocess bounds. |
 | Synthetic chart exemption | Trust manifest / uniform holdout | Every chart mode refuses 2025+ manifest/actual timestamps, including beyond the displayed page. |
 | Skill provenance | Floating HEAD / reviewed SHA | Reuse the two documented audited commits, verify detached checkout, refuse dirty cache. |
