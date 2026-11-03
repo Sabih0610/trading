@@ -3,7 +3,8 @@
 from datetime import UTC, datetime, timedelta
 
 import polars as pl
-from hypothesis import given
+import pytest
+from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from tb.silver.market import clean_minute_bars, resample_completed_bars
@@ -29,6 +30,13 @@ def _frame(offsets: list[int]) -> pl.DataFrame:
     )
 
 
+@pytest.fixture(scope="module", autouse=True)
+def warm_native_query_paths() -> None:
+    """Exclude cold Polars/feature initialization from Hypothesis' timed examples."""
+    clean = clean_minute_bars(_frame(list(range(5))), market_kind="continuous").frame
+    resample_completed_bars(clean, "5m", cutoff=_START + timedelta(minutes=5))
+
+
 @given(offsets=st.lists(st.integers(min_value=0, max_value=500), min_size=1, max_size=100))
 def test_cleaned_timestamps_are_sorted_and_unique(offsets: list[int]) -> None:
     result = clean_minute_bars(_frame(offsets), market_kind="continuous")
@@ -38,6 +46,9 @@ def test_cleaned_timestamps_are_sorted_and_unique(offsets: list[int]) -> None:
     assert result.duplicates_removed == len(offsets) - len(set(offsets))
 
 
+# Windows/Polars examples measured 1.108s under concurrent machine load after warm-up.
+# Keep every causality assertion/example; bound only these two native-query properties at 2s.
+@settings(deadline=timedelta(seconds=2))
 @given(future_close=st.floats(min_value=1.0, max_value=1_000_000.0, allow_nan=False))
 def test_future_unfinished_value_cannot_change_completed_bar(future_close: float) -> None:
     clean = clean_minute_bars(_frame(list(range(5))), market_kind="continuous").frame

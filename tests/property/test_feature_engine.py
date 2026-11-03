@@ -3,7 +3,8 @@
 from datetime import UTC, datetime, timedelta
 
 import polars as pl
-from hypothesis import given
+import pytest
+from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from tb.features.engine import compute_features_batch
@@ -28,6 +29,15 @@ def _bars(count: int) -> pl.DataFrame:
     )
 
 
+@pytest.fixture(scope="module", autouse=True)
+def warm_native_query_paths() -> None:
+    """Exclude cold Polars/feature initialization from Hypothesis' timed examples."""
+    compute_features_batch(_bars(60))
+
+
+# Windows/Polars examples measured 1.108s under concurrent machine load after warm-up.
+# Keep every causality assertion/example; bound only these two native-query properties at 2s.
+@settings(deadline=timedelta(seconds=2))
 @given(
     future_closes=st.lists(st.floats(min_value=1.0, max_value=1_000_000.0), min_size=1, max_size=20)
 )

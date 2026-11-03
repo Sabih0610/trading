@@ -292,14 +292,6 @@ def test_exchange_rounding_never_rounds_size_up(
         assert rounded.quantity % step == 0
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "FINDING R-4: with exchange_rules null (all shipped assets) quantity is never quantized; "
-        "risk_budget/stop_distance is rounded half-even at 28 digits, so approved risk can "
-        "exceed the budget by 1 ulp (1E-30 here). Immaterial in value but not round-down."
-    ),
-)
 def test_unquantized_quantity_is_rounded_down_not_half_even() -> None:
     asset = BUNDLE.registry.asset("XAUTUSDT")
     assert asset is not None
@@ -432,16 +424,11 @@ def test_xaut_weekend_rule_cannot_be_reenabled_via_asset_registry() -> None:
     assert not decision.approved
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "FINDING R-3: evaluate_entry raises pydantic ValidationError (not a RiskDecision) for "
-        "a lowercase/space-padded symbol because OrderIntent's regex runs before normalization."
-    ),
-)
 def test_unnormalized_symbol_returns_decision_instead_of_raising() -> None:
     decision = RiskManager(BUNDLE).evaluate_entry(_req(symbol="xautusdt"), _state())
-    assert decision.approved  # registry.asset() itself normalizes case
+    # P11j owner contract now requires a rejection for noncanonical entry symbols.
+    assert not decision.approved
+    assert decision.reason_code is RejectionCode.ASSET_POLICY
 
 
 # ---------------------------------------------------------------------------

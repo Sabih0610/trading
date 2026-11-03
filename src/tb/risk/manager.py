@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from datetime import datetime
-from decimal import ROUND_DOWN, Decimal
+from decimal import ROUND_DOWN, Decimal, localcontext
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from tb.backtest.costs import CostAssumptions
 from tb.risk.account import equity_breach
@@ -101,11 +101,20 @@ def _reject(code: RejectionCode, detail: str) -> RiskDecision:
     )
 
 
+def _floor_divide(numerator: Decimal, denominator: Decimal) -> Decimal:
+    """Positive capacity division cannot round a permitted quantity upward."""
+    with localcontext() as context:
+        context.rounding = ROUND_DOWN
+        return numerator / denominator
+
+
 def _round_quantity(quantity: Decimal, asset: AssetDefinition) -> Decimal:
     rules = asset.exchange_rules
     if rules is None or rules.step_size is None:
-        return quantity
-    steps = (quantity / rules.step_size).to_integral_value(rounding=ROUND_DOWN)
+        with localcontext() as context:
+            context.rounding = ROUND_DOWN
+            return +quantity
+    steps = _floor_divide(quantity, rules.step_size).to_integral_value(rounding=ROUND_DOWN)
     return steps * rules.step_size
 
 
@@ -128,13 +137,22 @@ class RiskManager:
             asset = assert_tradable(request.symbol, self.bundle.registry)
         except RiskViolation as exc:
             return _reject(RejectionCode.ASSET_POLICY, str(exc))
-        intent = OrderIntent(
-            symbol=request.symbol,
-            side=request.side,
-            quantity=Decimal("1"),
-            current_holdings=state.current_holdings,
-            market=request.market,
-        )
+        if request.symbol != asset.symbol:
+            return _reject(
+                RejectionCode.ASSET_POLICY, "Entry symbol must use its canonical registry form"
+            )
+        if not request.market.strip():
+            return _reject(RejectionCode.MARKET_POLICY, "Entry market cannot be blank")
+        try:
+            intent = OrderIntent(
+                symbol=request.symbol,
+                side=request.side,
+                quantity=Decimal("1"),
+                current_holdings=state.current_holdings,
+                market=request.market,
+            )
+        except ValidationError:
+            return _reject(RejectionCode.MARKET_POLICY, "Entry intent is invalid")
         try:
             assert_spot(intent)
         except RiskViolation as exc:
@@ -184,15 +202,15 @@ class RiskManager:
             entry_price - stop_exit + friction.fee(entry_price) + friction.fee(stop_exit)
         )
         risk_budget = state.equity * limits.risk_per_trade_pct / Decimal("100")
-        quantity = risk_budget / stop_distance
+        quantity = _floor_divide(risk_budget, stop_distance)
         exposure_capacity = max(
             state.equity * limits.max_total_exposure_multiple - state.current_exposure,
             Decimal("0"),
         )
         quantity = min(
             quantity,
-            exposure_capacity / (entry_price + stop_distance),
-            state.cash / (entry_price + friction.fee(entry_price)),
+            _floor_divide(exposure_capacity, entry_price + stop_distance),
+            _floor_divide(state.cash, entry_price + friction.fee(entry_price)),
         )
         if request.requested_quantity is not None:
             quantity = min(quantity, request.requested_quantity)
@@ -210,7 +228,7 @@ class RiskManager:
             if rules.min_notional is not None and notional < rules.min_notional:
                 return _reject(RejectionCode.NOTIONAL_FILTER, "Notional is below the minimum")
             if rules.max_notional is not None and notional > rules.max_notional:
-                quantity = _round_quantity(rules.max_notional / entry_price, asset)
+                quantity = _round_quantity(_floor_divide(rules.max_notional, entry_price), asset)
             if rules.min_qty is not None and quantity < rules.min_qty:
                 return _reject(RejectionCode.QUANTITY_FILTER, "Capped quantity is below minimum")
             if rules.min_notional is not None and quantity * entry_price < rules.min_notional:
@@ -240,7 +258,7 @@ class RiskManager:
         if rules is None:
             return RiskDecision(
                 approved=True,
-                quantity=proposed_quantity,
+                quantity=_round_quantity(proposed_quantity, asset),
                 risk_amount=Decimal("0"),
             )
         step_size = (
@@ -262,9 +280,9 @@ class RiskManager:
         if maximum_quantity is not None:
             quantity = min(quantity, maximum_quantity)
         if rules.max_notional is not None:
-            quantity = min(quantity, rules.max_notional / price)
+            quantity = min(quantity, _floor_divide(rules.max_notional, price))
         if step_size is not None:
-            steps = (quantity / step_size).to_integral_value(rounding=ROUND_DOWN)
+            steps = _floor_divide(quantity, step_size).to_integral_value(rounding=ROUND_DOWN)
             quantity = steps * step_size
         if quantity <= 0:
             return _reject(RejectionCode.NO_CAPACITY, "Exchange rounding leaves no fill quantity")
