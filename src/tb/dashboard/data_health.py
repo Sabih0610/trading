@@ -121,7 +121,9 @@ def data_health_view(root: Path) -> None:
         width="stretch",
     )
     if not any(row["manifest_status"] == "complete" for row in rows):
-        st.info("BLOCKED — DATASET NOT AUTHORIZED. No admitted historical data is available.")
+        st.info(
+            "BLOCKED — DATASET NOT AUTHORIZED. No admitted historical price dataset is available in the collection below."
+        )
     for row in rows:
         months = row["gap_heat_strip"]
         if months:

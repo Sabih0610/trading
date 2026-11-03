@@ -10,3 +10,11 @@
 - Safe original CSV source is the official 2020–2023 archive, plus the closed
   2024 per-year export. Bronze retains original bytes; Silver/Gold scope starts
   2020-10. 2025+ publications and arbitrary URLs are refused.
+
+- Owned validation: 26 unit/integration cases pass; strict mypy clean on 194
+  pre-rebase sources. Fixed tuple/list serialization in immutable resume and
+  normalized changed-proposal validation to ResearchRefused. No old assertion,
+  xfail, risk setting or default feature output was weakened.
+- Rebased the unpublished source checkpoint onto approved main 6a64b22 after
+  P11f merged. Final combined clean gate follows. The first baseline gate is
+  allowed to finish; no concurrent full suite or genuine CSV build.

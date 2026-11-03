@@ -34,7 +34,17 @@ def main() -> None:
         ["git", "rev-parse", "HEAD"], cwd=repo_root(), text=True
     ).strip()
     if subprocess.check_output(
-        ["git", "diff", "HEAD", "--", "src", "pyproject.toml", "uv.lock"], cwd=repo_root()
+        [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all",
+            "--",
+            "src",
+            "pyproject.toml",
+            "uv.lock",
+        ],
+        cwd=repo_root(),
     ):
         raise ResearchRefused("treasury_commit_source_before_genuine_build")
     with httpx.Client(

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 from collections.abc import Callable
 from datetime import UTC, date, datetime, timedelta
@@ -68,7 +69,7 @@ def _source(
         return parsed, manifest
     payload = download_source(client, source)
     parsed = parse_csv(payload, source)
-    checksum = __import__("hashlib").sha256(payload).hexdigest()
+    checksum = hashlib.sha256(payload).hexdigest()
     raw = safe(root, f"data/bronze/us_treasury/{DATASET_ID}/{source}/{checksum}.csv")
     load_treasury_plan(root, clock())
     declare_artifact(root, plan, raw, ["raw"], [plan.digest])
@@ -152,6 +153,8 @@ def _write_frame(
     frame.write_parquet(buffer, compression="zstd", compression_level=6, row_group_size=4096)
     payload = buffer.getvalue()
     if path.exists():
+        if path.stat().st_size > 4 * 1024**2:
+            raise ResearchRefused("treasury_output_size_bound")
         if path.read_bytes() != payload:
             raise ResearchRefused("treasury_immutable_output_changed")
     else:
