@@ -446,3 +446,14 @@ def test_dsr_remains_informational_while_nonfinite_statistics_refuse_promotion()
         )
         == "reject"
     )
+
+
+def test_empty_proxy_scope_has_no_proposals_and_refuses_evaluation():
+    batch = GoldProxyBatch((), timedelta(minutes=5), purpose="historical_research")
+    spy = Spy()
+    decisions = batch.replay(spy, purpose="historical_research")
+    assert decisions.entries == decisions.exits == decisions.quality_vetoes == ()
+    assert not spy.seen
+    with pytest.raises(ResearchRefused, match="empty_research_input"):
+        batch.evaluate(spy, purpose="historical_research")
+    assert not spy.seen

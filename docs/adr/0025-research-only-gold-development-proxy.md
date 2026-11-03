@@ -28,3 +28,8 @@ without inventing provider/feature volume; its quantity bound does not supersede
 current funded cash/exposure/risk checks. Claude reviews this exact assumption
 pre-data. Known Reject criteria precede unknown evidence; Promising freezes need
 a registered nonnull cell. Copied immutable inputs preserve whole-batch preflight.
+
+Owned-fixture source review before publication also closes two boundary gaps:
+reject HistData claims of positive observed volume or any VWAP before replay, and
+require defined finite non-DSR statistics before Promising. DSR remains optional
+and informative. Known Reject criteria keep priority over unknown evidence.

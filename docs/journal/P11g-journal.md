@@ -29,3 +29,13 @@
   require all non-DSR statistics defined/finite, and reject any claimed HistData
   VWAP or positive traded volume before replay. Explicit known Reject keeps priority.
   Registration bytes unchanged; no genuine G observations/metadata opened.
+
+- 2026-11-03 22:47 UTC: Execution-session reset interrupted pending typing/gate processes.
+  Only the completed60owned focused cases and prior source-only checks count;
+  no interrupted gate is a pass. Preserved exact candidate0a0fd2f and registration
+  bytes. J1 restarts its reserved full gate first, then G runs in the clean checkout.
+  Main remains6a64b22 with no H/I/G review yet. Genuine G data stays unopened.
+
+- 2026-11-03 22:49 UTC: Added the protocol empty-input scenario; all61owned focused cases
+  pass in24.07s including exact preregistration bytes. J1 has mypy197pass and
+  its full pytest underway. G source remains0a0fd2f; final clean gate follows J1.
