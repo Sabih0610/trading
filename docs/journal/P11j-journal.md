@@ -22,3 +22,12 @@ Master conflict rule overrides shared living-doc edits; entries go in the phase 
   AST wait audit confirms17 bounded direct subprocess calls; no unbounded call
   remains in those test APIs. Track-local docs/ADR0026 prepared; shared living
   docs untouched. Next freeze candidate and request coordinated full gate.
+
+- 2026-11-03 06:25 UTC: Resumed after usage reset. Frozen source checkpoint is67208f1,
+  rebased on approved main6a64b22. Active branch is in sibling trading-p11j-clean;
+  original trading-p11j remains detached6115417 so its122 ignored local files
+  are untouched. Added owned underflow/empty-fill rejection and exact lot-step
+  product regressions; all20 J1 boundary cases pass13.96s after rebase.
+  Causality assertion ASTs match main; shared living docs, engine and labels have
+  no J1 diff. Full gate is queued after I and H, with root coordinating one heavy
+  suite at a time. No genuine F rerun, provider data, holdout or sealed access.

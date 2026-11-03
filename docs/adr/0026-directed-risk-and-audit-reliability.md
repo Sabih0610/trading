@@ -1,7 +1,7 @@
 # ADR 0026 — Directed risk arithmetic and bounded audit diagnostics
 
 Accepted for J1 review, 2026-11-03 UTC. This is Wave 1 only and reads no genuine observations.
-Risk defaults/ceilings, engine fills and labels remain unchanged. F/G's frozen research
+Risk defaults/ceilings, engine fill-price/priority code and labels remain unchanged. F/G's frozen research
 identities retain their own semantics; this hardening does not relabel prior verdicts.
 
 ## Decision
@@ -12,7 +12,9 @@ R-3 audit test's normalize-and-approve expectation. Preserve its no-exception gu
 and strengthen its result to rejection. Canonical approved requests continue normally.
 
 Use ROUND_DOWN in local Decimal contexts for every positive capacity division and
-step ratio. Without venue rules, retain Decimal precision with directed rounding;
+step ratio; preserve the floored step count's exact product so ambient precision
+cannot move it off the lot grid or above the requested quantity. Reject an empty
+fill after precision underflow. Without venue rules, retain Decimal precision with directed rounding;
 do not invent a venue tick/lot filter or claim that a research quantity is executable.
 Do not alter config or risk authority. Exact high-precision fixture checks prove
 risk/cash/exposure remain bounded, including the original R-4 counterexample.
