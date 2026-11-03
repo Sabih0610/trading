@@ -108,14 +108,22 @@ def _floor_divide(numerator: Decimal, denominator: Decimal) -> Decimal:
         return numerator / denominator
 
 
+def _step_quantity(quantity: Decimal, step: Decimal) -> Decimal:
+    """Floor the step count, then preserve its exact lot-step product."""
+    steps = _floor_divide(quantity, step).to_integral_value(rounding=ROUND_DOWN)
+    with localcontext() as context:
+        context.rounding = ROUND_DOWN
+        context.prec = max(context.prec, len(steps.as_tuple().digits) + len(step.as_tuple().digits))
+        return steps * step
+
+
 def _round_quantity(quantity: Decimal, asset: AssetDefinition) -> Decimal:
     rules = asset.exchange_rules
     if rules is None or rules.step_size is None:
         with localcontext() as context:
             context.rounding = ROUND_DOWN
             return +quantity
-    steps = _floor_divide(quantity, rules.step_size).to_integral_value(rounding=ROUND_DOWN)
-    return steps * rules.step_size
+    return _step_quantity(quantity, rules.step_size)
 
 
 class RiskManager:
@@ -287,8 +295,7 @@ class RiskManager:
         if rules.max_notional is not None:
             quantity = min(quantity, _floor_divide(rules.max_notional, price))
         if step_size is not None:
-            steps = _floor_divide(quantity, step_size).to_integral_value(rounding=ROUND_DOWN)
-            quantity = steps * step_size
+            quantity = _step_quantity(quantity, step_size)
         if quantity <= 0:
             return _reject(RejectionCode.NO_CAPACITY, "Exchange rounding leaves no fill quantity")
         if minimum_quantity is not None and quantity < minimum_quantity:

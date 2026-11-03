@@ -183,3 +183,23 @@ def test_null_filter_rounding_to_zero_rejects_instead_of_approving_an_empty_fill
     )
     assert not result.approved and result.quantity == 0
     assert result.reason_code is RejectionCode.NO_CAPACITY
+
+
+def test_step_product_stays_exact_under_a_narrow_ambient_context():
+    bundle = load_policy_bundle()
+    rules = SpotSymbolRules(step_size=Decimal("0.9"))
+    assets = tuple(
+        a.model_copy(update={"exchange_rules": rules}) if a.symbol == "BTCUSDT" else a
+        for a in bundle.registry.assets
+    )
+    manager = RiskManager(
+        PolicyBundle(
+            registry=bundle.registry.model_copy(update={"assets": assets}), risk=bundle.risk
+        )
+    )
+    proposed = Decimal("85.5")
+    with localcontext() as context:
+        context.prec = 2
+        decision = manager.constrain_fill("BTCUSDT", proposed, Decimal("1"), market_order=True)
+        assert decision.approved and decision.quantity == proposed
+        assert decision.quantity % rules.step_size == 0
