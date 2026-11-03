@@ -1,5 +1,20 @@
 # Claude review queue
 
+Current MASTER snapshot: 2026-11-03 21:52 UTC. This living-docs draft is not yet
+published; historical rows below are retained as earlier review checkpoints.
+
+| Track | Current disposition | Evidence / next step |
+|---|---|---|
+| F / P11f Part B | APPROVED and merged | [PR #5](https://github.com/Sabih0610/trading/pull/5), [review](../reports/reviews/P11f-partB-review.md), main `6a64b22`; 0 pass / 7 fail / 2 insufficient. B1 restrictive config/schema follow-up is implemented in this unpublished integration candidate; 173 focused tests and independent source review pass, full gate/review pending: [B1 report](../reports/phases/P11f-B1.md). Empty allowlists deny every strategy; all other policy guards remain unchanged. |
+| H / P11h | Queued | [PR #7](https://github.com/Sabih0610/trading/pull/7), head `67e4978`; P11h.ready published; full offline gate passed. |
+| I / P11i | Queued | [PR #6](https://github.com/Sabih0610/trading/pull/6), head `0d18a7a`; P11i.ready published; 1481 tests and full offline gate passed; authorized private build verified by Track I. |
+| G / P11g | Pre-registration being prepared | No genuine reads until P11g-prereg-review.md on main says APPROVED. |
+| J1 / P11j Wave 1 | Validation pending | No ready/merge claim yet; keep Wave 2 engine/label changes separate. |
+| K / P11k | Blocked on owner | Written Dukascopy consent absent; no pre-registration or data access started. |
+| Living-docs | Unpublished integration candidate | B1 implemented; 173 focused tests and independent source review pass. Root will append verified merges, run the exact clean full gate after G and authorize the separate PR. |
+
+## Historical queue
+
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|
 | P11e | [PR #4](https://github.com/Sabih0610/trading/pull/4) fix round ready for re-review | 2026-11-01 15:42 UTC | [report](../reports/phases/P11e.md) | P11e-1/4/5 corrected under owner duplicate rule; six private rebuilds and clean gates pass (1337 tests). P11e-2 consent/coverage and P11e-3 costs remain conditional. No main merge. |

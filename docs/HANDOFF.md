@@ -1,4 +1,43 @@
-# Current handoff — P11e PR #4 fix round complete
+# Current handoff — MASTER 2026-11 integration draft
+
+2026-11-03 21:52 UTC: F Part B is independently APPROVED and merged on main
+`6a64b22`. Its once-only registered batch completed 2026-11-02 13:23 UTC:
+0 pass, 7 fail, 2 insufficient evidence. Keep original registration, costs,
+selection rule (at least 20 training trades), 162 trials and private run unchanged.
+[F report](../reports/phases/P11f.md) · [review](../reports/reviews/P11f-partB-review.md).
+
+H [PR #7](https://github.com/Sabih0610/trading/pull/7), head `67e4978`, is queued
+with an empty P11h.ready marker. Its full gate passed with 1,500 tests; no monitor
+was started. I [PR #6](https://github.com/Sabih0610/trading/pull/6), head
+`0d18a7a`, is queued with P11i.ready; its full gate passed with 1,481 tests.
+Its separately authorized private yield build was verified by Track I; no yield
+observations enter this draft. G's pre-registration is being built and J1
+validation is pending. Root coordinates polling and the single full-suite slot.
+Read no genuine G input until main contains an APPROVED pre-registration review.
+J2 waits for both F and G Part B merges; K is blocked on absent written consent.
+
+This separate `codex/living-docs-2026-11-04` worktree contains an **unpublished
+integration candidate**. P11f-B1 is implemented: BTC/ETH/SOL strategy allowlists
+are empty, and the schema accepts that deny-all state while actual strategy
+permission checks remain unchanged. Explicit historical-policy fixtures use the
+real asset guard; all 128 prior behavior assertions remain unchanged. Current
+policy refuses all nine combinations and all 162 frozen catalogue cells.
+Focused validation: 173 passed, project Ruff/format clean, and independent
+source review found no issue. [B1 report](../reports/phases/P11f-B1.md).
+Next: freeze the local candidate, prepare the exact clean gate worktree, and run
+its full offline gate only when root grants the slot after G. Append verified
+track reviews/merges here and rebase/fetch before eventual publication. No push
+or main merge yet. No F replay, risk widening or evaluator/strategy change.
+
+Crypto has no tradable edge under the registered test; Stage 4/5 do not start for
+these candidates. New ideas require new registration and increased trial count.
+Stage 4, paper trading, Testnet, external orders and P14 remain outside the master.
+Preserve all other worktrees, private rights/retention and the sealed collector;
+no secret, genuine/private data or archive read was needed for this update.
+
+## Historical handoffs
+
+# Previous handoff — P11e PR #4 fix round complete
 
 Corrected HistData to one EU-week offset and verified provider duplicate removal;
 conflicting repeats quarantine the whole day. Six private FX generations are rebuilt

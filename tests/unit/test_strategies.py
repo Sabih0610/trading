@@ -5,6 +5,9 @@ from decimal import Decimal
 
 import pytest
 from pydantic import ValidationError
+from tests.fixtures.historical_crypto_policy import (
+    historical_crypto_strategy_policy as historical_crypto_strategy_policy,
+)
 
 from tb.backtest.engine import EntryOrderType
 from tb.risk.guards import RiskViolation
@@ -171,6 +174,7 @@ def test_xaut_catchup_requires_both_reference_move_and_lag() -> None:
     assert exits == ()
 
 
+@pytest.mark.usefixtures("historical_crypto_strategy_policy")
 def test_trend_vwap_requires_agreement_touch_and_hold_once_per_day() -> None:
     trigger = _bar(
         _MONDAY,
@@ -205,6 +209,7 @@ def test_trend_vwap_requires_agreement_touch_and_hold_once_per_day() -> None:
         {"close": Decimal("99.9"), "low": Decimal("99")},
     ],
 )
+@pytest.mark.usefixtures("historical_crypto_strategy_policy")
 def test_trend_vwap_missing_condition_does_not_trigger(change: dict[str, object]) -> None:
     values: dict[str, object] = {
         "timestamp": _MONDAY,
@@ -251,6 +256,7 @@ def test_strategy_policy_and_input_validation_fail_closed() -> None:
         _bar(_MONDAY, fvg_lower=Decimal("100"))
 
 
+@pytest.mark.usefixtures("historical_crypto_strategy_policy")
 def test_strategy_replay_rejects_order_and_symbol_mismatch() -> None:
     bars = [_bar(_MONDAY), _bar(_MONDAY - timedelta(minutes=1))]
     with pytest.raises(ValueError, match="strictly increasing"):

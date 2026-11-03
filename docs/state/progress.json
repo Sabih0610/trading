@@ -1,5 +1,5 @@
 {
-  "current_phase": "P11e",
+  "current_phase": "MASTER-2026-11",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -526,7 +526,7 @@
       "base_commit": "66be38c",
       "report": "reports/phases/P11d.md",
       "review": "approved_with_fixes_addressed",
-      "historical_data": "BLOCKED \u2014 DATASET NOT AUTHORIZED",
+      "historical_data": "BLOCKED — DATASET NOT AUTHORIZED",
       "sealed_collector": "running; user-logon/crash task; unattended boot privilege pending",
       "engineering_complete": true,
       "offline_gate": "passed",
@@ -618,6 +618,95 @@
         "full_suite": "1337 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 828.39s (0:13:48)",
         "private_rebuild": "complete_bronze_unchanged"
       }
+    },
+    "P11f": {
+      "title": "Registered crypto deciding test",
+      "status": "done",
+      "completed_utc": "2026-11-02 13:23 UTC",
+      "branch": "codex/p11f-stage3-crypto",
+      "report": "reports/phases/P11f.md",
+      "review": "APPROVED",
+      "review_report": "reports/reviews/P11f-partB-review.md",
+      "merged": true,
+      "merge_commit": "ed40682",
+      "review_commit": "6a64b22",
+      "pull_request": "https://github.com/Sabih0610/trading/pull/5",
+      "verdict_counts": {
+        "pass": 0,
+        "fail": 7,
+        "insufficient_evidence": 2
+      },
+      "candidate_trials": 162,
+      "training_cell_minimum_completed_trades": 20,
+      "registered_batch_rerun": false,
+      "full_clean_gate": "1455 passed; ruff, format, mypy, smoke and 14 owned studies passed",
+      "P11f_B1": "implemented_deny_all_crypto_strategy_policy_pending_clean_integration_gate",
+      "P11f_B2": "no_crypto_edge; no Stage4/5 for these candidates; new ideas need new registration and added trials",
+      "external_orders_enabled": false,
+      "holdout_access": false,
+      "P11f_B1_validation": {
+        "focused_tests_passed": 173,
+        "focused_seconds": 34.44,
+        "existing_assertions_unchanged": 128,
+        "project_ruff": "pass",
+        "project_format": "pass; 537 files",
+        "strict_mypy_changed_source": "pass; 1 source file",
+        "independent_source_review": "no concrete issue",
+        "full_clean_gate": "pending_root_slot_after_G",
+        "report": "reports/phases/P11f-B1.md"
+      }
+    },
+    "P11g": {
+      "title": "Gold proxy development test",
+      "status": "in_progress",
+      "branch": "codex/p11g-stage3-gold-dev",
+      "review": "preregistration_being_prepared",
+      "genuine_data_access": "blocked_until_APPROVED_prereg_review_on_main",
+      "merged": false
+    },
+    "P11h": {
+      "title": "Venue status entry veto",
+      "status": "blocked_on_review",
+      "branch": "codex/p11h-venue-status",
+      "commit": "67e497820a5e32fbc4920110a96cde052ac62451",
+      "pull_request": "https://github.com/Sabih0610/trading/pull/7",
+      "review": "queued",
+      "ready_marker": "reports/reviews/queue/P11h.ready",
+      "tests_passed": 1500,
+      "full_clean_gate": "passed; ruff/format/mypy, safety smoke and 14 owned studies",
+      "live_monitor_started": false,
+      "merged": false
+    },
+    "P11i": {
+      "title": "Treasury yield context",
+      "status": "blocked_on_review",
+      "branch": "codex/p11i-treasury-yields",
+      "review": "queued",
+      "merged": false,
+      "commit": "0d18a7aacc77803aec446d9f1c88a3b9aae0d499",
+      "pull_request": "https://github.com/Sabih0610/trading/pull/6",
+      "ready_marker": "reports/reviews/queue/P11i.ready",
+      "tests_passed": 1481,
+      "full_clean_gate": "passed; ruff/format/mypy and 14 owned studies",
+      "authorized_private_build": "verified_by_Track_I_no_observations_in_draft"
+    },
+    "P11j-W1": {
+      "title": "Audit minors and test reliability",
+      "status": "in_progress",
+      "branch": "codex/p11j-audit-minors",
+      "review": "validation_pending",
+      "merged": false
+    },
+    "P11j-W2": {
+      "title": "D-3 and D-4 engine/label fixes",
+      "status": "not_started",
+      "depends_on": "F and G Part B merged"
+    },
+    "P11k": {
+      "title": "Frozen gold 2024 validation",
+      "status": "blocked_on_data",
+      "blocked_on": "owner_written_dukascopy_consent_absent",
+      "started": false
     }
   },
   "allowed_status": [
@@ -646,8 +735,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-01 15:42 UTC",
-  "next_phase": "Independent PR #4 fix-round review; safe boundary history and owner Stage 3 spread-floor approval remain. No main merge, strategy evaluation or P14 release.",
+  "last_updated_utc": "2026-11-03 22:55 UTC",
+  "next_phase": "Prepare exact local candidate clean checkout; full offline gate only after root grants slot following G. Append verified track reviews/merges before publishing living-docs PR. G genuine reads await APPROVED prereg review; root owns polling.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
@@ -672,5 +761,14 @@
       "paid_services_used": false,
       "source_files_pinned": 101
     }
+  },
+  "living_docs_draft": {
+    "branch": "codex/living-docs-2026-11-04",
+    "base_commit": "6a64b22a55caa7e5c3e44462f28ab07be312c676",
+    "committed": true,
+    "published": false,
+    "requires_root_integration_before_publication": true,
+    "config_source_tests_changed": true,
+    "full_clean_gate": "pending_root_slot_after_G"
   }
 }

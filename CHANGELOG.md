@@ -4,6 +4,23 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### P11f registered crypto verdicts — merged 2026-11-03 UTC
+
+- Completed the fixed 162-trial test once: 0 pass, 7 fail, 2 insufficient evidence.
+- Applied the reviewed minimum of 20 completed training trades per eligible cell
+  before genuine reads, with the amended registration SHA-256 journalled first.
+- Published permitted aggregates, both ambiguity paths, 1.5x/2x cost sensitivity,
+  per-fold 5% circuit trips/halted days and the short 2021-training limitation.
+- Clean gate passed with 1,455 tests plus Ruff, format, strict typing, safety smoke
+  and 14 owned studies. Claude independently approved Part B and merged PR #5.
+- No crypto candidate is promoted. P11f-B1 empties BTC/ETH/SOL strategy allowlists
+  and allows that deny-all schema state; unchanged strategy guards reject all
+  current combinations. Explicit historical-policy fixtures retain all prior
+  mechanics assertions. Focused tests: 173 passed; integration full gate pending.
+  No evaluator/strategy/RiskManager logic, XAUT permission or risk ceiling changed.
+- H/I are queued for review; G pre-registration and J1 validation remain in progress.
+  K remains blocked by absent consent. These entries do not claim those tracks merged.
+
 ### P11e PR #4 clock/retry review fixes — 2026-11-01 UTC
 
 - Corrected HistData to one London-scheduled +4/+5 h offset per trading week.

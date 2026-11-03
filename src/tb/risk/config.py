@@ -177,8 +177,6 @@ class AssetDefinition(PolicyModel):
                 raise ValueError("tradable Binance assets must retain spot instrument type")
             if self.venue != "binance_spot":
                 raise ValueError("tradable assets must use the binance_spot venue")
-            if not self.allowed_strategies:
-                raise ValueError("tradable assets require at least one allowed strategy")
             if self.cost_model.round_trip_entry_cost_bps <= 0:
                 raise ValueError("tradable assets require a non-zero pessimistic cost model")
         else:

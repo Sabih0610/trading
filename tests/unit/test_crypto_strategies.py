@@ -5,6 +5,9 @@ from decimal import Decimal
 
 import pytest
 from pydantic import ValidationError
+from tests.fixtures.historical_crypto_policy import (
+    historical_crypto_strategy_policy as historical_crypto_strategy_policy,
+)
 
 from tb.backtest.validation import FinalTestLockedError
 from tb.risk.guards import RiskViolation
@@ -13,6 +16,9 @@ from tb.strategies.base import StrategyConfigurationError
 from tb.strategies.stage3 import generate_stage3_decisions, preregistered_trials, strategy_for_trial
 from tb.strategies.ts_momentum import TsMomentumConfig, TsMomentumStrategy
 from tb.strategies.volatility_breakout import VolatilityBreakoutConfig, VolatilityBreakoutStrategy
+
+pytestmark = pytest.mark.usefixtures("historical_crypto_strategy_policy")
+
 
 START = datetime(2024, 1, 1, tzinfo=UTC)
 

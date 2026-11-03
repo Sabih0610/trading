@@ -1,5 +1,36 @@
 # Pending items
 
+Current MASTER snapshot (2026-11-03 21:52 UTC); older phase-specific entries below
+are historical where superseded by the master and later review decisions.
+
+- **P11f-B1 — implemented, pending integration gate:** removed `volatility_breakout`,
+  `ts_momentum` and `trend_vwap_pullback` from BTCUSDT/ETHUSDT/SOLUSDT
+  `allowed_strategies`. Explicit validated historical-policy fixtures preserve
+  every prior strategy-mechanics assertion; separate current-policy regressions
+  refuse all nine strategy-symbol combinations and all 162 frozen catalogue cells.
+  XAUTUSDT and evaluator/strategy/RiskManager logic remain unchanged. The only
+  runtime source change accepts empty allowlists as deny-all; spot/venue/cost,
+  data-only and risk guards remain intact. All 173 focused tests pass; project
+  Ruff/format and independent source review pass. The full clean integration
+  gate and publication are pending.
+  [Review](../reports/reviews/P11f-partB-review.md).
+- **P11f-B2 — no crypto edge:** 0 pass, 7 fail, 2 insufficient evidence. Stage 4/5
+  do not start for these candidates. Any new crypto idea needs a fresh
+  pre-registration; its trials add to the multiple-testing record. After gold,
+  the owner decides whether to try new registered ideas, change approach or stop.
+- **MASTER review queue:** H PR #7 and I await Claude; G pre-registration is in
+  preparation and genuine input stays blocked until APPROVED on main. J1 remains
+  under validation; J2 cannot start before both F and G Part B merge.
+- **K consent blocker:** the specified Dukascopy consent file remains absent per
+  the master check; K cannot acquire or validate gold without it. No replacement
+  permission is inferred from public availability or an earlier sample.
+- **H terms open item:** the full API Product Terms version is unverified;
+  the queued PR records the observed notice date/version and does not start a
+  monitor or change the sealed collector's separately reviewed capture scope.
+- **Living-docs integration:** separate local candidate remains unpublished,
+  pending root integration of further merges and a full clean gate. B1 is
+  implemented with 173 focused tests passing; no ready marker or PR yet.
+
 - **P11d legacy sealed file shape:** the reviewed collector created approximately
   1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,
   compaction or deletion. New capture uses 15-minute intervals; this existing
