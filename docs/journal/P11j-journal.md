@@ -43,3 +43,9 @@ Master conflict rule overrides shared living-doc edits; entries go in the phase 
   empty queue marker reuse this unchanged validated runtime. Fresh main fetch
   remains 6a64b22; no shared living-doc or engine/label diff, no genuine-data read.
   Heavy gate slot released to G; Wave 2 stays blocked until G Part B merges.
+
+- 2026-11-03 23:16 UTC: Published review PR #8
+  (https://github.com/Sabih0610/trading/pull/8) with the zero-byte P11j.ready marker.
+  Publication source head e36ff540c6418daf5bba3d393d3fba073fb5414d contains only
+  documentation/marker changes after the validated source; this link entry is also
+  documentation only. Claude review remains pending; no main merge or Wave 2 work.
