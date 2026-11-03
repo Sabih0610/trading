@@ -256,9 +256,14 @@ class RiskManager:
             return _reject(RejectionCode.ASSET_POLICY, str(exc))
         rules = asset.exchange_rules
         if rules is None:
+            quantity = _round_quantity(proposed_quantity, asset)
+            if quantity <= 0:
+                return _reject(
+                    RejectionCode.NO_CAPACITY, "Precision rounding leaves no fill quantity"
+                )
             return RiskDecision(
                 approved=True,
-                quantity=_round_quantity(proposed_quantity, asset),
+                quantity=quantity,
                 risk_amount=Decimal("0"),
             )
         step_size = (

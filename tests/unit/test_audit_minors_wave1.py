@@ -175,3 +175,11 @@ def test_malformed_chart_timestamp_type_refuses_cleanly(tmp_path, stamp):
     chart(tmp_path, [stamp], time_end="2024-01-04T00:00:00Z")
     with pytest.raises(EvidenceUnavailable):
         parquet_rows(tmp_path, "equity", "synthetic")
+
+
+def test_null_filter_rounding_to_zero_rejects_instead_of_approving_an_empty_fill():
+    result = RiskManager().constrain_fill(
+        "BTCUSDT", Decimal("1e-1000030"), Decimal("100"), market_order=True
+    )
+    assert not result.approved and result.quantity == 0
+    assert result.reason_code is RejectionCode.NO_CAPACITY
