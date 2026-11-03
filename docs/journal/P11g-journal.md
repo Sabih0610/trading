@@ -39,3 +39,17 @@
 - 2026-11-03 22:49 UTC: Added the protocol empty-input scenario; all61owned focused cases
   pass in24.07s including exact preregistration bytes. J1 has mypy197pass and
   its full pytest underway. G source remains0a0fd2f; final clean gate follows J1.
+
+- 2026-11-03 23:28 UTC: Final clean gate runs on aa2ce8ea6964472abf7b2921d1615dbe44d49fd4,
+  treebc1763e0afc4d0ba30db37022d88d6e13ba78508 in credential-free gates checkout.
+  Ruff545files/strictmypy200sources passed; full owned pytest advancing green.
+  J1publishedPR8bc6bd58 afterfull1480pass; HPR7/IPR6 remainqueued.
+  Mainpoll23:22UTC still6a64b22 with no H/I/J review. G preregistration not
+  published until fullgatepass; no genuine G data/metadata opened.
+
+- 2026-11-03 23:36 UTC: Final clean offline gate PASSED on aa2ce8ea6964472abf7b2921d1615dbe44d49fd4
+  treebc1763e0afc4d0ba30db37022d88d6e13ba78508:1516pass,1skip,3live deselected,5inheritedxfail,
+  23warnings1194.18s; Ruff545format/strictmypy200/smoke+14owned pass.
+  Source/config/tests/scripts/lock unchanged after that candidate. Registration
+  SHA unchanged; adding public owned-only evidence and empty P11g-prereg.ready,
+  then publishing for Claude. No genuine G input,2024data,holdout or sealed read.

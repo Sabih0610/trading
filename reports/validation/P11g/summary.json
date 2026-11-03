@@ -1,0 +1,41 @@
+{
+  "phase": "P11g",
+  "part": "A",
+  "status": "preregistration_ready_for_review",
+  "validation_kind": "owned_fixtures_only",
+  "genuine_gold_reads": false,
+  "source_commit": "aa2ce8ea6964472abf7b2921d1615dbe44d49fd4",
+  "source_tree": "bc1763e0afc4d0ba30db37022d88d6e13ba78508",
+  "registration_sha256": "9002588640864d1036eb2c09bd1010740df43907bced7179f68a6b61093acfc7",
+  "n_trials": 54,
+  "ruff": "passed",
+  "format": {
+    "status": "passed",
+    "files": 545
+  },
+  "mypy": {
+    "status": "passed",
+    "source_files": 200
+  },
+  "pytest": {
+    "passed": 1516,
+    "skipped": 1,
+    "deselected": 3,
+    "xfailed": 5,
+    "warnings": 23,
+    "seconds": 1194.18
+  },
+  "inherited_xfails": [
+    "D-4",
+    "D-3",
+    "R-4",
+    "R-3",
+    "S-1"
+  ],
+  "skip_reason": "private root .env absent; required credential-free checkout",
+  "owned_safety_smoke": "passed",
+  "owned_acceptance_studies": 14,
+  "external_orders": 0,
+  "shared_living_docs_changed": false,
+  "review_gate": "APPROVED reports/reviews/P11g-prereg-review.md on main before any genuine G input"
+}
