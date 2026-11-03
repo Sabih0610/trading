@@ -53,3 +53,9 @@
   Source/config/tests/scripts/lock unchanged after that candidate. Registration
   SHA unchanged; adding public owned-only evidence and empty P11g-prereg.ready,
   then publishing for Claude. No genuine G input,2024data,holdout or sealed read.
+
+- 2026-11-03 23:38 UTC: Published PR9 https://github.com/Sabih0610/trading/pull/9,
+  initialheadfef175b; markerP11g-prereg.ready verified0bytes. Registration
+  remains9002588640864d1036eb2c09bd1010740df43907bced7179f68a6b61093acfc7.
+  G STOPPED untilAPPROVEDreviewonmain; masterothertrackscontinue. FinalPRlink
+  evidencecommit is docs-only after the clean passed candidateaa2ce8e.
