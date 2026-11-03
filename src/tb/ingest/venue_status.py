@@ -440,12 +440,21 @@ class VenueMonitor:
         self.store, self.client, self.interval = store, client, interval
         self.clock = clock or (lambda: datetime.now(UTC))
         self.elapsed = elapsed or time.monotonic
+        self._last_attempt: float | None = None
 
     def poll_once(self) -> PollOutcome:
+        attempt_started = self.elapsed()
+        if not math.isfinite(attempt_started) or (
+            self._last_attempt is not None and attempt_started < self._last_attempt
+        ):
+            raise VenueRefused("venue_monotonic_clock_refused")
+        if self._last_attempt is not None and attempt_started - self._last_attempt < self.interval:
+            return PollOutcome(attempted=False, category="not_due")
         if not self.store.reserve_poll(self.clock(), self.interval):
             return PollOutcome(attempted=False, category="not_due")
+        self._last_attempt = attempt_started
         received = self.clock()
-        request_started = self.elapsed()
+        request_started = attempt_started
         try:
             with self.client.stream(
                 "GET",

@@ -161,13 +161,17 @@ def test_polite_cadence_survives_restart_and_records_local_receive_time(tmp_path
     path = tmp_path / "status.sqlite"
     store = VenueStore(path, evidence="owned_fixture", create=True)
     with httpx.Client(transport=httpx.MockTransport(respond)) as client:
-        monitor = VenueMonitor(store, client, clock=lambda: clock[0])
+        monitor = VenueMonitor(
+            store, client, clock=lambda: clock[0], elapsed=lambda: (clock[0] - NOW).total_seconds()
+        )
         assert monitor.poll_once().changes == 4
         assert not monitor.poll_once().attempted
         assert store.book().venue_veto("BTCUSDT", clock[0]).known_at == NOW + timedelta(seconds=2)
         store.close()
         store = VenueStore(path, evidence="owned_fixture")
-        monitor = VenueMonitor(store, client, clock=lambda: clock[0])
+        monitor = VenueMonitor(
+            store, client, clock=lambda: clock[0], elapsed=lambda: (clock[0] - NOW).total_seconds()
+        )
         assert not monitor.poll_once().attempted
         clock[0] = NOW + timedelta(seconds=60)
         assert monitor.poll_once().changes == 0
@@ -189,7 +193,12 @@ def test_429_418_retry_after_is_honored_without_retry_loop(tmp_path, code, delay
     store = VenueStore(tmp_path / "status.sqlite", evidence="owned_fixture", create=True)
     try:
         with httpx.Client(transport=httpx.MockTransport(respond)) as client:
-            monitor = VenueMonitor(store, client, clock=lambda: clock[0])
+            monitor = VenueMonitor(
+                store,
+                client,
+                clock=lambda: clock[0],
+                elapsed=lambda: (clock[0] - NOW).total_seconds(),
+            )
             assert monitor.poll_once().category == "rate_limited"
             clock[0] = NOW + timedelta(seconds=delay - 1)
             assert not monitor.poll_once().attempted
@@ -350,5 +359,30 @@ def test_authenticated_clients_are_refused_before_any_request(tmp_path):
         ) as client:
             with pytest.raises(VenueRefused, match="without_credentials"):
                 VenueMonitor(store, client)
+    finally:
+        store.close()
+
+
+def test_forward_wall_clock_correction_never_causes_an_early_in_process_poll(tmp_path):
+    wall = [NOW]
+    monotonic = [0.0]
+    calls = []
+
+    def respond(request):
+        calls.append(request)
+        return httpx.Response(200, content=payload())
+
+    store = VenueStore(tmp_path / "status.sqlite", evidence="owned_fixture", create=True)
+    try:
+        with httpx.Client(transport=httpx.MockTransport(respond)) as client:
+            monitor = VenueMonitor(
+                store, client, clock=lambda: wall[0], elapsed=lambda: monotonic[0]
+            )
+            assert monitor.poll_once().attempted
+            wall[0] += timedelta(days=1)
+            monotonic[0] = 59.0
+            assert not monitor.poll_once().attempted and len(calls) == 1
+            monotonic[0] = 60.0
+            assert monitor.poll_once().attempted and len(calls) == 2
     finally:
         store.close()

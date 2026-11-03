@@ -9,7 +9,8 @@ backtests retain their frozen semantics and never consume current venue facts.
 
 Poll exactly the approved public `GET /api/v3/exchangeInfo` route and four symbols.
 Reserve the next attempt in a private SQLite transaction before HTTP. Minimum
-cadence is 60 seconds, with finite connection/read timeouts, a streaming elapsed
+cadence is 60 seconds, with both a monotonic in-process guard and persisted UTC
+reservation, finite connection/read timeouts, a streaming elapsed
 deadline, a 2 MiB response cap, no redirects and no authenticated clients. Honor
 numeric or HTTP-date Retry-After for 429/418. Three failed attempts require at
 least ten minutes of cooldown; no immediate retry loop or unbounded request wait.

@@ -23,3 +23,9 @@ Shared living-document updates belong in the phase report for later integration.
   A new model-boundary test was corrected to expect Pydantic ValidationError
   rather than the wrapped internal exception. No existing tests were changed.
   Next: checkpoint, rebase current main, then queue the final gate behind Track I.
+
+- 2026-11-03 06:07 UTC: Added a monotonic minimum-interval guard so a forward
+  local UTC correction cannot cause an early in-process API request. Owned
+  unit/integration cases pass: 45 in 14.66s, including the new clock-jump case.
+  Persisted UTC reservations and Retry-After still govern restart/concurrency.
+  No genuine API fetch, orders or shared living-document edits. Full gate queued.

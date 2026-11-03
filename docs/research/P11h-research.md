@@ -8,7 +8,7 @@ verification remains the same open item recorded by the reviewer.
 | Question | Options | Decision and reason |
 |---|---|---|
 | Source | Announcement scraping / public exchangeInfo | One official GET with the four approved symbols; no announcement or binance.com page scraping. |
-| Cadence | Aggressive retry / persisted next-at reservation | At least 60 seconds between attempts, retained across restart/concurrent callers. Official route weight observed as 20; 429/418 waits are honored rather than shortened. |
+| Cadence | Aggressive retry / persisted next-at reservation | At least 60 seconds between attempts: monotonic in-process spacing plus UTC reservations retained across restart/concurrent callers. Official route weight observed as 20; 429/418 waits are honored rather than shortened. |
 | Availability clock | Server timestamp / local complete-response receipt | Local receive time only. Ahead/behind server clocks cannot create earlier evidence. |
 | Storage | Full polling history / changes plus operational receipt | Append-only status transitions; duplicate successful polls only refresh the four-row freshness state. Poll scheduling/error counters are operational metadata, not duplicate status history. |
 | Entry integration | Change RiskManager / optional separate precheck | A separate wrapper can reject before the unchanged risk manager; TRADING merely delegates. Shared paper sizing accepts an optional immutable veto fact; exits never consult it. |

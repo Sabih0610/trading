@@ -15,7 +15,9 @@ uv run --locked python -m tb.ingest.venue_status --interval 60
 ```
 
 For a bounded operational check, add `--seconds 70`. Ctrl+C stops cleanly. The
-minimum interval is 60 seconds. Retry-After is retained across restarts; three
+minimum interval is 60 seconds. A monotonic in-process guard prevents a forward
+UTC correction causing an early request; persisted UTC reservations protect restart/concurrent callers.
+Retry-After is retained across restarts; three
 failed attempts produce a cooldown of at least ten minutes. There is no burst
 retry loop, redirection, authenticated client or unbounded response stream.
 
