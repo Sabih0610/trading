@@ -109,6 +109,9 @@ def health_rows(root: Path) -> list[dict[str, Any]]:
 def data_health_view(root: Path) -> None:
     """Display metadata evidence without exposing any market data or mutation control."""
     st.subheader("Data Health")
+    from tb.dashboard.yields import treasury_health_view
+
+    treasury_health_view(root)
     st.caption("Manifest and quality metadata only · Historical scope ends 2024-12-31 UTC")
     st.write("Sealed XAUT collector health", collector_health(root))
     rows = health_rows(root)
