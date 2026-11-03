@@ -36,7 +36,7 @@ assets:
       fee_bps: "10"
       spread_bps_default: "2"
       slippage_bps_default: "3"
-    allowed_strategies: [trend_vwap_pullback]
+    allowed_strategies: [trend_vwap_pullback, volatility_breakout, ts_momentum]
     risk_overrides: {}
     exchange_rules: null
 
@@ -55,7 +55,7 @@ assets:
       fee_bps: "10"
       spread_bps_default: "3"
       slippage_bps_default: "4"
-    allowed_strategies: [trend_vwap_pullback]
+    allowed_strategies: [trend_vwap_pullback, volatility_breakout, ts_momentum]
     risk_overrides: {}
     exchange_rules: null
 
@@ -74,7 +74,7 @@ assets:
       fee_bps: "10"
       spread_bps_default: "5"
       slippage_bps_default: "6"
-    allowed_strategies: [trend_vwap_pullback]
+    allowed_strategies: [trend_vwap_pullback, volatility_breakout, ts_momentum]
     risk_overrides: {}
     exchange_rules: null
 

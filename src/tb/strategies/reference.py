@@ -112,12 +112,7 @@ class EmaTrendReference(PriceOnlyStrategy):
     name = "ema_trend_reference"
 
     def side(self, features: dict[str, Any], atr: float) -> int:
-        spread = float(features["reference_ema_fast"]) - float(features["reference_ema_slow"])
-        if abs(spread) <= max(
-            self.config.minimum_ema_separation_atr * atr, 1e-12 * features["reference_close"]
-        ):
-            return 0
-        return 1 if spread > 0 else -1
+        return ema_reference_side(features, atr, self.config)
 
 
 class PriceChannelReference(PriceOnlyStrategy):
@@ -126,11 +121,30 @@ class PriceChannelReference(PriceOnlyStrategy):
     name = "price_channel_reference"
 
     def side(self, features: dict[str, Any], atr: float) -> int:
-        high, low = features["prior_channel_high"], features["prior_channel_low"]
-        if high is None or low is None:
-            return 0
-        close, buffer = features["reference_close"], self.config.breakout_buffer_atr * atr
-        return 1 if close > high + buffer else -1 if close < low - buffer else 0
+        return channel_reference_side(features, atr, self.config)
+
+
+def ema_reference_side(
+    features: dict[str, Any], atr: float, config: ReferenceStrategyConfig
+) -> int:
+    """Pure shared reference direction; this function grants no instrument permission."""
+    spread = float(features["reference_ema_fast"]) - float(features["reference_ema_slow"])
+    if abs(spread) <= max(
+        config.minimum_ema_separation_atr * atr, 1e-12 * features["reference_close"]
+    ):
+        return 0
+    return 1 if spread > 0 else -1
+
+
+def channel_reference_side(
+    features: dict[str, Any], atr: float, config: ReferenceStrategyConfig
+) -> int:
+    """Pure shared prior-channel formula; current close never defines its channel."""
+    high, low = features["prior_channel_high"], features["prior_channel_low"]
+    if high is None or low is None:
+        return 0
+    close, buffer = features["reference_close"], config.breakout_buffer_atr * atr
+    return 1 if close > high + buffer else -1 if close < low - buffer else 0
 
 
 REFERENCE_STRATEGIES = {s.name: s for s in (EmaTrendReference, PriceChannelReference)}

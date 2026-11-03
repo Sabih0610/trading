@@ -1,0 +1,3579 @@
+{
+  "phase": "P11f",
+  "part": "B",
+  "identity": {
+    "data_manifest_sha256": "6acfe139bf5e91a999ac0f8366f03711d8e647f6b797461075c6388ef50d0806",
+    "implementation_sha256": "8c690d2833426c7683ac095a80bb6bed23f9bcb5d102c9039ebb68cc230d0b26",
+    "n_trials": 162,
+    "registration_sha256": "f7109e15baf3cecbc0f21d28df3e671d886be424947fed5e9f9c1ec801ddf396"
+  },
+  "candidate_trials": 162,
+  "verdicts": [
+    {
+      "strategy": "trend_vwap_pullback",
+      "symbol": "BTCUSDT",
+      "verdict": "insufficient evidence",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": false,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": false,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "insufficient evidence",
+        "target": "insufficient evidence"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.7023242433254229,
+            "expectancy_r": -0.16737430979370288,
+            "max_dd_pct": 13.608390145287716,
+            "trade_count": 153,
+            "sharpe": -1.1638208808078556,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.03366192633541355,
+            "expectancy_r": -0.6594344528119295,
+            "max_dd_pct": 5.088377090345536,
+            "trade_count": 14,
+            "sharpe": -3.079294913521159,
+            "dsr": 0.0
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.5952011500281369,
+            "expectancy_r": -0.23371568746331978,
+            "max_dd_pct": 14.489128307403332,
+            "trade_count": 120,
+            "sharpe": -1.516745919884709,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.014534448163915756,
+            "expectancy_r": -0.7136576382836158,
+            "max_dd_pct": 5.022340136939358,
+            "trade_count": 13,
+            "sharpe": -3.1120547362938256,
+            "dsr": 0.0
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.4686308899164656,
+            "expectancy_r": -0.31755436241065094,
+            "max_dd_pct": 14.392861902324523,
+            "trade_count": 89,
+            "sharpe": -1.8652727495483177,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.004651480215869101,
+            "expectancy_r": -0.7323489663816354,
+            "max_dd_pct": 5.112277650925359,
+            "trade_count": 13,
+            "sharpe": -3.2103801350256234,
+            "dsr": 0.0
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.7023242433254229,
+            "expectancy_r": -0.16737430979370288,
+            "max_dd_pct": 13.608390145287716,
+            "trade_count": 153,
+            "sharpe": -1.1638208808078556,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.03366192633541355,
+            "expectancy_r": -0.6594344528119295,
+            "max_dd_pct": 5.088377090345536,
+            "trade_count": 14,
+            "sharpe": -3.079294913521159,
+            "dsr": 0.0
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.5952011500281369,
+            "expectancy_r": -0.23371568746331978,
+            "max_dd_pct": 14.489128307403332,
+            "trade_count": 120,
+            "sharpe": -1.516745919884709,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.014534448163915756,
+            "expectancy_r": -0.7136576382836158,
+            "max_dd_pct": 5.022340136939358,
+            "trade_count": 13,
+            "sharpe": -3.1120547362938256,
+            "dsr": 0.0
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.4686308899164656,
+            "expectancy_r": -0.31755436241065094,
+            "max_dd_pct": 14.392861902324523,
+            "trade_count": 89,
+            "sharpe": -1.8652727495483177,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.004651480215869101,
+            "expectancy_r": -0.7323489663816354,
+            "max_dd_pct": 5.112277650925359,
+            "trade_count": 13,
+            "sharpe": -3.2103801350256234,
+            "dsr": 0.0
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 279,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.6772501572334049,
+            "expectancy_r": -0.20960006856755958,
+            "max_dd_pct": 5.099038770205725,
+            "trade_count": 34,
+            "sharpe": -1.065451354363893,
+            "dsr": 3.4139358007223564e-14
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 262,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.6866671860106881,
+            "expectancy_r": -0.16780883511636033,
+            "max_dd_pct": 5.075881044740558,
+            "trade_count": 51,
+            "sharpe": -1.2229154072518489,
+            "dsr": 8.016881802785925e-05
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 228,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.7292039635162092,
+            "expectancy_r": -0.14593553641478144,
+            "max_dd_pct": 5.084450375751201,
+            "trade_count": 68,
+            "sharpe": -1.2063136840560542,
+            "dsr": 0.002040627844874132
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 330,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.03366192633541355,
+            "expectancy_r": -0.6594344528119295,
+            "max_dd_pct": 5.088377090345536,
+            "trade_count": 14,
+            "sharpe": -3.079294913521159,
+            "dsr": 0.0
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 279,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 262,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 228,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 330,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 285,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 288,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 266,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 334,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 287,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 291,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 328,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 334,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 279,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 262,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 228,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 330,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 285,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 288,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 266,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 334,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 287,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 291,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 328,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 334,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "trend_vwap_pullback",
+      "symbol": "ETHUSDT",
+      "verdict": "fail",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "fail",
+        "target": "fail"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.6148164119974597,
+            "expectancy_r": -0.16416005932046823,
+            "max_dd_pct": 12.941498075108873,
+            "trade_count": 133,
+            "sharpe": -1.3161783331338819,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6844463870570571,
+            "expectancy_r": -0.12568514555161506,
+            "max_dd_pct": 5.344654068819798,
+            "trade_count": 77,
+            "sharpe": -1.3432376713466523,
+            "dsr": 0.0035742840775309648
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.5561052630344345,
+            "expectancy_r": -0.19162742842082994,
+            "max_dd_pct": 13.566165435799443,
+            "trade_count": 127,
+            "sharpe": -1.5468367656980528,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.579787076600805,
+            "expectancy_r": -0.17573648904647945,
+            "max_dd_pct": 5.3257855265479455,
+            "trade_count": 58,
+            "sharpe": -1.6986784258305494,
+            "dsr": 0.0010756771897962314
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.501201734372298,
+            "expectancy_r": -0.21019743849309566,
+            "max_dd_pct": 13.835789347417624,
+            "trade_count": 120,
+            "sharpe": -1.738026805932212,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5481182222926265,
+            "expectancy_r": -0.18844113104402005,
+            "max_dd_pct": 5.191422568273383,
+            "trade_count": 53,
+            "sharpe": -1.8006724379076626,
+            "dsr": 0.0006228617668516123
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.6148164119974597,
+            "expectancy_r": -0.16416005932046823,
+            "max_dd_pct": 12.941498075108873,
+            "trade_count": 133,
+            "sharpe": -1.3161783331338819,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6844463870570571,
+            "expectancy_r": -0.12568514555161506,
+            "max_dd_pct": 5.344654068819798,
+            "trade_count": 77,
+            "sharpe": -1.3432376713466523,
+            "dsr": 0.0035742840775309648
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.5561052630344345,
+            "expectancy_r": -0.19162742842082994,
+            "max_dd_pct": 13.566165435799443,
+            "trade_count": 127,
+            "sharpe": -1.5468367656980528,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.579787076600805,
+            "expectancy_r": -0.17573648904647945,
+            "max_dd_pct": 5.3257855265479455,
+            "trade_count": 58,
+            "sharpe": -1.6986784258305494,
+            "dsr": 0.0010756771897962314
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.501201734372298,
+            "expectancy_r": -0.21019743849309566,
+            "max_dd_pct": 13.835789347417624,
+            "trade_count": 120,
+            "sharpe": -1.738026805932212,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5481182222926265,
+            "expectancy_r": -0.18844113104402005,
+            "max_dd_pct": 5.191422568273383,
+            "trade_count": 53,
+            "sharpe": -1.8006724379076626,
+            "dsr": 0.0006228617668516123
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 264,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.7417722026125073,
+            "expectancy_r": -0.10940438847727486,
+            "max_dd_pct": 5.151541321375078,
+            "trade_count": 44,
+            "sharpe": -0.8141493511237984,
+            "dsr": 9.720002580593246e-14
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 241,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.5669681466158067,
+            "expectancy_r": -0.18899216544029315,
+            "max_dd_pct": 5.198312172432209,
+            "trade_count": 52,
+            "sharpe": -1.6566111963773955,
+            "dsr": 1.4697759643356179e-05
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 280,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.5280910863580843,
+            "expectancy_r": -0.1943757349655928,
+            "max_dd_pct": 5.137054926689741,
+            "trade_count": 37,
+            "sharpe": -1.5481039004112385,
+            "dsr": 0.0007121862966013026
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 174,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.6844463870570571,
+            "expectancy_r": -0.12568514555161506,
+            "max_dd_pct": 5.344654068819798,
+            "trade_count": 77,
+            "sharpe": -1.3432376713466523,
+            "dsr": 0.0035742840775309648
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 264,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 241,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 280,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 174,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 266,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 250,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 283,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 232,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 275,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 262,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 283,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 248,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 264,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 241,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 280,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 174,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 266,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 250,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 283,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 232,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 275,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 262,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 283,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 248,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "trend_vwap_pullback",
+      "symbol": "SOLUSDT",
+      "verdict": "fail",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "fail",
+        "target": "fail"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.747707980472209,
+            "expectancy_r": -0.11255495526855848,
+            "max_dd_pct": 12.962238167369447,
+            "trade_count": 171,
+            "sharpe": -0.922868475452614,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.763681835989928,
+            "expectancy_r": -0.11052508153855489,
+            "max_dd_pct": 5.354533662145911,
+            "trade_count": 84,
+            "sharpe": -1.0650441053184323,
+            "dsr": 0.007656133718274172
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.685659961383015,
+            "expectancy_r": -0.14019838411087704,
+            "max_dd_pct": 13.966131018434172,
+            "trade_count": 158,
+            "sharpe": -1.1582615866696369,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.48660485217240157,
+            "expectancy_r": -0.28429790926483123,
+            "max_dd_pct": 5.2262698816415005,
+            "trade_count": 33,
+            "sharpe": -1.8053641223444283,
+            "dsr": 0.0006696417790450493
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.5846380688129781,
+            "expectancy_r": -0.18745888125253815,
+            "max_dd_pct": 14.39178093447507,
+            "trade_count": 128,
+            "sharpe": -1.473849181356721,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.40324940312874985,
+            "expectancy_r": -0.30931161568470056,
+            "max_dd_pct": 5.186091475901678,
+            "trade_count": 30,
+            "sharpe": -2.0786552747246083,
+            "dsr": 0.00012042972427661613
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.747707980472209,
+            "expectancy_r": -0.11255495526855848,
+            "max_dd_pct": 12.962238167369447,
+            "trade_count": 171,
+            "sharpe": -0.922868475452614,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.763681835989928,
+            "expectancy_r": -0.11052508153855489,
+            "max_dd_pct": 5.354533662145911,
+            "trade_count": 84,
+            "sharpe": -1.0650441053184323,
+            "dsr": 0.007656133718274172
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.685659961383015,
+            "expectancy_r": -0.14019838411087704,
+            "max_dd_pct": 13.966131018434172,
+            "trade_count": 158,
+            "sharpe": -1.1582615866696369,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.48660485217240157,
+            "expectancy_r": -0.28429790926483123,
+            "max_dd_pct": 5.2262698816415005,
+            "trade_count": 33,
+            "sharpe": -1.8053641223444283,
+            "dsr": 0.0006696417790450493
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.5846380688129781,
+            "expectancy_r": -0.18745888125253815,
+            "max_dd_pct": 14.39178093447507,
+            "trade_count": 128,
+            "sharpe": -1.473849181356721,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.40324940312874985,
+            "expectancy_r": -0.30931161568470056,
+            "max_dd_pct": 5.186091475901678,
+            "trade_count": 30,
+            "sharpe": -2.0786552747246083,
+            "dsr": 0.00012042972427661613
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 198,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.9018821659693738,
+            "expectancy_r": -0.03171560619572815,
+            "max_dd_pct": 5.120629559734154,
+            "trade_count": 69,
+            "sharpe": -0.33126202828559775,
+            "dsr": 1.5052958879380185e-12
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 113,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.785058990226858,
+            "expectancy_r": -0.1019384361650377,
+            "max_dd_pct": 5.188817643402391,
+            "trade_count": 72,
+            "sharpe": -0.8832376513968185,
+            "dsr": 0.00031594291907083294
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 275,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.4806762561661026,
+            "expectancy_r": -0.32396510398451817,
+            "max_dd_pct": 5.17275449608299,
+            "trade_count": 30,
+            "sharpe": -1.7304407562531021,
+            "dsr": 0.0005641504568917322
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 145,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.763681835989928,
+            "expectancy_r": -0.11052508153855489,
+            "max_dd_pct": 5.354533662145911,
+            "trade_count": 84,
+            "sharpe": -1.0650441053184323,
+            "dsr": 0.007656133718274172
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 198,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 113,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 275,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 145,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 214,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 123,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 275,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 291,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 227,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 216,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 277,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 294,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 198,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 113,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 275,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 145,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 214,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 123,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 275,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 291,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 227,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 216,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 277,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 294,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "ts_momentum",
+      "symbol": "BTCUSDT",
+      "verdict": "fail",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "fail",
+        "target": "fail"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.7109179160819563,
+            "expectancy_r": -0.08796331997591565,
+            "max_dd_pct": 11.362109832034854,
+            "trade_count": 216,
+            "sharpe": -1.1250759008343294,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6884141643652754,
+            "expectancy_r": -0.12442085193456738,
+            "max_dd_pct": 5.352417154354158,
+            "trade_count": 80,
+            "sharpe": -1.3772944429243783,
+            "dsr": 0.0035576180451135087
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.6165308866181312,
+            "expectancy_r": -0.12464172103084495,
+            "max_dd_pct": 12.790800982628184,
+            "trade_count": 185,
+            "sharpe": -1.5038363192860187,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5989787648759054,
+            "expectancy_r": -0.15433295726257054,
+            "max_dd_pct": 5.5636974552208045,
+            "trade_count": 70,
+            "sharpe": -1.767079056223698,
+            "dsr": 0.0010578967752429835
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.5637477901941256,
+            "expectancy_r": -0.1460309138299991,
+            "max_dd_pct": 13.623121577549846,
+            "trade_count": 172,
+            "sharpe": -1.7406105694853382,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.3333178358155932,
+            "expectancy_r": -0.3133115826043929,
+            "max_dd_pct": 5.292829840047529,
+            "trade_count": 33,
+            "sharpe": -2.529749925977068,
+            "dsr": 4.1320720077453466e-05
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.7109179160819563,
+            "expectancy_r": -0.08796331997591565,
+            "max_dd_pct": 11.362109832034854,
+            "trade_count": 216,
+            "sharpe": -1.1250759008343294,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6884141643652754,
+            "expectancy_r": -0.12442085193456738,
+            "max_dd_pct": 5.352417154354158,
+            "trade_count": 80,
+            "sharpe": -1.3772944429243783,
+            "dsr": 0.0035576180451135087
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.6165308866181312,
+            "expectancy_r": -0.12464172103084495,
+            "max_dd_pct": 12.790800982628184,
+            "trade_count": 185,
+            "sharpe": -1.5038363192860187,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5989787648759054,
+            "expectancy_r": -0.15433295726257054,
+            "max_dd_pct": 5.5636974552208045,
+            "trade_count": 70,
+            "sharpe": -1.767079056223698,
+            "dsr": 0.0010578967752429835
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.5637477901941256,
+            "expectancy_r": -0.1460309138299991,
+            "max_dd_pct": 13.623121577549846,
+            "trade_count": 172,
+            "sharpe": -1.7406105694853382,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.3333178358155932,
+            "expectancy_r": -0.3133115826043929,
+            "max_dd_pct": 5.292829840047529,
+            "trade_count": 33,
+            "sharpe": -2.529749925977068,
+            "dsr": 4.1320720077453466e-05
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 57,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.7745522856561301,
+            "expectancy_r": -0.04795914388480986,
+            "max_dd_pct": 5.209579545785932,
+            "trade_count": 124,
+            "sharpe": -1.0739971458537516,
+            "dsr": 6.09512440519211e-14
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 151,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.805688811937208,
+            "expectancy_r": -0.07393142927914544,
+            "max_dd_pct": 5.284706676737745,
+            "trade_count": 55,
+            "sharpe": -0.6568080685818316,
+            "dsr": 0.0007437332126049023
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 294,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.5047780257504898,
+            "expectancy_r": -0.2428895854791448,
+            "max_dd_pct": 5.3297807951394915,
+            "trade_count": 37,
+            "sharpe": -1.7604094937820742,
+            "dsr": 0.0004586475377734156
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 223,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.6884141643652754,
+            "expectancy_r": -0.12442085193456738,
+            "max_dd_pct": 5.352417154354158,
+            "trade_count": 80,
+            "sharpe": -1.3772944429243783,
+            "dsr": 0.0035576180451135087
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 57,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 151,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 294,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 223,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 120,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 155,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 314,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 239,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 142,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 157,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 317,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 311,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 57,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 151,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 294,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 223,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 120,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 155,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 314,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 239,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 142,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 157,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 317,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 311,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "ts_momentum",
+      "symbol": "ETHUSDT",
+      "verdict": "fail",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "fail",
+        "target": "fail"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.8384543042229885,
+            "expectancy_r": -0.05121458542984579,
+            "max_dd_pct": 12.790250146459591,
+            "trade_count": 326,
+            "sharpe": -0.7359596373221342,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.7201958742470821,
+            "expectancy_r": -0.0989084820556637,
+            "max_dd_pct": 5.3041983270954525,
+            "trade_count": 62,
+            "sharpe": -1.0550635998764266,
+            "dsr": 0.008360121705873191
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.7567713823680547,
+            "expectancy_r": -0.07698367022814229,
+            "max_dd_pct": 13.934203960360675,
+            "trade_count": 280,
+            "sharpe": -1.08037262615798,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6111097100475501,
+            "expectancy_r": -0.1452190832250649,
+            "max_dd_pct": 5.317137243390649,
+            "trade_count": 60,
+            "sharpe": -1.579912143769246,
+            "dsr": 0.0018228942173498797
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.6855873492955735,
+            "expectancy_r": -0.10056256231670128,
+            "max_dd_pct": 14.230701566320647,
+            "trade_count": 231,
+            "sharpe": -1.329014428109556,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5198004825899667,
+            "expectancy_r": -0.18524849961896334,
+            "max_dd_pct": 5.623087700596161,
+            "trade_count": 59,
+            "sharpe": -2.0727025736068145,
+            "dsr": 0.0002979355765164726
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.8384543042229885,
+            "expectancy_r": -0.05121458542984579,
+            "max_dd_pct": 12.790250146459591,
+            "trade_count": 326,
+            "sharpe": -0.7359596373221342,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.7201958742470821,
+            "expectancy_r": -0.0989084820556637,
+            "max_dd_pct": 5.3041983270954525,
+            "trade_count": 62,
+            "sharpe": -1.0550635998764266,
+            "dsr": 0.008360121705873191
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.7567713823680547,
+            "expectancy_r": -0.07698367022814229,
+            "max_dd_pct": 13.934203960360675,
+            "trade_count": 280,
+            "sharpe": -1.08037262615798,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6111097100475501,
+            "expectancy_r": -0.1452190832250649,
+            "max_dd_pct": 5.317137243390649,
+            "trade_count": 60,
+            "sharpe": -1.579912143769246,
+            "dsr": 0.0018228942173498797
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.6855873492955735,
+            "expectancy_r": -0.10056256231670128,
+            "max_dd_pct": 14.230701566320647,
+            "trade_count": 231,
+            "sharpe": -1.329014428109556,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5198004825899667,
+            "expectancy_r": -0.18524849961896334,
+            "max_dd_pct": 5.623087700596161,
+            "trade_count": 59,
+            "sharpe": -2.0727025736068145,
+            "dsr": 0.0002979355765164726
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.9970344897609308,
+            "expectancy_r": 0.00038500797429498083,
+            "max_dd_pct": 4.908668698951392,
+            "trade_count": 170,
+            "sharpe": 0.00841734854791621,
+            "dsr": 9.813427848115452e-12
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.8203488920573602,
+            "expectancy_r": -0.05732931033839654,
+            "max_dd_pct": 4.5479074867668485,
+            "trade_count": 110,
+            "sharpe": -0.8244095707930751,
+            "dsr": 0.00039249387989848117
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 284,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.40392288089091194,
+            "expectancy_r": -0.22728656670730993,
+            "max_dd_pct": 5.571006354525868,
+            "trade_count": 46,
+            "sharpe": -2.3819404850300385,
+            "dsr": 2.2246657703728356e-05
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 227,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.7201958742470821,
+            "expectancy_r": -0.0989084820556637,
+            "max_dd_pct": 5.3041983270954525,
+            "trade_count": 62,
+            "sharpe": -1.0550635998764266,
+            "dsr": 0.008360121705873191
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 284,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 227,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 51,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 70,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 293,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 229,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 125,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 88,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 314,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 240,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 284,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 227,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 51,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 70,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 293,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 229,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 125,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 88,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 314,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 240,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "ts_momentum",
+      "symbol": "SOLUSDT",
+      "verdict": "fail",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "fail",
+        "target": "fail"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.797172946340606,
+            "expectancy_r": -0.07733126913471111,
+            "max_dd_pct": 13.134352754297918,
+            "trade_count": 318,
+            "sharpe": -0.9262254259057906,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5289014113367717,
+            "expectancy_r": -0.14506034428571465,
+            "max_dd_pct": 5.233159101660789,
+            "trade_count": 62,
+            "sharpe": -1.8770545841090855,
+            "dsr": 0.0014633134061436404
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.6941516448604795,
+            "expectancy_r": -0.12848385025242656,
+            "max_dd_pct": 13.260284097726908,
+            "trade_count": 203,
+            "sharpe": -1.239216985101367,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.30724843532368135,
+            "expectancy_r": -0.24823201264785022,
+            "max_dd_pct": 5.2858049006588494,
+            "trade_count": 37,
+            "sharpe": -2.694804449707272,
+            "dsr": 3.99268633786698e-05
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.5393627067003339,
+            "expectancy_r": -0.202147022102611,
+            "max_dd_pct": 13.638953681685056,
+            "trade_count": 135,
+            "sharpe": -1.7127720240476438,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.2604178025969225,
+            "expectancy_r": -0.2820098969184338,
+            "max_dd_pct": 5.195138829706673,
+            "trade_count": 33,
+            "sharpe": -2.8770743836525754,
+            "dsr": 4.767056157817251e-06
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.797172946340606,
+            "expectancy_r": -0.07733126913471111,
+            "max_dd_pct": 13.134352754297918,
+            "trade_count": 318,
+            "sharpe": -0.9262254259057906,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.5289014113367717,
+            "expectancy_r": -0.14506034428571465,
+            "max_dd_pct": 5.233159101660789,
+            "trade_count": 62,
+            "sharpe": -1.8770545841090855,
+            "dsr": 0.0014633134061436404
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.6941516448604795,
+            "expectancy_r": -0.12848385025242656,
+            "max_dd_pct": 13.260284097726908,
+            "trade_count": 203,
+            "sharpe": -1.239216985101367,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.30724843532368135,
+            "expectancy_r": -0.24823201264785022,
+            "max_dd_pct": 5.2858049006588494,
+            "trade_count": 37,
+            "sharpe": -2.694804449707272,
+            "dsr": 3.99268633786698e-05
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.5393627067003339,
+            "expectancy_r": -0.202147022102611,
+            "max_dd_pct": 13.638953681685056,
+            "trade_count": 135,
+            "sharpe": -1.7127720240476438,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.2604178025969225,
+            "expectancy_r": -0.2820098969184338,
+            "max_dd_pct": 5.195138829706673,
+            "trade_count": 33,
+            "sharpe": -2.8770743836525754,
+            "dsr": 4.767056157817251e-06
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 159,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.8521994246298883,
+            "expectancy_r": -0.05898251325695508,
+            "max_dd_pct": 5.509749527339627,
+            "trade_count": 142,
+            "sharpe": -0.7629624950817838,
+            "dsr": 1.6198153929281034e-13
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 101,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.7731565360006868,
+            "expectancy_r": -0.07776623727204537,
+            "max_dd_pct": 5.047457839743287,
+            "trade_count": 131,
+            "sharpe": -1.1571135273469475,
+            "dsr": 0.0001563291326345806
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 289,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.6845894377564256,
+            "expectancy_r": -0.1339655471047237,
+            "max_dd_pct": 5.576931658585187,
+            "trade_count": 45,
+            "sharpe": -1.0133069731925035,
+            "dsr": 0.005156458542383335
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 269,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.5289014113367717,
+            "expectancy_r": -0.14506034428571465,
+            "max_dd_pct": 5.233159101660789,
+            "trade_count": 62,
+            "sharpe": -1.8770545841090855,
+            "dsr": 0.0014633134061436404
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 159,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 101,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 289,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 269,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 236,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 217,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 293,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 304,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 316,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 250,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 295,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 309,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 159,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 101,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 289,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 269,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 236,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 217,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 293,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 304,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 316,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 250,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 295,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 309,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "volatility_breakout",
+      "symbol": "BTCUSDT",
+      "verdict": "fail",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": true,
+          "random": true,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": true,
+          "random": true,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "fail",
+        "target": "fail"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.8531236377469923,
+            "expectancy_r": -0.05526014134044093,
+            "max_dd_pct": 6.74311719985923,
+            "trade_count": 118,
+            "sharpe": -0.4084950754439826,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 1.0693421395166163,
+            "expectancy_r": 0.018434727277028117,
+            "max_dd_pct": 1.8291154522989121,
+            "trade_count": 32,
+            "sharpe": 0.16433683986372716,
+            "dsr": 0.1036202424119258
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.7356141035738283,
+            "expectancy_r": -0.1029470791646951,
+            "max_dd_pct": 7.812665355318706,
+            "trade_count": 97,
+            "sharpe": -0.7291799239934721,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.8504109130797631,
+            "expectancy_r": -0.03892084311043369,
+            "max_dd_pct": 2.3441154430542905,
+            "trade_count": 32,
+            "sharpe": -0.36621656371645456,
+            "dsr": 0.03901759343758621
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.6378464060087209,
+            "expectancy_r": -0.1422410949810621,
+            "max_dd_pct": 8.783989955759031,
+            "trade_count": 91,
+            "sharpe": -1.0381611705314586,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6806637834371737,
+            "expectancy_r": -0.0894010567874408,
+            "max_dd_pct": 2.790428683847017,
+            "trade_count": 32,
+            "sharpe": -0.8765971915056412,
+            "dsr": 0.01193570998865029
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.8531236377469923,
+            "expectancy_r": -0.05526014134044093,
+            "max_dd_pct": 6.74311719985923,
+            "trade_count": 118,
+            "sharpe": -0.4084950754439826,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 1.0693421395166163,
+            "expectancy_r": 0.018434727277028117,
+            "max_dd_pct": 1.8291154522989121,
+            "trade_count": 32,
+            "sharpe": 0.16433683986372716,
+            "dsr": 0.1036202424119258
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.7356141035738283,
+            "expectancy_r": -0.1029470791646951,
+            "max_dd_pct": 7.812665355318706,
+            "trade_count": 97,
+            "sharpe": -0.7291799239934721,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.8504109130797631,
+            "expectancy_r": -0.03892084311043369,
+            "max_dd_pct": 2.3441154430542905,
+            "trade_count": 32,
+            "sharpe": -0.36621656371645456,
+            "dsr": 0.03901759343758621
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.6378464060087209,
+            "expectancy_r": -0.1422410949810621,
+            "max_dd_pct": 8.783989955759031,
+            "trade_count": 91,
+            "sharpe": -1.0381611705314586,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6806637834371737,
+            "expectancy_r": -0.0894010567874408,
+            "max_dd_pct": 2.790428683847017,
+            "trade_count": 32,
+            "sharpe": -0.8765971915056412,
+            "dsr": 0.01193570998865029
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 100,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.8037745373618932,
+            "expectancy_r": -0.08619953755171085,
+            "max_dd_pct": 5.186046876168371,
+            "trade_count": 73,
+            "sharpe": -0.8011326593015587,
+            "dsr": 7.860379014346108e-14
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 1.0315564291979893,
+            "expectancy_r": 0.00905346204673109,
+            "max_dd_pct": 1.7145717874233686,
+            "trade_count": 19,
+            "sharpe": 0.05908906920470432,
+            "dsr": 0.005080299579033887
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.9456066199365113,
+            "expectancy_r": -0.015390239068654932,
+            "max_dd_pct": 2.9702054920123286,
+            "trade_count": 26,
+            "sharpe": -0.10437503747834323,
+            "dsr": 0.03504823317412742
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 1.0693421395166163,
+            "expectancy_r": 0.018434727277028117,
+            "max_dd_pct": 1.8291154522989121,
+            "trade_count": 32,
+            "sharpe": 0.16433683986372716,
+            "dsr": 0.1036202424119258
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 100,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 186,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 202,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 100,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 186,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 202,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "volatility_breakout",
+      "symbol": "ETHUSDT",
+      "verdict": "insufficient evidence",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": false,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": false,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": false,
+          "random": false,
+          "stress_1_5": false,
+          "two_positive_development_years": false,
+          "validation_count": false,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "insufficient evidence",
+        "target": "insufficient evidence"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 0.8681616388008783,
+            "expectancy_r": -0.06175074630112975,
+            "max_dd_pct": 11.31371296941051,
+            "trade_count": 182,
+            "sharpe": -0.49083040562111563,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.19755053215755433,
+            "expectancy_r": -0.6269034624264935,
+            "max_dd_pct": 5.044863619833103,
+            "trade_count": 15,
+            "sharpe": -2.5184203787664776,
+            "dsr": 5.322676530472581e-06
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.7567827756719872,
+            "expectancy_r": -0.11524420079006717,
+            "max_dd_pct": 12.63412423614426,
+            "trade_count": 166,
+            "sharpe": -0.9323155739748656,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.1539854224558289,
+            "expectancy_r": -0.6633828050631952,
+            "max_dd_pct": 5.156193981163164,
+            "trade_count": 15,
+            "sharpe": -2.7407205695028534,
+            "dsr": 2.056952099760423e-07
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.6598952658039716,
+            "expectancy_r": -0.16207306354580595,
+            "max_dd_pct": 13.230822594410242,
+            "trade_count": 153,
+            "sharpe": -1.331150547694027,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.1231650352482623,
+            "expectancy_r": -0.6626834513142128,
+            "max_dd_pct": 5.047148617585407,
+            "trade_count": 15,
+            "sharpe": -2.8690347637927895,
+            "dsr": 1.1202261562814897e-08
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 0.8681616388008783,
+            "expectancy_r": -0.06175074630112975,
+            "max_dd_pct": 11.31371296941051,
+            "trade_count": 182,
+            "sharpe": -0.49083040562111563,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.19755053215755433,
+            "expectancy_r": -0.6269034624264935,
+            "max_dd_pct": 5.044863619833103,
+            "trade_count": 15,
+            "sharpe": -2.5184203787664776,
+            "dsr": 5.322676530472581e-06
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.7567827756719872,
+            "expectancy_r": -0.11524420079006717,
+            "max_dd_pct": 12.63412423614426,
+            "trade_count": 166,
+            "sharpe": -0.9323155739748656,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.1539854224558289,
+            "expectancy_r": -0.6633828050631952,
+            "max_dd_pct": 5.156193981163164,
+            "trade_count": 15,
+            "sharpe": -2.7407205695028534,
+            "dsr": 2.056952099760423e-07
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.6598952658039716,
+            "expectancy_r": -0.16207306354580595,
+            "max_dd_pct": 13.230822594410242,
+            "trade_count": 153,
+            "sharpe": -1.331150547694027,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.1231650352482623,
+            "expectancy_r": -0.6626834513142128,
+            "max_dd_pct": 5.047148617585407,
+            "trade_count": 15,
+            "sharpe": -2.8690347637927895,
+            "dsr": 1.1202261562814897e-08
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 1.113015595398036,
+            "expectancy_r": 0.04875024065946667,
+            "max_dd_pct": 4.044603870458493,
+            "trade_count": 90,
+            "sharpe": 0.47848813792901557,
+            "dsr": 1.4589096597461548e-10
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 122,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.7990827295155134,
+            "expectancy_r": -0.09566645077906377,
+            "max_dd_pct": 5.082222048204523,
+            "trade_count": 76,
+            "sharpe": -0.8486653512626788,
+            "dsr": 0.0003351884100044611
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 323,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.3135354272448887,
+            "expectancy_r": -0.5222192016842979,
+            "max_dd_pct": 5.1697820248701705,
+            "trade_count": 16,
+            "sharpe": -2.055154014152213,
+            "dsr": 4.1558044681033746e-05
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 329,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.19755053215755433,
+            "expectancy_r": -0.6269034624264935,
+            "max_dd_pct": 5.044863619833103,
+            "trade_count": 15,
+            "sharpe": -2.5184203787664776,
+            "dsr": 5.322676530472581e-06
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 122,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 323,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 329,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 189,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 323,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 329,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 249,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 323,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 329,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 122,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 323,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 329,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 189,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 323,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 329,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 249,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 323,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 329,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "volatility_breakout",
+      "symbol": "SOLUSDT",
+      "verdict": "fail",
+      "missing_training_folds": [],
+      "checklists": {
+        "stop": {
+          "buy_hold": false,
+          "cash": true,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": true,
+          "random": true,
+          "stress_1_5": false,
+          "two_positive_development_years": true,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        },
+        "target": {
+          "buy_hold": false,
+          "cash": true,
+          "development_count": true,
+          "development_pf": false,
+          "drawdown": true,
+          "dsr": false,
+          "positive_validation_expectancy": true,
+          "random": true,
+          "stress_1_5": false,
+          "two_positive_development_years": true,
+          "validation_count": true,
+          "validation_pf": false,
+          "weekly_ci": false
+        }
+      },
+      "ambiguity_verdicts": {
+        "stop": "fail",
+        "target": "fail"
+      },
+      "metrics": {
+        "stop-1": {
+          "development": {
+            "profit_factor": 1.0279825998725696,
+            "expectancy_r": 0.017139555464518508,
+            "max_dd_pct": 7.291850603444019,
+            "trade_count": 205,
+            "sharpe": 0.12077172462050154,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 1.0414617565790516,
+            "expectancy_r": 0.009498451826062172,
+            "max_dd_pct": 1.7781186293483635,
+            "trade_count": 30,
+            "sharpe": 0.09298071596811461,
+            "dsr": 0.0914714647460414
+          }
+        },
+        "stop-1.5": {
+          "development": {
+            "profit_factor": 0.8979922759642108,
+            "expectancy_r": -0.04198526731152832,
+            "max_dd_pct": 8.198533035262649,
+            "trade_count": 144,
+            "sharpe": -0.3225918492573158,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.841727834289276,
+            "expectancy_r": -0.0348169077104537,
+            "max_dd_pct": 1.9535766833376185,
+            "trade_count": 30,
+            "sharpe": -0.3572735591523983,
+            "dsr": 0.04077157114130958
+          }
+        },
+        "stop-2": {
+          "development": {
+            "profit_factor": 0.7972396870055867,
+            "expectancy_r": -0.08760460156931536,
+            "max_dd_pct": 8.929118685752623,
+            "trade_count": 142,
+            "sharpe": -0.688911196294714,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6789364694247667,
+            "expectancy_r": -0.07511192919451484,
+            "max_dd_pct": 2.113164169095693,
+            "trade_count": 30,
+            "sharpe": -0.8092841561542796,
+            "dsr": 0.014968311230404485
+          }
+        },
+        "target-1": {
+          "development": {
+            "profit_factor": 1.0279825998725696,
+            "expectancy_r": 0.017139555464518508,
+            "max_dd_pct": 7.291850603444019,
+            "trade_count": 205,
+            "sharpe": 0.12077172462050154,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 1.0414617565790516,
+            "expectancy_r": 0.009498451826062172,
+            "max_dd_pct": 1.7781186293483635,
+            "trade_count": 30,
+            "sharpe": 0.09298071596811461,
+            "dsr": 0.0914714647460414
+          }
+        },
+        "target-1.5": {
+          "development": {
+            "profit_factor": 0.8979922759642108,
+            "expectancy_r": -0.04198526731152832,
+            "max_dd_pct": 8.198533035262649,
+            "trade_count": 144,
+            "sharpe": -0.3225918492573158,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.841727834289276,
+            "expectancy_r": -0.0348169077104537,
+            "max_dd_pct": 1.9535766833376185,
+            "trade_count": 30,
+            "sharpe": -0.3572735591523983,
+            "dsr": 0.04077157114130958
+          }
+        },
+        "target-2": {
+          "development": {
+            "profit_factor": 0.7972396870055867,
+            "expectancy_r": -0.08760460156931536,
+            "max_dd_pct": 8.929118685752623,
+            "trade_count": 142,
+            "sharpe": -0.688911196294714,
+            "dsr": 0.0
+          },
+          "validation": {
+            "profit_factor": 0.6789364694247667,
+            "expectancy_r": -0.07511192919451484,
+            "max_dd_pct": 2.113164169095693,
+            "trade_count": 30,
+            "sharpe": -0.8092841561542796,
+            "dsr": 0.014968311230404485
+          }
+        }
+      },
+      "folds": [
+        {
+          "year": 2021,
+          "status": "evaluated",
+          "circuit_trips": 1,
+          "halted_days": 88,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 1.0849807047429452,
+            "expectancy_r": 0.05067682242543956,
+            "max_dd_pct": 5.015067504630377,
+            "trade_count": 156,
+            "sharpe": 0.5248569525869414,
+            "dsr": 2.0487556096071557e-10
+          }
+        },
+        {
+          "year": 2022,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 0.41759189687511805,
+            "expectancy_r": -0.2043551475562844,
+            "max_dd_pct": 2.4144447816645678,
+            "trade_count": 22,
+            "sharpe": -1.6645353739869047,
+            "dsr": 1.7617069286157694e-06
+          }
+        },
+        {
+          "year": 2023,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 1.0130713741259112,
+            "expectancy_r": 0.003845845114665882,
+            "max_dd_pct": 1.564770728810906,
+            "trade_count": 27,
+            "sharpe": 0.03452857570330194,
+            "dsr": 0.04611818858056449
+          }
+        },
+        {
+          "year": 2024,
+          "status": "evaluated",
+          "circuit_trips": 0,
+          "halted_days": 0,
+          "ambiguous_bars": 0,
+          "metrics": {
+            "profit_factor": 1.0414617565790516,
+            "expectancy_r": 0.009498451826062172,
+            "max_dd_pct": 1.7781186293483635,
+            "trade_count": 30,
+            "sharpe": 0.09298071596811461,
+            "dsr": 0.0914714647460414
+          }
+        }
+      ],
+      "circuit_sensitivities": {
+        "stop-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 88,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 191,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "stop-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 198,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 88,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-1.5": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 191,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ],
+        "target-2": [
+          {
+            "year": 2021,
+            "status": "evaluated",
+            "circuit_trips": 1,
+            "halted_days": 198,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2022,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2023,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          },
+          {
+            "year": 2024,
+            "status": "evaluated",
+            "circuit_trips": 0,
+            "halted_days": 0,
+            "ambiguous_bars": 0
+          }
+        ]
+      }
+    }
+  ],
+  "runtime_seconds": 10165.268125700008,
+  "peak_rss_bytes": 896925696
+}
