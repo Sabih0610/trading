@@ -662,7 +662,11 @@
       "branch": "codex/p11g-stage3-gold-dev",
       "review": "preregistration_being_prepared",
       "genuine_data_access": "blocked_until_APPROVED_prereg_review_on_main",
-      "merged": false
+      "merged": false,
+      "publication": "unpublished",
+      "full_gate_candidate": "aa2ce8e",
+      "static_checks": "passed; Ruff/format545 and strictmypy200",
+      "full_clean_gate": "active; pytest pending"
     },
     "P11h": {
       "title": "Venue status entry veto",
@@ -692,10 +696,31 @@
     },
     "P11j-W1": {
       "title": "Audit minors and test reliability",
-      "status": "in_progress",
+      "status": "blocked_on_review",
       "branch": "codex/p11j-audit-minors",
-      "review": "validation_pending",
-      "merged": false
+      "review": "queued",
+      "merged": false,
+      "commit": "bc6bd58a8b9587dcce6d99860e21dae283ab1681",
+      "pull_request": "https://github.com/Sabih0610/trading/pull/8",
+      "ready_marker": "reports/reviews/queue/P11j.ready",
+      "ready_marker_bytes": 0,
+      "gate_source_commit": "6b132f6cbffc306581c495a54a90da995896a47b",
+      "gate_source_tree": "0c709e85ef9581e7accc0410cbf9f8d73cc7d9b0",
+      "tests_passed": 1480,
+      "skipped": 2,
+      "skip_reasons": [
+        "credential-free checkout has no .env",
+        "owned dev-kit ZIP absent"
+      ],
+      "live_deselected": 3,
+      "xfailed": 2,
+      "remaining_xfails": [
+        "D-3",
+        "D-4"
+      ],
+      "pytest_seconds": 1176.58,
+      "full_clean_gate": "passed; Ruff/format540, strictmypy197, safety smoke and14owned studies",
+      "independent_review": "pending_Claude"
     },
     "P11j-W2": {
       "title": "D-3 and D-4 engine/label fixes",
@@ -735,7 +760,7 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-03 22:55 UTC",
+  "last_updated_utc": "2026-11-03 23:17 UTC",
   "next_phase": "Prepare exact local candidate clean checkout; full offline gate only after root grants slot following G. Append verified track reviews/merges before publishing living-docs PR. G genuine reads await APPROVED prereg review; root owns polling.",
   "audits": {
     "third_party_repository_adoption": {

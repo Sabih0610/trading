@@ -11,7 +11,11 @@ retuned or relabelled. [Report](reports/phases/P11f.md) ·
 
 H [PR #7](https://github.com/Sabih0610/trading/pull/7) is queued for Claude;
 I [PR #6](https://github.com/Sabih0610/trading/pull/6) is queued, G's
-pre-registration is being prepared, and J1 validation is pending.
+pre-registration remains unpublished with its full gate active. J1
+[PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`, is
+queued for independent review, not merged. Its clean source `6b132f6` passed
+1,480 tests (2 environmental skips, 3 live deselected, 2 D-3/D-4 xfails),
+Ruff/format (540 files), strict mypy (197 sources), smoke and all 14 studies.
 G may read no genuine data until its pre-registration is APPROVED on main.
 K is blocked on the absent Dukascopy consent file. J2 waits for F and G Part B
 to be merged. Stage 4, paper trading, Testnet, orders and P14 remain out of scope.
@@ -150,7 +154,7 @@ A1 is now implemented locally in P11b.2a.1 with hosted activation gated; A2 rema
 | P11g | Gold proxy development test | pre-registration being prepared | 2026-11-03 | — | `codex/p11g-stage3-gold-dev` | [prompt](prompts/P11g-stage3-gold-development.md) | no genuine reads before APPROVED prereg review |
 | P11h | Venue status entry veto | review queued | 2026-11-03 | — | `67e4978` | [PR #7](https://github.com/Sabih0610/trading/pull/7) | 1500 tests pass; ready marker published |
 | P11i | Treasury yield context | review queued | 2026-11-03 | — | `0d18a7a` | [PR #6](https://github.com/Sabih0610/trading/pull/6) | 1481 tests pass; ready marker published; no merge claimed |
-| P11j Wave 1 | Audit minors and test reliability | validation pending | 2026-11-03 | — | `codex/p11j-audit-minors` | [prompt](prompts/P11j-audit-minors-and-test-reliability.md) | no completion or merge claimed |
+| P11j Wave 1 | Audit minors and test reliability | queued for review; not merged | 2026-11-03 | full gate passed | `bc6bd58` published; source `6b132f6` | [PR #8](https://github.com/Sabih0610/trading/pull/8) | 1480 pass; P11j.ready; independent review pending |
 | P11j Wave 2 | Fill/label audit findings D-3/D-4 | not started | — | — | — | [master](prompts/MASTER-2026-11.md) | waits for F and G Part B merges |
 | P11k | Frozen gold 2024 validation | blocked on owner | — | — | — | [master](prompts/MASTER-2026-11.md) | Dukascopy consent file absent |
 | P12 | Separately reviewed demo-only gateways; optional stock paper | not started | — | — | — | — | human gate; external orders disabled |

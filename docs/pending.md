@@ -19,8 +19,11 @@ are historical where superseded by the master and later review decisions.
   pre-registration; its trials add to the multiple-testing record. After gold,
   the owner decides whether to try new registered ideas, change approach or stop.
 - **MASTER review queue:** H PR #7 and I await Claude; G pre-registration is in
-  preparation and genuine input stays blocked until APPROVED on main. J1 remains
-  under validation; J2 cannot start before both F and G Part B merge.
+  preparation/unpublished and genuine input stays blocked until APPROVED on main.
+  J1 [PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`, is
+  queued with P11j.ready; its 1480-test clean gate, static checks, smoke and
+  14 studies pass. It is not merged or independently approved. J2 cannot start
+  before both F and G Part B merge; remaining D-3/D-4 xfails are retained.
 - **K consent blocker:** the specified Dukascopy consent file remains absent per
   the master check; K cannot acquire or validate gold without it. No replacement
   permission is inferred from public availability or an earlier sample.

@@ -18,7 +18,11 @@ All notable project changes are documented here. The project follows Keep a Chan
   current combinations. Explicit historical-policy fixtures retain all prior
   mechanics assertions. Focused tests: 173 passed; integration full gate pending.
   No evaluator/strategy/RiskManager logic, XAUT permission or risk ceiling changed.
-- H/I are queued for review; G pre-registration and J1 validation remain in progress.
+- H/I and J1 are queued for independent review, not merged. J1 [PR #8](https://github.com/Sabih0610/trading/pull/8)
+  final head `bc6bd58` has an empty P11j.ready; clean source `6b132f6` passed
+  1,480 tests, 2 environmental skips, 3 live deselected and 2 D-3/D-4 xfails,
+  plus Ruff/format (540 files), strict mypy (197 sources), smoke and 14 studies.
+  G pre-registration remains unpublished; its full gate is active after static checks passed.
   K remains blocked by absent consent. These entries do not claim those tracks merged.
 
 ### P11e PR #4 clock/retry review fixes — 2026-11-01 UTC

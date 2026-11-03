@@ -15,3 +15,8 @@
 - Freeze local candidate with skip-ci; prepare an exact detached clean worktree
   and locked dependencies only. Full offline gate waits for root's slot after G;
   no publication, F replay, genuine data, holdout/sealed access or orders.
+- 2026-11-03 23:17 UTC: Root verified J1 final PR #8 head bc6bd58 and its exact
+  source/tree clean gate: 1480 passes, 2 environmental skips, 3 deselected,
+  2 D-3/D-4 xfails; static/smoke/14 studies pass. Updated living facts as queued,
+  not merged. G remains unpublished with its full gate active. B1 source/config/
+  tests are byte-identical to frozen 227b614; this update is documentation only.

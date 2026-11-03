@@ -11,8 +11,14 @@ with an empty P11h.ready marker. Its full gate passed with 1,500 tests; no monit
 was started. I [PR #6](https://github.com/Sabih0610/trading/pull/6), head
 `0d18a7a`, is queued with P11i.ready; its full gate passed with 1,481 tests.
 Its separately authorized private yield build was verified by Track I; no yield
-observations enter this draft. G's pre-registration is being built and J1
-validation is pending. Root coordinates polling and the single full-suite slot.
+observations enter this draft. J1 [PR #8](https://github.com/Sabih0610/trading/pull/8)
+final head `bc6bd58` is queued, not merged, with empty P11j.ready. Its clean
+source `6b132f6` / tree `0c709e85` passed 1480 tests, 2 environmental skips
+(absent .env / kit ZIP), 3 live deselected and 2 D-3/D-4 xfails in 1176.58s;
+Ruff/format 540 files, strict mypy 197 sources, smoke and all 14 studies pass.
+G's unpublished pre-registration candidate `aa2ce8e` has static checks passed
+(545 files, strict mypy 200 sources); full pytest remains active. Readiness or
+Part B approval is not claimed. Root coordinates polling and the serial full gate.
 Read no genuine G input until main contains an APPROVED pre-registration review.
 J2 waits for both F and G Part B merges; K is blocked on absent written consent.
 
