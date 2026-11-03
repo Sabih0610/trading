@@ -1,12 +1,8 @@
-P11f Part A approved with P11f-1 amended/published in 05cd0f1. Part B implementation
-is underway on the same PR #5; its completed results and gate need final review.
-
 # Claude review queue
 
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|
-| P11f Part A | [PR #5](https://github.com/Sabih0610/trading/pull/5) awaiting Claude pre-registration approval | 2026-11-02 08:10 UTC | [report](../reports/phases/P11f.md) | D/E, 162 C/D/E cells; 1412 fixture tests, Ruff/format/mypy, smoke and 14 studies pass. STOP for Claude; no genuine input or Part B. |
-| P11e | [PR #4](https://github.com/Sabih0610/trading/pull/4) approved; merged by owner (52d9beb) | 2026-11-01 15:42 UTC | [report](../reports/phases/P11e.md) | P11e-1/4/5 corrected under owner duplicate rule; six private rebuilds and clean gates pass (1337 tests). P11e-2 consent/coverage and P11e-3 costs remain conditional. No main merge. |
+| P11e | [PR #4](https://github.com/Sabih0610/trading/pull/4) fix round ready for re-review | 2026-11-01 15:42 UTC | [report](../reports/phases/P11e.md) | P11e-1/4/5 corrected under owner duplicate rule; six private rebuilds and clean gates pass (1337 tests). P11e-2 consent/coverage and P11e-3 costs remain conditional. No main merge. |
 | P11d | approved with fixes addressed | 2026-11-01 UTC | [report](../reports/phases/P11d.md), [PR #3](https://github.com/Sabih0610/trading/pull/3) | Audit fixes, rights-gated yearly medallion, fixture scenarios and sealed forward reader refusal. Original five suites plus remediation clean gate (1267 passes) and one-hour health-only check pass: four parts, zero gaps. Original review copied unchanged. Genuine history blocked. Collector running; boot privilege limitation explicit. |
 | P11c.0 | queued for independent review | 2026-10-27 UTC | [report](../reports/phases/P11c.0.md) | Repaired-source provenance; metadata-first dataset rights and expiry; causal shared features/strategies; matched frozen labels; crash/replay integrity; exact dry-run inventory and gated read-only UI. Owned evidence only; no push/CI/genuine/P11c.1. |
 | P11b-RC-remediation | automated self-review; independent human review pending | 2026-10-27 UTC | [report](../reports/phases/P11b-RC-remediation.md) | Six findings fixed with owned regressions; 992 tests and 14 studies pass; no genuine/push/CI authorization. |

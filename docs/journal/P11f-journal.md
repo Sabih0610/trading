@@ -100,3 +100,19 @@ registration and new digest are committed and published. No main merge.
 - 2026-11-02 11:44 UTC: Registered first experiment reached its 2024 comparison
   paths. No errors; peak RSS about 884 MB. No intermediate outcome inspection.
   Public phase status refreshed; runtime/config/tests/registration unchanged.
+
+- 2026-11-02 12:07 UTC: All three C strategy-symbol experiments completed; the
+  fixed runner moved to E (time-series momentum). Operational monitoring only,
+  no outcome summaries opened. Peak RSS about 884 MB; stderr remains empty.
+
+- 2026-11-02 12:28 UTC: All six C/E strategy-symbol experiments completed.
+  Runner moved to the final D family under the same frozen batch. No outcome
+  summaries opened; stderr empty and operational peak RSS about 884 MB.
+
+- 2026-11-03 00:57 UTC: Finished Part B reporting from the batch that completed 2026-11-02
+  13:23 UTC (nine experiments). Stored verdicts: 0 pass, 7 fail, 2 insufficient.
+  Exact implementation and data-manifest identities match. No replay, retuning,
+  changed labels or additional genuine-data acquisition. All 216 fold/path
+  circuit diagnostics projected with permitted metrics only. Shared living-file
+  entries moved to the phase report per MASTER; existing published F history
+  preserved to honor the no-force-push rule. Review marker prepared on PR #5.

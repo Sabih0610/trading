@@ -1,20 +1,3 @@
-P11f Part B is running on PR #5 after Claude approval and the >=20-trade amendment
-(05cd0f1). The full clean gate passed before genuine access: 1455 tests. N=162;
-the registered background batch is checkpointing, with no intermediate performance inspection.
-
-# P11f Part A complete — pre-registration review required
-
-[PR #5](https://github.com/Sabih0610/trading/pull/5) is open and unmerged. **STOP for Claude pre-registration review.**
-
-Part A implements D/E and freezes C/D/E at 162 candidate cells. All tests use
-owned fixtures; no genuine data, P11e registry/quality, holdout or sealed archive
-was read. Part B is unstarted and blocked on Claude's review of the registration.
-Clean offline gate: 1412 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 669.21s (0:11:09). Ruff/format, strict mypy (192 sources), safety smoke
-and 14 owned paper studies pass on 41fde32e7bef3250cdeedbb0075bbe7b7d34a15a. Later edits are docs only.
-Pre-registration SHA-256: 63efaa6e246d2f24d94a68a961ff268a046877ad6df68fcc4af0cceb96c02db6.
-
-## Previous progress
-
 # P11e PR #4 fix round complete
 
 Corrected HistData to one EU-week offset and verified provider duplicate removal;

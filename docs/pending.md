@@ -1,9 +1,5 @@
 # Pending items
 
-- **P11f Part B:** Part A approved; P11f-1 amendment published before genuine access.
-  Fixed evaluator and fixture gate in progress. P11f-2 circuit diagnostics required.
-  Same PR #5, no main merge or follow-on phase.
-
 - **P11d legacy sealed file shape:** the reviewed collector created approximately
   1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,
   compaction or deletion. New capture uses 15-minute intervals; this existing
@@ -15,7 +11,7 @@
   its actual local path if available. Whole HistData 2020/2024 source archives cross
   the exact approved UTC window and are withheld before HTTP. Per-file reasons and
   full quality table remain private. Legacy Dukascopy samples are not for evaluation.
-- **P11e Stage 3 readiness:** safe boundary history,
+- **P11e Stage 3 readiness:** independent PR #4 fix-round re-review, safe boundary history,
   positive owner-reviewed XAUUSD/EURUSD spread floors and instrument-specific calendar
   assumptions remain to resolve. Existing data-only defaults are not execution costs.
   No strategy evaluation, orders or risk widening is authorized here.
