@@ -18,3 +18,19 @@
 - Rebased the unpublished source checkpoint onto approved main 6a64b22 after
   P11f merged. Final combined clean gate follows. The first baseline gate is
   allowed to finish; no concurrent full suite or genuine CSV build.
+
+- 2026-11-03 06:07 UTC: Baseline clean gate on601814d completed:1363 passed,1 skipped,
+  3 live deselected,5 known xfailed,23 warnings in680.01s; Ruff/format194-source
+  mypy, safety smoke and14 owned studies pass. Rebased finalsource70b07a6 is
+  running its combined clean gate; Ruff/format546 files and strict mypy203
+  sources pass. No persistent genuine CSV acquired or registry proposal executed.
+
+- 2026-11-03 06:15 UTC: Final rebased clean gate COMPLETE on70b07a6:1481 passed,
+  1 skipped,3 live deselected,5 known xfailed,23 warnings/664.52s. Ruff/format
+  546 files, strict mypy203 sources, safety smoke and14 owned studies pass.
+- 2026-11-03 06:26 UTC: Executed the evidence-backed registration and private real build
+  only after that gate. Both closed sources succeeded; current rights, original
+  2028-11-01 deadline, checksums, admitted publications, quality JSON/Markdown
+  and strict context/Data Health reads verified. No real rates or quality values
+  are copied into Git. No runtime/config/test changes after the clean gate.
+  Latest main remains6a64b22, already the branch base. Publication/ready marker next.
