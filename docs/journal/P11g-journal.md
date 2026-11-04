@@ -112,3 +112,29 @@
   Persistent15minute continuation is ACTIVE under the owner's continuing
   authorization, with updated source/hash/PAXG scope and no stale Dukascopy route.
   No genuine G metadata/prices, PAXG observations, holdout or sealed files read.
+
+- 2026-11-04 08:21 UTC: Main06467ef confirms I/J1/living APPROVED+merged;
+  all four reviewed branches remain untouched. G's clean gate resumed08:04UTC
+  and finished with1626passed/1failed/1skip/3deselected/5inheritedxfail in696.03s.
+  Sole failure is existing synthetic-demo Overview AppTest's25second runner
+  timeout, not a failed state/ledger assertion. Exact case PASSED alone11.46s
+  with original timeout and assertions. Failed gate log preserved; it is NOT
+  a pass. Restarted exact6ce397d fullgate alone08:20UTC worker23588, no other
+  focused/full tests allowed until it completes. No source/config/test changes.
+  K rebased unpublished candidate onto06467ef tod733632;43focusedpass and
+  originalrights/lifetime preserved. Reviewer-requested test-only reliability
+  followups prepared separately0919bdc,23focusedpass/49assertions unchanged;
+  no fullgate or push yet. Genuine G metadata/prices and PAXG remain unopened.
+
+- 2026-11-04 08:35 UTC: COMPLETE clean offline gate PASSED on6ce397d,
+  exact tree329305fc7ce0830a1d592b62acc2b61e5bde2784:1627passed/1skip/3live
+  deselected/5inheritedxfail,23warnings,608.24s. Ruff/format556,mypy205,
+  safety smoke and14owned acceptance studies all pass. No assertion,deadline,
+  skip or xfail was changed for the rerun. Source/config bytes remain exactly
+  db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4 /
+  4771a576cebf04c9589415211ffaf4a9d38d0301bb3f7f200082639c05497682.
+  Wrote actualpassed freeze.json and verified CLI admission against it.
+  Still NO genuine G registry/quality/prices read; committing/publishing this
+  complete validated source/freeze BEFORE first admitted metadata or run.
+  K has next fullsuite slot; G run starts after K dashboard startup with
+  below-normal process priority to preserve its test timing, same research rules.

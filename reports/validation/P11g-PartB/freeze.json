@@ -1,0 +1,51 @@
+{
+  "kind": "gold_development_pre_data_freeze",
+  "gate_status": "passed",
+  "source_commit": "6ce397d4c9b2eb6dc50b5b730c4f4eae2e64c9cd",
+  "source_tree": "329305fc7ce0830a1d592b62acc2b61e5bde2784",
+  "registration_sha256": "806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98",
+  "review_sha256": "c7aaf4ddfb617258ae2c7d4086c4aa42f8c2b8bf36e8ba8d7addc874688bd12a",
+  "implementation_sha256": "db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4",
+  "configuration_sha256": "4771a576cebf04c9589415211ffaf4a9d38d0301bb3f7f200082639c05497682",
+  "gate_completed_at": "2026-11-04T08:32:35.1781961+00:00",
+  "frozen_at": "2026-11-04T08:35:33.071216+00:00",
+  "gate_command": "pwsh -NoProfile -File './scripts/check-offline.ps1'",
+  "gate_log_sha256": "998cac0b09b003424fb2dd709b212380308cccaea759ff5cb16618909ad50bf6",
+  "checks": {
+    "ruff": "passed",
+    "formatted_files": 556,
+    "mypy_sources": 205,
+    "pytest": {
+      "passed": 1627,
+      "skipped": 1,
+      "live_deselected": 3,
+      "inherited_xfailed": 5,
+      "warnings": 23,
+      "runtime_seconds": 608.24
+    },
+    "safety_smoke": "passed",
+    "owned_acceptance_studies": 14,
+    "external_orders": 0
+  },
+  "previous_attempts": [
+    {
+      "status": "interrupted",
+      "reason": "reviewer started another suite after slot check; not a pass"
+    },
+    {
+      "status": "failed",
+      "passed": 1626,
+      "failed": 1,
+      "reason": "existing synthetic-demo Overview AppTest25s timeout during concurrent focused work",
+      "isolated_original_test": {
+        "passed": 1,
+        "seconds": 11.46,
+        "assertions_and_timeout_unchanged": true
+      }
+    }
+  ],
+  "one_shot_launcher_sha256": "4618e8a4d598ad537d841e21dc966293daaeb07b85c06415f5421ae3fa447a1c",
+  "genuine_g_inputs_read_before_freeze": false,
+  "scope": "XAUUSD HistData bid, fresh features from2021Silver only;2021-2023 development; no2024/holdout/sealed reads",
+  "legacy_audit_note": "R3/R4/S1 inherited on frozenF-based G snapshot; fixed separately on merged main; D3default/D4 remain J2-gated. G1strictlimit is research-only."
+}
