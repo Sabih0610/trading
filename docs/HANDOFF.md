@@ -1,5 +1,12 @@
 # Current handoff — MASTER 2026-11 integration queued
 
+2026-11-04 00:09 UTC: The owner explicitly approved a persistent 15-minute continuation
+heartbeat in this chat. App automation `continue-trading-master-review-loop` is
+ACTIVE, stays quiet without meaningful changes and resumes authorized work after
+Claude reviews. It preserves every review/data gate and never merges main. Disable
+it when MASTER is complete. This does not approve G data access: its exact
+pre-registration must still be APPROVED on main first.
+
 2026-11-03 21:52 UTC: F Part B is independently APPROVED and merged on main
 `6a64b22`. Its once-only registered batch completed 2026-11-02 13:23 UTC:
 0 pass, 7 fail, 2 insufficient evidence. Keep original registration, costs,

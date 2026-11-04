@@ -37,3 +37,10 @@
   verified, open and unmerged. Correct integration-only ready marker is tracked
   empty; master remains incomplete. Final PR-link bookkeeping is docs/validation
   only; runtime/config/tests remain identical to the full-gated83b8673.
+
+- 2026-11-04 00:09 UTC: Owner explicitly approved persistent review continuation after the
+  first scheduler creation was rejected by automatic approval review. App heartbeat
+  continue-trading-master-review-loop is now ACTIVE every15minutes in the current
+  chat; creation and view succeeded. It preserves Claude-only review/merge and all
+  genuine-data gates, stays quiet unchanged and disables at MASTER completion.
+  This follow-up changes only handoff/journal, not the full-gated source.
