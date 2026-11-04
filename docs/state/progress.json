@@ -856,7 +856,8 @@
       "next_step": "Stop autonomous continuation; final report documentary review and separately scoped owner decisions only",
       "completed_utc": "2026-11-04 18:55 UTC",
       "completion_conditions_review_commit": "6848cc3",
-      "final_ready_marker": "reports/reviews/queue/MASTER-2026-11.ready"
+      "final_ready_marker": "reports/reviews/queue/MASTER-2026-11.ready",
+      "final_report_pull_request": "https://github.com/Sabih0610/trading/pull/16"
     }
   },
   "allowed_status": [
@@ -885,7 +886,7 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-04 18:57 UTC",
+  "last_updated_utc": "2026-11-04 18:58 UTC",
   "next_phase": "No automatic next phase. Owner decides future registered research or pause; Stage4/paper/Testnet/orders/P14 remain unauthorized.",
   "audits": {
     "third_party_repository_adoption": {
@@ -921,7 +922,8 @@
     "publication": "ready_for_final_documentary_review",
     "ready_marker": "reports/reviews/queue/MASTER-2026-11.ready",
     "committed": true,
-    "published": true
+    "published": true,
+    "pull_request": "https://github.com/Sabih0610/trading/pull/16"
   },
   "living_docs_previous": {
     "branch": "codex/living-docs-2026-11-04",

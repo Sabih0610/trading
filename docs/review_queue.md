@@ -4,7 +4,7 @@ All required implementation and final living integration PRs are approved/merged
 
 | Item | Status | Evidence |
 |---|---|---|
-| Final MASTER report | Ready for final documentary review; authorized engineering complete | [Status](../reports/phases/MASTER-2026-11-status.md), empty `MASTER-2026-11.ready` |
+| [Final MASTER report PR #16](https://github.com/Sabih0610/trading/pull/16) | Ready for final documentary review; authorized engineering complete | [Status](../reports/phases/MASTER-2026-11-status.md), empty `MASTER-2026-11.ready` |
 | F/G and supporting implementation | Approved and merged; immutable verdicts | Final report links every review and merge |
 | New research/Stage4/5 | Not authorized; owner decision after MASTER | No strategy promotion; K validation skipped |
 

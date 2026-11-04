@@ -4,6 +4,8 @@ Completed 2026-11-04 18:55 UTC from reviewed main `6848cc3`. All required implem
 
 **No strategy is promoted:** F has 0 pass, 7 fail and 2 insufficient evidence; G has 1 reject, 0 promising and 2 insufficient evidence. K validation is **skipped: no promising gold candidate**. No gold strategy is validated. The continuation heartbeat ends after this publication.
 
+[Final documentary PR #16](https://github.com/Sabih0610/trading/pull/16) is open for Claude review. Required implementation and final living-docs approvals are already merged.
+
 ## Completion evidence
 
 | Track | Delivered / result | Independent approval and merge |
