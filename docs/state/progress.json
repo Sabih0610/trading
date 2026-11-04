@@ -640,7 +640,7 @@
       "training_cell_minimum_completed_trades": 20,
       "registered_batch_rerun": false,
       "full_clean_gate": "1455 passed; ruff, format, mypy, smoke and 14 owned studies passed",
-      "P11f_B1": "implemented_deny_all_crypto_strategy_policy_pending_clean_integration_gate",
+      "P11f_B1": "implemented_full_clean_gate_passed_pending_Claude_review",
       "P11f_B2": "no_crypto_edge; no Stage4/5 for these candidates; new ideas need new registration and added trials",
       "external_orders_enabled": false,
       "holdout_access": false,
@@ -649,24 +649,41 @@
         "focused_seconds": 34.44,
         "existing_assertions_unchanged": 128,
         "project_ruff": "pass",
-        "project_format": "pass; 537 files",
+        "project_format": "focused pass537; clean offline gate538",
         "strict_mypy_changed_source": "pass; 1 source file",
-        "independent_source_review": "no concrete issue",
-        "full_clean_gate": "pending_root_slot_after_G",
-        "report": "reports/phases/P11f-B1.md"
+        "independent_source_review": "Track H peer check, not formal Claude approval",
+        "full_clean_gate": "pass; 1473passed,1skip,3deselected,5inheritedxfails,23warnings,1000.45s; Ruff/format538, strictmypy197, smoke and14owned studies",
+        "report": "reports/phases/P11f-B1.md",
+        "validated_commit": "83b8673550e250080beaa5a1ca2acd773d1e82a8",
+        "validated_tree": "965666869cc9e3322e908919b7bdb5447a9a1688",
+        "full_tests_passed": 1473,
+        "strict_mypy_all_source": "pass;197 sourcefiles",
+        "formal_review": "pending_Claude",
+        "validation": "reports/validation/P11f-B1/summary.json"
       }
     },
     "P11g": {
       "title": "Gold proxy development test",
-      "status": "in_progress",
+      "status": "blocked_on_review",
       "branch": "codex/p11g-stage3-gold-dev",
-      "review": "preregistration_being_prepared",
-      "genuine_data_access": "blocked_until_APPROVED_prereg_review_on_main",
+      "review": "preregistration_queued",
+      "genuine_data_access": false,
       "merged": false,
-      "publication": "unpublished",
-      "full_gate_candidate": "aa2ce8e",
+      "publication": "published_open_unmerged",
+      "full_gate_candidate": "aa2ce8ea6964472abf7b2921d1615dbe44d49fd4",
       "static_checks": "passed; Ruff/format545 and strictmypy200",
-      "full_clean_gate": "active; pytest pending"
+      "full_clean_gate": "passed; 1516 tests, smoke and14owned studies",
+      "commit": "d92e120ce7577a8ce9663a155de9c56e698904be",
+      "pull_request": "https://github.com/Sabih0610/trading/pull/9",
+      "ready_marker": "reports/reviews/queue/P11g-prereg.ready",
+      "ready_marker_bytes": 0,
+      "tests_passed": 1516,
+      "skipped": 1,
+      "live_deselected": 3,
+      "xfailed": 5,
+      "pytest_seconds": 1194.18,
+      "part_b_started": false,
+      "genuine_gate": "STOPPED_until_APPROVED_P11g-prereg-review_on_main"
     },
     "P11h": {
       "title": "Venue status entry veto",
@@ -760,8 +777,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-03 23:17 UTC",
-  "next_phase": "Prepare exact local candidate clean checkout; full offline gate only after root grants slot following G. Append verified track reviews/merges before publishing living-docs PR. G genuine reads await APPROVED prereg review; root owns polling.",
+  "last_updated_utc": "2026-11-04 00:01 UTC",
+  "next_phase": "Publish ready B1/living-docs integration for Claude review; continue root main polling for PRs6–9. G genuine reads remain stopped until APPROVED prereg review on main. No master completion, self-approval or main merge.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
@@ -794,6 +811,12 @@
     "published": false,
     "requires_root_integration_before_publication": true,
     "config_source_tests_changed": true,
-    "full_clean_gate": "pending_root_slot_after_G"
+    "full_clean_gate": "passed_on83b8673_tree96566686",
+    "master_complete": false,
+    "ready_marker": "reports/reviews/queue/MASTER-2026-11-living-docs.ready",
+    "formal_review": "pending_Claude",
+    "validated_commit": "83b8673550e250080beaa5a1ca2acd773d1e82a8",
+    "validated_tree": "965666869cc9e3322e908919b7bdb5447a9a1688",
+    "publication": "ready_for_independent_review"
   }
 }

@@ -16,24 +16,36 @@ final head `bc6bd58` is queued, not merged, with empty P11j.ready. Its clean
 source `6b132f6` / tree `0c709e85` passed 1480 tests, 2 environmental skips
 (absent .env / kit ZIP), 3 live deselected and 2 D-3/D-4 xfails in 1176.58s;
 Ruff/format 540 files, strict mypy 197 sources, smoke and all 14 studies pass.
-G's unpublished pre-registration candidate `aa2ce8e` has static checks passed
-(545 files, strict mypy 200 sources); full pytest remains active. Readiness or
-Part B approval is not claimed. Root coordinates polling and the serial full gate.
+G pre-registration [PR #9](https://github.com/Sabih0610/trading/pull/9), final
+head `d92e120`, is queued with empty P11g-prereg.ready. Full gate on `aa2ce8e`:
+1516 passed, 1 environmental skip, 3 live deselected, 5 inherited xfails in
+1194.18s; Ruff/format 545 files, strict mypy 200 sources, smoke and all 14 studies
+pass. G is STOPPED until reports/reviews/P11g-prereg-review.md on main explicitly
+says APPROVED; no genuine G input has been read and Part B has not started.
+PRs #6–#9 remain open and unmerged. Main was fetched after B1 gate completion
+and still identifies `6a64b22`, with no new track review. Root owns polling and
+any later combined-source validation.
 Read no genuine G input until main contains an APPROVED pre-registration review.
 J2 waits for both F and G Part B merges; K is blocked on absent written consent.
 
-This separate `codex/living-docs-2026-11-04` worktree contains an **unpublished
-integration candidate**. P11f-B1 is implemented: BTC/ETH/SOL strategy allowlists
+This separate `codex/living-docs-2026-11-04` worktree contains the **review-ready
+B1 and living-docs integration**; MASTER is not complete. P11f-B1 is implemented: BTC/ETH/SOL strategy allowlists
 are empty, and the schema accepts that deny-all state while actual strategy
 permission checks remain unchanged. Explicit historical-policy fixtures use the
 real asset guard; all 128 prior behavior assertions remain unchanged. Current
 policy refuses all nine combinations and all 162 frozen catalogue cells.
-Focused validation: 173 passed, project Ruff/format clean, and independent
-source review found no issue. [B1 report](../reports/phases/P11f-B1.md).
-Next: freeze the local candidate, prepare the exact clean gate worktree, and run
-its full offline gate only when root grants the slot after G. Append verified
-track reviews/merges here and rebase/fetch before eventual publication. No push
-or main merge yet. No F replay, risk widening or evaluator/strategy change.
+Focused validation: 173 passed; Track H peer source check found no issue.
+Formal Claude review remains pending. [B1 report](../reports/phases/P11f-B1.md).
+The exact clean B1 gate passed on `83b8673`, tree `96566686`, with runtime/
+config/tests unchanged from `227b614`: 1473 passed, 1 environmental skip,
+3 deselected, 5 inherited xfails, 23 warnings in 1000.45s. Ruff/format 538,
+strict mypy 197, smoke and all 14 synthetic studies pass; gate slot released.
+[Validation](../reports/validation/P11f-B1/summary.json) records the exact identity.
+Final publication edits are docs/validation/marker only. The empty integration
+marker is MASTER-2026-11-living-docs.ready; MASTER-2026-11.ready stays absent.
+Next: independent Claude review, fix any findings on the same branch, and
+continue root's main-review polling for queued tracks. No F replay, risk widening,
+main merge, genuine data access or evaluator/strategy change.
 
 Crypto has no tradable edge under the registered test; Stage 4/5 do not start for
 these candidates. New ideas require new registration and increased trial count.

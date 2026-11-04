@@ -1,7 +1,7 @@
 # MASTER 2026-11 — Stage 3 and Stage 2 work in progress
 
-Living-document integration candidate, unpublished. Track review snapshot:
-2026-11-03 21:52 UTC; B1 focused validation updated 2026-11-03 22:55 UTC.
+Living-document integration ready for review; MASTER remains incomplete.
+Verified status and full B1 gate updated 2026-11-04 00:01 UTC; main fetched at `6a64b22`.
 F Part B is independently APPROVED and merged through main `6a64b22`:
 **0 pass, 7 fail, 2 insufficient evidence**. No crypto candidate advances.
 The registered 162-trial batch completed 2026-11-02 13:23 UTC and was not rerun,
@@ -11,7 +11,11 @@ retuned or relabelled. [Report](reports/phases/P11f.md) ·
 
 H [PR #7](https://github.com/Sabih0610/trading/pull/7) is queued for Claude;
 I [PR #6](https://github.com/Sabih0610/trading/pull/6) is queued, G's
-pre-registration remains unpublished with its full gate active. J1
+pre-registration [PR #9](https://github.com/Sabih0610/trading/pull/9), final head
+`d92e120`, is queued and stopped until an APPROVED pre-registration review is on
+main. Its full gate passed: 1516 tests, 1 environmental skip, 3 live deselected,
+5 inherited xfails; Ruff/format 545 files, strict mypy 200 sources, smoke and
+14 studies pass. No genuine G input has been read. J1
 [PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`, is
 queued for independent review, not merged. Its clean source `6b132f6` passed
 1,480 tests (2 environmental skips, 3 live deselected, 2 D-3/D-4 xfails),
@@ -20,12 +24,14 @@ G may read no genuine data until its pre-registration is APPROVED on main.
 K is blocked on the absent Dukascopy consent file. J2 waits for F and G Part B
 to be merged. Stage 4, paper trading, Testnet, orders and P14 remain out of scope.
 
-**P11f-B1 is implemented, pending full integration gate:** the three crypto
+**P11f-B1 is implemented and ready for Claude review:** the three crypto
 allowlists are empty. The schema accepts that deny-all state; unchanged real
 strategy guards refuse all nine combinations and all 162 frozen cells. Explicit
 historical-policy fixtures preserve all 128 old mechanics assertions. Focused
-validation: 173 passed; independent source review found no issue. XAUT, risk
-ceilings and evaluator/strategy/RiskManager logic stay unchanged.
+validation: 173 passed; Track H peer source check found no issue. Complete
+clean gate on `83b8673`: 1473 passed, 1 skip, 3 deselected, 5 inherited xfails;
+Ruff/format 538, strict mypy 197, smoke and all 14 owned studies pass. XAUT,
+risk ceilings and evaluator/strategy/RiskManager logic stay unchanged.
 [B1 report](reports/phases/P11f-B1.md). B2 requires new registration and additional
 multiple-testing trials for any new crypto idea.
 
@@ -150,8 +156,8 @@ A1 is now implemented locally in P11b.2a.1 with hosted activation gated; A2 rema
 | P11b.1a-Prep | Secure owner-assisted OAuth readiness | done; offline only | 2026-10-27 | 2026-10-27 10:11 UTC | `phase-P11b.1a-prep-done` | [report](reports/phases/P11b.1a-prep.md) | queued; genuine authorization pending |
 | P11b.1a-RC | Integrated offline release review | review complete; documentation publication authorized | 2026-10-27 | 2026-10-27 10:59 UTC | `b669d43` local source candidate; cleaned publication history | [report](reports/phases/P11b.1a-RC.md) | queued; genuine NO-GO |
 | P11e | Approved pre-2025 historical medallion | done; precise boundary gaps recorded | 2026-11-01 | 2026-11-01 12:00 UTC | `58efb4c` source | [report](reports/phases/P11e.md) | queued; no strategy evaluation |
-| P11f | Registered crypto deciding test | done; 0 pass / 7 fail / 2 insufficient | 2026-11-02 | 2026-11-02 13:23 UTC batch | `83c67f8` report; merged `ed40682` | [report](reports/phases/P11f.md) | APPROVED on main `6a64b22`; B1 implemented/pending integration gate |
-| P11g | Gold proxy development test | pre-registration being prepared | 2026-11-03 | — | `codex/p11g-stage3-gold-dev` | [prompt](prompts/P11g-stage3-gold-development.md) | no genuine reads before APPROVED prereg review |
+| P11f | Registered crypto deciding test | done; 0 pass / 7 fail / 2 insufficient | 2026-11-02 | 2026-11-02 13:23 UTC batch | `83c67f8` report; merged `ed40682` | [report](reports/phases/P11f.md) | APPROVED on main `6a64b22`; B1 full gate passed; formal review pending |
+| P11g | Gold proxy development test | Part A queued; stopped for pre-registration review | 2026-11-03 | Part A gate passed | `d92e120` published; gate `aa2ce8e` | [PR #9](https://github.com/Sabih0610/trading/pull/9) | no genuine reads before APPROVED prereg review on main; no merge |
 | P11h | Venue status entry veto | review queued | 2026-11-03 | — | `67e4978` | [PR #7](https://github.com/Sabih0610/trading/pull/7) | 1500 tests pass; ready marker published |
 | P11i | Treasury yield context | review queued | 2026-11-03 | — | `0d18a7a` | [PR #6](https://github.com/Sabih0610/trading/pull/6) | 1481 tests pass; ready marker published; no merge claimed |
 | P11j Wave 1 | Audit minors and test reliability | queued for review; not merged | 2026-11-03 | full gate passed | `bc6bd58` published; source `6b132f6` | [PR #8](https://github.com/Sabih0610/trading/pull/8) | 1480 pass; P11j.ready; independent review pending |

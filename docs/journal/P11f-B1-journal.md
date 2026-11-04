@@ -20,3 +20,15 @@
   2 D-3/D-4 xfails; static/smoke/14 studies pass. Updated living facts as queued,
   not merged. G remains unpublished with its full gate active. B1 source/config/
   tests are byte-identical to frozen 227b614; this update is documentation only.
+- 2026-11-03 23:50 UTC: Root granted B1 the sole full-gate slot after G passed. Clean
+  candidate 83b8673/tree96566686 is running: Ruff/format538 and strictmypy197
+  pass; pytest is active. Task documentation now records root-verified G PR #9
+  final head d92e120/full1516-test gate and its stop pending APPROVED prereg
+  review on main; the running clean checkout remains unchanged. PRs6–9 remain
+  open/unmerged. No integration/master ready marker is created before B1 success.
+- 2026-11-04 00:01 UTC: Full clean script exited0 on83b8673/tree96566686:1473passed,
+  1skip,3deselected,5inheritedxfails,23warnings/1000.45s; Ruff/format538,
+  strictmypy197, smoke and14owned synthetic studies pass; externalorders0.
+  Released the slot. Main fetched and still6a64b22, no new track reviews.
+  Source/config/tests remain227b614; final edits are docs/validation/marker only.
+  Queue only MASTER-2026-11-living-docs.ready; master is not complete.
