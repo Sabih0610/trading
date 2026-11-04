@@ -90,4 +90,8 @@ The full gate passed and the zero-byte P11j-reliability.ready marker is present.
 Publication uses the dedicated follow-up branch with [skip ci] and --no-follow-tags;
 Claude remains the reviewer and merger. Shared living docs stay on their separate track.
 
+Publication: [PR12 — P11j test reliability follow-ups](https://github.com/Sabih0610/trading/pull/12),
+open and unmerged when published. The subsequent PR-link entry changes documentation
+only and reuses the source-identical clean gate above.
+
 Ready for Claude review

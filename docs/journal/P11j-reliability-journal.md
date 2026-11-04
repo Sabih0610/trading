@@ -56,3 +56,9 @@
   slot. No genuine F/G batch or provider dataset ran. Added price-free validation
   summary and will publish only documentation/evidence/empty ready marker after
   the validated source/test/config/script scope was checked unchanged.
+- 2026-11-04 12:44 UTC: Published https://github.com/Sabih0610/trading/pull/12 (P11j test
+  reliability follow-ups), verified OPEN/UNMERGED at head57be013. The branch push
+  used[skip ci] and--no-follow-tags. Empty P11j-reliability.ready and the actual
+  full-gate summary are committed. This PR-link record is documentation-only;
+  source/config/tests/scripts/lock remain identical to validated759c78a. Root
+  received the actual full pass and released slot before publication. No main merge.
