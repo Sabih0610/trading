@@ -199,6 +199,7 @@ class BacktestEngine:
         risk_manager: RiskManager | None = None,
         kill_switch_at: datetime | None = None,
         research_target_first: bool = False,
+        research_trade_through_limit: bool = False,
         audit: ReplayAudit | None = None,
     ) -> None:
         if initial_cash <= 0:
@@ -219,6 +220,7 @@ class BacktestEngine:
             raise ValueError("kill_switch_at must use UTC")
         self.kill_switch_at = kill_switch_at
         self.research_target_first = research_target_first
+        self.research_trade_through_limit = research_trade_through_limit
         self.audit = audit
 
     @staticmethod
@@ -395,7 +397,12 @@ class BacktestEngine:
                         else pending_signal.limit_price
                     )
                     touched = pending_signal.order_type is EntryOrderType.MARKET or (
-                        raw_fill is not None and bar.low <= raw_fill
+                        raw_fill is not None
+                        and (
+                            bar.low < raw_fill
+                            if self.research_trade_through_limit
+                            else bar.low <= raw_fill
+                        )
                     )
                     if touched and raw_fill is not None:
                         fill_price = self.costs.entry_price(raw_fill)

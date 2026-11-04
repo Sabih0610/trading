@@ -34,3 +34,23 @@ claim or runtime export. Gap/cost checks prove cash/risk still bind. Claude appr
 keeps its stricter cost reading and immutable verdicts; it is not rerun. All
 features are recomputed through the shared engine from admitted 2021+ Silver,
 without earlier warm-up, and original provider artifacts remain immutable.
+
+Part B implementation research, 2026-11-04 (still before genuine G metadata):
+- Rechecked [Polars joins](https://docs.pola.rs/user-guide/transformations/joins/):
+  parent end times must be no later than the native bar open. A sorted backward
+  bisect implements that same causal condition on bounded annual prefixes.
+- [Python 3.12 threading Event](https://docs.python.org/3.12/library/threading.html#threading.Event):
+  the RSS sampler uses an Event for bounded shutdown; it cannot change strategy
+  choices, inputs or outputs. One writer lease protects the private batch.
+- Compare reusing existing Gold with building fresh features from admitted Silver:
+  choose fresh shared FeatureEngine state beginning 2021, avoiding earlier warm-up
+  contamination and preserving the provider artifacts unchanged.
+- Resume compares exact registration, implementation/config/dependency bytes and
+  admitted three-year manifests. Completed sub-jobs are immutable; refusals stop
+  for review. This is a technical resume of one batch, never a new trial search.
+- A separate pre-data gate record binds the approved review bytes and exact source
+  and configuration hashes. The CLI refuses before constructing the data source
+  when this record is absent, failed or stale.
+- All comparator series, individual trades, return paths and weekly bootstrap
+  samples remain private. The UI extracts only the six permitted metrics and
+  registered quality/circuit/sensitivity diagnostics, explicitly development-only.

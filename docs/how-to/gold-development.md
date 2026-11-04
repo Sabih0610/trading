@@ -27,3 +27,38 @@ file from observations before that approval. Shared living entries stay in phase
 A must survive both default touch and strict trade-through LIMIT paths, both
 orderings and all registered costs with unchanged training selections. This flag
 is research-only; the engine default changes only in separately gated J2.
+
+
+## Approved Part B entrypoint
+
+After the complete clean gate passes, `reports/validation/P11g-PartB/freeze.json`
+must bind the exact registration, review, implementation and configuration hashes
+with `gate_status: passed`. Record the tested source commit and gate evidence in
+that file and the journal, and push before opening genuine G metadata. The CLI
+refuses absent or changed identities. There is no final-test or tuning option.
+
+Resolve the private data checkout as a sibling from this credential-free repo:
+
+```powershell
+$parent = Split-Path -Parent (Get-Location).Path
+$dataRoot = Join-Path $parent 'trading-p11e'
+uv run --locked python -m tb.backtest.gold_cli --data-root "$dataRoot"
+```
+
+The fixed run is `registered-gold-54-v1`. Its immutable identity, training/fold
+checkpoints, comparisons, results and frozen parameters live privately under
+`work/stage3/P11g/` inside the admitted data checkout. `status.json` is mutable
+health metadata. Re-invoking the exact frozen command may resume existing technical
+checkpoints; it must not re-evaluate a completed sub-job or change an identity.
+A recorded refusal stops for review. Never delete checkpoints to make it run.
+
+For stored aggregate display, set `TB_GOLD_STAGE3_DATA_ROOT` to that sibling
+checkout and select Backtest Lab → Gold development. Current private-display
+rights, original retention and result checksums are rechecked. The view has no
+run, retune, acquire or order controls. C's missing provider volume/VWAP stays
+missing; no simulated capacity enters features.
+
+The public report contains only the six allowed metrics and required diagnostics.
+The frozen parameter JSON contains registered configurations and identities,
+without prices or trades. G results are always development only: not validated.
+The future validation source is PAXG per main's updated MASTER; Dukascopy is withdrawn.

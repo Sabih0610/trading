@@ -205,10 +205,11 @@ def test_quality_threshold_equality_and_no_invented_volume_or_vwap():
 
 
 @pytest.mark.parametrize("stress", [Decimal("1"), Decimal("1.5"), Decimal("2")])
-def test_bid_only_entry_and_exit_pay_full_registry_floor(stress):
+def test_bid_proxy_as_mid_uses_full_quote_registry_meaning(stress):
     costs = gold_costs(stress)
-    assert costs.entry_price(Decimal("100")) == 100 * (1 + Decimal(".0013") * stress)
-    assert costs.exit_price(Decimal("100")) == 100 * (1 - Decimal(".0013") * stress)
+    assert costs.spread_bps == Decimal("8")
+    assert costs.entry_price(Decimal("100")) == 100 * (1 + Decimal(".0009") * stress)
+    assert costs.exit_price(Decimal("100")) == 100 * (1 - Decimal(".0009") * stress)
     assert costs.fee(Decimal("100")) == Decimal(".1") * stress
 
 
@@ -381,7 +382,7 @@ def test_capacity_is_execution_only_and_does_not_enlarge_funded_risk_after_gap()
     output = batch.evaluate(Single(), purpose="historical_research", stress_multiplier=Decimal("2"))
     assert output.result.trades
     trade = output.result.trades[0]
-    assert trade.entry_price == Decimal("104") * (1 + Decimal(".0026"))
+    assert trade.entry_price == Decimal("104") * (1 + Decimal(".0018"))
     assert trade.quantity == 1 and trade.quantity * trade.entry_price + trade.entry_fee <= 10000
     assert 0 < output.audit.initial_risk[trade.entry_time] <= 25
     assert research_capacity(Decimal("100")) * Decimal(".1") * 100 == 10000

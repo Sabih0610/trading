@@ -9,6 +9,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from tb.backtest.baselines import random_entry_signals
 from tb.backtest.costs import CostAssumptions
 from tb.backtest.engine import (
     BacktestEngine,
@@ -18,6 +19,7 @@ from tb.backtest.engine import (
     ExitSignal,
     ReplayAudit,
 )
+from tb.backtest.stage3_metrics import FoldEvidence, NetTrade
 from tb.research.models import ResearchRefused
 from tb.risk.guards import assert_tradable
 from tb.strategies.base import StrategyBar, StrategyPlugin
@@ -172,6 +174,7 @@ class GoldProxyBatch:
         stop: datetime | None = None,
         stress_multiplier: Decimal = Decimal("1"),
         target_first: bool = False,
+        trade_through_limit: bool = False,
     ) -> GoldResearchEvaluation:
         """Bind replay to this preflighted historical batch; no caller-supplied bars/engine."""
         require_historical_research(purpose)
@@ -206,6 +209,7 @@ class GoldProxyBatch:
             initial_cash=Decimal("10000"),
             stress_multiplier=stress_multiplier,
             research_target_first=target_first,
+            research_trade_through_limit=trade_through_limit,
             audit=audit,
         )
         engine.costs = gold_costs(stress_multiplier)
@@ -222,19 +226,133 @@ class GoldProxyBatch:
             audit,
         )
 
+    def comparison_evidence(
+        self,
+        name: Literal["cash", "random", "buy_hold"],
+        *,
+        start: datetime,
+        stop: datetime,
+        year: int,
+        calendar_start: datetime,
+        seed: int = 20261102,
+    ) -> FoldEvidence:
+        """Closed base-cost diagnostics; never export mapped bars or an engine."""
+        if (
+            name not in {"cash", "random", "buy_hold"}
+            or start.utcoffset() != timedelta(0)
+            or stop.utcoffset() != timedelta(0)
+            or calendar_start.utcoffset() != timedelta(0)
+            or not START <= calendar_start <= start < stop < STOP
+            or year != start.year
+            or calendar_start.year != year
+        ):
+            raise ResearchRefused("gold_proxy_comparison_scope_refused")
+        rows = [
+            row
+            for row in self._rows
+            if start <= row.bar.timestamp and row.bar.timestamp + self.timeframe <= stop
+        ]
+        bars = [
+            Bar(
+                timestamp=row.bar.timestamp,
+                open=row.bar.open,
+                high=row.bar.high,
+                low=row.bar.low,
+                close=row.bar.close,
+                volume=research_capacity(row.bar.close),
+            )
+            for row in rows
+        ]
+        initial = Decimal("10000")
+        daily: dict[datetime, Decimal] = {}
+        audit = ReplayAudit()
+        trades = []
+        if name == "buy_hold" and bars:
+            costs = gold_costs()
+            entry = costs.entry_price(bars[0].open)
+            quantity = initial / (entry * (1 + costs.stressed_fee_bps / 10000))
+            for bar in bars:
+                proceeds = quantity * costs.exit_price(bar.close)
+                daily[bar.timestamp.replace(hour=0, minute=0, second=0, microsecond=0)] = (
+                    proceeds - costs.fee(proceeds)
+                )
+        elif bars:
+            engine = BacktestEngine("XAUTUSDT", initial_cash=initial, audit=audit)
+            engine.costs = gold_costs()
+            quality = {r.bar.timestamp: r.quality for r in rows}
+            proposals = (
+                random_entry_signals(bars, "XAUTUSDT", seed=seed) if name == "random" else ()
+            )
+            entries = [
+                e
+                for e in proposals
+                if not quality[e.timestamp].reasons(e.timestamp + self.timeframe)
+            ]
+            result = engine.run(bars, entries)
+            for point in result.equity:
+                daily[point.timestamp.replace(hour=0, minute=0, second=0, microsecond=0)] = (
+                    point.equity
+                )
+            for trade in result.trades:
+                risk = audit.initial_risk[trade.entry_time]
+                if risk <= 0:
+                    raise ResearchRefused("gold_proxy_original_planned_risk_nonpositive")
+                trades.append(
+                    NetTrade(
+                        entry_day=trade.entry_time.date(),
+                        pnl=float(trade.pnl),
+                        net_r=float(trade.pnl / risk),
+                    )
+                )
+        day = calendar_start.replace(hour=0, minute=0, second=0, microsecond=0)
+        last_day = (stop - timedelta(microseconds=1)).date()
+        previous = peak = maximum = minimum = initial
+        max_dd = Decimal("0")
+        returns = []
+        while day.date() <= last_day:
+            current = daily.get(day, previous)
+            returns.append(float(current / previous - 1))
+            peak, maximum, minimum = (
+                max(peak, current),
+                max(maximum, current),
+                min(minimum, current),
+            )
+            max_dd = max(max_dd, (peak - current) / peak)
+            previous = current
+            day += timedelta(days=1)
+        # Funded strategy comparisons retain F's conservative intrabar bounds.
+        peak = initial
+        for _, equity in audit.equity_bounds:
+            peak = max(peak, equity)
+            maximum, minimum = max(maximum, equity), min(minimum, equity)
+            max_dd = max(max_dd, (peak - equity) / peak)
+        return FoldEvidence(
+            year=year,
+            trades=tuple(trades),
+            daily_returns=tuple(returns),
+            max_dd=float(max_dd),
+            path_max=float(maximum / initial),
+            path_min=float(minimum / initial),
+            circuit_trips=int(audit.peak_trip_at is not None),
+            halted_days=(last_day - audit.peak_trip_at.date()).days + 1
+            if audit.peak_trip_at
+            else 0,
+            ambiguous_bars=audit.ambiguous_bars,
+        )
+
     def bars_for_runtime(self, *, purpose: str) -> tuple[Bar, ...]:
         """There is no export to paper, local simulation, Testnet or any execution adapter."""
         raise ResearchRefused("gold_proxy_has_no_runtime_export")
 
 
 def gold_costs(stress_multiplier: Decimal = Decimal("1")) -> CostAssumptions:
-    """Pay the full XAUT per-side floor on bid bars, without inventing a measured spread."""
+    """G-2: use full registry quote spread, halved per fill; treat bid reference as mid."""
     model = assert_tradable("XAUTUSDT").cost_model
     if model.fee_bps < 10 or model.spread_bps_default < 8 or model.slippage_bps_default < 5:
         raise ResearchRefused("gold_proxy_registered_cost_floor_changed")
     return CostAssumptions(
         fee_bps=model.fee_bps,
-        spread_bps=2 * model.spread_bps_default,
+        spread_bps=model.spread_bps_default,
         slippage_bps=model.slippage_bps_default,
         stress_multiplier=stress_multiplier,
     )

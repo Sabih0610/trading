@@ -72,3 +72,22 @@
   The published branch cannot rebase onto new review-only main without forbidden
   force-push; preserve published ancestry and copy the identical review for PR context.
 - PRE-REGISTRATION SHA-256: 806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98
+
+- 2026-11-04 06:59 UTC: Resumed after interruption; latest main fb3de46 confirms
+  approved exact amendments and replaces withdrawn Dukascopy with PAXG for K.
+  Registration amendment91dcac4 was pushed before any G metadata or observation.
+  Part B source/fixtures are being completed in the credential-free task checkout.
+  Reader recomputes shared causal features from admitted 2021+ Silver only;
+  closed comparisons retain F metrics/risk and G-2 costs; CLI requires a passed
+  exact source/config freeze before genuine admission. Root's 20 owned boundary
+  cases passed; complete source gate remains pending. Claude currently runs a
+  final full gate in trading-review, so our heavy full gate waits for its slot.
+  H/I/J1/living branches remain untouched per owner direction. K acquisition
+  proceeds separately with build-only permission and no strategy/price analysis.
+
+- 2026-11-04 07:12 UTC: Complete Part B source candidate prepared before genuine
+  access. Owned fixture evidence: 101 combined gold/boundary/strict-fill cases,
+  33 reader/composition cases, 15 batch cases and 23 publication/privacy cases
+  passed. Ruff/format clean; complete strict typing and clean offline gate follow.
+  Cached selected-session metadata corrected pre-data without changing proposals
+  or selectors. Publication remains paused until the complete clean gate passes.
