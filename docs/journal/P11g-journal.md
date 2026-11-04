@@ -138,3 +138,17 @@
   complete validated source/freeze BEFORE first admitted metadata or run.
   K has next fullsuite slot; G run starts after K dashboard startup with
   below-normal process priority to preserve its test timing, same research rules.
+
+- 2026-11-04 08:46 UTC: Published validated complete source/freeze at1a35463
+  toPR9 andverifiedremoteheadBEFORE any genuine metadata. Guarded launcher
+  then admitted existingrights andstarted registered-gold-54-v1 ONCE at
+  08:42:18.0304813UTC, PID22596/native23220, codeSHA db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4.
+  Only its verified process tree was setBelowNormal. Currentrights-checked
+  HEALTHONLY at08:45:08 reports training-2022 completed18of54, peakRSS1204056064
+  bytes, runtime167.20s. No outcome/price/trade/checkpoint evidence inspected.
+  FreephysicalRAMfell0.41GiB withKfullsuite, soagentstoppedONLYitsKtree at
+  08:44:59, preservingpartial22% asINTERRUPTED/notpass. Userapplications andG
+  untouched; freeRAMrecovered1.82GiB. Khasnotregistered/acquiredanything. All
+  full/focusedtests andPAXGbuilddeferreduntilGcompletes. Existingcode/config/
+  registeredchoices unchanged; no rerun/retune/relabel. Finalreport/readyawait
+  actualbatchcomplete and permitted aggregateprojection. Heartbeatcontinues.
