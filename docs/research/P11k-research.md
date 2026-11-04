@@ -28,3 +28,5 @@ The proxy can have a premium/discount to spot gold and does not establish XAUT
 liquidity. No strategy validation or gold verdict is inferred from acquisition.
 The existing pinned Python 3.12, HTTPX, Polars and FeatureEngine remain in use;
 no dependency or risk-limit change is required.
+
+Architecture: [ADR 0028](../adr/0028-data-only-paxg-validation-archive.md).

@@ -1,0 +1,13 @@
+{
+  "status": "complete",
+  "dataset_id": "binance-vision-paxg-1m-2023-12-2024",
+  "monthly_archives": 13,
+  "yearly_generations": 2,
+  "yearly_outputs": 12,
+  "strategy_evaluation": "SKIPPED: no promising gold candidate",
+  "K_validation": "skipped: no promising gold candidate",
+  "prices_opened_for_analysis_or_charts": false,
+  "medallion_build_reads": true,
+  "verified_at": "2026-11-04T13:01:19.446398+00:00",
+  "retention_expires_at": "2028-10-31T23:59:59.344655+00:00"
+}

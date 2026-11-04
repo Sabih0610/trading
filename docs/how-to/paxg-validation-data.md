@@ -31,3 +31,11 @@ charts or strategy analysis requires the later K pre-registration approval. That
 registration can be prepared only after G Part B is merged and only if G marks a
 candidate promising. A future result must be labelled "validated on PAXG proxy",
 never "validated on XAUT". No validation run is enabled by these build commands.
+
+Boundary decision: [ADR 0028](../adr/0028-data-only-paxg-validation-archive.md).
+
+
+On the 16 GB host, serialize the heavy yearly Gold build with full test suites.
+The approved operational build completed on 2026-11-04 at 13:01 UTC after root
+released that slot. G merged with no promising gold candidate, so K validation is
+skipped and no pre-registration or strategy run follows this acquisition.

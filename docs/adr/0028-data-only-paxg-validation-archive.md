@@ -1,4 +1,4 @@
-# ADR 0026: data-only PAXG validation archive
+# ADR 0028: data-only PAXG validation archive
 
 Date: 2026-11-04. Status: accepted for the owner-authorized acquisition boundary;
 strategy validation still requires its separate pre-registration review.
