@@ -1,22 +1,19 @@
 # Claude review queue
 
-MASTER integration update: 2026-11-04 00:06 UTC. Integration PR #10 is queued for Claude review.
-Verified J1 and G publication/gates are added; H/I remain queued. PRs #6–#9 are
-open/unmerged; G is stopped for preregistration approval on main. B1 full gate
-passed on `83b8673`; main fetched unchanged at `6a64b22`. This is not master
-completion or formal approval. Historical rows retain earlier checkpoints.
+Current MASTER status after main `69034f6`: F #5, G #9, H #7, I #6, J1 #8 and living-docs #10 are **approved and merged**. The approved G result is one reject, zero promising and two insufficient; no gold validation. K's validation run is skipped, while its independent data-only acquisition remains in progress.
 
-| Track | Current disposition | Evidence / next step |
+New work awaiting completion before a review request:
+
+| Track | Branch | Current gate |
 |---|---|---|
-| F / P11f Part B | APPROVED and merged | [PR #5](https://github.com/Sabih0610/trading/pull/5), [review](../reports/reviews/P11f-partB-review.md), main `6a64b22`; 0 pass / 7 fail / 2 insufficient. B1 restrictive config/schema follow-up is ready for review: clean gate 1473 pass, 1 skip, 3 deselected, 5 inherited xfails; Ruff/format538, strictmypy197, smoke and14studies pass. 173 focused tests and Track H peer check pass; formal approval pending: [B1 report](../reports/phases/P11f-B1.md). Empty allowlists deny every strategy; all other policy guards remain unchanged. |
-| H / P11h | Queued | [PR #7](https://github.com/Sabih0610/trading/pull/7), head `67e4978`; P11h.ready published; full offline gate passed. |
-| I / P11i | Queued | [PR #6](https://github.com/Sabih0610/trading/pull/6), head `0d18a7a`; P11i.ready published; 1481 tests and full offline gate passed; authorized private build verified by Track I. |
-| G / P11g | Queued pre-registration; stopped | [PR #9](https://github.com/Sabih0610/trading/pull/9), final head `d92e120`; empty P11g-prereg.ready. Gate `aa2ce8e`: 1516 passed, 1 skip, 3 deselected, 5 inherited xfails in 1194.18s; Ruff/format 545, strict mypy 200, smoke and 14 studies pass. No genuine input or Part B until P11g-prereg-review.md on main says APPROVED. |
-| J1 / P11j Wave 1 | Queued; not merged | [PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`; empty P11j.ready. Clean source `6b132f6` / tree `0c709e85`: 1480 pass, 2 environmental skips, 3 deselected, 2 D-3/D-4 xfails in 1176.58s; Ruff/format 540, strict mypy 197, smoke and 14 studies pass. Independent Claude review pending; J2 remains blocked on G Part B merge. |
-| K / P11k | Blocked on owner | Written Dukascopy consent absent; no pre-registration or data access started. |
-| Living-docs | Queued for Claude review | [PR #10](https://github.com/Sabih0610/trading/pull/10); Exact clean candidate `83b8673` / tree `96566686` passed 1473 tests and all gates. Empty MASTER-2026-11-living-docs.ready; [B1 report](../reports/phases/P11f-B1.md), [validation](../reports/validation/P11f-B1/summary.json). MASTER is not complete; no self-approval or main merge. |
+| J2 | `codex/p11j-audit-minors-w2` | Unblocked; owned implementation/fixtures in progress; no review marker yet |
+| Reliability follow-ups | `codex/p11j-test-reliability` | Focused fixes preserve assertions and input ranges; full gate/review pending |
+| K acquisition | `codex/p11k-gold-2024` | Solo full gate running after reviewed setup warm-up; no acquisition yet |
+| Completion living docs | `codex/living-docs-2026-11-04-completion` | [PR #11](https://github.com/Sabih0610/trading/pull/11) queued; refresh remaining tracks only after actual merges |
 
-## Historical queue
+Review markers are created only when work is genuinely ready. Claude remains the reviewer/merger; builder never self-approves or merges main. `MASTER-2026-11.ready` remains absent.
+
+## Historical review queue (superseded where noted above)
 
 | Phase | Status | Added (UTC) | Report | Notes |
 |---|---|---|---|---|

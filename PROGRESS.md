@@ -1,40 +1,18 @@
-# MASTER 2026-11 — Stage 3 and Stage 2 work in progress
+# MASTER 2026-11 — implementation continues
 
-[Living-docs integration PR #10](https://github.com/Sabih0610/trading/pull/10) is queued for Claude review;
-MASTER remains incomplete.
-Verified status and full B1 gate updated 2026-11-04 00:01 UTC; main fetched at `6a64b22`.
-F Part B is independently APPROVED and merged through main `6a64b22`:
-**0 pass, 7 fail, 2 insufficient evidence**. No crypto candidate advances.
-The registered 162-trial batch completed 2026-11-02 13:23 UTC and was not rerun,
-retuned or relabelled. [Report](reports/phases/P11f.md) ·
-[Claude review](reports/reviews/P11f-partB-review.md) ·
-[merged PR #5](https://github.com/Sabih0610/trading/pull/5).
+Updated 2026-11-04 12:05 UTC from main `69034f6`. F, G, H, I, J1 and the first living-docs integration are **approved and merged by Claude**. MASTER remains incomplete: J2, K acquisition and the reliability follow-ups still require completion/review.
 
-H [PR #7](https://github.com/Sabih0610/trading/pull/7) is queued for Claude;
-I [PR #6](https://github.com/Sabih0610/trading/pull/6) is queued, G's
-pre-registration [PR #9](https://github.com/Sabih0610/trading/pull/9), final head
-`d92e120`, is queued and stopped until an APPROVED pre-registration review is on
-main. Its full gate passed: 1516 tests, 1 environmental skip, 3 live deselected,
-5 inherited xfails; Ruff/format 545 files, strict mypy 200 sources, smoke and
-14 studies pass. No genuine G input has been read. J1
-[PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`, is
-queued for independent review, not merged. Its clean source `6b132f6` passed
-1,480 tests (2 environmental skips, 3 live deselected, 2 D-3/D-4 xfails),
-Ruff/format (540 files), strict mypy (197 sources), smoke and all 14 studies.
-G may read no genuine data until its pre-registration is APPROVED on main.
-K is blocked on the absent Dukascopy consent file. J2 waits for F and G Part B
-to be merged. Stage 4, paper trading, Testnet, orders and P14 remain out of scope.
+- **F crypto:** immutable 162-trial batch: **0 pass, 7 fail, 2 insufficient evidence**. No rerun, retuning or relabelling. BTC/ETH/SOL strategy allowlists remain empty.
+- **G gold development:** immutable 54-trial batch: **1 reject, 0 promising, 2 insufficient evidence**. Session ORB is rejected in both orderings. A/C have no eligible training cell; their zero OOS trades are insufficient-evidence placeholders. No gold strategy is validated. The amended registration, code/config freeze and full clean gate preceded genuine access; the batch completed 2026-11-04 09:19 UTC.
+- **H venue monitor:** merged, optional and veto-only; live polling was not started.
+- **I Treasury yields:** merged with original documentary rights/retention and default-off causal feature context.
+- **J1:** reviewed audit fixes merged. Separate reviewer-requested reliability follow-ups preserve every assertion and generated input; their full gate/review remains pending.
+- **J2:** now unblocked by the F/G merges. D-3 strict trade-through default and D-4 gap-aware loss labels are being implemented on `codex/p11j-audit-minors-w2`; original Stage 3 results remain frozen.
+- **K:** Dukascopy is withdrawn. Approved PAXG data-only acquisition covers December 2023 through December 2024. Its solo clean gate is running after a reviewed warm-up-only fix for cold registry setup. The original 200 ms bound and all risk assertions remain unchanged. **The K validation run is skipped: no promising gold candidate.** No K pre-registration or strategy run is needed.
 
-**P11f-B1 is implemented and ready for Claude review:** the three crypto
-allowlists are empty. The schema accepts that deny-all state; unchanged real
-strategy guards refuse all nine combinations and all 162 frozen cells. Explicit
-historical-policy fixtures preserve all 128 old mechanics assertions. Focused
-validation: 173 passed; Track H peer source check found no issue. Complete
-clean gate on `83b8673`: 1473 passed, 1 skip, 3 deselected, 5 inherited xfails;
-Ruff/format 538, strict mypy 197, smoke and all 14 owned studies pass. XAUT,
-risk ceilings and evaluator/strategy/RiskManager logic stay unchanged.
-[B1 report](reports/phases/P11f-B1.md). B2 requires new registration and additional
-multiple-testing trials for any new crypto idea.
+[Crypto report](reports/phases/P11f.md) · [gold report](reports/phases/P11g.md) · [gold review](reports/reviews/P11g-review.md) · [master](prompts/MASTER-2026-11.md).
+
+Stage 4, paper trading, Testnet, orders and P14 remain outside scope. Future research direction is an owner decision after MASTER: longer holding periods require a rule change; new hypotheses require fresh registration/trial accounting; pausing strategy research is also an option.
 
 ## Historical checkpoints
 

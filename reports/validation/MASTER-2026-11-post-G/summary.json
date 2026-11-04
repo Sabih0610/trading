@@ -1,0 +1,14 @@
+{
+  "kind": "documentation_only_post_G_consolidation",
+  "checked_at": "2026-11-04T12:16:22.373788+00:00",
+  "source_base": "69034f643610bb42241078565101bd7525457913",
+  "source_config_scripts_tests_dependencies_changed": false,
+  "authored_relative_links_checked": 10,
+  "json_valid": true,
+  "new_invalid_status_values": 0,
+  "preexisting_historical_statuses_preserved": 2,
+  "private_observations_added": false,
+  "master_complete": false,
+  "full_suite_rerun": false,
+  "review_marker_bytes": 0
+}

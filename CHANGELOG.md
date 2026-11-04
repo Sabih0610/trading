@@ -4,6 +4,14 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### Gold development and supporting tracks — merged 2026-11-04 UTC
+
+- Claude approved and merged G: 54 registered trials, one rejected strategy, two insufficient-evidence strategies and no promising candidate. Both orderings reject session ORB; no strategy is validated on gold or XAUT.
+- Complete source/config freeze was published before genuine access; the single batch completed in about 37 minutes. Public outputs contain only permitted aggregates, quality/circuit/sensitivity diagnostics and price-free parameters.
+- H, I, J1 and the initial living-docs/crypto-retirement PR are approved and merged. Existing restrictive permissions and risk defaults remain.
+- The owner withdrew Dukascopy and approved exact data-only PAXG acquisition. K's 2024 validation run is skipped because G has no promising candidate; acquisition still requires a green full gate and verified original rights.
+- J2 is unblocked after both F/G merges. Reliability follow-ups and the remaining data-only build are in progress; this entry does not claim MASTER completion.
+
 ### P11f registered crypto verdicts — merged 2026-11-03 UTC
 
 - Completed the fixed 162-trial test once: 0 pass, 7 fail, 2 insufficient evidence.

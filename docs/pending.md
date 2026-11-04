@@ -1,43 +1,13 @@
 # Pending items
 
-Current MASTER snapshot (2026-11-03 21:52 UTC); older phase-specific entries below
-are historical where superseded by the master and later review decisions.
+Current MASTER snapshot after main `69034f6` (2026-11-04). Older phase-specific entries below are historical where superseded by later owner/reviewer decisions.
 
-- **P11f-B1 — full gate passed; formal review pending:** removed `volatility_breakout`,
-  `ts_momentum` and `trend_vwap_pullback` from BTCUSDT/ETHUSDT/SOLUSDT
-  `allowed_strategies`. Explicit validated historical-policy fixtures preserve
-  every prior strategy-mechanics assertion; separate current-policy regressions
-  refuse all nine strategy-symbol combinations and all 162 frozen catalogue cells.
-  XAUTUSDT and evaluator/strategy/RiskManager logic remain unchanged. The only
-  runtime source change accepts empty allowlists as deny-all; spot/venue/cost,
-  data-only and risk guards remain intact. All 173 focused tests pass; project
-  Ruff/format and Track H peer source check pass. Complete clean gate on
-  `83b8673`: 1473 passed, 1 skip, 3 deselected, 5 inherited xfails; Ruff/format
-  538, strict mypy 197, smoke and all 14 owned studies pass. Formal Claude
-  review remains pending; it is not approval of this integration.
-  [Review](../reports/reviews/P11f-partB-review.md).
-- **P11f-B2 — no crypto edge:** 0 pass, 7 fail, 2 insufficient evidence. Stage 4/5
-  do not start for these candidates. Any new crypto idea needs a fresh
-  pre-registration; its trials add to the multiple-testing record. After gold,
-  the owner decides whether to try new registered ideas, change approach or stop.
-- **MASTER review queue:** H PR #7 and I await Claude; G pre-registration
-  [PR #9](https://github.com/Sabih0610/trading/pull/9), final head `d92e120`, is
-  queued with empty P11g-prereg.ready after its full 1516-test gate passed. G is
-  stopped and genuine input stays blocked until an APPROVED prereg review is on main.
-  J1 [PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`, is
-  queued with P11j.ready; its 1480-test clean gate, static checks, smoke and
-  14 studies pass. It is not merged or independently approved. J2 cannot start
-  before both F and G Part B merge; remaining D-3/D-4 xfails are retained.
-- **K consent blocker:** the specified Dukascopy consent file remains absent per
-  the master check; K cannot acquire or validate gold without it. No replacement
-  permission is inferred from public availability or an earlier sample.
-- **H terms open item:** the full API Product Terms version is unverified;
-  the queued PR records the observed notice date/version and does not start a
-  monitor or change the sealed collector's separately reviewed capture scope.
-- **Living-docs integration:** [PR #10](https://github.com/Sabih0610/trading/pull/10) is open,
-  queued for independent Claude review after the exact full clean gate. Empty MASTER-2026-11-living-docs.ready queues this integration;
-  MASTER-2026-11.ready remains absent. No track/main merge or master completion
-  is claimed. Follow up on future verified merges in the separate living-docs PR.
+- **J2:** F/G Part B are merged, so strict LIMIT trade-through and gap-aware loss labels are now being implemented. Original F/G results remain immutable and are never replayed.
+- **K acquisition:** PAXG December 2023–December 2024 is approved as data only. The solo full gate is running after a reviewed cold-setup warm-up; the original 200 ms bound and every assertion are preserved. Acquisition/build and its review remain pending. Dukascopy permission is withdrawn.
+- **K validation:** skipped — **no promising gold candidate** (G review on main). Do not open PAXG prices for strategy analysis, create a validation run or manufacture a promising result.
+- **Reliability follow-ups:** reviewer-requested process readiness and timestamp warm-up, plus the reproduced risk-property setup warm-up, require full gates and review. No assertion, generated range or risk rule may be weakened.
+- **Living documents:** initial PR #10 is merged; this separate completion consolidation will record later actual merges. MASTER final report/ready remains absent until all conditions are met.
+- **Future research direction (owner, after MASTER):** no crypto candidate passes and no gold candidate is promising. Stage 4/5 remain stopped. Longer holding periods require a rule change; new intraday hypotheses require new registration and additional multiple-testing trials; pausing strategy research is an alternative.
 
 - **P11d legacy sealed file shape:** the reviewed collector created approximately
   1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,
@@ -45,15 +15,8 @@ are historical where superseded by the master and later review decisions.
   shape is retained permanently; no maintenance authorization is inferred from
   a future separately authorized P14 read.
 
-- **P11e history gaps:** Dukascopy consent file not found at the supplied owner
-  path. Existing authorization remains conditional on the registered file; supply
-  its actual local path if available. Whole HistData 2020/2024 source archives cross
-  the exact approved UTC window and are withheld before HTTP. Per-file reasons and
-  full quality table remain private. Legacy Dukascopy samples are not for evaluation.
-- **P11e Stage 3 readiness:** independent PR #4 fix-round re-review, safe boundary history,
-  positive owner-reviewed XAUUSD/EURUSD spread floors and instrument-specific calendar
-  assumptions remain to resolve. Existing data-only defaults are not execution costs.
-  No strategy evaluation, orders or risk widening is authorized here.
+- **P11e boundary gaps (historical):** whole-file HistData UTC admission left documented boundary gaps. Dukascopy permission is now withdrawn; do not request consent or download it. Main's PAXG rights review replaces the future gold-validation source. Legacy Dukascopy samples remain not for evaluation.
+- **P11e readiness superseded:** approved F/G development has completed under its exact registered scope/cost assumptions. Do not replay those phases or treat older pending readiness text as a new authorization.
 - **P11d historical admission superseded:** P11e's owner/distinct-reviewer approval
   admits only the specified private pre-2025 datasets and finite retention in the
   [rights review](../reports/reviews/dataset-rights-review-2026-11-01.md). Other provider
@@ -67,7 +30,7 @@ are historical where superseded by the master and later review decisions.
 - **S-5 existing owner file:** setup protects newly created files only. The owner's
   existing `.env` was not accessed or changed; its environmental audit xfail remains
   until the owner independently resolves/verifies its ACL. Clean tests skip it.
-- **Remaining full-audit minors:** R-3 (symbol validation rejection shape), R-4
+- **Historical full-audit list (R-3/R-4/S-1 now fixed on reviewed J1; D-3/D-4 in J2):** R-3 (symbol validation rejection shape), R-4
   (default quantity rounding), D-3 (touch queue realism), D-4 (gap-through ML labels),
   D-6 (legacy synthetic dashboard timestamp exemption), S-1 (tracked dev kit),
   S-7 (unpinned skill installers), S-9 (missing-feature startup log policy).
