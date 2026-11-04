@@ -862,7 +862,8 @@
     "master_complete": false,
     "formal_review": "queued",
     "publication": "queued_for_Claude",
-    "ready_marker": "reports/reviews/queue/MASTER-2026-11-post-G.ready"
+    "ready_marker": "reports/reviews/queue/MASTER-2026-11-post-G.ready",
+    "pull_request": "https://github.com/Sabih0610/trading/pull/11"
   },
   "living_docs_previous": {
     "branch": "codex/living-docs-2026-11-04",

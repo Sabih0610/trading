@@ -9,7 +9,7 @@ New work awaiting completion before a review request:
 | J2 | `codex/p11j-audit-minors-w2` | Unblocked; owned implementation/fixtures in progress; no review marker yet |
 | Reliability follow-ups | `codex/p11j-test-reliability` | Focused fixes preserve assertions and input ranges; full gate/review pending |
 | K acquisition | `codex/p11k-gold-2024` | Solo full gate running after reviewed setup warm-up; no acquisition yet |
-| Completion living docs | `codex/living-docs-2026-11-04-completion` | Post-G consolidation ready for review; refresh remaining tracks only after actual merges |
+| Completion living docs | `codex/living-docs-2026-11-04-completion` | [PR #11](https://github.com/Sabih0610/trading/pull/11) queued; refresh remaining tracks only after actual merges |
 
 Review markers are created only when work is genuinely ready. Claude remains the reviewer/merger; builder never self-approves or merges main. `MASTER-2026-11.ready` remains absent.
 

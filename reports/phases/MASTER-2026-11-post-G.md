@@ -11,6 +11,8 @@ G's approved result is one reject, zero promising and two insufficient; its repo
 
 J2 starts only because F and G Part B are now merged. K's full gate/acquisition, reliability follow-ups and their independent reviews remain pending. The final MASTER report and ready marker remain absent until the actual completion conditions hold.
 
+[PR #11](https://github.com/Sabih0610/trading/pull/11) is open with an empty `MASTER-2026-11-post-G.ready` marker. This records approved G and supporting-track merges; it does not claim the remaining tasks are finished.
+
 ## Validation
 
 Documentation-only diff: no source, configuration, scripts, tests or dependency changes. JSON parsing and all newly authored status values pass; two pre-existing historical statuses remain unchanged. Relative Markdown links in current snapshots and phase-local records resolve. No private price/trade/return series, secrets, provider evidence bytes or sealed observations are added.
