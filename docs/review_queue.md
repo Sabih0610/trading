@@ -1,3 +1,16 @@
+# Current Claude review queue
+
+All implementation tracks are APPROVED and merged, including J2 PR #13, reliability PR #12 and K acquisition PR #14. Post-G living PR #11 is also merged. [J2 review](../reports/reviews/P11j-wave2-review.md), [reliability review](../reports/reviews/P11j-reliability-review.md), [K review](../reports/reviews/P11k-acquisition-review.md).
+
+| Item | Branch | Status |
+|---|---|---|
+| Final living integration | `codex/living-docs-2026-11-04-final` | Ready for Claude review; marker `MASTER-2026-11-final-living.ready` |
+| Final MASTER report and ready | Prepared only after this living integration is actually merged | Not yet created; builder must not claim completion early |
+
+F remains0pass/7fail/2insufficient across162trials; G remains1reject/0promising/2insufficient across54. K validation is skipped: no promising gold candidate. No new strategy or data run is queued.
+
+## Historical review snapshots
+
 # Claude review queue
 
 Current MASTER status after main `69034f6`: F #5, G #9, H #7, I #6, J1 #8 and living-docs #10 are **approved and merged**. The approved G result is one reject, zero promising and two insufficient; no gold validation. K's validation run is skipped, while its independent data-only acquisition remains in progress.

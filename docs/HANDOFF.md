@@ -1,3 +1,21 @@
+# Current handoff — final MASTER living-docs review
+
+Updated 2026-11-04 18:10 UTC from approved main `7777bb5`. All implementation tracks and the reliability follow-up are **approved and merged by Claude**. This separate living-docs integration awaits review; MASTER's final report/ready marker and heartbeat shutdown follow its actual merge.
+
+F, G, H, I, J1, J2, reliability and K acquisition are approved/merged. F's immutable 162 trials produced 0 pass/7 fail/2 insufficient; G's immutable 54 produced 1 reject/0 promising/2 insufficient. **Never rerun, retune or relabel either batch or invoke their CLIs.** [F report](../reports/phases/P11f.md), [G report](../reports/phases/P11g.md).
+
+J2's strict `low < limit` production fill and gap-aware LOSS labels are merged; every strict audit xfail is resolved. The registered G touch path remains private to its closed historical adapter. Reliability warm-ups/readiness preserve assertions and generated inputs; the risk property keeps its original 200 ms bound. [J2 review](../reports/reviews/P11j-wave2-review.md), [reliability review](../reports/reviews/P11j-reliability-review.md).
+
+K acquisition PR #14 is approved/merged (`89bc63e`, review `7777bb5`): exactly Dec2023–Dec2024 PAXGUSDT1m, thirteen vendor-checksummed monthly archives, two yearly generations/twelve outputs, JSON-only Data Health verification. Actual acquisition source `dcf81c5`; original private rights/retention unchanged, expiry 2028-10-31T23:59:59.344655Z. No PAXG price analysis, chart or strategy run occurred. **K validation skipped: no promising gold candidate**. No K pre-registration is needed. Dukascopy is withdrawn; never download it. [K report](../reports/phases/P11k-acquisition.md), [review](../reports/reviews/P11k-acquisition-review.md).
+
+The final rebased clean source candidate `e2e05bbc0526690878e6eb89a89f6f3fa9d12d4a` passed the original gate once: 1772 tests, 2 environmental skips (absent private .env / optional ZIP), 3 live deselected, 0 xfailed, 23 warnings, 804.13s; Ruff/format619, strict mypy214, safety smoke and all14 owned studies, external orders0. Source/config/tests/scripts/dependencies in this branch are unchanged. No further gate, batch, download or build is needed. Keep failed/interrupted historical traces as non-passes.
+
+Next: Claude reviews/merges this separate `codex/living-docs-2026-11-04-final` branch and its `MASTER-2026-11-final-living.ready` marker. Poll main ~15minutes; apply only actual requested fixes on this branch, never force-push/merge/self-approve. After this actual merge, publish `reports/phases/MASTER-2026-11-status.md` and empty `MASTER-2026-11.ready` under the master, then delete `continue-trading-master-review-loop`. Until then master_complete stays false and both final artifacts stay absent. Agents are usage-limited; root can finish directly.
+
+Use credential-free sibling worktrees; never run the owner checkout or read its .env. Preserve private rights/data and all unfinished work. Never read 2025+ holdout/sealed archives or unseal P14. No Stage4/paper/Testnet/orders/risk changes. Future research direction is for the owner after MASTER: longer holds require a rule change; new hypotheses need fresh registration/trial accounting; pausing research is also an option. This does not block the remaining documentary completion.
+
+## Historical handoffs
+
 # Current handoff — post-G MASTER work
 
 Updated 2026-11-04 12:05 UTC from main `69034f6`. F, G, H, I, J1 and the first living-docs integration are **approved and merged by Claude**. MASTER remains incomplete: J2, K acquisition and the reliability follow-ups still require completion/review.

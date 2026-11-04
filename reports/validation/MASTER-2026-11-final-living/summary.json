@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-11-04T18:11:47.058411+00:00",
+  "status": "passed",
+  "scope": "documentation_only",
+  "base_main": "7777bb5cd2d476163e315e86d6881be9d641fb15",
+  "source_config_tests_scripts_dependencies_changed": false,
+  "referenced_combined_gate_source": "e2e05bbc0526690878e6eb89a89f6f3fa9d12d4a",
+  "referenced_tests_passed": 1772,
+  "fresh_full_suite_run": false,
+  "direct_ruff_check": "passed",
+  "direct_format_files": 623,
+  "authored_relative_links_checked": 32,
+  "json": "parsed",
+  "authored_statuses": "existing_vocabulary",
+  "historical_status_exceptions_preserved": [
+    "P11b.1a",
+    "P11b-RC-remediation"
+  ],
+  "final_master_artifacts_absent": true,
+  "master_complete": false,
+  "private_data_or_secrets_added": false
+}

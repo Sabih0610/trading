@@ -1,3 +1,14 @@
+# Current pending work — final MASTER documentary review
+
+All implementation tracks, reliability and PAXG acquisition are approved/merged on main `7777bb5`. No owner action blocks the authorized engineering. The separate final living-docs review remains with **Claude**; after its merge the builder publishes the final MASTER report/ready marker and deletes the heartbeat.
+
+- **Current review:** `codex/living-docs-2026-11-04-final`, empty `MASTER-2026-11-final-living.ready`; this is documentation only. Final MASTER artifacts remain absent until the actual integration merge.
+- **K validation:** skipped, no promising gold candidate. No pre-registration or strategy run follows acquisition. PAXG remains data-only; Dukascopy is withdrawn. [Approved review](../reports/reviews/P11k-acquisition-review.md).
+- **Future owner research decision (after MASTER):** no crypto pass and no promising gold candidate. New hypotheses require fresh pre-registration/trial accounting; longer holding periods require a rule change; pausing research is an option. No Stage4/5 is authorized.
+- **Existing environmental/operator items:** owner-file ACL audit is skipped in credential-free tests, not a remaining strict xfail. Collector boot recovery privileges and later P14 documentary rights/release remain separate; no secrets or sealed files were read or changed. Preserve the legacy ~1100 small sealed files unchanged.
+
+## Historical pending snapshots (superseded by current status above)
+
 # Pending items
 
 Current MASTER snapshot after main `69034f6` (2026-11-04). Older phase-specific entries below are historical where superseded by later owner/reviewer decisions.
