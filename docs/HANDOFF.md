@@ -1,4 +1,69 @@
-# Current handoff — P11e PR #4 fix round complete
+# Current handoff — MASTER 2026-11 integration queued
+
+2026-11-04 00:09 UTC: The owner explicitly approved a persistent 15-minute continuation
+heartbeat in this chat. App automation `continue-trading-master-review-loop` is
+ACTIVE, stays quiet without meaningful changes and resumes authorized work after
+Claude reviews. It preserves every review/data gate and never merges main. Disable
+it when MASTER is complete. This does not approve G data access: its exact
+pre-registration must still be APPROVED on main first.
+
+2026-11-03 21:52 UTC: F Part B is independently APPROVED and merged on main
+`6a64b22`. Its once-only registered batch completed 2026-11-02 13:23 UTC:
+0 pass, 7 fail, 2 insufficient evidence. Keep original registration, costs,
+selection rule (at least 20 training trades), 162 trials and private run unchanged.
+[F report](../reports/phases/P11f.md) · [review](../reports/reviews/P11f-partB-review.md).
+
+H [PR #7](https://github.com/Sabih0610/trading/pull/7), head `67e4978`, is queued
+with an empty P11h.ready marker. Its full gate passed with 1,500 tests; no monitor
+was started. I [PR #6](https://github.com/Sabih0610/trading/pull/6), head
+`0d18a7a`, is queued with P11i.ready; its full gate passed with 1,481 tests.
+Its separately authorized private yield build was verified by Track I; no yield
+observations enter this draft. J1 [PR #8](https://github.com/Sabih0610/trading/pull/8)
+final head `bc6bd58` is queued, not merged, with empty P11j.ready. Its clean
+source `6b132f6` / tree `0c709e85` passed 1480 tests, 2 environmental skips
+(absent .env / kit ZIP), 3 live deselected and 2 D-3/D-4 xfails in 1176.58s;
+Ruff/format 540 files, strict mypy 197 sources, smoke and all 14 studies pass.
+G pre-registration [PR #9](https://github.com/Sabih0610/trading/pull/9), final
+head `d92e120`, is queued with empty P11g-prereg.ready. Full gate on `aa2ce8e`:
+1516 passed, 1 environmental skip, 3 live deselected, 5 inherited xfails in
+1194.18s; Ruff/format 545 files, strict mypy 200 sources, smoke and all 14 studies
+pass. G is STOPPED until reports/reviews/P11g-prereg-review.md on main explicitly
+says APPROVED; no genuine G input has been read and Part B has not started.
+PRs #6–#9 remain open and unmerged. Main was fetched after B1 gate completion
+and still identifies `6a64b22`, with no new track review. Root owns polling and
+any later combined-source validation.
+Read no genuine G input until main contains an APPROVED pre-registration review.
+J2 waits for both F and G Part B merges; K is blocked on absent written consent.
+
+[Integration PR #10](https://github.com/Sabih0610/trading/pull/10) is open and queued for Claude,
+from `codex/living-docs-2026-11-04`; MASTER is not complete. Its initial
+publication head is `8e12956`; the final PR-link bookkeeping is docs-only. P11f-B1 is implemented: BTC/ETH/SOL strategy allowlists
+are empty, and the schema accepts that deny-all state while actual strategy
+permission checks remain unchanged. Explicit historical-policy fixtures use the
+real asset guard; all 128 prior behavior assertions remain unchanged. Current
+policy refuses all nine combinations and all 162 frozen catalogue cells.
+Focused validation: 173 passed; Track H peer source check found no issue.
+Formal Claude review remains pending. [B1 report](../reports/phases/P11f-B1.md).
+The exact clean B1 gate passed on `83b8673`, tree `96566686`, with runtime/
+config/tests unchanged from `227b614`: 1473 passed, 1 environmental skip,
+3 deselected, 5 inherited xfails, 23 warnings in 1000.45s. Ruff/format 538,
+strict mypy 197, smoke and all 14 synthetic studies pass; gate slot released.
+[Validation](../reports/validation/P11f-B1/summary.json) records the exact identity.
+Final publication edits are docs/validation/marker only. The empty integration
+marker is MASTER-2026-11-living-docs.ready; MASTER-2026-11.ready stays absent.
+Next: independent Claude review, fix any findings on the same branch, and
+continue root's main-review polling for queued tracks. No F replay, risk widening,
+main merge, genuine data access or evaluator/strategy change.
+
+Crypto has no tradable edge under the registered test; Stage 4/5 do not start for
+these candidates. New ideas require new registration and increased trial count.
+Stage 4, paper trading, Testnet, external orders and P14 remain outside the master.
+Preserve all other worktrees, private rights/retention and the sealed collector;
+no secret, genuine/private data or archive read was needed for this update.
+
+## Historical handoffs
+
+# Previous handoff — P11e PR #4 fix round complete
 
 Corrected HistData to one EU-week offset and verified provider duplicate removal;
 conflicting repeats quarantine the whole day. Six private FX generations are rebuilt

@@ -5,6 +5,9 @@ from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal
 
 import pytest
+from tests.fixtures.historical_crypto_policy import (
+    historical_crypto_strategy_policy as historical_crypto_strategy_policy,
+)
 
 from tb.backtest.engine import BacktestEngine, Bar, EntrySignal, ExitReason, ReplayAudit
 from tb.backtest.stage3_metrics import (
@@ -150,6 +153,7 @@ def test_target_first_never_overrides_gap_through_stop():
     assert result.trades[0].exit_price == Decimal("89.9550")
 
 
+@pytest.mark.usefixtures("historical_crypto_strategy_policy")
 def test_peak_circuit_trips_once_survives_midnights_and_counts_flat_halted_days(monkeypatch):
     bars, signals = [], []
     for day in range(15):
@@ -196,6 +200,7 @@ def test_2025_anywhere_refused_before_plugin_or_simulation(position, monkeypatch
         )
 
 
+@pytest.mark.usefixtures("historical_crypto_strategy_policy")
 def test_embargo_warms_but_cannot_trade_and_endpoint_is_flat(monkeypatch):
     bars = [bar(i) for i in range(192)]
     signals = (signal(), signal(START + timedelta(days=1)), signal(bars[-1].timestamp))

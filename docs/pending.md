@@ -1,5 +1,44 @@
 # Pending items
 
+Current MASTER snapshot (2026-11-03 21:52 UTC); older phase-specific entries below
+are historical where superseded by the master and later review decisions.
+
+- **P11f-B1 — full gate passed; formal review pending:** removed `volatility_breakout`,
+  `ts_momentum` and `trend_vwap_pullback` from BTCUSDT/ETHUSDT/SOLUSDT
+  `allowed_strategies`. Explicit validated historical-policy fixtures preserve
+  every prior strategy-mechanics assertion; separate current-policy regressions
+  refuse all nine strategy-symbol combinations and all 162 frozen catalogue cells.
+  XAUTUSDT and evaluator/strategy/RiskManager logic remain unchanged. The only
+  runtime source change accepts empty allowlists as deny-all; spot/venue/cost,
+  data-only and risk guards remain intact. All 173 focused tests pass; project
+  Ruff/format and Track H peer source check pass. Complete clean gate on
+  `83b8673`: 1473 passed, 1 skip, 3 deselected, 5 inherited xfails; Ruff/format
+  538, strict mypy 197, smoke and all 14 owned studies pass. Formal Claude
+  review remains pending; it is not approval of this integration.
+  [Review](../reports/reviews/P11f-partB-review.md).
+- **P11f-B2 — no crypto edge:** 0 pass, 7 fail, 2 insufficient evidence. Stage 4/5
+  do not start for these candidates. Any new crypto idea needs a fresh
+  pre-registration; its trials add to the multiple-testing record. After gold,
+  the owner decides whether to try new registered ideas, change approach or stop.
+- **MASTER review queue:** H PR #7 and I await Claude; G pre-registration
+  [PR #9](https://github.com/Sabih0610/trading/pull/9), final head `d92e120`, is
+  queued with empty P11g-prereg.ready after its full 1516-test gate passed. G is
+  stopped and genuine input stays blocked until an APPROVED prereg review is on main.
+  J1 [PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`, is
+  queued with P11j.ready; its 1480-test clean gate, static checks, smoke and
+  14 studies pass. It is not merged or independently approved. J2 cannot start
+  before both F and G Part B merge; remaining D-3/D-4 xfails are retained.
+- **K consent blocker:** the specified Dukascopy consent file remains absent per
+  the master check; K cannot acquire or validate gold without it. No replacement
+  permission is inferred from public availability or an earlier sample.
+- **H terms open item:** the full API Product Terms version is unverified;
+  the queued PR records the observed notice date/version and does not start a
+  monitor or change the sealed collector's separately reviewed capture scope.
+- **Living-docs integration:** [PR #10](https://github.com/Sabih0610/trading/pull/10) is open,
+  queued for independent Claude review after the exact full clean gate. Empty MASTER-2026-11-living-docs.ready queues this integration;
+  MASTER-2026-11.ready remains absent. No track/main merge or master completion
+  is claimed. Follow up on future verified merges in the separate living-docs PR.
+
 - **P11d legacy sealed file shape:** the reviewed collector created approximately
   1,100 small sealed files before P11d-1. Preserve them unchanged: no read, repack,
   compaction or deletion. New capture uses 15-minute intervals; this existing

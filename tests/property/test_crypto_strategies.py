@@ -6,6 +6,9 @@ from decimal import Decimal
 import pytest
 from hypothesis import given
 from hypothesis import strategies as st
+from tests.fixtures.historical_crypto_policy import (
+    historical_crypto_strategy_policy as historical_crypto_strategy_policy,
+)
 
 from tb.backtest.engine import EntrySignal
 from tb.risk.guards import OrderSide
@@ -13,6 +16,9 @@ from tb.strategies.base import StrategyBar, StrategyDecision, generate_decisions
 from tb.strategies.trend_vwap import TrendVwapStrategy
 from tb.strategies.ts_momentum import TsMomentumStrategy
 from tb.strategies.volatility_breakout import VolatilityBreakoutConfig, VolatilityBreakoutStrategy
+
+pytestmark = pytest.mark.usefixtures("historical_crypto_strategy_policy")
+
 
 START = datetime(2024, 1, 1, tzinfo=UTC)
 
