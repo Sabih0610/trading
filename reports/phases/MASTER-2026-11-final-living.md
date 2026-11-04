@@ -14,6 +14,8 @@ The final combined source candidate `e2e05bb` passed 1,772 tests, 2 environmenta
 
 The final `MASTER-2026-11-status.md` and `MASTER-2026-11.ready` remain absent. No secrets, provider evidence, genuine observations or sealed data are added/read. No runtime, config, tests, scripts or locks changed. [Research](../../docs/research/MASTER-2026-11-final-living-research.md), [journal](../../docs/journal/MASTER-2026-11-final-living-journal.md), [validation](../validation/MASTER-2026-11-final-living/summary.json).
 
+[PR #15](https://github.com/Sabih0610/trading/pull/15) is open for Claude; the empty final-living review marker is published.
+
 ## Living-doc entries
 
 This separate branch is the integration. It records all implementation approvals and the remaining documentary review honestly; builder neither merges main nor self-approves.

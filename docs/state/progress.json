@@ -882,7 +882,7 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-04 18:10 UTC",
+  "last_updated_utc": "2026-11-04 18:13 UTC",
   "next_phase": "Final living-docs review/merge; then final MASTER status/ready and delete heartbeat. No Stage4/paper/Testnet/orders/P14.",
   "audits": {
     "third_party_repository_adoption": {
@@ -915,8 +915,11 @@
     "config_source_tests_changed": false,
     "master_complete": false,
     "formal_review": "queued",
-    "publication": "prepared_for_Claude",
-    "ready_marker": "reports/reviews/queue/MASTER-2026-11-final-living.ready"
+    "publication": "queued_for_Claude",
+    "ready_marker": "reports/reviews/queue/MASTER-2026-11-final-living.ready",
+    "committed": true,
+    "published": true,
+    "pull_request": "https://github.com/Sabih0610/trading/pull/15"
   },
   "living_docs_previous": {
     "branch": "codex/living-docs-2026-11-04",

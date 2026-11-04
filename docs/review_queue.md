@@ -4,7 +4,7 @@ All implementation tracks are APPROVED and merged, including J2 PR #13, reliabil
 
 | Item | Branch | Status |
 |---|---|---|
-| Final living integration | `codex/living-docs-2026-11-04-final` | Ready for Claude review; marker `MASTER-2026-11-final-living.ready` |
+| [Final living integration PR #15](https://github.com/Sabih0610/trading/pull/15) | `codex/living-docs-2026-11-04-final` | Ready for Claude review; marker `MASTER-2026-11-final-living.ready` |
 | Final MASTER report and ready | Prepared only after this living integration is actually merged | Not yet created; builder must not claim completion early |
 
 F remains0pass/7fail/2insufficient across162trials; G remains1reject/0promising/2insufficient across54. K validation is skipped: no promising gold candidate. No new strategy or data run is queued.
