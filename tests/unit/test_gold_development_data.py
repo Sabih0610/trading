@@ -433,6 +433,14 @@ def test_actual_source_and_registered_batch_compose_without_inventing_evidence(s
         assert len(selection["cells"]) == 54
         assert all(value is None for value in selection["selected"].values())
         assert all(cell["trade_count"] == 0 for cell in selection["cells"])
+    from tb.backtest.gold_report import phase_report, publication_projection
+
+    public = publication_projection(result)
+    report = phase_report(public)
+    assert "private_comparisons" not in public
+    assert public["frozen_parameters"] == frozen
+    assert "0 reject, 0 promising, 3 insufficient" in report
+    assert report.rstrip().endswith("Ready for Claude review")
     assert batch.store.read("status.json")["stage"] == "complete"
     monkeypatch.setattr(
         active, "load", lambda *args: pytest.fail("Finished checkpoint reran replay")
