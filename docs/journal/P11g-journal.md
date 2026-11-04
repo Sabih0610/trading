@@ -7,7 +7,7 @@
 - Fixed A/C/G54cells, session anchors, positive-stop low-range ORB, five-percent
   causal coverage gate and stricter existing XAUT risk before observations.
   HistData lacks real volume: C keeps missing VWAP and waits; do not invent it.
-- PRE-REGISTRATION SHA-256: 9002588640864d1036eb2c09bd1010740df43907bced7179f68a6b61093acfc7
+- INITIAL PRE-REGISTRATION SHA-256: 9002588640864d1036eb2c09bd1010740df43907bced7179f68a6b61093acfc7
   Exact UTF-8/LF bytes; publish and stop for main reviewer approval before data.
   Focused owned fixtures initially35pass; extra simulator/export and frozen-schema
   fixtures and strict typing/gates are being completed. No shared living-doc edits.
@@ -59,3 +59,16 @@
   remains9002588640864d1036eb2c09bd1010740df43907bced7179f68a6b61093acfc7.
   G STOPPED untilAPPROVEDreviewonmain; masterothertrackscontinue. FinalPRlink
   evidencecommit is docs-only after the clean passed candidateaa2ce8e.
+
+- 2026-11-04 00:44 UTC: Main3c4caf7 contains Claude APPROVED conditional on exact G-1/G-2,
+  explicitly no further pre-registration review. Applied both paragraphs verbatim
+  before genuine input, preserving N54/base-touch training selection. A gains a
+  separate strict trade-through sensitivity, not a default engine change. G costs
+  now use full quoted8bps→4bps/fill, fee10/slip5 each side, bid-as-mid assumption.
+  Per G-2, P11f retained the stricter reading; its verdicts remain untouched and
+  are not rerun (review cites approximately zero pre-cost edge). Recompute shared
+  features strictly from2021Silver, no2020warmup; no genuine metadata/prices read.
+  Complete Part B source and fixtures are being built before full gate/freeze.
+  The published branch cannot rebase onto new review-only main without forbidden
+  force-push; preserve published ancestry and copy the identical review for PR context.
+- PRE-REGISTRATION SHA-256: 806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98

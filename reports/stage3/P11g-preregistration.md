@@ -1,9 +1,12 @@
 # P11g — gold development pre-registration (Part A)
 
-Proposed for Claude review under MASTER2026-11 and owner authority (2026-11-03).
+Approved conditionally by Claude on main3c4caf7 (2026-11-04); this pre-data
+amendment applies G-1 and G-2 verbatim under that approval and owner authority.
 No genuine gold data, registry, quality report or 2024 input has been opened for G.
-This freezes hypotheses before observations; stop at P11g-prereg.ready until the
-review file on main says APPROVED. This phase can never validate or pass gold.
+This freezes hypotheses before observations. The main review explicitly requires
+these two amendments and their journal SHA before input; no further pre-registration
+review is required. Full Part B source/config must also be tested and frozen before
+any genuine input. This phase can never validate or pass gold.
 
 ## Boundary and provenance
 
@@ -58,8 +61,13 @@ A/C are their existing frozen implementations: no new entry logic or exit filter
 A builds Asia range00:00–07:00 Europe/London, looks07:00–10:00 for low sweep/reclaim
 within reclaim_bars, then bullish BOS/CHOCH and bullish FVG. LIMIT at FVG midpoint;
 stop=sweep_extreme-buffer*ATR14, target=entry+2*(entry-stop), expiry2eligible bars.
-It proposes at most once per London day. A retains current F-engine limit-touch
-semantics, a known audit limitation; Wave2 is deferred until F and G PartB merge.
+It proposes at most once per London day. Preserve default F-engine limit-touch
+semantics, and add the approved research-only trade-through path (strict low<limit).
+The unchanged base-touch training selector supplies the same cell to every cost,
+ordering and fill-path sensitivity; no reselection and no extra N_trials. A can be
+Promising only under both fill paths and both orderings; any Reject means Reject,
+otherwise missing/nonpromising evidence is insufficient. Production defaults and
+J2 remain deferred until F and G PartB merge.
 C requires shared ATR14/EMA20/EMA50/slopes/VWAP and native+parent structure+1,
 EMA20>EMA50, positive fast/nonnegative slow slope; low<=VWAP+tolerance*ATR and
 close>=VWAP. Stop=min(low,VWAP)-stop_atr*ATR; target2R, one proposal per UTCday.
@@ -139,13 +147,14 @@ gold claim. Current W1 monotonic safety fixes may be inherited on main before th
 approved run; record/freeze exact code/config identities before any genuine access.
 No risk default, fill or label semantics are modified for this phase's results.
 
-XAUT registry floor per side is fee10bps, spread8bps, slippage5bps. The F cost class
-halves quote spread, so use effective spread_bps=2*registry spread (16), fee/slippage
-unchanged, stress all components on BOTH sides at1,1.5,2. At base: bid entry is
-bid*(1+0.0013), inventory sale bid*(1-0.0013), commission0.001of actual notional each
-side. Charging spread also on the already-bid exit is deliberately conservative
-under the per-side floor, never an inferred historical spread. Revalidate funded
-cash/risk at adverse entry; sizes can change under stress. No fee discount/rebate.
+Use XAUT registry meaning without doubling: fee10bps per side, full quoted
+spread8bps (CostAssumptions halves it to4bps per fill), slippage5bps per side.
+Treat the original HistData bid reference as the mid proxy per approved G-2;
+source metadata and the proxy label stay bid, and no measured spread is invented.
+Stress all components on BOTH sides at1,1.5,2. Base buy=reference*(1+0.0009),
+sale=reference*(1-0.0009), commission0.001of actual notional each side; approximately
+0.38% round-trip at base. Revalidate funded cash/risk at adverse entry; quantities
+can change under stress. No fee discount/rebate or post-data cost change.
 All sensitivity paths retain the base-training-selected cell.
 
 
@@ -219,6 +228,28 @@ background lease/checkpoints with exact registration/code/config/data fingerprin
 runtime and sampled peakRSS. Prices/trades/equity/quality details stay private under
 original rights/retention; public verdicts and allowed aggregate metrics only.
 
+## Approved pre-data amendments — applied verbatim
+
+The following exact amendment text comes from the independently committed review
+on main3c4caf7. It supersedes the initial cost/fill wording above; N_trials remains54.
+
+### G-1
+
+**Limit fills (audit D-3) for A.** A enters with a LIMIT at the FVG midpoint, and the current engine fills a limit when the bar low only *touches* it. That inflates a pullback strategy. Add a registered **trade-through fill path** in which a LIMIT fills only if a later eligible bar trades strictly through it (`low < limit`); a touch is unfilled and the proposal expires as normal. A can be **Promising only if it is promising under the trade-through path as well**, in both stop-first and target-first orderings. Any reject on that path means reject. MARKET-entry strategies (C, G) are unaffected. Use the path only inside this research replay; do not change the engine default (that is J2's D-3).
+
+### G-2
+
+**Cost interpretation.** Use XAUTUSDT's registry costs with their **registry meaning**: `spread_bps_default = 8` is the full quoted spread, halved at each fill by the existing `CostAssumptions` (4 bps per side). Fee is 10 bps and slippage 5 bps per side, with stress at 1×, 1.5× and 2× on all components and both sides, unchanged. Treat the HistData bid proxy as the mid (the XAUUSD bid–mid gap is under 1 bp, which is immaterial next to these costs). Remove the doubled "effective spread_bps = 16". The doubling came from my prompt's "per side" wording, not from the registry; correcting it before data is legitimate. Note in the journal that P11f kept the stricter reading; its verdicts are unaffected because pre-cost expectancy was about zero for every crypto candidate (P11f Part B review §3).
+
+### Feature initialization clarification (pre-data)
+
+Recompute native and parent features with the unchanged shared FeatureEngine from
+admitted Silver minute bars beginning2021-01-01 only, retaining chronological state
+across years; no2020warm-up or2024input. Original Silver/Gold bytes and manifests
+stay immutable; ephemeral research features and their code/config identities are
+separate. All existing indicators/default flags, completed-bar and parent as-of
+rules, absence of volume-backed VWAP and coverage windows remain unchanged.
+
 ## Owner Part B protocol — verbatim
 
 1. Walk-forward: train 2021 → evaluate 2022; train 2021–2022 → evaluate 2023. Parameters are
@@ -242,6 +273,9 @@ original rights/retention; public verdicts and allowed aggregate metrics only.
 
 Commit this registration and record its exact byte SHA-256 in docs/journal/P11g-journal.md.
 Part A uses owned fixtures only. Publish the PR and empty reports/reviews/queue/P11g-prereg.ready,
-then stop G until reports/reviews/P11g-prereg-review.md on main explicitly APPROVES.
+then require reports/reviews/P11g-prereg-review.md on main to APPROVE. Main3c4caf7
+provides conditional APPROVED authority: apply G-1/G-2 verbatim, record/publish the
+amended SHA, test/freeze complete Part B source before input; no second preregistration
+review is required by that review. An unrelated APPROVED WITH FIXES cannot bypass this gate.
 Do not read a genuine registry, quality table, price partition,2024source or sealed
 archive to prepare this review. Other master tracks continue independently.
