@@ -386,7 +386,7 @@ def test_second_process_lock_and_pending_restart_prevent_double_spending(tmp_pat
     p, s, events = opened(tmp_path, fill=False)
     code = "from pathlib import Path; import sys; from tb.core.leases import writer_lease; c=writer_lease(Path(sys.argv[1])/'writer.lock'); c.__enter__()"
     child = subprocess.run(
-        [sys.executable, "-c", code, str(tmp_path)], capture_output=True, text=True
+        [sys.executable, "-c", code, str(tmp_path)], capture_output=True, text=True, timeout=120
     )
     assert child.returncode != 0 and "WriterBusy" in child.stderr
     s.close()

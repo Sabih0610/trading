@@ -44,3 +44,11 @@ pwsh -ExecutionPolicy Bypass -NoProfile -File ".\scripts\install-skills.ps1" -Li
 ```
 
 Do not run the non-list installer after an upstream update until the requested skill directories and every copied file have been audited again. The installer intentionally excludes both rejected skill names.
+
+## P11j installer hardening
+
+The installer now fetches the two full audited commit IDs above, checks detached
+HEAD identity and refuses a dirty or mismatched cache. It never pulls a floating
+branch. Updating either SHA requires a fresh source review; listing is not permission
+to execute copied content. Owned fake-Git tests verify pinning and refusal without
+contacting a provider or executing third-party skills.

@@ -362,7 +362,7 @@ def parquet_rows(folder: Path, name: str, mode: str, *, limit: int = 2000) -> li
             k in manifest for k in ("source", "checksum", "row_count", "code_version")
         ):
             raise EvidenceUnavailable("Chart manifest incomplete or mode mismatch")
-        if mode != "synthetic" and (end is None or end >= FINAL_TEST_START):
+        if end is None or end >= FINAL_TEST_START:
             raise EvidenceUnavailable("Reserved historical observations are locked")
         columns = (
             ["timestamp", "price"]
@@ -370,11 +370,20 @@ def parquet_rows(folder: Path, name: str, mode: str, *, limit: int = 2000) -> li
             else ["timestamp", "equity", "cash", "holdings"]
         )
         scan = scan_unsealed_parquet(path).select(columns)
-        if mode != "synthetic":
-            scan = scan.filter(pl.col("timestamp") < FINAL_TEST_START)
+        bounds = (
+            scan.select(
+                pl.col("timestamp").min().alias("first"),
+                pl.col("timestamp").max().alias("last"),
+            )
+            .collect(engine="streaming")
+            .row(0, named=True)
+        )
+        if bounds["last"] is not None and bounds["last"] >= FINAL_TEST_START:
+            raise EvidenceUnavailable("Reserved chart timestamps are locked")
+        scan = scan.filter(pl.col("timestamp") < FINAL_TEST_START)
         frame = scan.limit(limit).collect(engine="streaming")
         rows = frame.to_dicts()
-        if mode != "synthetic" and len(rows) < min(limit, int(manifest["row_count"])):
+        if len(rows) < min(limit, int(manifest["row_count"])):
             raise EvidenceUnavailable("Chart coverage conflicts with the reserved-period boundary")
         for row in rows:
             row["timestamp"] = _timestamp(row["timestamp"])
@@ -382,7 +391,7 @@ def parquet_rows(folder: Path, name: str, mode: str, *, limit: int = 2000) -> li
                 if _decimal(row[column]) is None:
                     raise ValueError("Missing numeric observation")
         return rows
-    except (KeyError, ValueError, OSError, pl.exceptions.PolarsError) as exc:
+    except (KeyError, TypeError, ValueError, OSError, pl.exceptions.PolarsError) as exc:
         raise EvidenceUnavailable("Chart unavailable or refused by its evidence boundary") from exc
 
 
@@ -397,7 +406,7 @@ def marked_drawdown(folder: Path, mode: str) -> Decimal | None:
             return None
         result = (
             scan_unsealed_parquet(path)
-            .filter(pl.lit(True) if mode == "synthetic" else pl.col("timestamp") < FINAL_TEST_START)
+            .filter(pl.col("timestamp") < FINAL_TEST_START)
             .select("timestamp", pl.col("equity").cast(pl.Float64))
             .with_columns(pl.col("equity").cum_max().alias("peak"))
             .select(

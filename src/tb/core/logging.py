@@ -10,6 +10,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from rich.console import Console
 from rich.logging import RichHandler
 
 from tb.core.config import repo_root
@@ -144,6 +145,7 @@ def configure_logging(
     if console:
         console_handler = RichHandler(
             level=level,
+            console=Console(stderr=True),
             show_path=False,
             rich_tracebacks=True,
             markup=False,
@@ -156,6 +158,13 @@ def configure_logging(
 
 def configure_cli_logging() -> None:
     """Install redaction before CLI work, without opening any private settings file."""
-    from tb.core.config import Settings
+    from tb.core.config import Settings, log_disabled_features
 
-    configure_logging(known_secrets=Settings(_env_file=None).known_secret_values())  # type: ignore[call-arg]
+    settings = Settings(_env_file=None)  # type: ignore[call-arg]
+    logger = configure_logging(known_secrets=settings.known_secret_values())
+    if not (repo_root() / ".env").exists():
+        log_disabled_features(settings)
+    else:
+        # Do not inspect an owner's private dotenv merely to initialize a logger.
+        # load_settings reports its actual disabled features when the component loads it.
+        logger.info("Optional integrations disable on missing configuration; status logged on load")

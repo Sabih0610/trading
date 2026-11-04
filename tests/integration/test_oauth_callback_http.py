@@ -3,6 +3,7 @@
 import http.client
 import socket
 import threading
+import time
 from datetime import UTC, datetime
 
 from tb.ingest.broker.onboarding.callback import receive_callback
@@ -24,7 +25,10 @@ def test_http_parser_errors_do_not_reflect_code_or_private_callback_path():
                 f"GET {target} EXTRA EXTRA HTTP/1.1\r\nHost: 127.0.0.1:{port}\r\n\r\n".encode()
             )
             chunks = []
+            deadline = time.monotonic() + 10
             while chunk := sock.recv(8192):
+                if time.monotonic() >= deadline or sum(map(len, chunks)) + len(chunk) > 65536:
+                    raise TimeoutError("Owned callback response exceeded test bounds")
                 chunks.append(chunk)
             responses.append(b"".join(chunks))
         connection = http.client.HTTPConnection("127.0.0.1", port, timeout=5)
@@ -43,6 +47,7 @@ def test_http_parser_errors_do_not_reflect_code_or_private_callback_path():
     code = receive_callback(session, lambda: datetime.now(UTC), ready)
     for t in clients:
         t.join(timeout=5)
+        assert not t.is_alive(), "Owned callback client did not terminate"
     assert code.consume(datetime.now(UTC)) == "owned-good-code"
     assert responses and all(
         b"owned-parser-decoy" not in data and session.path.encode() not in data

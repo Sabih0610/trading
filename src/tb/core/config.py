@@ -6,6 +6,7 @@ enabled/disabled booleans. External integrations are optional by design.
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Mapping
 from pathlib import Path
 
@@ -79,7 +80,9 @@ def load_settings(env_file: Path | None = None) -> Settings:
     selected = repo_root() / ".env" if env_file is None else env_file
     # BaseSettings supports private source-selection kwargs at runtime, but its generated
     # constructor signature intentionally exposes only declared environment fields.
-    return Settings(_env_file=selected)  # type: ignore[call-arg]
+    settings = Settings(_env_file=selected)  # type: ignore[call-arg]
+    log_disabled_features(settings)
+    return settings
 
 
 def features_enabled(settings: Settings) -> dict[str, bool]:
@@ -103,6 +106,24 @@ def features_enabled(settings: Settings) -> dict[str, bool]:
         "ollama": bool(settings.ollama_host),
         "telegram": bool(settings.telegram_bot_token and settings.telegram_chat_id),
     }
+
+
+_DISABLED_FEATURES_LOGGED: set[str] = set()
+
+
+def log_disabled_features(settings: Settings) -> None:
+    """Log names/reasons once per process, never values or private configuration paths."""
+    logger = logging.getLogger("tb.optional_features")
+    if not logger.isEnabledFor(logging.INFO) or not logger.hasHandlers():
+        return
+    for feature, enabled in features_enabled(settings).items():
+        if not enabled and feature not in _DISABLED_FEATURES_LOGGED:
+            logger.info(
+                "%s disabled: missing configuration",
+                feature,
+                extra={"feature": feature, "reason": "missing_configuration"},
+            )
+            _DISABLED_FEATURES_LOGGED.add(feature)
 
 
 class LooseYamlConfig(BaseModel):

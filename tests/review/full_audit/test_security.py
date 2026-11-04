@@ -37,6 +37,7 @@ def _git(*args: str) -> str:
         capture_output=True,
         text=True,
         check=True,
+        timeout=120,
         encoding="utf-8",
         errors="replace",
     ).stdout
@@ -71,12 +72,17 @@ def test_root_env_acl_is_owner_and_system_only() -> None:
     env = ROOT / ".env"
     if not env.exists() or shutil.which("icacls") is None:
         pytest.skip("no root .env or not Windows")  # metadata only; contents never read
-    acl = subprocess.run(["icacls", str(env)], capture_output=True, text=True).stdout
+    acl = subprocess.run(["icacls", str(env)], capture_output=True, text=True, timeout=30).stdout
     assert not re.search(r"(?i)\\(Users|Authenticated Users|Everyone|Guests):", acl)
 
 
 def test_root_env_is_ignored_and_never_tracked() -> None:
-    assert subprocess.run(["git", "-C", str(ROOT), "check-ignore", "-q", ".env"]).returncode == 0
+    assert (
+        subprocess.run(
+            ["git", "-C", str(ROOT), "check-ignore", "-q", ".env"], timeout=30
+        ).returncode
+        == 0
+    )
     tracked = _git("ls-files").splitlines()
     assert not [
         p
@@ -99,11 +105,6 @@ def test_no_secret_shaped_files_are_tracked() -> None:
     assert bad == []
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING S-1: dev-kit zip/folder are tracked despite "
-    ".gitignore (tracked-but-ignored files, repo hygiene)",
-)
 def test_no_tracked_file_matches_gitignore() -> None:
     assert _git("ls-files", "-ci", "--exclude-standard").split() == []
 

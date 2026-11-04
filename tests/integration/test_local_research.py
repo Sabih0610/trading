@@ -220,7 +220,7 @@ def test_symlink_refused(tmp_path):
     except OSError:
         # Windows without symbolic-link privilege still has native directory junctions.
         result = subprocess.run(
-            ["cmd", "/c", "mklink", "/J", str(link), str(target)], capture_output=True
+            ["cmd", "/c", "mklink", "/J", str(link), str(target)], capture_output=True, timeout=30
         )
         assert result.returncode == 0
     with pytest.raises(ResearchRefused, match="symlink_or_junction"):
@@ -660,6 +660,7 @@ def test_offline_cli_and_no_provider_or_order_dependencies(tmp_path):
         capture_output=True,
         text=True,
         check=True,
+        timeout=120,
     )
     result = json.loads(completed.stdout)
     assert result["provider_connections"] == result["external_orders"] == 0
@@ -694,6 +695,7 @@ def test_offline_cli_and_no_provider_or_order_dependencies(tmp_path):
         [sys.executable, "-m", "tb.research.cli", "--root", str(tmp_path), "status"],
         capture_output=True,
         text=True,
+        timeout=120,
     )
     assert failed.returncode == 2 and "credential-free" in failed.stderr
 
