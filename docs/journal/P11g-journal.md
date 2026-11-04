@@ -91,3 +91,24 @@
   passed. Ruff/format clean; complete strict typing and clean offline gate follow.
   Cached selected-session metadata corrected pre-data without changing proposals
   or selectors. Publication remains paused until the complete clean gate passes.
+
+- 2026-11-04 07:17 UTC: Pre-data source candidate 6ce397d4c9b2eb6dc50b5b730c4f4eae2e64c9cd
+  tree 329305fc7ce0830a1d592b62acc2b61e5bde2784. Full-source mypy205, Ruff/format556 pass.
+  Implementation SHA-256 db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4
+  Configuration SHA-256 4771a576cebf04c9589415211ffaf4a9d38d0301bb3f7f200082639c05497682
+  Clean gate worker PID6164 queues behind Claude, candidate6ce397d; no passed
+  freeze record or genuine access exists yet. Durable gate health is in the
+  credential-free gates checkout work/P11g-clean-gate-status.json.
+
+- 2026-11-04 07:34 UTC: Main b850a44 approves/merges H. I6/J1-8/living10
+  remain open at their existing approved heads. The queued G clean gate began
+  07:23:54UTC after the initial slot became free, but Claude started the next
+  trading-audit suite at07:24:29. Stopped ONLY our verified gate process tree at
+  07:31:18 to restore serialization; partial log is preserved and is NOT a pass.
+  Clean lint/format/mypy205 passed before interruption; full pytest did not finish.
+  G's complete candidate remains6ce397d unchanged. Wait until Claude's remaining
+  I/J1/living final gates and merges finish before restarting our clean gate.
+  K366e625 similarly awaits its full gate before any registration/acquisition.
+  Persistent15minute continuation is ACTIVE under the owner's continuing
+  authorization, with updated source/hash/PAXG scope and no stale Dukascopy route.
+  No genuine G metadata/prices, PAXG observations, holdout or sealed files read.
