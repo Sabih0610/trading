@@ -130,6 +130,9 @@ genuine observations. Dukascopy is withdrawn. K validation is skipped: "no promi
 gold candidate". PAXG stays data-only with no executable strategies; December 2023
 is warm-up only. Mark K review pending until Claude independently approves/merges.
 
+[Acquisition PR #14](https://github.com/Sabih0610/trading/pull/14) is open for
+independent review; the builder has not merged it.
+
 ## Review checklist
 
 - [x] Original and rebased clean gates recorded separately; no assertion/rule weakened.
