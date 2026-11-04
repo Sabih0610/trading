@@ -1,3 +1,17 @@
+# Current Claude review queue — final MASTER report
+
+All required implementation and final living integration PRs are approved/merged, including [PR #15](https://github.com/Sabih0610/trading/pull/15), [approved final living review](../reports/reviews/MASTER-2026-11-final-living-review.md).
+
+| Item | Status | Evidence |
+|---|---|---|
+| Final MASTER report | Ready for final documentary review; authorized engineering complete | [Status](../reports/phases/MASTER-2026-11-status.md), empty `MASTER-2026-11.ready` |
+| F/G and supporting implementation | Approved and merged; immutable verdicts | Final report links every review and merge |
+| New research/Stage4/5 | Not authorized; owner decision after MASTER | No strategy promotion; K validation skipped |
+
+The builder stops the heartbeat after this publication and does not merge main or self-approve the final report.
+
+## Historical review snapshots
+
 # Current Claude review queue
 
 All implementation tracks are APPROVED and merged, including J2 PR #13, reliability PR #12 and K acquisition PR #14. Post-G living PR #11 is also merged. [J2 review](../reports/reviews/P11j-wave2-review.md), [reliability review](../reports/reviews/P11j-reliability-review.md), [K review](../reports/reviews/P11k-acquisition-review.md).

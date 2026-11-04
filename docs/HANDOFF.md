@@ -1,3 +1,17 @@
+# Current handoff — MASTER complete; final report ready
+
+2026-11-04 18:55 UTC. All MASTER completion conditions hold on main `6848cc3`: F/G final verdicts,H/I/J1/J2,reliability,K acquisition and final living PR #15 are independently approved/merged. [Final MASTER report](../reports/phases/MASTER-2026-11-status.md) lists every verdict, exact approval/gate identities, limitations and next owner decisions. Empty `MASTER-2026-11.ready` submits the report for Claude's final documentary review.
+
+No implementation, registered batch, download, build or full gate remains to run. F162trials=0pass/7fail/2insufficient; G54=1reject/0promising/2insufficient. Never invoke their CLIs, rerun, retune or relabel results. K validation skipped: no promising gold candidate; no K pre-registration or strategy run. All genuine data and original rights/retention remain private and unchanged. PAXG stays data-only. Dukascopy remains withdrawn.
+
+The builder stops this continuation after publishing the final report and deletes `continue-trading-master-review-loop`. Do not auto-resume research from old heartbeat/handoff instructions. Final report review is Claude's documentary queue; future research/operating scope is the owner's decision. No current owner action blocks this completed MASTER scope.
+
+The latest combined source gate has1772pass/2envskip/3live/0xfail, static and safety/14owned studies passed. Final documents have no source/config/test/script/dependency change and claim no new full suite. The environmental owner.env ACL case, collector boot privileges and P14 documentary rights/release remain separate owner/operator matters, not incomplete MASTER implementation.
+
+Preserve all worktrees, private rights/retention and unfinished files. Never run the owner checkout or load its .env. Keep2025+holdout/sealed archives unread and P14 sealed. No Stage4/paper/Testnet/orders/risk-limit change. See the final report before any separately authorized next task.
+
+## Historical handoffs — operational continuation instructions below are superseded
+
 # Current handoff — final MASTER living-docs review
 
 Updated 2026-11-04 18:10 UTC from approved main `7777bb5`. All implementation tracks and the reliability follow-up are **approved and merged by Claude**. This separate living-docs integration awaits review; MASTER's final report/ready marker and heartbeat shutdown follow its actual merge.
