@@ -1,0 +1,1403 @@
+{
+  "identity": {
+    "registration_sha256": "806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98",
+    "implementation_sha256": "db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4",
+    "data_manifest_sha256": "1e9a8d100ca43a6bba7b26f91fa90633bda04ddefa2795620264127f40d564e8",
+    "n_trials": 54
+  },
+  "verdicts": [
+    {
+      "strategy": "london_sweep_mss_fvg",
+      "symbol": "XAUTUSDT",
+      "proxy": "proxy: XAUUSD(histdata, bid) \u2192 XAUTUSDT",
+      "status": "development only: not validated",
+      "verdict": "insufficient evidence",
+      "preliminary_development_verdict": "insufficient evidence",
+      "final_training_ineligible": true,
+      "missing_training_folds": [
+        2022,
+        2023
+      ],
+      "selections": [
+        {
+          "year": 2022,
+          "trial_index": null
+        },
+        {
+          "year": 2023,
+          "trial_index": null
+        }
+      ],
+      "metrics": {
+        "touch/stop/1": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/stop/1.5": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/stop/2": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/1": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/1.5": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/2": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "through/stop/1": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "through/stop/1.5": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "through/stop/2": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "through/target/1": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "through/target/1.5": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "through/target/2": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        }
+      },
+      "ambiguity_verdicts": {
+        "through/stop": "insufficient evidence",
+        "through/target": "insufficient evidence",
+        "touch/stop": "insufficient evidence",
+        "touch/target": "insufficient evidence"
+      },
+      "checklists": {
+        "through/stop": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": false,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": false,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        },
+        "through/target": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": false,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": false,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        },
+        "touch/stop": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": false,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": false,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        },
+        "touch/target": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": false,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": false,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        }
+      },
+      "quality_gate": [
+        {
+          "year": 2022,
+          "status": "no eligible training cell",
+          "timeframes": [
+            {
+              "timeframe_seconds": 300,
+              "diagnostic_trial_index": 0,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 258,
+                "sessions_with_no_eligible_bars": 1,
+                "unique_proposal_sessions_vetoed": 0,
+                "proposal_sessions_vetoed_by_reason": {},
+                "wall_clock_closures_count_as_missing": true
+              }
+            },
+            {
+              "timeframe_seconds": 900,
+              "diagnostic_trial_index": 18,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 258,
+                "sessions_with_no_eligible_bars": 1,
+                "unique_proposal_sessions_vetoed": 0,
+                "proposal_sessions_vetoed_by_reason": {},
+                "wall_clock_closures_count_as_missing": true
+              }
+            }
+          ]
+        },
+        {
+          "year": 2023,
+          "status": "no eligible training cell",
+          "timeframes": [
+            {
+              "timeframe_seconds": 300,
+              "diagnostic_trial_index": 0,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 211,
+                "sessions_with_no_eligible_bars": 1,
+                "unique_proposal_sessions_vetoed": 7,
+                "proposal_sessions_vetoed_by_reason": {
+                  "lookback_missing_minutes_over_5pct": 7
+                },
+                "wall_clock_closures_count_as_missing": true
+              }
+            },
+            {
+              "timeframe_seconds": 900,
+              "diagnostic_trial_index": 18,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 211,
+                "sessions_with_no_eligible_bars": 1,
+                "unique_proposal_sessions_vetoed": 5,
+                "proposal_sessions_vetoed_by_reason": {
+                  "lookback_missing_minutes_over_5pct": 5
+                },
+                "wall_clock_closures_count_as_missing": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "strategy": "trend_vwap_pullback",
+      "symbol": "XAUTUSDT",
+      "proxy": "proxy: XAUUSD(histdata, bid) \u2192 XAUTUSDT",
+      "status": "development only: not validated",
+      "verdict": "insufficient evidence",
+      "preliminary_development_verdict": "insufficient evidence",
+      "final_training_ineligible": true,
+      "missing_training_folds": [
+        2022,
+        2023
+      ],
+      "selections": [
+        {
+          "year": 2022,
+          "trial_index": null
+        },
+        {
+          "year": 2023,
+          "trial_index": null
+        }
+      ],
+      "metrics": {
+        "touch/stop/1": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/stop/1.5": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/stop/2": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/1": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/1.5": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/2": {
+          "aggregate": {
+            "profit_factor": null,
+            "expectancy_r": null,
+            "max_dd_pct": 0.0,
+            "trade_count": 0,
+            "sharpe": null,
+            "dsr": null
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            },
+            {
+              "year": 2023,
+              "status": "insufficient evidence",
+              "metrics": {
+                "profit_factor": null,
+                "expectancy_r": null,
+                "max_dd_pct": 0.0,
+                "trade_count": 0,
+                "sharpe": null,
+                "dsr": null
+              },
+              "circuit_trips": 0,
+              "halted_days": 0,
+              "ambiguous_bars": 0
+            }
+          ]
+        }
+      },
+      "ambiguity_verdicts": {
+        "touch/stop": "insufficient evidence",
+        "touch/target": "insufficient evidence"
+      },
+      "checklists": {
+        "touch/stop": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": false,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": false,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        },
+        "touch/target": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": false,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": false,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        }
+      },
+      "quality_gate": [
+        {
+          "year": 2022,
+          "status": "no eligible training cell",
+          "timeframes": [
+            {
+              "timeframe_seconds": 900,
+              "diagnostic_trial_index": 36,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 0,
+                "sessions_with_no_eligible_bars": 1,
+                "unique_proposal_sessions_vetoed": 0,
+                "proposal_sessions_vetoed_by_reason": {},
+                "wall_clock_closures_count_as_missing": true
+              }
+            },
+            {
+              "timeframe_seconds": 3600,
+              "diagnostic_trial_index": 45,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 0,
+                "sessions_with_no_eligible_bars": 1,
+                "unique_proposal_sessions_vetoed": 0,
+                "proposal_sessions_vetoed_by_reason": {},
+                "wall_clock_closures_count_as_missing": true
+              }
+            }
+          ]
+        },
+        {
+          "year": 2023,
+          "status": "no eligible training cell",
+          "timeframes": [
+            {
+              "timeframe_seconds": 900,
+              "diagnostic_trial_index": 36,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 0,
+                "sessions_with_no_eligible_bars": 1,
+                "unique_proposal_sessions_vetoed": 0,
+                "proposal_sessions_vetoed_by_reason": {},
+                "wall_clock_closures_count_as_missing": true
+              }
+            },
+            {
+              "timeframe_seconds": 3600,
+              "diagnostic_trial_index": 45,
+              "selection_status": "not selected; first registered cell for coverage",
+              "counts": {
+                "candidate_calendar_sessions": 260,
+                "sessions_with_complete_inputs": 0,
+                "sessions_with_no_eligible_bars": 3,
+                "unique_proposal_sessions_vetoed": 0,
+                "proposal_sessions_vetoed_by_reason": {},
+                "wall_clock_closures_count_as_missing": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "strategy": "session_orb",
+      "symbol": "XAUTUSDT",
+      "proxy": "proxy: XAUUSD(histdata, bid) \u2192 XAUTUSDT",
+      "status": "development only: not validated",
+      "verdict": "reject",
+      "preliminary_development_verdict": "reject",
+      "final_training_ineligible": false,
+      "missing_training_folds": [],
+      "selections": [
+        {
+          "year": 2022,
+          "trial_index": 28
+        },
+        {
+          "year": 2023,
+          "trial_index": 28
+        }
+      ],
+      "metrics": {
+        "touch/stop/1": {
+          "aggregate": {
+            "profit_factor": 0.11537242012070198,
+            "expectancy_r": -0.4783159185801763,
+            "max_dd_pct": 9.904856242748416,
+            "trade_count": 87,
+            "sharpe": -4.5592960722384275,
+            "dsr": 0.0
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.14413159946982448,
+                "expectancy_r": -0.4309701429837763,
+                "max_dd_pct": 5.064663798319769,
+                "trade_count": 48,
+                "sharpe": -4.355159359717504,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 291,
+              "ambiguous_bars": 1
+            },
+            {
+              "year": 2023,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.08497951399007513,
+                "expectancy_r": -0.5365876423911301,
+                "max_dd_pct": 5.122286259664477,
+                "trade_count": 39,
+                "sharpe": -4.789249018941194,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 271,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/stop/1.5": {
+          "aggregate": {
+            "profit_factor": 0.0015937675712985751,
+            "expectancy_r": -0.6330947434470259,
+            "max_dd_pct": 9.928173868920364,
+            "trade_count": 66,
+            "sharpe": -4.874563992383032,
+            "dsr": 0.0
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0009150736288786709,
+                "expectancy_r": -0.6651347424569745,
+                "max_dd_pct": 5.025214905589319,
+                "trade_count": 31,
+                "sharpe": -4.7478293417992035,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 319,
+              "ambiguous_bars": 1
+            },
+            {
+              "year": 2023,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0022543270971712285,
+                "expectancy_r": -0.6047164586096428,
+                "max_dd_pct": 5.162379634191574,
+                "trade_count": 35,
+                "sharpe": -5.005597852738153,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 280,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/stop/2": {
+          "aggregate": {
+            "profit_factor": 0.0,
+            "expectancy_r": -0.7208492962611723,
+            "max_dd_pct": 9.778295215423881,
+            "trade_count": 57,
+            "sharpe": -4.798383909170533,
+            "dsr": 0.0
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0,
+                "expectancy_r": -0.7349086672013485,
+                "max_dd_pct": 5.01837114661734,
+                "trade_count": 28,
+                "sharpe": -4.769832106741745,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 324,
+              "ambiguous_bars": 1
+            },
+            {
+              "year": 2023,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0,
+                "expectancy_r": -0.7072747312154849,
+                "max_dd_pct": 5.014004436017483,
+                "trade_count": 29,
+                "sharpe": -4.827639799699679,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 305,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/1": {
+          "aggregate": {
+            "profit_factor": 0.11533580247055902,
+            "expectancy_r": -0.4683310026197932,
+            "max_dd_pct": 9.921764295291291,
+            "trade_count": 89,
+            "sharpe": -4.524217557384579,
+            "dsr": 0.0
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.14396472007386082,
+                "expectancy_r": -0.41509082359815047,
+                "max_dd_pct": 5.1061719587842,
+                "trade_count": 50,
+                "sharpe": -4.29530515136384,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 290,
+              "ambiguous_bars": 1
+            },
+            {
+              "year": 2023,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.08497951399007513,
+                "expectancy_r": -0.5365876423911301,
+                "max_dd_pct": 5.122286259664477,
+                "trade_count": 39,
+                "sharpe": -4.789249018941194,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 271,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/1.5": {
+          "aggregate": {
+            "profit_factor": 0.0015978061270219828,
+            "expectancy_r": -0.6222742468050946,
+            "max_dd_pct": 9.908109572159617,
+            "trade_count": 67,
+            "sharpe": -4.9010461093236,
+            "dsr": 0.0
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0009204133497739903,
+                "expectancy_r": -0.6414780776438697,
+                "max_dd_pct": 5.039253420204915,
+                "trade_count": 32,
+                "sharpe": -4.797934849729455,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 318,
+              "ambiguous_bars": 1
+            },
+            {
+              "year": 2023,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0022543270971712285,
+                "expectancy_r": -0.6047164586096428,
+                "max_dd_pct": 5.162379634191574,
+                "trade_count": 35,
+                "sharpe": -5.005597852738153,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 280,
+              "ambiguous_bars": 0
+            }
+          ]
+        },
+        "touch/target/2": {
+          "aggregate": {
+            "profit_factor": 0.0,
+            "expectancy_r": -0.7079757490668892,
+            "max_dd_pct": 9.772894899322381,
+            "trade_count": 58,
+            "sharpe": -4.811814377432909,
+            "dsr": 0.0
+          },
+          "folds": [
+            {
+              "year": 2022,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0,
+                "expectancy_r": -0.7086767669182933,
+                "max_dd_pct": 5.010096946448675,
+                "trade_count": 29,
+                "sharpe": -4.796203820562539,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 321,
+              "ambiguous_bars": 1
+            },
+            {
+              "year": 2023,
+              "status": "evaluated",
+              "metrics": {
+                "profit_factor": 0.0,
+                "expectancy_r": -0.7072747312154849,
+                "max_dd_pct": 5.014004436017483,
+                "trade_count": 29,
+                "sharpe": -4.827639799699679,
+                "dsr": 0.0
+              },
+              "circuit_trips": 1,
+              "halted_days": 305,
+              "ambiguous_bars": 0
+            }
+          ]
+        }
+      },
+      "ambiguity_verdicts": {
+        "touch/stop": "reject",
+        "touch/target": "reject"
+      },
+      "checklists": {
+        "touch/stop": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": true,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": true,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        },
+        "touch/target": {
+          "aggregate_pf_1_3": false,
+          "at_least_60_trades": true,
+          "beats_cash": false,
+          "beats_random_95": false,
+          "both_training_choices": true,
+          "max_dd_15pct": true,
+          "positive_2022": false,
+          "positive_2023": false,
+          "positive_stress_2022": false,
+          "positive_stress_2023": false
+        }
+      },
+      "quality_gate": [
+        {
+          "year": 2022,
+          "timeframe_seconds": 900,
+          "counts": {
+            "candidate_calendar_sessions": 520,
+            "sessions_with_complete_inputs": 516,
+            "sessions_with_no_eligible_bars": 4,
+            "unique_proposal_sessions_vetoed": 0,
+            "proposal_sessions_vetoed_by_reason": {},
+            "wall_clock_closures_count_as_missing": true
+          }
+        },
+        {
+          "year": 2023,
+          "timeframe_seconds": 900,
+          "counts": {
+            "candidate_calendar_sessions": 520,
+            "sessions_with_complete_inputs": 392,
+            "sessions_with_no_eligible_bars": 16,
+            "unique_proposal_sessions_vetoed": 0,
+            "proposal_sessions_vetoed_by_reason": {},
+            "wall_clock_closures_count_as_missing": true
+          }
+        }
+      ]
+    }
+  ],
+  "frozen_parameters": {
+    "kind": "gold_proxy_development_parameters",
+    "status": "development_only_not_validated",
+    "proxy": "XAUUSD(histdata,bid)->XAUTUSDT",
+    "training_years": [
+      2021,
+      2022,
+      2023
+    ],
+    "n_trials": 54,
+    "registration_sha256": "806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98",
+    "implementation_sha256": "db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4",
+    "strategies": {
+      "london_sweep_mss_fvg": {
+        "development_verdict": "insufficient evidence",
+        "timeframe_seconds": null,
+        "config": null
+      },
+      "trend_vwap_pullback": {
+        "development_verdict": "insufficient evidence",
+        "timeframe_seconds": null,
+        "config": null
+      },
+      "session_orb": {
+        "development_verdict": "reject",
+        "timeframe_seconds": 900,
+        "config": {
+          "entry_window_minutes": 60,
+          "breakout_buffer_atr": "0.05"
+        }
+      }
+    }
+  },
+  "runtime_seconds": 2217.4318579,
+  "peak_rss_bytes": 3363848192
+}

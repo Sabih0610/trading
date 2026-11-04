@@ -1,0 +1,175 @@
+# P11g Part A journal
+
+- 2026-11-03 05:53 UTC: Started on the frozen F branch in a credential-free worktree under MASTER.
+  Read current rules, F evaluator and A/C implementations, source-format code and
+  public primary session/clock guidance. No genuine G registry, quality or prices
+  read; no2024input, holdout or sealed access. Other tracks run independently.
+- Fixed A/C/G54cells, session anchors, positive-stop low-range ORB, five-percent
+  causal coverage gate and stricter existing XAUT risk before observations.
+  HistData lacks real volume: C keeps missing VWAP and waits; do not invent it.
+- INITIAL PRE-REGISTRATION SHA-256: 9002588640864d1036eb2c09bd1010740df43907bced7179f68a6b61093acfc7
+  Exact UTF-8/LF bytes; publish and stop for main reviewer approval before data.
+  Focused owned fixtures initially35pass; extra simulator/export and frozen-schema
+  fixtures and strict typing/gates are being completed. No shared living-doc edits.
+
+- 2026-11-03 06:08 UTC: Source-only review fixed known-failure priority, null
+  Promising freezes and unscoped engine export BEFORE registration publication.
+  Added closed bound replay and explicit counterfactual execution-only capacity
+  (not provider volume/VWAP), with gap/cost funded-risk fixture. No genuine data
+  read. Exact proposed hash refreshed; Claude must approve it before G data.
+
+- 2026-11-03 06:13 UTC: Final focused owned43cases pass in9.25s. No actual G registry,
+  quality or source observations opened. Checkpointing unpublished work and
+  rebasing onto the now-approved F/main baseline before review.
+
+- 2026-11-03 21:47 UTC: Resumed after F merged and Claude approved Part B on main.
+  Strict mypy200sources and44focused cases passed on the timeframe boundary fix.
+  Read-only source review then reproduced undefined-Sharpe promotion and forged
+  HistData VWAP using owned fixtures. Stopped the obsolete clean gate during setup;
+  require all non-DSR statistics defined/finite, and reject any claimed HistData
+  VWAP or positive traded volume before replay. Explicit known Reject keeps priority.
+  Registration bytes unchanged; no genuine G observations/metadata opened.
+
+- 2026-11-03 22:47 UTC: Execution-session reset interrupted pending typing/gate processes.
+  Only the completed60owned focused cases and prior source-only checks count;
+  no interrupted gate is a pass. Preserved exact candidate0a0fd2f and registration
+  bytes. J1 restarts its reserved full gate first, then G runs in the clean checkout.
+  Main remains6a64b22 with no H/I/G review yet. Genuine G data stays unopened.
+
+- 2026-11-03 22:49 UTC: Added the protocol empty-input scenario; all61owned focused cases
+  pass in24.07s including exact preregistration bytes. J1 has mypy197pass and
+  its full pytest underway. G source remains0a0fd2f; final clean gate follows J1.
+
+- 2026-11-03 23:28 UTC: Final clean gate runs on aa2ce8ea6964472abf7b2921d1615dbe44d49fd4,
+  treebc1763e0afc4d0ba30db37022d88d6e13ba78508 in credential-free gates checkout.
+  Ruff545files/strictmypy200sources passed; full owned pytest advancing green.
+  J1publishedPR8bc6bd58 afterfull1480pass; HPR7/IPR6 remainqueued.
+  Mainpoll23:22UTC still6a64b22 with no H/I/J review. G preregistration not
+  published until fullgatepass; no genuine G data/metadata opened.
+
+- 2026-11-03 23:36 UTC: Final clean offline gate PASSED on aa2ce8ea6964472abf7b2921d1615dbe44d49fd4
+  treebc1763e0afc4d0ba30db37022d88d6e13ba78508:1516pass,1skip,3live deselected,5inheritedxfail,
+  23warnings1194.18s; Ruff545format/strictmypy200/smoke+14owned pass.
+  Source/config/tests/scripts/lock unchanged after that candidate. Registration
+  SHA unchanged; adding public owned-only evidence and empty P11g-prereg.ready,
+  then publishing for Claude. No genuine G input,2024data,holdout or sealed read.
+
+- 2026-11-03 23:38 UTC: Published PR9 https://github.com/Sabih0610/trading/pull/9,
+  initialheadfef175b; markerP11g-prereg.ready verified0bytes. Registration
+  remains9002588640864d1036eb2c09bd1010740df43907bced7179f68a6b61093acfc7.
+  G STOPPED untilAPPROVEDreviewonmain; masterothertrackscontinue. FinalPRlink
+  evidencecommit is docs-only after the clean passed candidateaa2ce8e.
+
+- 2026-11-04 00:44 UTC: Main3c4caf7 contains Claude APPROVED conditional on exact G-1/G-2,
+  explicitly no further pre-registration review. Applied both paragraphs verbatim
+  before genuine input, preserving N54/base-touch training selection. A gains a
+  separate strict trade-through sensitivity, not a default engine change. G costs
+  now use full quoted8bps→4bps/fill, fee10/slip5 each side, bid-as-mid assumption.
+  Per G-2, P11f retained the stricter reading; its verdicts remain untouched and
+  are not rerun (review cites approximately zero pre-cost edge). Recompute shared
+  features strictly from2021Silver, no2020warmup; no genuine metadata/prices read.
+  Complete Part B source and fixtures are being built before full gate/freeze.
+  The published branch cannot rebase onto new review-only main without forbidden
+  force-push; preserve published ancestry and copy the identical review for PR context.
+- PRE-REGISTRATION SHA-256: 806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98
+
+- 2026-11-04 06:59 UTC: Resumed after interruption; latest main fb3de46 confirms
+  approved exact amendments and replaces withdrawn Dukascopy with PAXG for K.
+  Registration amendment91dcac4 was pushed before any G metadata or observation.
+  Part B source/fixtures are being completed in the credential-free task checkout.
+  Reader recomputes shared causal features from admitted 2021+ Silver only;
+  closed comparisons retain F metrics/risk and G-2 costs; CLI requires a passed
+  exact source/config freeze before genuine admission. Root's 20 owned boundary
+  cases passed; complete source gate remains pending. Claude currently runs a
+  final full gate in trading-review, so our heavy full gate waits for its slot.
+  H/I/J1/living branches remain untouched per owner direction. K acquisition
+  proceeds separately with build-only permission and no strategy/price analysis.
+
+- 2026-11-04 07:12 UTC: Complete Part B source candidate prepared before genuine
+  access. Owned fixture evidence: 101 combined gold/boundary/strict-fill cases,
+  33 reader/composition cases, 15 batch cases and 23 publication/privacy cases
+  passed. Ruff/format clean; complete strict typing and clean offline gate follow.
+  Cached selected-session metadata corrected pre-data without changing proposals
+  or selectors. Publication remains paused until the complete clean gate passes.
+
+- 2026-11-04 07:17 UTC: Pre-data source candidate 6ce397d4c9b2eb6dc50b5b730c4f4eae2e64c9cd
+  tree 329305fc7ce0830a1d592b62acc2b61e5bde2784. Full-source mypy205, Ruff/format556 pass.
+  Implementation SHA-256 db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4
+  Configuration SHA-256 4771a576cebf04c9589415211ffaf4a9d38d0301bb3f7f200082639c05497682
+  Clean gate worker PID6164 queues behind Claude, candidate6ce397d; no passed
+  freeze record or genuine access exists yet. Durable gate health is in the
+  credential-free gates checkout work/P11g-clean-gate-status.json.
+
+- 2026-11-04 07:34 UTC: Main b850a44 approves/merges H. I6/J1-8/living10
+  remain open at their existing approved heads. The queued G clean gate began
+  07:23:54UTC after the initial slot became free, but Claude started the next
+  trading-audit suite at07:24:29. Stopped ONLY our verified gate process tree at
+  07:31:18 to restore serialization; partial log is preserved and is NOT a pass.
+  Clean lint/format/mypy205 passed before interruption; full pytest did not finish.
+  G's complete candidate remains6ce397d unchanged. Wait until Claude's remaining
+  I/J1/living final gates and merges finish before restarting our clean gate.
+  K366e625 similarly awaits its full gate before any registration/acquisition.
+  Persistent15minute continuation is ACTIVE under the owner's continuing
+  authorization, with updated source/hash/PAXG scope and no stale Dukascopy route.
+  No genuine G metadata/prices, PAXG observations, holdout or sealed files read.
+
+- 2026-11-04 08:21 UTC: Main06467ef confirms I/J1/living APPROVED+merged;
+  all four reviewed branches remain untouched. G's clean gate resumed08:04UTC
+  and finished with1626passed/1failed/1skip/3deselected/5inheritedxfail in696.03s.
+  Sole failure is existing synthetic-demo Overview AppTest's25second runner
+  timeout, not a failed state/ledger assertion. Exact case PASSED alone11.46s
+  with original timeout and assertions. Failed gate log preserved; it is NOT
+  a pass. Restarted exact6ce397d fullgate alone08:20UTC worker23588, no other
+  focused/full tests allowed until it completes. No source/config/test changes.
+  K rebased unpublished candidate onto06467ef tod733632;43focusedpass and
+  originalrights/lifetime preserved. Reviewer-requested test-only reliability
+  followups prepared separately0919bdc,23focusedpass/49assertions unchanged;
+  no fullgate or push yet. Genuine G metadata/prices and PAXG remain unopened.
+
+- 2026-11-04 08:35 UTC: COMPLETE clean offline gate PASSED on6ce397d,
+  exact tree329305fc7ce0830a1d592b62acc2b61e5bde2784:1627passed/1skip/3live
+  deselected/5inheritedxfail,23warnings,608.24s. Ruff/format556,mypy205,
+  safety smoke and14owned acceptance studies all pass. No assertion,deadline,
+  skip or xfail was changed for the rerun. Source/config bytes remain exactly
+  db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4 /
+  4771a576cebf04c9589415211ffaf4a9d38d0301bb3f7f200082639c05497682.
+  Wrote actualpassed freeze.json and verified CLI admission against it.
+  Still NO genuine G registry/quality/prices read; committing/publishing this
+  complete validated source/freeze BEFORE first admitted metadata or run.
+  K has next fullsuite slot; G run starts after K dashboard startup with
+  below-normal process priority to preserve its test timing, same research rules.
+
+- 2026-11-04 08:46 UTC: Published validated complete source/freeze at1a35463
+  toPR9 andverifiedremoteheadBEFORE any genuine metadata. Guarded launcher
+  then admitted existingrights andstarted registered-gold-54-v1 ONCE at
+  08:42:18.0304813UTC, PID22596/native23220, codeSHA db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4.
+  Only its verified process tree was setBelowNormal. Currentrights-checked
+  HEALTHONLY at08:45:08 reports training-2022 completed18of54, peakRSS1204056064
+  bytes, runtime167.20s. No outcome/price/trade/checkpoint evidence inspected.
+  FreephysicalRAMfell0.41GiB withKfullsuite, soagentstoppedONLYitsKtree at
+  08:44:59, preservingpartial22% asINTERRUPTED/notpass. Userapplications andG
+  untouched; freeRAMrecovered1.82GiB. Khasnotregistered/acquiredanything. All
+  full/focusedtests andPAXGbuilddeferreduntilGcompletes. Existingcode/config/
+  registeredchoices unchanged; no rerun/retune/relabel. Finalreport/readyawait
+  actualbatchcomplete and permitted aggregateprojection. Heartbeatcontinues.
+
+- 2026-11-04 09:31 UTC: The rights-checked health record confirms the
+  registered batch completed at 09:19:18 UTC: three strategy results, 54 trials,
+  runtime 2,217.4318579 seconds, sampled peak RSS 3,363,848,192 bytes. Both run
+  processes have exited; physical memory recovered to 4.29 GiB. Read the immutable
+  results once through the frozen publication projection and phase renderer.
+  Exact registered verdicts: A insufficient evidence; C insufficient evidence;
+  G session ORB reject, both orderings. Zero promising candidates. A/C have no
+  eligible training cell in either fold; their flat OOS placeholders are not
+  measured zero-edge findings. G base stop-first PF 0.115372, expectancy -0.478316R,
+  87 trades; its five-percent circuit trips once in each fold, halting 291/271
+  days at base stop-first. All cost, ambiguity, strict-fill, quality and fold
+  diagnostics are in the permitted public projection/report. No individual
+  trades, return paths or private comparison data are published. No replay,
+  parameter change, new genuine run, retuning or relabelling occurred.
+  Verdict JSON SHA-256 8cbfb7caf616beb8cbe64036d121c7f7a02699cfe43d7ed100eafa5033a3fcec
+  Frozen parameter JSON SHA-256 e2bb425cf964c93f7a88876160e89427277d603c0e2c0c39237abb8423519f43
+  Source and configuration remain exactly the pre-data identities. K is resuming
+  its solo gate after G released memory; K's validation decision still waits for
+  G Part B merge. No K analysis/preregistration run is started. Preparing empty
+  P11g.ready and publishing to the same PR for Claude; no main merge.

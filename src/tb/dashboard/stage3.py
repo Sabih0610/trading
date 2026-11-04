@@ -27,6 +27,11 @@ def stage3_view() -> None:
     """Display stored evidence only; this view has no run, tune, acquire or order action."""
     import streamlit as st
 
+    if st.radio("Research", ("Crypto", "Gold development"), horizontal=True) == "Gold development":
+        from tb.dashboard.gold_development import gold_view
+
+        gold_view()
+        return
     st.subheader("Backtest Lab — Stage 3 crypto")
     configured = os.environ.get("TB_STAGE3_DATA_ROOT")
     if not configured:
