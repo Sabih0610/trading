@@ -432,9 +432,12 @@ def test_purged_folds_never_overlap_test_label_intervals(
 def test_triple_barrier_same_bar_is_adverse() -> None:
     t = datetime(2024, 1, 2, tzinfo=UTC)
     bars = [
-        LabelBar(timestamp=t, high=Decimal(101), low=Decimal(99), close=Decimal(100)),
+        LabelBar(
+            timestamp=t, open=Decimal(100), high=Decimal(101), low=Decimal(99), close=Decimal(100)
+        ),
         LabelBar(
             timestamp=t + timedelta(minutes=5),
+            open=Decimal(100),
             high=Decimal(120),
             low=Decimal(80),
             close=Decimal(100),
@@ -452,17 +455,18 @@ def test_triple_barrier_same_bar_is_adverse() -> None:
     assert label.outcome is BarrierOutcome.LOSS and label.meta_label == 0
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING D-4: triple-barrier LOSS realized_return is pinned to the stop price even "
-    "when the whole bar traded below the stop (gap), understating losses in labels",
-)
 def test_triple_barrier_gap_through_stop_is_not_filled_at_stop() -> None:
     t = datetime(2024, 1, 2, tzinfo=UTC)
     bars = [
-        LabelBar(timestamp=t, high=Decimal(101), low=Decimal(99), close=Decimal(100)),
         LabelBar(
-            timestamp=t + timedelta(minutes=5), high=Decimal(90), low=Decimal(85), close=Decimal(88)
+            timestamp=t, open=Decimal(100), high=Decimal(101), low=Decimal(99), close=Decimal(100)
+        ),
+        LabelBar(
+            timestamp=t + timedelta(minutes=5),
+            open=Decimal(90),
+            high=Decimal(90),
+            low=Decimal(85),
+            close=Decimal(88),
         ),
     ]
     setup = CandidateSetup(
@@ -571,11 +575,6 @@ def test_fill_size_does_not_depend_on_fill_bar_future_volume() -> None:
     assert run("100000") == run("20")
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="FINDING D-3: a limit buy is filled when the bar low merely touches the limit "
-    "(low == limit); no trade-through or queue position is required",
-)
 def test_limit_touch_without_trade_through_is_not_filled() -> None:
     bars = [
         _bar(0, "100", "101", "99", "100"),

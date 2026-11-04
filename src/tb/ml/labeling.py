@@ -27,6 +27,7 @@ class LabelBar(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
 
     timestamp: AwareDatetime
+    open: Decimal = Field(gt=0)
     high: Decimal = Field(gt=0)
     low: Decimal = Field(gt=0)
     close: Decimal = Field(gt=0)
@@ -40,7 +41,9 @@ class LabelBar(BaseModel):
 
     @model_validator(mode="after")
     def bounds_are_coherent(self) -> LabelBar:
-        if self.high < max(self.low, self.close) or self.low > self.close:
+        if self.high < max(self.open, self.low, self.close) or self.low > min(
+            self.open, self.close
+        ):
             raise ValueError("label bar bounds are inconsistent")
         return self
 
@@ -116,7 +119,10 @@ def label_candidates(
             if bar.low <= candidate.stop_price:
                 outcome = BarrierOutcome.LOSS
                 end_bar = bar
-                realized = candidate.stop_price / candidate.entry_price - Decimal("1")
+                # A stop is not a guaranteed execution price when the next bar gaps below it.
+                realized = min(bar.open, candidate.stop_price) / candidate.entry_price - Decimal(
+                    "1"
+                )
                 observed = offset
                 break
             if bar.high >= candidate.target_price:

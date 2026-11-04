@@ -11,6 +11,7 @@ _START = datetime(2024, 1, 1, tzinfo=UTC)
 def _bar(index: int, *, high: str = "101", low: str = "99", close: str = "100") -> LabelBar:
     return LabelBar(
         timestamp=_START + timedelta(minutes=index),
+        open=Decimal("100"),
         high=Decimal(high),
         low=Decimal(low),
         close=Decimal(close),
