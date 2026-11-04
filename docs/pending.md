@@ -34,8 +34,8 @@ are historical where superseded by the master and later review decisions.
 - **H terms open item:** the full API Product Terms version is unverified;
   the queued PR records the observed notice date/version and does not start a
   monitor or change the sealed collector's separately reviewed capture scope.
-- **Living-docs integration:** ready for independent review after the exact full
-  clean gate. Empty MASTER-2026-11-living-docs.ready queues this integration;
+- **Living-docs integration:** [PR #10](https://github.com/Sabih0610/trading/pull/10) is open,
+  queued for independent Claude review after the exact full clean gate. Empty MASTER-2026-11-living-docs.ready queues this integration;
   MASTER-2026-11.ready remains absent. No track/main merge or master completion
   is claimed. Follow up on future verified merges in the separate living-docs PR.
 

@@ -659,7 +659,8 @@
         "full_tests_passed": 1473,
         "strict_mypy_all_source": "pass;197 sourcefiles",
         "formal_review": "pending_Claude",
-        "validation": "reports/validation/P11f-B1/summary.json"
+        "validation": "reports/validation/P11f-B1/summary.json",
+        "pull_request": "https://github.com/Sabih0610/trading/pull/10"
       }
     },
     "P11g": {
@@ -777,8 +778,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-04 00:01 UTC",
-  "next_phase": "Publish ready B1/living-docs integration for Claude review; continue root main polling for PRs6–9. G genuine reads remain stopped until APPROVED prereg review on main. No master completion, self-approval or main merge.",
+  "last_updated_utc": "2026-11-04 00:06 UTC",
+  "next_phase": "Claude review of open integration PR10 and root main polling for PRs6–9; fix findings on the same branches. G genuine reads remain stopped until APPROVED prereg review on main. No master completion, self-approval or main merge.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
@@ -808,7 +809,7 @@
     "branch": "codex/living-docs-2026-11-04",
     "base_commit": "6a64b22a55caa7e5c3e44462f28ab07be312c676",
     "committed": true,
-    "published": false,
+    "published": true,
     "requires_root_integration_before_publication": true,
     "config_source_tests_changed": true,
     "full_clean_gate": "passed_on83b8673_tree96566686",
@@ -817,6 +818,8 @@
     "formal_review": "pending_Claude",
     "validated_commit": "83b8673550e250080beaa5a1ca2acd773d1e82a8",
     "validated_tree": "965666869cc9e3322e908919b7bdb5447a9a1688",
-    "publication": "ready_for_independent_review"
+    "publication": "open_queued_for_Claude_review",
+    "pull_request": "https://github.com/Sabih0610/trading/pull/10",
+    "initial_publication_commit": "8e12956fb94f57e8d0c070f83d62546e9f87a9e1"
   }
 }

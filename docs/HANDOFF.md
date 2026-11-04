@@ -1,4 +1,4 @@
-# Current handoff — MASTER 2026-11 integration draft
+# Current handoff — MASTER 2026-11 integration queued
 
 2026-11-03 21:52 UTC: F Part B is independently APPROVED and merged on main
 `6a64b22`. Its once-only registered batch completed 2026-11-02 13:23 UTC:
@@ -28,8 +28,9 @@ any later combined-source validation.
 Read no genuine G input until main contains an APPROVED pre-registration review.
 J2 waits for both F and G Part B merges; K is blocked on absent written consent.
 
-This separate `codex/living-docs-2026-11-04` worktree contains the **review-ready
-B1 and living-docs integration**; MASTER is not complete. P11f-B1 is implemented: BTC/ETH/SOL strategy allowlists
+[Integration PR #10](https://github.com/Sabih0610/trading/pull/10) is open and queued for Claude,
+from `codex/living-docs-2026-11-04`; MASTER is not complete. Its initial
+publication head is `8e12956`; the final PR-link bookkeeping is docs-only. P11f-B1 is implemented: BTC/ETH/SOL strategy allowlists
 are empty, and the schema accepts that deny-all state while actual strategy
 permission checks remain unchanged. Explicit historical-policy fixtures use the
 real asset guard; all 128 prior behavior assertions remain unchanged. Current

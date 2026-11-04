@@ -1,6 +1,7 @@
 # MASTER 2026-11 — Stage 3 and Stage 2 work in progress
 
-Living-document integration ready for review; MASTER remains incomplete.
+[Living-docs integration PR #10](https://github.com/Sabih0610/trading/pull/10) is queued for Claude review;
+MASTER remains incomplete.
 Verified status and full B1 gate updated 2026-11-04 00:01 UTC; main fetched at `6a64b22`.
 F Part B is independently APPROVED and merged through main `6a64b22`:
 **0 pass, 7 fail, 2 insufficient evidence**. No crypto candidate advances.

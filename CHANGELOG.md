@@ -20,6 +20,7 @@ All notable project changes are documented here. The project follows Keep a Chan
   `83b8673`: 1473 passed, 1 skip, 3 deselected, 5 inherited xfails, 23 warnings
   in 1000.45s; Ruff/format 538, strict mypy 197, smoke and 14 owned studies pass.
   No evaluator/strategy/RiskManager logic, XAUT permission or risk ceiling changed.
+  [Integration PR #10](https://github.com/Sabih0610/trading/pull/10) is queued for Claude; no main merge.
 - H/I and J1 are queued for independent review, not merged. J1 [PR #8](https://github.com/Sabih0610/trading/pull/8)
   final head `bc6bd58` has an empty P11j.ready; clean source `6b132f6` passed
   1,480 tests, 2 environmental skips, 3 live deselected and 2 D-3/D-4 xfails,

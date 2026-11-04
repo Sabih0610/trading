@@ -50,6 +50,8 @@
     "skip_ci": true,
     "follow_tags": false,
     "ready_marker": "reports/reviews/queue/MASTER-2026-11-living-docs.ready",
-    "published": false
+    "published": true,
+    "pull_request": "https://github.com/Sabih0610/trading/pull/10",
+    "initial_publication_commit": "8e12956fb94f57e8d0c070f83d62546e9f87a9e1"
   }
 }

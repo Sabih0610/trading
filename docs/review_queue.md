@@ -1,6 +1,6 @@
 # Claude review queue
 
-MASTER integration update: 2026-11-04 00:01 UTC. Integration is ready for Claude review.
+MASTER integration update: 2026-11-04 00:06 UTC. Integration PR #10 is queued for Claude review.
 Verified J1 and G publication/gates are added; H/I remain queued. PRs #6–#9 are
 open/unmerged; G is stopped for preregistration approval on main. B1 full gate
 passed on `83b8673`; main fetched unchanged at `6a64b22`. This is not master
@@ -14,7 +14,7 @@ completion or formal approval. Historical rows retain earlier checkpoints.
 | G / P11g | Queued pre-registration; stopped | [PR #9](https://github.com/Sabih0610/trading/pull/9), final head `d92e120`; empty P11g-prereg.ready. Gate `aa2ce8e`: 1516 passed, 1 skip, 3 deselected, 5 inherited xfails in 1194.18s; Ruff/format 545, strict mypy 200, smoke and 14 studies pass. No genuine input or Part B until P11g-prereg-review.md on main says APPROVED. |
 | J1 / P11j Wave 1 | Queued; not merged | [PR #8](https://github.com/Sabih0610/trading/pull/8), final head `bc6bd58`; empty P11j.ready. Clean source `6b132f6` / tree `0c709e85`: 1480 pass, 2 environmental skips, 3 deselected, 2 D-3/D-4 xfails in 1176.58s; Ruff/format 540, strict mypy 197, smoke and 14 studies pass. Independent Claude review pending; J2 remains blocked on G Part B merge. |
 | K / P11k | Blocked on owner | Written Dukascopy consent absent; no pre-registration or data access started. |
-| Living-docs | Ready for Claude review | Exact clean candidate `83b8673` / tree `96566686` passed 1473 tests and all gates. Empty MASTER-2026-11-living-docs.ready; [B1 report](../reports/phases/P11f-B1.md), [validation](../reports/validation/P11f-B1/summary.json). MASTER is not complete; no self-approval or main merge. |
+| Living-docs | Queued for Claude review | [PR #10](https://github.com/Sabih0610/trading/pull/10); Exact clean candidate `83b8673` / tree `96566686` passed 1473 tests and all gates. Empty MASTER-2026-11-living-docs.ready; [B1 report](../reports/phases/P11f-B1.md), [validation](../reports/validation/P11f-B1/summary.json). MASTER is not complete; no self-approval or main merge. |
 
 ## Historical queue
 
