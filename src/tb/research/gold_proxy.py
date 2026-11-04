@@ -109,6 +109,14 @@ def research_capacity(completed_bid_close: Decimal) -> Decimal:
     return Decimal("100000") / completed_bid_close
 
 
+class _RegisteredTouchReplayEngine(BacktestEngine):
+    """Private historical sensitivity only; never constructed by production/default replay."""
+
+    @staticmethod
+    def _limit_entry_fills(low: Decimal, limit: Decimal) -> bool:
+        return low <= limit
+
+
 class GoldProxyBatch:
     """Closed in-memory adapter; only the explicit historical-research entrypoint is supported."""
 
@@ -204,12 +212,12 @@ class GoldProxyBatch:
         if not bars:
             raise ResearchRefused("gold_proxy_empty_scored_window")
         audit = ReplayAudit()
-        engine = BacktestEngine(
+        engine_type = BacktestEngine if trade_through_limit else _RegisteredTouchReplayEngine
+        engine = engine_type(
             "XAUTUSDT",
             initial_cash=Decimal("10000"),
             stress_multiplier=stress_multiplier,
             research_target_first=target_first,
-            research_trade_through_limit=trade_through_limit,
             audit=audit,
         )
         engine.costs = gold_costs(stress_multiplier)
