@@ -5,6 +5,8 @@ import subprocess
 import sys
 from datetime import UTC, datetime, timedelta, timezone
 from decimal import Decimal as D
+from pathlib import Path
+from time import monotonic, sleep
 
 import pytest
 from hypothesis import given, settings
@@ -119,6 +121,32 @@ def test_restart_with_unavailable_mark_does_not_invent_safe_equity(tmp_path):
         s.close()
 
 
+def _run_ready_child(command: list[str], ready: Path) -> subprocess.CompletedProcess[bytes]:
+    """Separate cold child startup from crash execution; every wait is bounded."""
+    process = subprocess.Popen(
+        command,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    try:
+        deadline = monotonic() + 120
+        while not ready.is_file():
+            if process.poll() is not None:
+                _, stderr = process.communicate(timeout=10)
+                raise AssertionError(f"Crash child exited before readiness: {stderr!r}")
+            if monotonic() >= deadline:
+                raise subprocess.TimeoutExpired(command, 120)
+            sleep(0.01)
+        # The child has opened/replayed the store and blocks until this acknowledgement.
+        stdout, stderr = process.communicate(input=b"RUN\n", timeout=60)
+        return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+    finally:
+        if process.poll() is None:
+            process.kill()
+        process.communicate(timeout=10)
+
+
 @pytest.mark.parametrize("stage", ["after_checkpoint", "after_commit"])
 @pytest.mark.parametrize("target", ["entry", "exit"])
 def test_process_death_on_each_side_of_commit_recovers_exactly_once(tmp_path, stage, target):
@@ -134,6 +162,7 @@ def test_process_death_on_each_side_of_commit_recovers_exactly_once(tmp_path, st
     pkg_path, event_path = tmp_path / "package.json", tmp_path / "event.json"
     pkg_path.write_text(p.model_dump_json())
     event_path.write_text(event.model_dump_json())
+    ready = tmp_path / "child.ready"
     code = """
 import os, sys
 from pathlib import Path
@@ -143,13 +172,16 @@ from tb.risk.config import load_policy_bundle
 p = PaperPackage.model_validate_json(Path(sys.argv[1]).read_text())
 e = PaperInput.model_validate_json(Path(sys.argv[2]).read_text())
 s = PaperStore(Path(sys.argv[3]), p, load_policy_bundle())
+Path(sys.argv[5]).write_text("ready")
+if sys.stdin.buffer.readline() != b"RUN\\n":
+    raise SystemExit(98)
 def crash(phase):
     if phase == sys.argv[4]:
         os._exit(71)
 s.process(e, fault=crash)
 raise SystemExit(99)
 """
-    child = subprocess.run(
+    child = _run_ready_child(
         [
             sys.executable,
             "-c",
@@ -158,9 +190,9 @@ raise SystemExit(99)
             str(event_path),
             str(tmp_path / "account"),
             stage,
+            str(ready),
         ],
-        capture_output=True,
-        timeout=30,
+        ready,
     )
     assert child.returncode == 71, child.stderr
     s = PaperStore(tmp_path / "account", p, load_policy_bundle())

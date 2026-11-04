@@ -1,9 +1,9 @@
 """Tests for UTC conversion and DST-aware sessions."""
 
-from datetime import UTC, date, datetime, time
+from datetime import UTC, date, datetime, time, timedelta
 
 import pytest
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from tb.core.timeutil import (
@@ -16,11 +16,20 @@ from tb.core.timeutil import (
 )
 
 
+@pytest.fixture(scope="module", autouse=True)
+def warm_timestamp_conversion() -> None:
+    """Keep first-use conversion initialization outside Hypothesis' timed examples."""
+    ns_to_datetime(datetime_to_ns(datetime(2000, 2, 29, 12, 34, 56, 123456, tzinfo=UTC)))
+
+
 def test_naive_datetime_is_rejected() -> None:
     with pytest.raises(ValueError, match="Naive datetimes"):
         as_utc(datetime(2026, 1, 1))
 
 
+# Reviewer observed a cold-call deadline failure without an arithmetic counterexample.
+# Preserve the generated range and exact round-trip assertion; keep a finite local bound.
+@settings(deadline=timedelta(seconds=2))
 @given(
     st.datetimes(
         min_value=datetime(1970, 1, 1),

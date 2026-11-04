@@ -39,3 +39,13 @@ Ruff passed and603files are formatted. Only track-localdocs/runtime/tests change
 sharedlivingdocs, configrisk/assets, F/G resultJSON/frozenparams remain identical.
 Preparing a local source checkpoint and clean full-gate checkout; no publication
 or ready marker before the reserved full gate succeeds.
+
+2026-11-04 12:40 UTC: Root released the heavy slot after reliability759c78a full PASS
+(1741passed,2skip,3live,2deferredxfail). Fresh origin/main remains69034f6;
+unpublished J2 rebase is up to date. Per explicit root authorization, copied ONLY
+three common test-infrastructure files byte-for-byte from759c78a: risk-guard
+property registry/session setup, paper-validation process fixture setup and
+timeutil module warm-up. No assertion, numeric range or deadline is further
+changed. This minimal shared-infrastructure exception is disclosed for review;
+J2runtime/source/config and immutable F/G outputs are untouched by the carry.
+New local candidate then enters the original complete offline gate alone.

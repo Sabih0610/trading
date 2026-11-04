@@ -73,6 +73,18 @@ future ML labels, not strategy evaluations. No genuine label generation occurs.
 No 2024 data, 2025+ holdout, sealed forward archive, paper/Testnet/live workflow,
 provider credential or risk configuration is accessed or changed by this task.
 
+## Common test-infrastructure exception
+
+Fresh main remained 69034f6 when the J2 slot opened. Root explicitly authorized
+carrying the three exact independently validated common test setup files from
+759c78a: tests/property/test_risk_guards.py, tests/integration/test_paper_validation.py
+and tests/unit/test_timeutil.py. Their contents are byte-identical to that candidate;
+no assertion, range, example count or deadline is further changed. This bounded
+cross-track exception avoids already reproduced cold-start races and is not a
+change to J2 runtime or the immutable Stage 3 evidence. The reliability candidate's
+complete isolated gate had 1,741 passed, 2 skipped, 3 live deselected and the two
+then-deferred D-3/D-4 xfails. J2 still requires its own complete isolated gate.
+
 ## Evidence and usage
 
 [Research](../../docs/research/P11j-wave2-research.md),
