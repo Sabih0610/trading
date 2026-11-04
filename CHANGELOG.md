@@ -4,6 +4,13 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### Remaining MASTER implementation — merged 2026-11-04 UTC
+
+- J2 fixes production limit queue realism (`low < limit`) and adverse-open stop LOSS labels. Registered historical G touch sensitivity stays inside its closed adapter; frozen F/G verdicts are unchanged.
+- Reviewer-requested process readiness and cold-start warm-ups preserve every assertion and generated input. No risk limit or default changed; all strict audit xfails are now fixed.
+- K's exact data-only PAXG acquisition is complete and approved: thirteen monthly archives, two yearly medallion generations/twelve outputs, private storage, original finite rights/retention and metadata-only health. No PAXG analysis or strategy run; validation is skipped because G has no promising candidate.
+- Combined source e2e05bb passed1772 tests,2environmentalskips,3live deselected,0xfails; static, safety and14owned studies pass. This separate docs-only integration awaits Claude; final MASTER reporting/shutdown follows its merge.
+
 ### Gold development and supporting tracks — merged 2026-11-04 UTC
 
 - Claude approved and merged G: 54 registered trials, one rejected strategy, two insufficient-evidence strategies and no promising candidate. Both orderings reject session ORB; no strategy is validated on gold or XAUT.

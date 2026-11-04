@@ -1,3 +1,23 @@
+# MASTER 2026-11 — all implementation tracks merged
+
+Updated 2026-11-04 18:10 UTC from approved main `7777bb5`. All implementation tracks and the reliability follow-up are **approved and merged by Claude**. This separate living-docs integration awaits review; MASTER's final report/ready marker and heartbeat shutdown follow its actual merge.
+
+| Track | Merged result | Evidence |
+|---|---|---|
+| F | 162 fixed trials: **0 pass, 7 fail, 2 insufficient evidence**; no promotion | [Report](reports/phases/P11f.md) |
+| G | 54 fixed trials: **1 reject, 0 promising, 2 insufficient evidence**; no gold validation | [Report](reports/phases/P11g.md) |
+| H / I / J1 | Venue veto, default-off causal yields and reviewed audit fixes merged | [H](reports/reviews/P11h-review.md), [I](reports/reviews/P11i-review.md), [J1](reports/reviews/P11j-review.md) |
+| J2 | Strict trade-through limits and adverse-open LOSS labels merged | [Review](reports/reviews/P11j-wave2-review.md) |
+| Reliability | Readiness/warm-up fixes merged; original assertions and generated ranges preserved | [Review](reports/reviews/P11j-reliability-review.md) |
+| K acquisition | 13 approved monthly PAXG archives, 2 yearly generations/12 outputs complete privately | [Review](reports/reviews/P11k-acquisition-review.md) |
+| K validation | **Skipped: no promising gold candidate**; no K registration or strategy run | [Master](prompts/MASTER-2026-11.md) |
+
+Final combined source gate: **1772 passed, 2 environmental skips, 3 live deselected, 0 xfailed**; Ruff/format619, strict mypy214, safety smoke and 14 owned studies passed on `e2e05bb`. This docs-only integration does not claim a new full-suite run.
+
+F/G stay immutable. BTC/ETH/SOL allowlists remain empty; PAXG stays data-only. No gold candidate is validated. Stage 4, paper, Testnet, orders and P14 remain outside scope.
+
+## Historical progress snapshots
+
 # MASTER 2026-11 — implementation continues
 
 Updated 2026-11-04 12:05 UTC from main `69034f6`. F, G, H, I, J1 and the first living-docs integration are **approved and merged by Claude**. MASTER remains incomplete: J2, K acquisition and the reliability follow-ups still require completion/review.
