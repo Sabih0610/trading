@@ -1,0 +1,47 @@
+{
+  "phase": "P11j-reliability",
+  "status": "passed",
+  "base_main": "69034f6",
+  "candidate": "759c78a78e57954281aa918239a0fc1fa888eb13",
+  "tree": "38ed95d182b0247ad84f47ba47758d3edf035f21",
+  "started_at": "2026-11-04T12:24:17.1127572Z",
+  "finished_at": "2026-11-04T12:38:13.6323602Z",
+  "full_gate": "scripts/check-offline.ps1",
+  "source_test_config_script_scope_sha256": "b2fd33530ee3c17422ea59ce05a8338e5b73794f26d668e345326985601a31bd",
+  "private_validation_log_sha256": "97bf72d819ad3a60ac43a53fa878225b2be5d23bcf2fbf4a5df7a19466e5a6a4",
+  "pytest": {
+    "passed": 1741,
+    "skipped": 2,
+    "deselected": 3,
+    "xfailed": 2,
+    "warnings": 23,
+    "seconds": 618.28,
+    "skip_reasons": [
+      "no private root .env",
+      "optional kit ZIP absent"
+    ],
+    "xfails": [
+      "D-3 deferred to separate Wave2",
+      "D-4 deferred to separate Wave2"
+    ]
+  },
+  "ruff": "passed",
+  "formatted_files": 601,
+  "mypy_sources": 214,
+  "safety_smoke": "passed",
+  "owned_acceptance_studies": 14,
+  "external_orders": 0,
+  "oracles": {
+    "existing_explicit_assertions_unchanged": 51,
+    "risk_property_function_asts_unchanged": 9,
+    "generated_ranges_unchanged": true,
+    "risk_deadline_ms": 200,
+    "timeutil_local_deadline_ms": 2000
+  },
+  "focused": {
+    "passed": 32,
+    "seconds": 42.92
+  },
+  "genuine_datasets_accessed": false,
+  "notes": "Only owned fixtures ran. Publication changes docs/summary/empty review marker after this source-identical validation."
+}
