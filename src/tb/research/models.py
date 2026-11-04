@@ -18,7 +18,7 @@ from tb.strategies.reference import ReferenceStrategyConfig
 
 VERSION = "local-research-1.0.0"
 Symbol = Literal["EURUSD", "XAUUSD"]
-SpotHistorySymbol = Literal["BTCUSDT", "ETHUSDT", "SOLUSDT"]
+SpotHistorySymbol = Literal["BTCUSDT", "ETHUSDT", "SOLUSDT", "PAXGUSDT"]
 SourceClass = Literal["owned_synthetic", "licensed_historical"]
 PriceType = Literal["reference_midpoint", "bid_only", "bid_ask"]
 STORAGE_USES: tuple[Usage, ...] = ("raw_cache", "historical_storage", "derived_storage")
@@ -106,6 +106,15 @@ class VisionDatasetPlan(PolicyModel):
             or self.retention.rights_digest != self.rights.digest
         ):
             raise ResearchRefused("vision_plan_scope_or_lifetime_invalid")
+        # P11k permits one data-only proxy acquisition, never arbitrary PAXG history.
+        if "PAXGUSDT" in self.instruments and (
+            self.dataset_id != "binance-vision-paxg-1m-2023-12-2024"
+            or self.instruments != ("PAXGUSDT",)
+            or self.intervals != ("1m",)
+            or self.coverage_start != datetime(2023, 12, 1, tzinfo=UTC)
+            or self.coverage_end != datetime(2024, 12, 31, 23, 59, tzinfo=UTC)
+        ):
+            raise ResearchRefused("paxg_validation_acquisition_scope_invalid")
         return self
 
 

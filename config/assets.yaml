@@ -207,3 +207,19 @@ assets:
     allowed_strategies: []
     risk_overrides: {}
     exchange_rules: null
+
+  - symbol: PAXGUSDT
+    instrument_type: reference
+    eligibility: {reference_data: true, historical_research: true, local_simulation: false}
+    role: data_only
+    venue: external_reference
+    shariah_status: pending
+    ruling_source: "data-only PAXG proxy; no Shariah assessment; never executable"
+    reviewed_on: 2026-11-04
+    phase: P11
+    sessions: [crypto_24x7]
+    weekend_trading: true
+    cost_model: {fee_bps: "0", spread_bps_default: "0", slippage_bps_default: "0"}
+    allowed_strategies: []
+    risk_overrides: {}
+    exchange_rules: null
