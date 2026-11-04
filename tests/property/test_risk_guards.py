@@ -22,6 +22,15 @@ from tb.risk.guards import (
 )
 
 
+@pytest.fixture(scope="module", autouse=True)
+def warm_xaut_registry_and_weekend_guard() -> None:
+    """Warm registry validation and weekend refusal outside Hypothesis' example timer."""
+    asset = assert_tradable("XAUTUSDT")
+    with pytest.raises(RiskViolation):
+        check_session(asset, datetime(2026, 1, 3, 12, tzinfo=UTC), is_entry=True)
+    # The setup asset is discarded: every property example still reloads real policy.
+
+
 @given(
     holdings=st.integers(min_value=0, max_value=10**9),
     extra=st.integers(min_value=1, max_value=10**9),
