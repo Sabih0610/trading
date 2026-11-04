@@ -152,3 +152,24 @@
   full/focusedtests andPAXGbuilddeferreduntilGcompletes. Existingcode/config/
   registeredchoices unchanged; no rerun/retune/relabel. Finalreport/readyawait
   actualbatchcomplete and permitted aggregateprojection. Heartbeatcontinues.
+
+- 2026-11-04 09:31 UTC: The rights-checked health record confirms the
+  registered batch completed at 09:19:18 UTC: three strategy results, 54 trials,
+  runtime 2,217.4318579 seconds, sampled peak RSS 3,363,848,192 bytes. Both run
+  processes have exited; physical memory recovered to 4.29 GiB. Read the immutable
+  results once through the frozen publication projection and phase renderer.
+  Exact registered verdicts: A insufficient evidence; C insufficient evidence;
+  G session ORB reject, both orderings. Zero promising candidates. A/C have no
+  eligible training cell in either fold; their flat OOS placeholders are not
+  measured zero-edge findings. G base stop-first PF 0.115372, expectancy -0.478316R,
+  87 trades; its five-percent circuit trips once in each fold, halting 291/271
+  days at base stop-first. All cost, ambiguity, strict-fill, quality and fold
+  diagnostics are in the permitted public projection/report. No individual
+  trades, return paths or private comparison data are published. No replay,
+  parameter change, new genuine run, retuning or relabelling occurred.
+  Verdict JSON SHA-256 8cbfb7caf616beb8cbe64036d121c7f7a02699cfe43d7ed100eafa5033a3fcec
+  Frozen parameter JSON SHA-256 e2bb425cf964c93f7a88876160e89427277d603c0e2c0c39237abb8423519f43
+  Source and configuration remain exactly the pre-data identities. K is resuming
+  its solo gate after G released memory; K's validation decision still waits for
+  G Part B merge. No K analysis/preregistration run is started. Preparing empty
+  P11g.ready and publishing to the same PR for Claude; no main merge.

@@ -1,0 +1,33 @@
+{
+  "kind": "gold_proxy_development_parameters",
+  "status": "development_only_not_validated",
+  "proxy": "XAUUSD(histdata,bid)->XAUTUSDT",
+  "training_years": [
+    2021,
+    2022,
+    2023
+  ],
+  "n_trials": 54,
+  "registration_sha256": "806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98",
+  "implementation_sha256": "db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4",
+  "strategies": {
+    "london_sweep_mss_fvg": {
+      "development_verdict": "insufficient evidence",
+      "timeframe_seconds": null,
+      "config": null
+    },
+    "trend_vwap_pullback": {
+      "development_verdict": "insufficient evidence",
+      "timeframe_seconds": null,
+      "config": null
+    },
+    "session_orb": {
+      "development_verdict": "reject",
+      "timeframe_seconds": 900,
+      "config": {
+        "entry_window_minutes": 60,
+        "breakout_buffer_atr": "0.05"
+      }
+    }
+  }
+}
