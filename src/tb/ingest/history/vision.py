@@ -14,7 +14,13 @@ from uuid import uuid4
 import httpx
 
 from tb.core.leases import writer_lease
-from tb.ingest.history.binance import ArchiveCadence, archive_location, convert_archive_to_parquet
+from tb.ingest.history.binance import (
+    ARCHIVE_BASE_URL,
+    ArchiveCadence,
+    ArchiveLocation,
+    archive_location,
+    convert_archive_to_parquet,
+)
 from tb.ingest.history.core import (
     IntegrityError,
     RemoteNotFound,
@@ -85,7 +91,16 @@ def download_archive(
     validate_scope(plan, symbol, period, cadence, interval)
     if interval == "1s" and period not in ambiguity_days:
         raise ResearchRefused("vision_seconds_require_flagged_ambiguity_day")
-    location = archive_location(symbol, interval, period, cadence=cadence, dataset="klines")
+    if symbol == "PAXGUSDT":
+        # Separate research-only URL after plan admission. The executable archive
+        # builder and assert_tradable continue to refuse this data-only instrument.
+        if cadence != "monthly" or interval != "1m":
+            raise ResearchRefused("paxg_validation_requires_monthly_minutes")
+        filename = f"PAXGUSDT-1m-{period:%Y-%m}.zip"
+        url = f"{ARCHIVE_BASE_URL}/monthly/klines/PAXGUSDT/1m/{filename}"
+        location = ArchiveLocation(filename, url, f"{url}.CHECKSUM")
+    else:
+        location = archive_location(symbol, interval, period, cadence=cadence, dataset="klines")
     relative = f"data/bronze/binance_vision/{dataset_id}/{symbol}/{interval}/{period.year}"
     folder = safe(root, relative)
     manifest_path = folder / (location.filename + ".manifest.json")

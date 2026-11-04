@@ -37,6 +37,7 @@ def test_default_registry_has_exact_policy_universe() -> None:
         "USDCHF",
         "WTI",
         "US10Y",
+        "PAXGUSDT",
     }
     tradable = {asset.symbol for asset in registry.assets if asset.role is AssetRole.TRADABLE}
     assert tradable == {"XAUTUSDT", "BTCUSDT", "ETHUSDT", "SOLUSDT"}

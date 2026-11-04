@@ -10,7 +10,7 @@ import streamlit as st
 
 from tb.research.registry import read_metadata, safe
 
-SYMBOLS = ("BTCUSDT", "ETHUSDT", "SOLUSDT", "XAUUSD", "EURUSD")
+SYMBOLS = ("BTCUSDT", "ETHUSDT", "SOLUSDT", "PAXGUSDT", "XAUUSD", "EURUSD")
 PROVIDERS = ("binance_vision", "histdata", "dukascopy")
 
 
@@ -24,10 +24,14 @@ def health_rows(root: Path) -> list[dict[str, Any]]:
     ]
     for provider, path in paths:
         base = f"data/manifests/{provider}"
-        match = re.fullmatch(r"(BTCUSDT|ETHUSDT|SOLUSDT|XAUUSD|EURUSD)-(202[0-4])", path.stem)
+        match = re.fullmatch(
+            r"(BTCUSDT|ETHUSDT|SOLUSDT|PAXGUSDT|XAUUSD|EURUSD)-(202[0-4])", path.stem
+        )
         if not match:
             continue
         symbol, year_text = match.groups()
+        if symbol == "PAXGUSDT" and int(year_text) not in {2023, 2024}:
+            continue
         item: dict[str, Any] = {
             "symbol": symbol,
             "year": int(year_text),
@@ -91,7 +95,7 @@ def health_rows(root: Path) -> list[dict[str, Any]]:
         rows.append(item)
     present = {(row["symbol"], row["year"]) for row in rows}
     for symbol in SYMBOLS:
-        for year in range(2020, 2025):
+        for year in range(2023, 2025) if symbol == "PAXGUSDT" else range(2020, 2025):
             if (symbol, year) not in present:
                 rows.append(
                     {
