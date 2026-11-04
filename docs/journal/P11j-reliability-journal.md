@@ -41,3 +41,18 @@
   formatting and strict mypy hooks passed; only full pytest deferred. Root and
   K received the SHA for reviewer-checked conditional cherry-pick. No pytest
   remains active from this track, no push/ready marker/full-gate claim yet.
+- 2026-11-04 12:25 UTC: Root released the solo full-gate slot after K passed. Started the
+  unchanged scripts/check-offline.ps1 in clean credential-free detached candidate
+  759c78a78e57954281aa918239a0fc1fa888eb13 (tree38ed95d182b0247ad84f47ba47758d3edf035f21).
+  Background worker2488 began2026-11-04T12:24:17Z; ignored work/validation/
+  P11j-reliability contains durable full-gate.log/status.json. This branch's
+  source/config/tests remain frozen. J2 full suite waits for this slot. No genuine
+  F/G dataset batch is rerun; only owned fixtures in the standard offline gate.
+- 2026-11-04 12:39 UTC: Clean full offline gate PASSED on759c78a/tree38ed95d1 at12:38:13UTC.
+  Ruff clean,601 formatted,strict mypy214 clean; fullpytest1,741passed,2environmental
+  skips(no private.env,optional ZIP absent),3live deselected,2deferredD3/D4 xfails,
+  23dependency warnings,618.28s. Safety smoke and14owned acceptance studies passed,
+  externalorders0. Worker2488exit0; root immediately received the released heavy
+  slot. No genuine F/G batch or provider dataset ran. Added price-free validation
+  summary and will publish only documentation/evidence/empty ready marker after
+  the validated source/test/config/script scope was checked unchanged.

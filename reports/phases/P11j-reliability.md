@@ -9,8 +9,8 @@ correctness assertions and example ranges remain unchanged. Wave 2 is now a sepa
 - [x] Warm timestamp conversion outside timed examples; local explicit 2s deadline.
 - [x] Verify original two-test assertion ASTs and focused checks.
 - [x] Add and validate weekend-risk warm-up with its default200ms deadline unchanged.
-- [ ] Freeze a candidate and run the clean offline full gate when the reserved heavy-gate slot is released.
-- [ ] Publish the follow-up with its empty ready marker after the full gate passes.
+- [x] Freeze the candidate and pass the clean full offline gate alone.
+- [x] Prepare publication and the empty ready marker after the full gate passed.
 
 ## Living-doc entries
 
@@ -69,8 +69,25 @@ provided to root and K for conditional cherry-pick after review. The isolated
 original property also reproduced315.66ms versus32.18ms replay with3.77GiB freeRAM;
 no risk assertion failed in either captured diagnostic.
 
-## Status
+## Clean full offline gate
 
-Focused validation is complete. The frozen candidate still needs its clean full offline gate,
-which is queued behind the currently reserved K gate. This is not a full-gate pass or review-ready publication. The
-empty P11j-reliability.ready marker will be created only after that gate passes.
+The unmodified scripts/check-offline.ps1 passed alone in the clean credential-free
+checkout on759c78a78e57954281aa918239a0fc1fa888eb13
+(tree38ed95d182b0247ad84f47ba47758d3edf035f21), based on main69034f6.
+Started2026-11-04 12:24 UTC; finished12:38 UTC. Ruff clean,601 files formatted,
+strict mypy214 clean. Full pytest: **1,741 passed**,2 environmental skips (no private
+.env; optional kit ZIP absent),3 live deselected,2 existing Wave2 xfails(D3/D4),
+23 dependency warnings,618.28s. Safety smoke and14 owned acceptance studies passed;
+external orders0. The source/test/config/script scope is unchanged after this gate.
+
+[Validation summary](../validation/P11j-reliability/summary.json) records exact identities,
+counts and the ignored full-log digest. The deadline200ms weekend property remains
+unchanged; all9 risk property function ASTs, all51 existing explicit assertions and
+generated ranges remain unchanged. No new skip, xfail, automatic retry or runtime
+behavior change was introduced. Genuine F/G data batches were never rerun.
+
+The full gate passed and the zero-byte P11j-reliability.ready marker is present.
+Publication uses the dedicated follow-up branch with [skip ci] and --no-follow-tags;
+Claude remains the reviewer and merger. Shared living docs stay on their separate track.
+
+Ready for Claude review
