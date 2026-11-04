@@ -1,0 +1,49 @@
+{
+  "phase": "P11j-wave2",
+  "status": "passed",
+  "completed_at_utc": "2026-11-04T12:57:18.724765+00:00",
+  "baseline_commit": "69034f6",
+  "validated_source_commit": "7b9ecaf1f7d91dbf88034c0a847cdda00e7502b8",
+  "validated_tree": "ce6e624bb70537ceee5436dfae8021bda8725b3d",
+  "command": "pwsh -NoProfile -File './scripts/check-offline.ps1'",
+  "credential_free": true,
+  "clean_checkout": true,
+  "heavy_suite_run_alone": true,
+  "ruff": "passed",
+  "formatted_files": 603,
+  "strict_mypy_sources": 214,
+  "pytest": {
+    "passed": 1760,
+    "skipped": 2,
+    "live_deselected": 3,
+    "xfail": 0,
+    "warnings": 23,
+    "seconds": 651.4,
+    "skip_reasons": [
+      "Private root .env absent; security probe skipped",
+      "Optional dev-kit ZIP absent"
+    ]
+  },
+  "safety_smoke": "passed",
+  "owned_acceptance_studies": 14,
+  "external_orders": 0,
+  "focused": {
+    "engine_label_audit_passed": 66,
+    "engine_label_audit_seconds": 11.63,
+    "gold_owned_passed": 95,
+    "gold_owned_seconds": 49.77
+  },
+  "unchanged_assertion_asts": {
+    "audit_module": 43,
+    "existing_label_unit": 6
+  },
+  "common_test_setup_source": "759c78a78e57954281aa918239a0fc1fa888eb13",
+  "common_test_setup_files": [
+    "tests/property/test_risk_guards.py",
+    "tests/integration/test_paper_validation.py",
+    "tests/unit/test_timeutil.py"
+  ],
+  "log_sha256": "f6fe0894c370afadb7fd7ddcd7736311b4974deff2cc309a89c4c65a3f8cbff2",
+  "genuine_data_access": false,
+  "historical_stage3_rerun": false
+}

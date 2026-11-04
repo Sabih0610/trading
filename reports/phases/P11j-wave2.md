@@ -9,8 +9,8 @@ gap opening price. No genuine observations, labels or F/G batch were read or run
 - [x] Implement conservative default fills and explicit gap-aware label inputs.
 - [x] Preserve audit assertions and remove only the two resolved strict xfails.
 - [x] Pass focused fixtures, strict typing and lint/format checks.
-- [ ] Pass complete offline gates in a clean checkout, one full suite at a time.
-- [ ] Publish with [skip ci]/--no-follow-tags and the empty review marker.
+- [x] Pass complete offline gates in a clean checkout, one full suite at a time.
+- [x] Prepare publication with [skip ci]/--no-follow-tags and the empty review marker.
 
 ## Change and scope
 
@@ -39,8 +39,17 @@ The focused command in the [runbook](../../docs/how-to/strict-limit-and-gap-labe
 passed **66 tests in 11.63s**. Strict mypy passes on all three modified sources.
 An additional **95** owned gold adapter/runtime-boundary/batch fixtures passed
 in **49.77s**. Full-repository Ruff passes and **603 files** are formatted. These
-are focused/static checks, not a full-suite claim; the clean offline gate is
-pending the coordinated slot.
+were the pre-gate focused/static checks. The complete original offline gate now
+passes in the clean checkout at `7b9ecaf1f7d91dbf88034c0a847cdda00e7502b8`
+(tree `ce6e624bb70537ceee5436dfae8021bda8725b3d`): **1,760 passed, 2 environmental
+skips, 3 live deselected, zero xfails, 23 warnings in 651.40s**. Ruff passes,
+603 files are formatted, and strict mypy passes on 214 sources. Safety smoke and
+all 14 owned acceptance studies pass with zero external orders. Skips are the
+absent private .env security probe and absent optional dev-kit ZIP. This complete
+suite ran alone after the prior track released the heavy slot. See the
+[validation summary](../validation/P11j-wave2/summary.json). Publication changes
+only evidence/docs/marker after this tested source; no source, config or tests
+were changed after its pass.
 
 | Scenario | Expected and observed |
 |---|---|
@@ -104,4 +113,4 @@ Stage 3 identities. Shared living files and the merged Wave 1 report are untouch
 This completes the authorized audit repair scope only; no next research/trading
 stage is started.
 
-Full gate and publication are pending; this candidate is not yet ready for review.
+Ready for Claude review

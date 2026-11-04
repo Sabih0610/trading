@@ -49,3 +49,13 @@ timeutil module warm-up. No assertion, numeric range or deadline is further
 changed. This minimal shared-infrastructure exception is disclosed for review;
 J2runtime/source/config and immutable F/G outputs are untouched by the carry.
 New local candidate then enters the original complete offline gate alone.
+
+2026-11-04 12:57 UTC: Original complete offline gate PASSED exit0 in clean sibling
+checkout at7b9ecaf1f7d91dbf88034c0a847cdda00e7502b8/tree
+ce6e624bb70537ceee5436dfae8021bda8725b3d. Ruff603format and strictmypy214
+passed; pytest1760passed,2environmentalskips,3livedeselected,0xfails,23warnings
+in651.40s. Safety smoke and14ownedacceptance studies passed,externalorders0.
+Heavy slot released to root only after final script success. No genuine input
+or historical Stage3 rerun. Fresh fetch stillmain69034f6; unpublishedrebase
+uptodate and testedsource/config/tests/scripts/dependencies exactunchanged.
+Published evidence/docs/emptyP11j-wave2.ready reuse this completed source gate.
