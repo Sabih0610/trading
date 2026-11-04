@@ -11,8 +11,16 @@ def test_empty_health_and_admission_are_explicitly_blocked(tmp_path):
     from datetime import UTC, datetime
 
     all_rows = health_rows(tmp_path)
-    assert len(all_rows) == 25
-    assert {r["symbol"] for r in all_rows} == {"BTCUSDT", "ETHUSDT", "SOLUSDT", "XAUUSD", "EURUSD"}
+    assert len(all_rows) == 27
+    assert {r["symbol"] for r in all_rows} == {
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT",
+        "PAXGUSDT",
+        "XAUUSD",
+        "EURUSD",
+    }
+    assert {r["year"] for r in all_rows if r["symbol"] == "PAXGUSDT"} == {2023, 2024}
     rows = [r for r in all_rows if r["symbol"] in {"BTCUSDT", "ETHUSDT", "SOLUSDT"}]
     assert len(rows) == 15 and all(row["manifest_status"] == "missing" for row in rows)
     assert (
