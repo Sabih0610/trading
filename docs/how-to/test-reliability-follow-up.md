@@ -6,7 +6,7 @@ order path. Run commands from the checkout root.
 
 ```powershell
 uv sync --locked
-uv run --locked pytest -q 'tests/integration/test_paper_validation.py' 'tests/unit/test_timeutil.py'
+uv run --locked pytest -q 'tests/integration/test_paper_validation.py' 'tests/unit/test_timeutil.py' 'tests/property/test_risk_guards.py'
 ```
 
 The process-death test has four cases: entry and exit, each before and after commit.
@@ -18,6 +18,10 @@ cleanup communication has 10s. Timeout, early exit or a wrong exit code fails.
 The datetime property warms both conversions in a module fixture and retains a
 finite 2s example deadline. Its generated range and exact round-trip assertion stay
 unchanged. Do not add skips, xfails, retries or wider input tolerances to hide failure.
+
+The weekend-risk property also warms its actual registry/refusal path in a module
+fixture. It keeps the default200ms deadline and reloads policy in every example;
+there is no shared asset or policy cache between generated cases.
 
 After the coordinated full-gate slot is available, use a clean credential-free checkout:
 

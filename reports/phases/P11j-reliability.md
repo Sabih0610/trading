@@ -1,19 +1,20 @@
 # P11j Wave 1 test-reliability follow-up
 
-This follow-up implements the two non-blocking reviewer requests after J1 merged.
-Only owned test coordination and one property timing setting change. Existing
-correctness assertions and example ranges remain unchanged. Wave 2 stays deferred.
+This follow-up implements the two non-blocking reviewer requests and a matching K gate finding after J1 merged.
+Only owned test coordination, untimed warm-up and one property timing setting change. Existing
+correctness assertions and example ranges remain unchanged. Wave 2 is now a separate authorized track after G merged; this branch does not touch it.
 
 - [x] Read committed reviews, project rules and primary documentation.
 - [x] Add readiness-coordinated, bounded process startup and operation waits.
 - [x] Warm timestamp conversion outside timed examples; local explicit 2s deadline.
-- [x] Verify assertion ASTs and run focused tests, Ruff, format and strict mypy.
-- [ ] Freeze a candidate and run the clean offline full gate when G releases the slot.
+- [x] Verify original two-test assertion ASTs and focused checks.
+- [x] Add and validate weekend-risk warm-up with its default200ms deadline unchanged.
+- [ ] Freeze a candidate and run the clean offline full gate when the reserved heavy-gate slot is released.
 - [ ] Publish the follow-up with its empty ready marker after the full gate passes.
 
 ## Living-doc entries
 
-Record P11i-1/P11j follow-up completion after review. This branch makes no shared
+Record P11i-1/P11j follow-up completion and the matching K cold-call warm-up after review. This branch makes no shared
 living-doc edits, no runtime change and no Wave 2 fill/label change.
 
 ## Changes and authority
@@ -43,17 +44,33 @@ See [research](../../docs/research/P11j-reliability-research.md),
 
 | Check | Result |
 |---|---|
-| Entire two changed test modules | 23 passed in 50.74s |
-| Assertion AST comparison against main | All40 paper and all9 timeutil assertions unchanged |
+| Original two changed test modules before rebase | 23 passed in50.74s |
+| Three changed modules after rebase and risk warm-up | 32 passed in42.92s |
+| Assertion AST comparison against current main69034f6 | All40 paper,9 timeutil and2 risk explicit assertions unchanged; every risk property function AST identical |
 | Hypothesis given decorator AST | Exact generated range unchanged |
 | Owned child exits before readiness | Fails with captured child error; cleanup bounded |
 | Owned child never signals readiness, synthetic monotonic deadline | Timeout remains a failure; child killed/reaped |
-| Ruff / formatting | Clean;576 files formatted |
-| Strict mypy | Clean;206 source files |
+| Ruff / formatting | Clean on both local candidate commits |
+| Strict mypy | Clean in test-only1053ce9 pre-commit after rebase; earlier0919 candidate checked206 sources |
 | Runtime/config/engine/label diff | None |
+
+## Additional K gate finding (pre-publication)
+
+K's full gate reported Hypothesis FlakyFailure in the existing XAUT weekend property,
+not a failed risk check:1,271.87ms on the first call versus24.81ms on repeat for
+`day_offset=2127`, exceeding the default200ms deadline. Add only untimed module
+setup of the registry and actual Saturday refusal. Its local asset is discarded;
+every generated example still loads current policy and runs the unchanged test.
+The deadline stays200ms, the range stays0-4000, and no cache, skip or xfail is added.
+All32 tests in the three changed modules pass in42.92s after root released a focused
+slot. All9 risk property function ASTs match main69034f6 exactly. The standalone
+warm-up patch is1053ce969903d0fcb79804ee78340245f0ff7b90 (one test file,+9lines),
+provided to root and K for conditional cherry-pick after review. The isolated
+original property also reproduced315.66ms versus32.18ms replay with3.77GiB freeRAM;
+no risk assertion failed in either captured diagnostic.
 
 ## Status
 
-Focused validation is complete. The source-identical clean full offline gate is
-queued behind G; this is not a full-gate pass or review-ready publication. The
+Focused validation is complete. The frozen candidate still needs its clean full offline gate,
+which is queued behind the currently reserved K gate. This is not a full-gate pass or review-ready publication. The
 empty P11j-reliability.ready marker will be created only after that gate passes.

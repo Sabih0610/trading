@@ -21,3 +21,23 @@
   cleanup. Diff is exactly the two authorized tests plus four phase-local docs;
   all49 pre-existing assertion ASTs remain identical. Freeze a local candidate
   with only the full pytest pre-commit hook deferred until its clean gate slot.
+- 2026-11-04 12:00 UTC: Main69034f6 now approves/merges G. Rebased this unpublished follow-up
+  cleanly onto it (local058001b); the original0919bdc remains preserved by its
+  detached gate checkout. Root reported K's existing weekend-risk property failed
+  only the200ms deadline:1,271.87ms initial versus24.81ms repeat, day_offset2127,
+  Hypothesis FlakyFailure, with no failed risk assertion. Add module-scoped warm-up
+  of real registry validation and Saturday refusal, discarding its asset after
+  setup. Keep the exact property body/range/default200ms deadline; no per-example
+  cache or production change. Wait for root's test-slot approval before pytest.
+- 2026-11-04 12:05 UTC: Root authorized a focused slot before K's full rerun. All three
+  reliability modules passed32tests in42.92s. Every one of the9 risk property
+  function ASTs is identical to main69034f6, including every given range, body,
+  raises context and default200ms deadline. Existing paper40/time9 explicit
+  assertion ASTs are also unchanged. Root additionally reports K's isolated
+  original property reproduced315.66ms initial versus32.18ms replay, with3.77GiB
+  freeRAM, confirming the same timing failure outside the full suite.
+- 2026-11-04 12:05 UTC: Created isolated TESTONLYcommit1053ce969903d0fcb79804ee78340245f0ff7b90
+  changing only tests/property/test_risk_guards.py (+9 fixture lines). Ruff,
+  formatting and strict mypy hooks passed; only full pytest deferred. Root and
+  K received the SHA for reviewer-checked conditional cherry-pick. No pytest
+  remains active from this track, no push/ready marker/full-gate claim yet.

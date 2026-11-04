@@ -1,7 +1,8 @@
 # P11j Wave 1 reliability follow-up research
 
 Read the two reviewer follow-ups on 2026-11-04 before changing tests. Python remains
-3.12, pytest 9.1.1 and Hypothesis 6.170.5. Every existing assertion and generated
+3.12, pytest 9.1.1 and Hypothesis 6.170.5. The later K gate finding uses warm-up only and preserves the200ms default deadline.
+Every existing assertion and generated
 input range is retained. No production behavior changes.
 
 | Question | Options compared | Decision and reason |
@@ -9,7 +10,8 @@ input range is retained. No production behavior changes.
 | Child cold startup under load | One larger elapsed timeout; explicit readiness and separate operation bound | The child signals only after imports, package loading and store reopening/replay. The parent acknowledges through stdin before the original event and fault hook execute. Cold startup gets 120s; acknowledged operation gets 60s. Neither depends on an assumed startup delay. |
 | Child failure cleanup | Unbounded pipe reads; bounded communicate plus kill/reap | Poll the temporary readiness marker with a monotonic 120s deadline and early-exit detection. Every communicate has a timeout, including 10s cleanup. Kill a remaining child in finally; retain stderr for the unchanged exit-code assertion. |
 | Cold datetime property call | Disable deadlines globally; relax assertion; untimed warm-up and local finite deadline | Use the approved J1 pattern: module fixture warms the exact conversion path, and only this property gets 2s. The 1970-2100 UTC range and exact equality assertion are unchanged. |
-| Full-suite concurrency | Another simultaneous heavy run; queue one clean gate | Queue behind G on the 16GB host. Focused checks do not count as a full-gate pass. |
+| K weekend-risk cold call | Change200ms deadline; cache registry across examples; untimed real-path setup | Warm registry validation and actual Saturday refusal in a module fixture; discard the asset. The original body still reloads policy each example and keeps its200ms default. |
+| Full-suite concurrency | Another simultaneous heavy run; queue one clean gate | Queue behind the reserved heavy gate on the 16GB host. Focused checks do not count as a full-gate pass. |
 
 Primary sources, accessed 2026-11-04:
 
