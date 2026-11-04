@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "source_commit": "dcf81c542a0eb9b139be5ae36e7bea2ae6351db5",
+  "source_tree": "6358a97f80fab099f519249137f8a3cd0f8a8202",
+  "base_main": "69034f6",
+  "started_at": "2026-11-04T12:07:07.5867198+00:00",
+  "ended_at": "2026-11-04T12:20:28.8149348+00:00",
+  "ruff": "passed",
+  "format_files": 603,
+  "mypy_sources": 214,
+  "pytest": {
+    "passed": 1753,
+    "skipped": 2,
+    "deselected": 3,
+    "xfailed": 2,
+    "warnings": 23,
+    "seconds": 610.21
+  },
+  "skip_reasons": [
+    "credential-free checkout has no private .env",
+    "optional development-kit ZIP absent"
+  ],
+  "xfail_reasons": [
+    "audit D-3 default limit touch",
+    "audit D-4 label gap loss"
+  ],
+  "safety_smoke": "passed",
+  "owned_studies": 14,
+  "gate_log_sha256": "d6b77486a7557b6006dd79beffba169248154234100c97fc9dcc42f53910ea74",
+  "cold_setup_fix": {
+    "commit": "1053ce969903d0fcb79804ee78340245f0ff7b90",
+    "property_functions_unchanged": 9,
+    "hypothesis_deadline_ms": 200
+  },
+  "genuine_strategy_evaluation": false,
+  "K_validation": "skipped: no promising gold candidate"
+}

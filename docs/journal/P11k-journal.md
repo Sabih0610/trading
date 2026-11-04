@@ -125,3 +125,14 @@
   the completed acquisition documentation, then rebase this unpublished branch.
   The combined source needs a fresh clean integration gate before ready/PR; the
   earlier dcf pass is preserved as acquisition evidence, not relabelled as a new pass.
+
+- 2026-11-04 17:09 UTC: Rebased candidate e2e05bbc0526690878e6eb89a89f6f3fa9d12d4a
+  passed the original clean integration gate, run once alone 16:43:47–16:59:58 UTC:
+  1772 passed, 2 environmental skips, 3 live deselected, 0 xfailed, 23 warnings,
+  804.13s. Ruff/format619, strict mypy214, safety smoke and all14 owned studies
+  passed; external orders0. Wrapper waited for safe free RAM; no user app closed.
+  Kept historical dcf acquisition pass separately, never relabelled it. Publication
+  is docs/metadata only after this pass, with source/config/tests/scripts/dependencies
+  mechanically identical to e2e. Completed build is not repeated. K validation
+  remains skipped: no promising gold candidate. Prepare empty ready marker and
+  acquisition PR for Claude; no main merge or self-approval.

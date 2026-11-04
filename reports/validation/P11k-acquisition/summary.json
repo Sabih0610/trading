@@ -1,37 +1,32 @@
 {
   "status": "passed",
-  "source_commit": "dcf81c542a0eb9b139be5ae36e7bea2ae6351db5",
-  "source_tree": "6358a97f80fab099f519249137f8a3cd0f8a8202",
-  "base_main": "69034f6",
-  "started_at": "2026-11-04T12:07:07.5867198+00:00",
-  "ended_at": "2026-11-04T12:20:28.8149348+00:00",
+  "source_commit": "e2e05bbc0526690878e6eb89a89f6f3fa9d12d4a",
+  "source_tree": "3c0c64a545d65406a552638d8690b81bbccc5790",
+  "base_main": "ba7d84c",
+  "started_at": "2026-11-04T16:43:47.3335000+00:00",
+  "ended_at": "2026-11-04T16:59:58.2856544+00:00",
   "ruff": "passed",
-  "format_files": 603,
+  "format_files": 619,
   "mypy_sources": 214,
   "pytest": {
-    "passed": 1753,
+    "passed": 1772,
     "skipped": 2,
     "deselected": 3,
-    "xfailed": 2,
+    "xfailed": 0,
     "warnings": 23,
-    "seconds": 610.21
+    "seconds": 804.13
   },
   "skip_reasons": [
     "credential-free checkout has no private .env",
     "optional development-kit ZIP absent"
   ],
-  "xfail_reasons": [
-    "audit D-3 default limit touch",
-    "audit D-4 label gap loss"
-  ],
   "safety_smoke": "passed",
   "owned_studies": 14,
-  "gate_log_sha256": "d6b77486a7557b6006dd79beffba169248154234100c97fc9dcc42f53910ea74",
-  "cold_setup_fix": {
-    "commit": "1053ce969903d0fcb79804ee78340245f0ff7b90",
-    "property_functions_unchanged": 9,
-    "hypothesis_deadline_ms": 200
-  },
+  "external_orders": 0,
+  "gate_log_sha256": "d8527fdcb0f9353f478a65fd29949e90427e316833164b4c725a707b4b52cb52",
+  "gate_stderr_sha256": "06e0953baee06a7e3bf3ec232771bc67c15ffb38d05dce5dacd64c24bc746f96",
+  "acquisition_source_commit": "dcf81c542a0eb9b139be5ae36e7bea2ae6351db5",
+  "acquisition_gate_record": "historical-acquisition-gate.json",
   "genuine_strategy_evaluation": false,
   "K_validation": "skipped: no promising gold candidate"
 }

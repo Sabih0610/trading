@@ -11,7 +11,7 @@ skipped: **no promising gold candidate** after G's approved merge on main 69034f
 - [x] Pass fixture scenarios, lint, format, strict typing and full clean gate.
 - [x] Download and metadata-verify all 13 approved monthly archives privately.
 - [x] Complete the serialized yearly Silver/Gold build and metadata verification.
-- [ ] Publish the completed report/PR and empty P11k-acquisition.ready marker.
+- [x] Publish the completed report and empty P11k-acquisition.ready marker for review.
 
 ## Boundary and implementation
 
@@ -34,7 +34,28 @@ rebased onto merged main 69034f6, preserving venue and Treasury health hooks,
 Treasury rights types, crypto strategy deny-all and all reviewed risk rules.
 No shared living docs are edited on this branch.
 
-## Validation evidence
+## Final integration validation
+
+After J2, reliability and living-docs merges, the unpublished acquisition branch
+was rebased onto main `ba7d84c`. The original cold-setup patch was already on main
+and was dropped. Exact combined candidate `e2e05bbc0526690878e6eb89a89f6f3fa9d12d4a`,
+tree `3c0c64a545d65406a552638d8690b81bbccc5790`, passed the original clean offline
+gate alone on 2026-11-04, 16:43:47–16:59:58 UTC. Tests were unchanged; this
+combined candidate ran once.
+
+| Check | Result |
+|---|---|
+| Full pytest | 1772 passed, 2 environmental skips, 3 live deselected, **0 xfailed**, 23 warnings; 804.13s |
+| Ruff / format | Clean; 619 files |
+| Strict mypy | Clean; 214 sources |
+| Safety smoke / owned acceptance | Passed; all 14 owned studies; external orders 0 |
+| Source identity | Publication docs only after the gate; source/config/tests/scripts/dependencies identical |
+
+The gate first waited for at least 2.5 GiB free physical memory and no competing
+full suite; no user application was closed. The two skips are the absent private
+`.env` ACL case and absent development-kit ZIP. [Final aggregate gate record](../validation/P11k-acquisition/summary.json).
+
+## Historical acquisition validation
 
 Exact tested candidate: `dcf81c542a0eb9b139be5ae36e7bea2ae6351db5`, tree
 `6358a97f80fab099f519249137f8a3cd0f8a8202`. Full clean gate ended
@@ -52,7 +73,7 @@ Exact tested candidate: `dcf81c542a0eb9b139be5ae36e7bea2ae6351db5`, tree
 The environmental skips are absent private `.env` and optional development-kit ZIP;
 live tests stay deselected. D-3/D-4 remain explicit inherited xfails in this tested
 candidate, handled by the separately authorized J2 track. No assertion or deadline
-was weakened. [Aggregate gate record](../validation/P11k-acquisition/summary.json).
+was weakened. [Historical aggregate gate record](../validation/P11k-acquisition/historical-acquisition-gate.json).
 
 The first gate was interrupted at root's request under RAM pressure. A subsequent
 solo gate exposed cold registry setup timing in the weekend property: 1271.87 ms
@@ -85,7 +106,8 @@ verification confirmed two complete yearly generations and twelve outputs: Silve
 No PAXG price analysis, chart or strategy evaluation occurred. Original rights and
 retention are unchanged; expiry is 2028-10-31T23:59:59.344655Z.
 See the [metadata-only completion record](../validation/P11k-acquisition/completion.json).
-The acquisition is complete; integration validation and publication are pending.
+The acquisition and rebased integration validation are complete. No genuine data
+is committed; the review marker and PR cover code, documents and metadata only.
 
 ## Decisions, runbook and limits
 
@@ -102,8 +124,18 @@ out of scope.
 
 ## Living-doc entries
 
-Record K's private acquisition/build status and finite retention without publishing
-genuine observations. Dukascopy consent is withdrawn. After completed build, record
-K validation skipped: "no promising gold candidate". PAXG stays data-only with no
-executable strategies; December 2023 is warm-up only. Queue the acquisition PR only
-after the actual yearly build and metadata verification finish.
+Record K acquisition complete: thirteen checksum-verified monthly archives and
+two complete yearly generations, with original finite retention and no published
+genuine observations. Dukascopy is withdrawn. K validation is skipped: "no promising
+gold candidate". PAXG stays data-only with no executable strategies; December 2023
+is warm-up only. Mark K review pending until Claude independently approves/merges.
+
+## Review checklist
+
+- [x] Original and rebased clean gates recorded separately; no assertion/rule weakened.
+- [x] Completed medallion and Data Health verified through metadata only.
+- [x] No genuine observations, secrets, rights artifacts or sealed data in publication.
+- [x] No shared living-doc, risk-limit, strategy or F/G verdict change.
+- [x] Empty `reports/reviews/queue/P11k-acquisition.ready` prepared.
+
+Ready for Claude review
