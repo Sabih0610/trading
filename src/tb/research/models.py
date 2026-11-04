@@ -43,7 +43,7 @@ def digest(value: Any) -> str:
 class DatasetRights(PolicyModel):
     provider: str = Field(min_length=1, max_length=80)
     dataset_id: str = Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")
-    instruments: tuple[Symbol | SpotHistorySymbol, ...]
+    instruments: tuple[Symbol | SpotHistorySymbol | Literal["UST_PAR_YIELD"], ...]
     reviewed_at: AwareDatetime
     reviewer: str | None = None
     owner_approved: StrictBool = False
@@ -106,6 +106,56 @@ class VisionDatasetPlan(PolicyModel):
             or self.retention.rights_digest != self.rights.digest
         ):
             raise ResearchRefused("vision_plan_scope_or_lifetime_invalid")
+        return self
+
+
+class TreasuryDatasetPlan(PolicyModel):
+    """Data-only daily government context; neither an asset nor an execution permission."""
+
+    schema_version: Literal[1] = 1
+    dataset_id: Literal["us-treasury-par-yield-2020-2024"] = "us-treasury-par-yield-2020-2024"
+    source_class: Literal["licensed_historical"] = "licensed_historical"
+    provider: Literal["us_treasury"] = "us_treasury"
+    instruments: tuple[Literal["UST_PAR_YIELD"], ...] = ("UST_PAR_YIELD",)
+    source: Literal["https://home.treasury.gov"] = "https://home.treasury.gov"
+    units: Literal["percent_per_annum"] = "percent_per_annum"
+    terms_version: str = Field(min_length=10, max_length=120)
+    coverage_start: AwareDatetime = RESEARCH_START
+    coverage_end: AwareDatetime = datetime(2024, 12, 31, 23, 59, 59, tzinfo=UTC)
+    acquired_at: AwareDatetime
+    rights: DatasetRights
+    retention: EvidenceLifetime
+
+    @property
+    def digest(self) -> str:
+        return digest(self.model_dump(mode="json"))
+
+    @model_validator(mode="after")
+    def coherent(self) -> Self:
+        permissions = (
+            self.rights.personal_research,
+            self.rights.research_reports,
+            *self.rights.permissions.values(),
+        )
+        if (
+            self.instruments != ("UST_PAR_YIELD",)
+            or self.rights.provider != self.provider
+            or self.rights.dataset_id != self.dataset_id
+            or self.rights.instruments != self.instruments
+            or self.coverage_start != RESEARCH_START
+            or self.coverage_end != datetime(2024, 12, 31, 23, 59, 59, tzinfo=UTC)
+            or self.acquired_at <= self.coverage_end
+            or self.retention.acquired_at != self.acquired_at
+            or self.retention.rights_digest != self.rights.digest
+            or len({p.evidence_artifact for p in permissions}) < 2
+            or any(
+                p.evidence_kind != "provider_terms"
+                or not p.evidence_artifact
+                or not p.evidence_artifact.startswith("work/rights/treasury-")
+                for p in permissions
+            )
+        ):
+            raise ResearchRefused("treasury_plan_scope_or_evidence_invalid")
         return self
 
 

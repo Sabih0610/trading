@@ -109,6 +109,9 @@ def health_rows(root: Path) -> list[dict[str, Any]]:
 def data_health_view(root: Path) -> None:
     """Display metadata evidence without exposing any market data or mutation control."""
     st.subheader("Data Health")
+    from tb.dashboard.yields import treasury_health_view
+
+    treasury_health_view(root)
     st.caption("Manifest and quality metadata only · Historical scope ends 2024-12-31 UTC")
     st.write("Sealed XAUT collector health", collector_health(root))
     from tb.dashboard.venue_status import venue_health_view
@@ -121,7 +124,9 @@ def data_health_view(root: Path) -> None:
         width="stretch",
     )
     if not any(row["manifest_status"] == "complete" for row in rows):
-        st.info("BLOCKED — DATASET NOT AUTHORIZED. No admitted historical data is available.")
+        st.info(
+            "BLOCKED — DATASET NOT AUTHORIZED. No admitted historical price dataset is available in the collection below."
+        )
     for row in rows:
         months = row["gap_heat_strip"]
         if months:

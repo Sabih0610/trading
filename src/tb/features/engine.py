@@ -13,6 +13,7 @@ import polars as pl
 
 from tb.core.holdout import require_unsealed
 from tb.features.reference import ReferenceFeatures, ReferencePeriods
+from tb.features.treasury import TreasuryContext
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,9 +64,14 @@ class FeatureEngine:
         *,
         timeframe: timedelta = timedelta(minutes=1),
         reference_periods: ReferencePeriods | None = None,
+        enable_treasury_yields: bool = False,
+        treasury_context: TreasuryContext | None = None,
     ) -> None:
         if timeframe <= timedelta(0):
             raise ValueError("timeframe must be positive")
+        if enable_treasury_yields and treasury_context is None:
+            raise FeatureInputError("Treasury yields enabled without admitted context")
+        self._treasury = treasury_context if enable_treasury_yields else None
         self.timeframe = timeframe
         self._reference = ReferenceFeatures(reference_periods) if reference_periods else None
         self._previous_time: datetime | None = None
@@ -129,6 +135,7 @@ class FeatureEngine:
         timestamp = bar["timestamp_utc"]
         if not isinstance(timestamp, datetime) or timestamp.tzinfo is None:
             raise FeatureInputError("timestamp_utc must be timezone-aware")
+        treasury = self._treasury.at(timestamp) if self._treasury is not None else {}
         fields = (
             ("open", "high", "low", "close")
             if reference_only
@@ -309,6 +316,7 @@ class FeatureEngine:
         self._recent_bars.append(values)
         reference = self._reference.update(values) if self._reference else {}
         return {
+            **treasury,
             **reference,
             **({"prior_atr14": atr_before} if self._reference else {}),
             "timestamp_utc": timestamp,

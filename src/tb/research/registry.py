@@ -18,6 +18,7 @@ from tb.research.models import (
     DatasetPolicy,
     ForexDatasetPlan,
     ResearchRefused,
+    TreasuryDatasetPlan,
     VisionDatasetPlan,
     digest,
 )
@@ -66,7 +67,7 @@ def immutable_json(path: Path, value: dict[str, Any]) -> None:
 
 def authorize(
     root: Path,
-    policy: DatasetPolicy | VisionDatasetPlan | ForexDatasetPlan,
+    policy: DatasetPolicy | VisionDatasetPlan | ForexDatasetPlan | TreasuryDatasetPlan,
     now: datetime,
     *,
     display: bool = False,
@@ -297,7 +298,7 @@ def artifact(
 
 def declare_artifact(
     root: Path,
-    policy: DatasetPolicy | VisionDatasetPlan | ForexDatasetPlan,
+    policy: DatasetPolicy | VisionDatasetPlan | ForexDatasetPlan | TreasuryDatasetPlan,
     path: Path,
     kinds: list[str],
     dependencies: list[str],
@@ -318,6 +319,7 @@ def declare_artifact(
             else policy.digest,
             **({"registry_kind": "vision"} if isinstance(policy, VisionDatasetPlan) else {}),
             **({"registry_kind": "forex"} if isinstance(policy, ForexDatasetPlan) else {}),
+            **({"registry_kind": "treasury"} if isinstance(policy, TreasuryDatasetPlan) else {}),
             "policy_digest": policy.digest,
             "path": relative,
             "sha256": None,
@@ -350,6 +352,10 @@ def inventory(root: Path, now: datetime) -> dict[str, Any]:
                 from tb.research.forex_registry import load_forex_plan
 
                 load_forex_plan(root, item["dataset_id"], now)
+            elif item.get("registry_kind") == "treasury":
+                from tb.research.treasury_registry import load_treasury_plan
+
+                load_treasury_plan(root, now)
             else:
                 load(root, item["dataset_id"], now)
             allowed = True
