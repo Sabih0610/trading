@@ -1,65 +1,26 @@
-# Current handoff — MASTER 2026-11 integration queued
+# Current handoff — post-G MASTER work
 
-2026-11-04 00:09 UTC: The owner explicitly approved a persistent 15-minute continuation
-heartbeat in this chat. App automation `continue-trading-master-review-loop` is
-ACTIVE, stays quiet without meaningful changes and resumes authorized work after
-Claude reviews. It preserves every review/data gate and never merges main. Disable
-it when MASTER is complete. This does not approve G data access: its exact
-pre-registration must still be APPROVED on main first.
+Updated 2026-11-04 12:05 UTC from main `69034f6`. F, G, H, I, J1 and the first living-docs integration are **approved and merged by Claude**. MASTER remains incomplete: J2, K acquisition and the reliability follow-ups still require completion/review.
 
-2026-11-03 21:52 UTC: F Part B is independently APPROVED and merged on main
-`6a64b22`. Its once-only registered batch completed 2026-11-02 13:23 UTC:
-0 pass, 7 fail, 2 insufficient evidence. Keep original registration, costs,
-selection rule (at least 20 training trades), 162 trials and private run unchanged.
-[F report](../reports/phases/P11f.md) · [review](../reports/reviews/P11f-partB-review.md).
+- **F crypto:** immutable 162-trial batch: **0 pass, 7 fail, 2 insufficient evidence**. No rerun, retuning or relabelling. BTC/ETH/SOL strategy allowlists remain empty.
+- **G gold development:** immutable 54-trial batch: **1 reject, 0 promising, 2 insufficient evidence**. Session ORB is rejected in both orderings. A/C have no eligible training cell; their zero OOS trades are insufficient-evidence placeholders. No gold strategy is validated. The amended registration, code/config freeze and full clean gate preceded genuine access; the batch completed 2026-11-04 09:19 UTC.
+- **H venue monitor:** merged, optional and veto-only; live polling was not started.
+- **I Treasury yields:** merged with original documentary rights/retention and default-off causal feature context.
+- **J1:** reviewed audit fixes merged. Separate reviewer-requested reliability follow-ups preserve every assertion and generated input; their full gate/review remains pending.
+- **J2:** now unblocked by the F/G merges. D-3 strict trade-through default and D-4 gap-aware loss labels are being implemented on `codex/p11j-audit-minors-w2`; original Stage 3 results remain frozen.
+- **K:** Dukascopy is withdrawn. Approved PAXG data-only acquisition covers December 2023 through December 2024. Its solo clean gate is running after a reviewed warm-up-only fix for cold registry setup. The original 200 ms bound and all risk assertions remain unchanged. **The K validation run is skipped: no promising gold candidate.** No K pre-registration or strategy run is needed.
 
-H [PR #7](https://github.com/Sabih0610/trading/pull/7), head `67e4978`, is queued
-with an empty P11h.ready marker. Its full gate passed with 1,500 tests; no monitor
-was started. I [PR #6](https://github.com/Sabih0610/trading/pull/6), head
-`0d18a7a`, is queued with P11i.ready; its full gate passed with 1,481 tests.
-Its separately authorized private yield build was verified by Track I; no yield
-observations enter this draft. J1 [PR #8](https://github.com/Sabih0610/trading/pull/8)
-final head `bc6bd58` is queued, not merged, with empty P11j.ready. Its clean
-source `6b132f6` / tree `0c709e85` passed 1480 tests, 2 environmental skips
-(absent .env / kit ZIP), 3 live deselected and 2 D-3/D-4 xfails in 1176.58s;
-Ruff/format 540 files, strict mypy 197 sources, smoke and all 14 studies pass.
-G pre-registration [PR #9](https://github.com/Sabih0610/trading/pull/9), final
-head `d92e120`, is queued with empty P11g-prereg.ready. Full gate on `aa2ce8e`:
-1516 passed, 1 environmental skip, 3 live deselected, 5 inherited xfails in
-1194.18s; Ruff/format 545 files, strict mypy 200 sources, smoke and all 14 studies
-pass. G is STOPPED until reports/reviews/P11g-prereg-review.md on main explicitly
-says APPROVED; no genuine G input has been read and Part B has not started.
-PRs #6–#9 remain open and unmerged. Main was fetched after B1 gate completion
-and still identifies `6a64b22`, with no new track review. Root owns polling and
-any later combined-source validation.
-Read no genuine G input until main contains an APPROVED pre-registration review.
-J2 waits for both F and G Part B merges; K is blocked on absent written consent.
+[Crypto report](../reports/phases/P11f.md) · [gold report](../reports/phases/P11g.md) · [gold review](../reports/reviews/P11g-review.md) · [master](../prompts/MASTER-2026-11.md).
 
-[Integration PR #10](https://github.com/Sabih0610/trading/pull/10) is open and queued for Claude,
-from `codex/living-docs-2026-11-04`; MASTER is not complete. Its initial
-publication head is `8e12956`; the final PR-link bookkeeping is docs-only. P11f-B1 is implemented: BTC/ETH/SOL strategy allowlists
-are empty, and the schema accepts that deny-all state while actual strategy
-permission checks remain unchanged. Explicit historical-policy fixtures use the
-real asset guard; all 128 prior behavior assertions remain unchanged. Current
-policy refuses all nine combinations and all 162 frozen catalogue cells.
-Focused validation: 173 passed; Track H peer source check found no issue.
-Formal Claude review remains pending. [B1 report](../reports/phases/P11f-B1.md).
-The exact clean B1 gate passed on `83b8673`, tree `96566686`, with runtime/
-config/tests unchanged from `227b614`: 1473 passed, 1 environmental skip,
-3 deselected, 5 inherited xfails, 23 warnings in 1000.45s. Ruff/format 538,
-strict mypy 197, smoke and all 14 synthetic studies pass; gate slot released.
-[Validation](../reports/validation/P11f-B1/summary.json) records the exact identity.
-Final publication edits are docs/validation/marker only. The empty integration
-marker is MASTER-2026-11-living-docs.ready; MASTER-2026-11.ready stays absent.
-Next: independent Claude review, fix any findings on the same branch, and
-continue root's main-review polling for queued tracks. No F replay, risk widening,
-main merge, genuine data access or evaluator/strategy change.
+Stage 4, paper trading, Testnet, orders and P14 remain outside scope. Future research direction is an owner decision after MASTER: longer holding periods require a rule change; new hypotheses require fresh registration/trial accounting; pausing strategy research is also an option.
 
-Crypto has no tradable edge under the registered test; Stage 4/5 do not start for
-these candidates. New ideas require new registration and increased trial count.
-Stage 4, paper trading, Testnet, external orders and P14 remain outside the master.
-Preserve all other worktrees, private rights/retention and the sealed collector;
-no secret, genuine/private data or archive read was needed for this update.
+Use credential-free sibling task worktrees. Never run the owner checkout or load its private .env. Preserve all existing private rights/retention evidence, worktrees and sealed files. `continue-trading-master-review-loop` remains active with the owner's explicit permission; poll main about every 15 minutes, stay quiet for unchanged states, and disable it only after all completion conditions are met.
+
+G is finished and approved at `94b0b1c`; **never launch its registered batch again**. Its source candidate was `6ce397d`, freeze publication `1a35463`, registration SHA `806c2db7bf100f9d5c59d867b652d0a1b33d8b41fb527621d6a24e4cd7e6ab98`, implementation `db07f2f31746a29f4e65f223151f45a28a420ad81f6981bd6fa022cfdb1e38a4`. Only the permitted aggregate report and price-free frozen parameters are public.
+
+Current worktrees: K `trading-p11k` plus its clean gates; reliability `trading-p11j-reliability` plus gates; J2 `trading-p11j-w2`; this separate consolidation `trading-master-living`. Rebase unpublished branches before review; never force-push or merge main. One full suite at a time, with memory checks before overlapping builds. Partial/failed gates remain non-passes. Use `[skip ci]` and `--no-follow-tags`.
+
+Complete K's genuine acquisition/build only after its full gate passes; inspect metadata summaries, never PAXG prices for analysis. The post-G K validation run is skipped, so no K strategy evaluation or validation registration is authorized or needed. Finish J2 and reliability reviews, consolidate their actual merges here, then publish the final MASTER status/report and ready marker only when the master conditions are true.
 
 ## Historical handoffs
 
