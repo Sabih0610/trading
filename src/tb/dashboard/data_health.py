@@ -111,6 +111,9 @@ def data_health_view(root: Path) -> None:
     st.subheader("Data Health")
     st.caption("Manifest and quality metadata only · Historical scope ends 2024-12-31 UTC")
     st.write("Sealed XAUT collector health", collector_health(root))
+    from tb.dashboard.venue_status import venue_health_view
+
+    venue_health_view(root)
     rows = health_rows(root)
     st.dataframe(
         [{k: v for k, v in row.items() if k != "gap_heat_strip"} for row in rows],

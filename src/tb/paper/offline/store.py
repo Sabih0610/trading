@@ -52,6 +52,7 @@ def code_digest() -> str:
             "ledger/store.py",
             "ingest/broker/book.py",
             "ingest/broker/models.py",
+            "ingest/venue_status.py",
         )
     ]
     return digest({p.relative_to(root).as_posix(): sha256_file(p) for p in sorted(set(paths))})

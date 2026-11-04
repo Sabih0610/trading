@@ -12,6 +12,7 @@ from pydantic import AwareDatetime, Field, StrictBool, model_validator
 
 from tb.core.instruments import ContractSpec, CurrencyConversion
 from tb.ingest.broker.models import BrokerContract, BrokerIdentity, BrokerQuote, Symbol
+from tb.ingest.venue_status import VetoDecision
 from tb.risk.account import SafetyState
 from tb.risk.config import PolicyModel
 from tb.shadow.models import ResearchDecision
@@ -118,6 +119,18 @@ class PaperInput(PolicyModel):
     raw: dict[str, Any] = Field(default_factory=dict)
     session_available: StrictBool = True
     fill_available: StrictBool = True
+    venue_veto: VetoDecision | None = None
+
+    @model_validator(mode="after")
+    def owned_venue_facts_only(self) -> Self:
+        if self.venue_veto is not None and (
+            self.venue_veto.symbol != self.symbol
+            or self.venue_veto.at != self.received_at
+            or self.venue_veto.evidence not in {None, "owned_fixture"}
+        ):
+            raise PaperRefused("owned_paper_venue_identity_clock_or_provenance_refused")
+        return self
+
     decision: ResearchDecision | None = None
     stop: Decimal | None = Field(default=None, gt=0)
     target: Decimal | None = Field(default=None, gt=0)

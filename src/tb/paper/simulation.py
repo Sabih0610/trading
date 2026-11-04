@@ -20,6 +20,7 @@ from tb.core.instruments import (
     assert_eligible,
     validate_market,
 )
+from tb.ingest.venue_status import VenueBook, VenueRefused, VetoDecision
 from tb.ledger.store import DecisionLedger, LedgerVersions
 from tb.paper.accounting import funded_flow
 from tb.risk.account import AccountCircuitBreaker, SafetyState, equity_breach
@@ -73,12 +74,18 @@ def size_candidate(
     entries_today: int = 0,
     advisory: ArenaAnswer | None = None,
     assessment_only: bool = False,
+    venue_veto: VetoDecision | None = None,
 ) -> SimulationSizing:
     """Size all-in planned loss and full notional, rounding down or rejecting."""
 
     def rejected(reason: str) -> SimulationSizing:
         return SimulationSizing(approved=False, reason=reason)
 
+    if venue_veto is not None:
+        if venue_veto.symbol != candidate.symbol or venue_veto.at != now:
+            return rejected("venue_veto_identity_or_clock_mismatch")
+        if venue_veto.veto:
+            return rejected(venue_veto.reason)
     if spec is None:
         return rejected("missing_metadata")
     try:
@@ -180,12 +187,16 @@ class LocalPaperSimulator:
         ledger_path: Path,
         account_currency: str = "USD",
         bundle: PolicyBundle | None = None,
+        venue: VenueBook | None = None,
     ) -> None:
         self.bundle = load_policy_bundle() if bundle is None else bundle
         self.asset = assert_eligible(symbol, "local_simulation", self.bundle.registry)
         if not initial_cash.is_finite() or initial_cash <= 0:
             raise ValueError("Initial cash must be positive and finite")
         self.spec = spec
+        if venue is not None and not spec.synthetic:
+            raise VenueRefused("venue_status_disabled_for_historical_backtests")
+        self.venue = venue
         self.initial_cash = initial_cash
         self.account_currency = account_currency
         self.ledger = DecisionLedger(ledger_path)
@@ -309,6 +320,9 @@ class LocalPaperSimulator:
                     peak=circuit.state.peak,
                     bundle=self.bundle,
                     entries_today=entries,
+                    venue_veto=self.venue.venue_veto(candidate.symbol, quote.timestamp)
+                    if self.venue
+                    else None,
                 )
                 pending = None
                 if sized.approved:
@@ -348,6 +362,9 @@ class LocalPaperSimulator:
                         bundle=self.bundle,
                         entries_today=entries,
                         advisory=advisory,
+                        venue_veto=self.venue.venue_veto(proposed.symbol, quote.timestamp)
+                        if self.venue
+                        else None,
                     )
                     if sized.approved:
                         pending = (proposed, sized.lots)

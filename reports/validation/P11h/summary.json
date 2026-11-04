@@ -1,0 +1,32 @@
+{
+  "phase": "P11h",
+  "status": "clean_fixture_gate_passed_review_required",
+  "source_commit": "2d109f6a36e9dcd8403f34162806af3d4b21d5ee",
+  "source_tree": "6705fb878799fd284cd9c0ee8d9c820f7fd95a39",
+  "base_commit": "6a64b22a55caa7e5c3e44462f28ab07be312c676",
+  "completion_verified_utc": "2026-11-03 21:44 UTC",
+  "command": "pwsh -NoProfile -File './scripts/check-offline.ps1'",
+  "full_suite": "1500 passed, 1 skipped, 3 deselected, 5 xfailed, 23 warnings in 668.11s",
+  "tests_passed": 1500,
+  "focused_h_cases": 45,
+  "ruff": "pass",
+  "format": "pass; 543 files",
+  "strict_mypy": "pass; 200 source files",
+  "offline_smoke": "pass",
+  "owned_paper_studies": 14,
+  "hosted_ci": "inactive; not run",
+  "source_config_tests_unchanged_after_gate": true,
+  "genuine_status_acquisition": false,
+  "market_data_read": false,
+  "holdout_access": false,
+  "sealed_collector": "untouched",
+  "risk_config_changes": false,
+  "orders": false,
+  "main_merged_by_builder": false,
+  "publication": {
+    "branch": "codex/p11h-venue-status",
+    "skip_ci": true,
+    "follow_tags": false,
+    "review_marker": "reports/reviews/queue/P11h.ready"
+  }
+}

@@ -330,6 +330,7 @@ class _Account:
                 peak=self.a.safety.peak,
                 bundle=self.r.bundle,
                 entries_today=self.a.entries_today.get(order.symbol, 0),
+                venue_veto=self.event.venue_veto,
             )
             if (
                 not sized.approved
@@ -562,6 +563,7 @@ class _Account:
                         open_positions=int(self.a.position is not None),
                         entries_today=self.a.entries_today.get(quote.symbol, 0),
                         assessment_only=True,
+                        venue_veto=self.event.venue_veto,
                     )
                     if not sized.approved:
                         reason = sized.reason
