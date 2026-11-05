@@ -35,3 +35,10 @@
   assumptions, P's availability/gap/lag contract and within-minute ambiguity.
   Local freeze and clean checkout prepare the queued N full gate; publication
   remains held until root releases all builder gates and N's genuine build.
+
+- 2026-11-05: Local candidate ceee774 and clean sibling checkout created. Git
+  normalized owned CRLF files to LF. Canonical calendar hash is `337769b2e0be18e9681b1e8c12b31b95fb5e0035c7b413f982ce5a14be2671f3`;
+  historical CRLF hash remains documented. All calendar JSON values/closures are
+  identical. Copied only just-committed owned source/config/test bytes from clean
+  checkout to task checkout; no semantic source/policy edit or genuine access.
+  Next docs-only candidate will be exact HEAD for the pending N full gate.

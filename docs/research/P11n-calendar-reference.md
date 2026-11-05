@@ -27,3 +27,7 @@ this policy is not edited from observed gaps or conflicts. Unknown/early closes
 remain conservative incomplete coverage; actual quotes inside a closure are kept
 and flag calendar_conflict. Closed expected-zero periods have null OHLC and are not
 fabricated complete bars. All genuine quality details remain ignored/private.
+
+Canonical Git LF policy SHA-256 before the clean full gate: `337769b2e0be18e9681b1e8c12b31b95fb5e0035c7b413f982ce5a14be2671f3`.
+The initial CRLF hash above is retained as historical pre-data evidence. Line-ending
+normalization changes no JSON value, interval, evidence or reference assumption.
