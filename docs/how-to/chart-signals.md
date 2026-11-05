@@ -13,7 +13,7 @@ Create `CompletedBar` values with positive finite Decimal OHLC, UTC midnight bou
 
 - `trend_filter` returns Boolean weekly trend with optional 50/100-day confirmation.
 - `breakout_signal`, `pullback_signal` and `pattern_signal` return a frozen long-only `ChartSignal` or None. There is no quantity or permission field. Its stable `identity` is `(kind, symbol, bar_opened_at)`; consume only a newly completed ID once. Querying later without a new bar returns the same observation and cannot authorize a repeated entry.
-- `confirmed_swing_lows` delays each pivot until the specified later bars complete. External confirmed-low inputs need actual confirmation clocks, not pivot clocks.
+- `confirmed_swing_lows` delays each pivot until the specified later bars complete. External confirmed-low inputs need actual confirmation clocks, not pivot clocks. N's medallion uses a fixed strict three-left/three-later-bar pivot. P must carry that actual confirmed-at level, or explicitly call `confirmed_swing_lows(..., later_bars=3)` when reconstructing it. The standalone helper's generic default2 is not the same feature; bridge lag3 is fixed/nonsearched and must never be silently mixed with2.
 - `causal_kernel` gives trailing endpoint estimates; future appended values cannot revise an earlier estimate.
 - `initial_exit_plan` supplies long stop/optional R target and 1..10-day duration. These are candidate levels; the unchanged RiskManager enforces its own tighter limits.
 - `chandelier_stop` only tightens. `chandelier_exit` also reports `close_required=True` when the current executable mark has crossed that stop; do not loosen it to fit a gap. The engine decides actual closing price and risk accounting.
