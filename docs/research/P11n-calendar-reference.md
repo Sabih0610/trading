@@ -2,7 +2,7 @@
 
 The exact policy is `config/swing-calendar.json`. Its initial SHA-256 is
 `1abdbbd252a3019c45a073f22728f15a96a43636eb83a84b245dc542094b8f36`.
-No genuine source registry, metadata or observations have been opened in N.
+At this pre-data policy freeze, no genuine source registry, metadata or observations had been opened in N; the later authorized derivation is documented separately in the phase/journal.
 Root reviews this policy and exact source/read scope before a genuine build.
 
 All nine intervals are declared research reference closures: prior date17:00

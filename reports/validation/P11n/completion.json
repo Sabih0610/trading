@@ -1,0 +1,28 @@
+{
+  "phase": "P11n",
+  "status": "derivation_complete",
+  "ended_at": "2026-11-05T14:20:24.9997137Z",
+  "exit_code": 0,
+  "source_commit": "d29c19cf2fdd3db49a3e9f47e71ed7bf623f1264",
+  "source_tree": "93b282865897c7e45d0faae3d885e3a33826045c",
+  "source_code_sha256": "c879aa8c1022b0e509883755b7761f5385e383008254787fc5689ad9f84c42fa",
+  "canonical_calendar_sha256": "337769b2e0be18e9681b1e8c12b31b95fb5e0035c7b413f982ce5a14be2671f3",
+  "admission": "existing approved Silver only; original current rights and finite retention rechecked before and after; no renewal",
+  "compiled_authorized_scope": [
+    {"dataset": "binance-vision-spot-1m-2020-2024", "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"], "start": "2020-10-01T00:00:00Z", "stop_exclusive": "2025-01-01T00:00:00Z", "price_side": "trade"},
+    {"dataset": "histdata-xauusd-eurusd-m1-2020-2024", "symbols": ["XAUUSD"], "start": "2021-01-01T00:00:00Z", "stop_exclusive": "2024-01-01T00:00:00Z", "price_side": "bid"},
+    {"dataset": "binance-vision-paxg-1m-2023-12-2024", "symbols": ["PAXGUSDT"], "start": "2023-12-01T00:00:00Z", "stop_exclusive": "2025-01-01T00:00:00Z", "price_side": "trade"}
+  ],
+  "output_namespace": "data/gold/swing-v1/",
+  "private_manifest_namespace": "data/manifests/swing-v1/",
+  "timeframes": ["1d", "1w"],
+  "input_manifest_and_silver_hashes_reverified_unchanged": true,
+  "original_intraday_gold_write": false,
+  "quality_detail": "PRIVATE; no observed coverage, prices, features or genuine quality counts published",
+  "generation_complete_does_not_mean_all_bars_complete": true,
+  "downloads": "NOT RUN",
+  "strategy_evaluation": "NOT RUN",
+  "charts": "NOT RUN",
+  "protected_holdout_or_sealed_access": "NOT RUN",
+  "f_or_g_replay": "NOT RUN"
+}
