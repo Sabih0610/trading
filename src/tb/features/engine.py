@@ -13,6 +13,7 @@ import polars as pl
 
 from tb.core.holdout import require_unsealed
 from tb.features.reference import ReferenceFeatures, ReferencePeriods
+from tb.features.swing import SwingFeatures
 from tb.features.treasury import TreasuryContext
 
 
@@ -96,6 +97,17 @@ class FeatureEngine:
         self._asia_low: float | None = None
         self._london_open: float | None = None
         self._new_york_open: float | None = None
+        self._swing_state: SwingFeatures | None = None
+
+    def update_swing(
+        self, bar: dict[str, Any], *, calendar_contiguous: bool = False
+    ) -> dict[str, Any]:
+        """Calculate the opt-in daily/weekly feature contract without changing native outputs."""
+        if self._previous_time is not None:
+            raise FeatureInputError("Do not mix native and swing streams in one engine")
+        if self._swing_state is None:
+            self._swing_state = SwingFeatures(self.timeframe)
+        return self._swing_state.update(bar, calendar_contiguous=calendar_contiguous)
 
     def _reset_continuity(self) -> None:
         if self._reference:
@@ -127,6 +139,8 @@ class FeatureEngine:
     def update(self, bar: dict[str, Any], *, reference_only: bool = False) -> dict[str, Any]:
         """Consume one completed bar and return features knowable at that bar close."""
         require_unsealed(bar)
+        if self._swing_state is not None:
+            raise FeatureInputError("Do not mix native and swing streams in one engine")
 
         required = _REQUIRED[:5] if reference_only else _REQUIRED
         missing = sorted(set(required).difference(bar))

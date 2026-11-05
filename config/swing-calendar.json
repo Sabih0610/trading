@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "calendar_id": "histdata-xau-reference-closures-v1",
+  "symbol": "XAUUSD",
+  "source": "histdata",
+  "price_side": "bid",
+  "reference_only": true,
+  "reference_timezone": "America/New_York",
+  "interval_rule": "Declared reference holiday session: previous date17:00 through holiday18:00 New York. The approved HistData base calendar remains unchanged. Broker sources corroborate dates, not this provider or exact interval.",
+  "uncertainty": "Not a HistData guarantee. Unknown early closes stay conservative missing coverage. Observations inside declared closures are retained and flag calendar_conflict; never tune from observed data.",
+  "coverage_threshold": 0.95,
+  "closures": [
+    {
+      "reference_date": "2021-01-01",
+      "start": "2020-12-31T22:00:00+00:00",
+      "stop": "2021-01-01T23:00:00+00:00",
+      "evidence": "https://www.oanda.com/assets/documents/252/Hours_of_Operation.pdf",
+      "label": "New Year reference closure"
+    },
+    {
+      "reference_date": "2021-04-02",
+      "start": "2021-04-01T21:00:00+00:00",
+      "stop": "2021-04-02T22:00:00+00:00",
+      "evidence": "https://www.tickmill.com/news/easter-holidays-2021-trading-schedule-for-cfds-and-derivatives",
+      "label": "Good Friday reference closure"
+    },
+    {
+      "reference_date": "2021-12-24",
+      "start": "2021-12-23T22:00:00+00:00",
+      "stop": "2021-12-24T23:00:00+00:00",
+      "evidence": "https://www.xm.com/assets/pdf/new/holiday_schedule/2021/EN_XM-holiday-trading-hours-2021.pdf",
+      "label": "Observed Christmas reference closure"
+    },
+    {
+      "reference_date": "2022-04-15",
+      "start": "2022-04-14T21:00:00+00:00",
+      "stop": "2022-04-15T22:00:00+00:00",
+      "evidence": "https://www.tickmill.com/news/easter-holidays-2022-trading-schedule-for-cfds-and-derivatives",
+      "label": "Good Friday reference closure"
+    },
+    {
+      "reference_date": "2022-12-26",
+      "start": "2022-12-25T22:00:00+00:00",
+      "stop": "2022-12-26T23:00:00+00:00",
+      "evidence": "https://www.xm.com/assets/pdf/new/holiday_schedule/2022/XM_Stocks/EN_XM-holiday-trading-hours-2022.pdf",
+      "label": "Observed Christmas reference closure"
+    },
+    {
+      "reference_date": "2023-01-02",
+      "start": "2023-01-01T22:00:00+00:00",
+      "stop": "2023-01-02T23:00:00+00:00",
+      "evidence": "https://www.xm.com/assets/pdf/new/holiday_schedule/2022/XM_Stocks/EN_XM-holiday-trading-hours-2022.pdf",
+      "label": "Observed New Year reference closure"
+    },
+    {
+      "reference_date": "2023-04-07",
+      "start": "2023-04-06T21:00:00+00:00",
+      "stop": "2023-04-07T22:00:00+00:00",
+      "evidence": "https://en.myfxchoice.com/fx-choice-news/trading-hours-for-7-10-april/",
+      "label": "Good Friday reference closure"
+    },
+    {
+      "reference_date": "2023-12-25",
+      "start": "2023-12-24T22:00:00+00:00",
+      "stop": "2023-12-25T23:00:00+00:00",
+      "evidence": "https://cloud.xm-cdn.com/static/pdf/Generic-PDFs/Marketing/XM/2023/Christmas_Bank_Holidays_2023/EN_XM-Holiday-Trading-Hours-2023.pdf",
+      "label": "Christmas reference closure"
+    },
+    {
+      "reference_date": "2024-01-01",
+      "start": "2023-12-31T22:00:00+00:00",
+      "stop": "2024-01-01T23:00:00+00:00",
+      "evidence": "https://cloud.xm-cdn.com/static/pdf/Generic-PDFs/Marketing/XM/2023/Christmas_Bank_Holidays_2023/EN_XM-Holiday-Trading-Hours-2023.pdf",
+      "label": "New Year boundary reference closure"
+    }
+  ]
+}
