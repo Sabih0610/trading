@@ -32,7 +32,10 @@ P11b.2b genuine integration requires separate authorization and verified rights/
   and at most 3 trades per day per asset. Configured research/paper defaults are tighter:
   0.5% all-in planned risk, 2% daily net equity loss, 5% peak equity drawdown, one position.
   Only a human editing config may change defaults within those ceilings; models cannot.
-  Flat by end of the trading day; no new entries on weekends for XAUT.
+  **Holding period (owner decision 2026-11-05):** positions may be held overnight for at most
+  **10 calendar days** (compiled hard ceiling; config default 10; only a human may lower it).
+  A strategy may still require flat-by-end-of-day for itself. Stop, daily-loss and drawdown limits
+  apply to marked-to-market equity every day a position is held. No new entries on weekends for XAUT.
 - The risk manager is deterministic code and has the final say. No ML model, LLM, Jev, agent or
   human-approval flow can override or widen it.
 - AI components (LLMs, Jev, local models) may only: classify, score, veto, or reduce size.

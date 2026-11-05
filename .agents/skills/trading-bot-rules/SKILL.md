@@ -14,7 +14,8 @@ short checklist to apply on every change.
 2. Long-only: buy, then sell what is owned. Bearish signals mean "exit" or "do not enter".
 3. Tradable: assets in `config/assets.yaml` with `shariah_status: approved` (XAUT first, then BTC,
    ETH, SOL). USDT is the quote currency only. XAUUSD, FX, oil, yields are data only.
-4. Risk: ≤1% risk per trade, ≤1.0× equity exposure, daily loss limit, flat by end of day, no XAUT
+4. Risk: ≤1% risk per trade, ≤1.0× equity exposure, daily loss limit, holding period ≤ 10 calendar
+   days (owner decision 2026-11-05; intraday strategies may still require flat by end of day), no XAUT
    entries on weekends. The deterministic risk manager always has the final say.
 5. AI (LLMs, Jev, local models) may classify, score, veto, or reduce size — never create or enlarge
    trades, never move stops away, never access keys.
