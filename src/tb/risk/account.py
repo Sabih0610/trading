@@ -34,6 +34,7 @@ class SafetyState(PolicyModel):
     peak: Decimal = Field(gt=0)
     daily_halted: bool = False
     peak_halted: bool = False
+    last_equity: Decimal | None = None
 
 
 class AccountCircuitBreaker:
@@ -55,8 +56,13 @@ class AccountCircuitBreaker:
             raise ValueError("Equity must be finite")
         values = self.state.model_dump()
         if day > self.state.day:
-            values.update(day=day, day_start=max(equity, Decimal("0.00000001")), daily_halted=False)
+            # The first new-day mark may already include an overnight gap.
+            # Anchor that day's loss to the prior valid liquidation mark.
+            previous = self.state.last_equity
+            anchor = self.state.day_start if previous is None else previous
+            values.update(day=day, day_start=max(anchor, Decimal("0.00000001")), daily_halted=False)
         values["peak"] = max(self.state.peak, equity)
+        values["last_equity"] = equity
         updated = SafetyState.model_validate(values)
         breach = equity_breach(equity, updated.day_start, updated.peak, self.limits)
         self.state = updated.model_copy(

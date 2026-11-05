@@ -8,7 +8,7 @@ from enum import StrEnum
 from pathlib import Path
 from typing import Literal, Self
 
-from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, StrictBool, model_validator
 
 from tb.core.config import load_config, load_yaml
 
@@ -16,6 +16,7 @@ MAX_RISK_PER_TRADE_PCT = Decimal("1")
 MAX_TOTAL_EXPOSURE_MULTIPLE = Decimal("1")
 MAX_DAILY_LOSS_PCT = Decimal("3")
 MAX_TRADES_PER_DAY_PER_ASSET = 3
+MAX_HOLDING_DAYS = 10
 
 
 class PolicyConfigError(ValueError):
@@ -217,7 +218,8 @@ class RiskLimits(PolicyModel):
     max_total_exposure_multiple: Decimal = Field(gt=0)
     daily_loss_limit_pct: Decimal = Field(gt=0)
     max_trades_per_day_per_asset: int = Field(gt=0)
-    flat_by_end_of_day: bool
+    flat_by_end_of_day: StrictBool
+    max_holding_days: int = Field(default=MAX_HOLDING_DAYS, strict=True, ge=1, le=MAX_HOLDING_DAYS)
     allow_xaut_weekend_entries: bool
     max_peak_drawdown_pct: Decimal = Field(default=Decimal("5"), gt=0, le=5)
     max_open_positions: int = Field(default=1, ge=1, le=1)
@@ -248,8 +250,6 @@ class RiskLimits(PolicyModel):
                 f"{self.max_trades_per_day_per_asset} exceeds hard ceiling "
                 f"{MAX_TRADES_PER_DAY_PER_ASSET}"
             )
-        if not self.flat_by_end_of_day:
-            raise ValueError("flat_by_end_of_day must remain true")
         if self.allow_xaut_weekend_entries:
             raise ValueError("allow_xaut_weekend_entries must remain false")
         return self

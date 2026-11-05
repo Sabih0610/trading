@@ -130,7 +130,11 @@ def test_risk_limits_cannot_exceed_hard_ceilings(
     [
         {"max_trades_per_day_per_asset": 4},
         {"max_open_positions": 2},
-        {"flat_by_end_of_day": False},
+        # test changed because the owner changed the rule (AGENTS.md 2026-11-05)
+        {"max_holding_days": 11},
+        {"max_holding_days": 0},
+        {"max_holding_days": 1.5},
+        {"max_holding_days": True},
         {"allow_xaut_weekend_entries": True},
         {"risk_per_trade_pct": "NaN"},
         {"risk_per_trade_pct": "Infinity"},

@@ -124,13 +124,34 @@ def test_exchange_rules_allow_unknown_values_but_reject_inverted_ranges() -> Non
         SpotSymbolRules(min_qty=Decimal("2"), max_qty=Decimal("1"))
 
 
-def test_hard_switches_cannot_be_disabled() -> None:
-    with pytest.raises(ValidationError, match="flat_by_end_of_day must remain true"):
-        RiskLimits(
-            risk_per_trade_pct=Decimal("1"),
-            max_total_exposure_multiple=Decimal("1"),
-            daily_loss_limit_pct=Decimal("3"),
-            max_trades_per_day_per_asset=3,
-            flat_by_end_of_day=False,
-            allow_xaut_weekend_entries=False,
+@pytest.mark.parametrize("bad", [11, 0, -1, 1.5, 10.0, True, "10"])
+def test_owner_holding_bound_is_strict_and_compiled(bad: object) -> None:
+    # test changed because the owner changed the rule (AGENTS.md 2026-11-05)
+    with pytest.raises(ValidationError):
+        RiskLimits.model_validate(
+            {**load_risk_config().limits.model_dump(), "max_holding_days": bad}
         )
+
+
+def test_owner_allows_overnight_but_preserves_other_hard_switch() -> None:
+    limits = load_risk_config().limits
+    assert limits.max_holding_days == 10 and limits.flat_by_end_of_day is False
+    with pytest.raises(ValidationError, match="allow_xaut_weekend_entries"):
+        RiskLimits.model_validate({**limits.model_dump(), "allow_xaut_weekend_entries": True})
+
+
+@pytest.mark.parametrize("bad", [0, 1, "true", "false", None, 0.0, 1.0, [], {}])
+def test_global_eod_mode_refuses_implicit_boolean_coercion(bad: object) -> None:
+    with pytest.raises(ValidationError):
+        RiskLimits.model_validate(
+            {**load_risk_config().limits.model_dump(), "flat_by_end_of_day": bad}
+        )
+
+
+@pytest.mark.parametrize("mode", [True, False])
+def test_global_eod_mode_accepts_actual_human_boolean_only(mode: bool) -> None:
+    limits = RiskLimits.model_validate(
+        {**load_risk_config().limits.model_dump(), "flat_by_end_of_day": mode}
+    )
+    assert limits.flat_by_end_of_day is mode
+    assert limits.max_holding_days == 10

@@ -15,11 +15,13 @@ from tb.core.instruments import (
     validate_market,
 )
 from tb.ingest.broker.book import QuoteBook
-from tb.ingest.broker.models import BrokerQuote, BrokerRefused
+from tb.ingest.broker.models import BrokerQuote, BrokerRefused, Symbol
 from tb.paper.accounting import funded_flow
+from tb.paper.metadata import OwnedSpecRefresh, apply_owned_spec_refresh, spec_digest
 from tb.paper.offline.models import (
     ZERO,
     PaperAccount,
+    PaperContract,
     PaperInput,
     PaperOrder,
     PaperPackage,
@@ -33,6 +35,7 @@ from tb.paper.simulation import SimulatedCandidate, size_candidate
 from tb.risk.account import AccountCircuitBreaker
 from tb.risk.config import PolicyBundle, effective_risk_limits
 from tb.risk.guards import RiskViolation, check_exposure
+from tb.risk.holding import holding_deadline, requires_end_of_day
 
 
 def fresh_quote(quote: BrokerQuote, now: datetime) -> None:
@@ -56,6 +59,61 @@ class PaperReducer:
         self.book = QuoteBook()
         self.effects: list[dict[str, Any]] = []
 
+    def contract(self, symbol: Symbol) -> PaperContract:
+        """Use only journal-admitted owned metadata, keeping package facts immutable."""
+        return self.state.metadata_overrides.get(symbol, self.package.contracts[symbol])
+
+    def refresh(self, event: PaperInput) -> None:
+        """Append-only observations must keep every original contract fact unchanged."""
+        refresh = event.metadata_refresh
+        if refresh is None:
+            raise PaperRefused("owned_metadata_refresh_required")
+        previous = self.contract(event.symbol)
+        current = refresh.contract
+        if (
+            refresh.previous_digest != digest(previous.model_dump(mode="json"))
+            or refresh.observation_id in self.state.metadata_observations
+            or refresh.known_at
+            < self.state.metadata_known_at.get(event.symbol, self.package.started_at)
+            or not previous.metadata.observed_at < current.metadata.observed_at
+            or not current.metadata.observed_at <= refresh.known_at <= event.received_at
+            or current.conversion.observed_at > refresh.known_at
+            or previous.metadata.model_dump(exclude={"observed_at"})
+            != current.metadata.model_dump(exclude={"observed_at"})
+            or previous.conversion.model_dump(exclude={"observed_at"})
+            != current.conversion.model_dump(exclude={"observed_at"})
+        ):
+            raise PaperRefused("owned_metadata_chain_clock_or_contract_refused")
+        apply_owned_spec_refresh(
+            previous.spec,
+            OwnedSpecRefresh(
+                observation_id=refresh.observation_id,
+                previous_digest=spec_digest(previous.spec),
+                known_at=refresh.known_at,
+                spec=current.spec,
+            ),
+            event.received_at,
+        )
+        require_fresh(current.metadata.observed_at, event.received_at, timedelta(hours=24))
+        self.state.metadata_overrides[event.symbol] = current
+        self.state.metadata_known_at[event.symbol] = refresh.known_at
+        self.state = self.state.model_copy(
+            update={
+                "metadata_observations": (*self.state.metadata_observations, refresh.observation_id)
+            }
+        )
+        # Old quotes refer to old metadata. Require a fresh subsequent quote.
+        self.state.quotes.pop(event.symbol, None)
+        self.effects.append(
+            {
+                "kind": "metadata_observation",
+                "symbol": event.symbol,
+                "reason": "explicit_owned_refresh",
+                "observation_id": refresh.observation_id,
+                "known_at": refresh.known_at.isoformat(),
+            }
+        )
+
     def apply(self, event: PaperInput) -> tuple[PaperState, list[dict[str, Any]]]:
         """Apply one received event; duplicate suppression belongs to the atomic journal."""
         require_unsealed(event)
@@ -70,11 +128,13 @@ class PaperReducer:
         self.state = self.state.model_copy(deep=True)
         self.effects = []
         quote = None
+        if event.kind == "metadata":
+            self.refresh(event)
         if event.kind == "market":
             try:
                 if not event.session_available:
                     raise BrokerRefused("owned_session_unavailable")
-                contract = self.package.contracts[event.symbol].metadata
+                contract = self.contract(event.symbol).metadata
                 quote = self.book.accept(
                     event.raw,
                     contract,
@@ -142,7 +202,7 @@ class _Account:
                 if quote is None:
                     raise BrokerRefused("missing_mark")
                 fresh_quote(quote, self.now)
-                contract = self.p.contracts[position.symbol]
+                contract = self.r.contract(position.symbol)
                 validate_market(
                     assert_eligible(position.symbol, "local_simulation", self.r.bundle.registry),
                     contract.spec,
@@ -175,7 +235,7 @@ class _Account:
             quote = self.r.state.quotes[position.symbol]
             try:
                 check_exposure(
-                    self.p.contracts[position.symbol].spec.notional(
+                    self.r.contract(position.symbol).spec.notional(
                         position.lots, quote.bid, Decimal(1)
                     ),
                     ZERO,
@@ -186,7 +246,7 @@ class _Account:
                 halt = halt or "exposure"
         if previous_day != circuit.state.day:
             self.set(entries_today={})
-            if self.a.position:
+            if self.a.position and requires_end_of_day(limits, self.a.position.flat_by_end_of_day):
                 self.set(position=self.a.position.model_copy(update={"force_exit_since": self.now}))
                 self.emit("position_management", "day_rollover_requires_next_quote_exit")
         drawdown = (circuit.state.peak - equity) / circuit.state.peak * 100
@@ -222,8 +282,17 @@ class _Account:
             self.event.kind == "clock" and self.event.reason == "end_of_day"
         ):
             for order in self.pending("entry") + self.pending("signal_exit"):
-                self.transition(order, "cancelled", self.event.reason)
-            if self.a.position and self.event.reason == "end_of_day":
+                if self.event.kind == "cancel" or requires_end_of_day(
+                    self.r.bundle.risk.limits, order.flat_by_end_of_day
+                ):
+                    self.transition(order, "cancelled", self.event.reason)
+            if (
+                self.a.position
+                and self.event.reason == "end_of_day"
+                and requires_end_of_day(
+                    self.r.bundle.risk.limits, self.a.position.flat_by_end_of_day
+                )
+            ):
                 self.set(position=self.a.position.model_copy(update={"force_exit_since": self.now}))
                 self.emit("position_management", "end_of_day_exit_waits_for_subsequent_quote")
         if quote:
@@ -286,6 +355,11 @@ class _Account:
                 if quote.bid >= position.target
                 else halt
                 if halt
+                else "max_holding_days"
+                if self.now
+                >= holding_deadline(
+                    position.entered_at, self.r.bundle.risk.limits, position.max_holding_days
+                )
                 else "end_of_day"
                 if position.force_exit_since
                 and self.eligible_after(quote, position.force_exit_since)
@@ -305,7 +379,7 @@ class _Account:
             if not self.event.fill_available:
                 self.emit("missed_fill", "owned_fill_unavailable", order_id=order.id)
                 continue
-            contract = self.p.contracts[order.symbol]
+            contract = self.r.contract(order.symbol)
             spec = contract.spec
             if halt or self.a.position or self.a.equity is None:
                 self.transition(order, "rejected", halt or "position_limit")
@@ -379,6 +453,8 @@ class _Account:
                     stop=order.stop,
                     target=order.target,
                     planned_loss=sized.planned_loss,
+                    flat_by_end_of_day=order.flat_by_end_of_day,
+                    max_holding_days=order.max_holding_days,
                 ),
                 fill_count=self.a.fill_count + 1,
             )
@@ -395,7 +471,7 @@ class _Account:
         cash_delta: Decimal,
         side: str,
     ) -> None:
-        units = order.lots * self.p.contracts[order.symbol].spec.contract_size
+        units = order.lots * self.r.contract(order.symbol).spec.contract_size
         slip = units * abs(price - (quote.ask if side == "entry" else quote.bid))
         spread = units * quote.spread
         self.set(
@@ -429,7 +505,7 @@ class _Account:
         if not self.event.fill_available:
             self.emit("missed_fill", "exit_quote_has_no_owned_fill", order_id=order.id)
             return
-        spec = self.p.contracts[position.symbol].spec
+        spec = self.r.contract(position.symbol).spec
         try:
             validate_market(
                 assert_eligible(position.symbol, "local_simulation", self.r.bundle.registry),
@@ -479,7 +555,7 @@ class _Account:
         )
 
     def conversion(self, quote: BrokerQuote) -> CurrencyConversion:
-        return self.p.contracts[quote.symbol].conversion.model_copy(
+        return self.r.contract(quote.symbol).conversion.model_copy(
             update={"observed_at": quote.source_at}
         )
 
@@ -513,6 +589,8 @@ class _Account:
             reason="risk_evaluation_pending",
             stop=self.event.stop,
             target=self.event.target,
+            flat_by_end_of_day=self.event.flat_by_end_of_day,
+            max_holding_days=self.event.max_holding_days,
         )
         reason = None
         if decision.status != "candidate":
@@ -541,7 +619,7 @@ class _Account:
             else:
                 try:
                     fresh_quote(quote, self.now)
-                    spec = self.p.contracts[quote.symbol].spec
+                    spec = self.r.contract(quote.symbol).spec
                     candidate = SimulatedCandidate(
                         symbol=quote.symbol,
                         timestamp=decision.decision_at,

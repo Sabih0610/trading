@@ -8,13 +8,14 @@ from decimal import Decimal
 from enum import StrEnum
 from itertools import pairwise
 
-from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, StrictBool, field_validator
 
 from tb.backtest.costs import CostAssumptions
 from tb.core.holdout import require_unsealed
 from tb.risk.account import AccountCircuitBreaker, SafetyState
-from tb.risk.config import AssetDefinition, effective_risk_limits
+from tb.risk.config import MAX_HOLDING_DAYS, AssetDefinition, effective_risk_limits
 from tb.risk.guards import OrderSide, assert_tradable
+from tb.risk.holding import holding_deadline, requires_end_of_day
 from tb.risk.manager import EntryRequest, RejectionCode, RiskManager, RiskState
 
 
@@ -74,6 +75,8 @@ class EntrySignal(BaseModel):
     participation_rate: Decimal = Field(default=Decimal("0.1"), gt=0, le=1)
     expires_after_bars: int = Field(default=1, ge=1, le=100)
     max_holding_bars: int | None = Field(default=None, ge=1, le=10_000)
+    flat_by_end_of_day: StrictBool = True
+    max_holding_days: int | None = Field(default=None, strict=True, ge=1, le=MAX_HOLDING_DAYS)
 
     @field_validator("timestamp")
     @classmethod
@@ -173,6 +176,8 @@ class _Position:
     target_price: Decimal
     entry_index: int
     max_holding_bars: int | None
+    flat_by_end_of_day: bool
+    holding_deadline: datetime
 
 
 @dataclass
@@ -272,9 +277,9 @@ class BacktestEngine:
         start_day_equity = self.initial_cash
         realized_day = Decimal("0")
         entries_today = 0
+        limits = effective_risk_limits(self.asset, self.risk_manager.bundle.risk.limits)
         circuit = AccountCircuitBreaker(
-            SafetyState(day=active_day, day_start=cash, peak=cash),
-            effective_risk_limits(self.asset, self.risk_manager.bundle.risk.limits),
+            SafetyState(day=active_day, day_start=cash, peak=cash), limits
         )
 
         def reject(timestamp: datetime, code: str, detail: str) -> None:
@@ -300,7 +305,7 @@ class BacktestEngine:
             cash_in = proceeds - exit_fee
             pnl = cash_in - position.entry_cash_out
             cash += cash_in
-            realized_day += pnl
+            realized_day = cash - start_day_equity
             trades.append(
                 TradeRecord(
                     symbol=self.symbol,
@@ -352,9 +357,8 @@ class BacktestEngine:
         for index, bar in enumerate(bars):
             if bar.timestamp.date() != active_day:
                 active_day = bar.timestamp.date()
-                start_day_equity = cash + (
-                    Decimal("0") if position is None else position.quantity * bar.open
-                )
+                # Preserve the prior liquidation close as the next day's anchor.
+                start_day_equity = curve[-1].equity if curve else cash
                 realized_day = Decimal("0")
                 entries_today = 0
             kill_active = self.kill_switch_at is not None and bar.timestamp >= self.kill_switch_at
@@ -376,10 +380,12 @@ class BacktestEngine:
                     reject(bar.timestamp, "kill_switch", "Pending entry canceled by kill switch")
                     pending = None
                 pending_exit_index = None
-            if (
-                position is not None
-                and position.max_holding_bars is not None
-                and index - position.entry_index >= position.max_holding_bars
+            if position is not None and (
+                bar.timestamp >= position.holding_deadline
+                or (
+                    position.max_holding_bars is not None
+                    and index - position.entry_index >= position.max_holding_bars
+                )
             ):
                 close_position(bar, bar.open, ExitReason.TIME_STOP)
             if pending_exit_index is not None and index >= pending_exit_index:
@@ -464,6 +470,12 @@ class BacktestEngine:
                                     target_price=pending_signal.target_price,
                                     entry_index=index,
                                     max_holding_bars=pending_signal.max_holding_bars,
+                                    flat_by_end_of_day=requires_end_of_day(
+                                        limits, pending_signal.flat_by_end_of_day
+                                    ),
+                                    holding_deadline=holding_deadline(
+                                        bar.timestamp, limits, pending_signal.max_holding_days
+                                    ),
                                 )
                                 if self.audit is not None:
                                     stop_fill = self.costs.exit_price(pending_signal.stop_price)
@@ -569,13 +581,15 @@ class BacktestEngine:
                     pending = None
                 reject(bar.timestamp, account_halt, "Net-equity circuit breaker latched")
             next_day = index + 1 == len(bars) or bars[index + 1].timestamp.date() != active_day
-            if next_day and position is not None:
+            if next_day and position is not None and position.flat_by_end_of_day:
                 close_position(bar, bar.close, ExitReason.END_OF_DAY)
-            if next_day and pending is not None:
+            if (
+                next_day
+                and pending is not None
+                and requires_end_of_day(limits, pending.signal.flat_by_end_of_day)
+            ):
                 reject(bar.timestamp, "end_of_day_cancel", "Pending entry canceled at day end")
                 pending = None
-            if next_day:
-                pending_exit_index = None
             holdings = Decimal("0") if position is None else position.quantity
             exposure = holdings * bar.close
             curve.append(
