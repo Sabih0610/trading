@@ -55,7 +55,7 @@
     "src/tb/strategies/signals.py",
     "tests/unit/test_chart_signals.py"
   ],
-  "publication": "held_for_root_serial_resource_window",
-  "formal_review": "not_yet_requested",
+  "publication": "root_common_window_released_for_review",
+  "formal_review": "requested_pending_independent_review",
   "authored_relative_links_checked": 13
 }
