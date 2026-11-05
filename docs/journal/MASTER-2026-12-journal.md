@@ -1,0 +1,8 @@
+# MASTER-2026-12 journal
+
+- 2026-11-05 03:17 UTC: Pulled main fast-forwardonly (already current7b9b558); read all master/track prompts, currentAGENTS, protocol, owner swing evidence and documentation rules. Ownercheckout app/.env untouched.
+- 2026-11-05 03:17 UTC: Created separate credential-free M/N/O and rootliving worktrees; started agents /root/track_m,/root/track_n,/root/track_o in parallel. ReservedADR0030/31/32; sharedlivingfiles rootonly. P not started. Root exclusively grants pytest/fullgate/heavybuildslots, inclcommithook avoidance. No tests or genuinebuild yet.
+- 2026-11-05 03:17 UTC: Reviewed early interfaces: M retains EOD defaults foroldintraday and previous liquidationmark for midnightloss; N new opt-inswing-v1namespace with explicit calendar policy; O pure completedbarfunctions and causalone-sidedpatterns. Ncalendarresearch ongoing, no metadata/prices opened.
+- 2026-11-05 03:17 UTC: Created new15minute December continuation heartbeat under owner's persistent-continuation authorization. OldNovemberloop remainsdeleted. Initialized private coordinatedstate/handoff; this localunpublishedliving snapshot will consolidate actualmerges separately. No completion or new strategy verdict claimed.
+
+- 2026-11-05 03:21 UTC: Local coordination snapshot checks passed:15 authored relative links, UTF-8 JSON/existing status vocabulary with preserved historical exceptions, actual November final review path, exact source/config/tests/scripts/dependency identity, P not started and final December artifacts absent. Direct Ruff/format637 passed; no full suite run. Commit this resumable local docs snapshot without opening a living PR before actual track merges.

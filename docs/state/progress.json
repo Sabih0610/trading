@@ -1,5 +1,5 @@
 {
-  "current_phase": "MASTER-2026-11",
+  "current_phase": "MASTER-2026-12",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -851,13 +851,70 @@
       "final_living_integration_merged": true,
       "master_complete": true,
       "report": "reports/phases/MASTER-2026-11-status.md",
-      "review": "queued_final_documentary_review",
+      "review": "APPROVED",
       "owner_action_required_for_current_scope": false,
       "next_step": "Stop autonomous continuation; final report documentary review and separately scoped owner decisions only",
       "completed_utc": "2026-11-04 18:55 UTC",
       "completion_conditions_review_commit": "6848cc3",
       "final_ready_marker": "reports/reviews/queue/MASTER-2026-11.ready",
-      "final_report_pull_request": "https://github.com/Sabih0610/trading/pull/16"
+      "final_report_pull_request": "https://github.com/Sabih0610/trading/pull/16",
+      "final_report_merged": true,
+      "final_report_merge_commit": "34db28c",
+      "final_report_review_commit": "f3a096c",
+      "final_report_review": "reports/reviews/MASTER-2026-11-review.md"
+    },
+    "P11m": {
+      "title": "Owner-approved multi-day holding",
+      "status": "in_progress",
+      "started_utc": "2026-11-05 03:17 UTC",
+      "branch": "codex/p11m-multi-day-holding",
+      "base_main": "7b9b558",
+      "review": "not_ready",
+      "fixture_only": true,
+      "full_clean_gate": "not_started"
+    },
+    "P11n": {
+      "title": "Daily/weekly medallion and private intrabar paths",
+      "status": "in_progress",
+      "started_utc": "2026-11-05 03:17 UTC",
+      "branch": "codex/p11n-daily-weekly",
+      "base_main": "7b9b558",
+      "review": "not_ready",
+      "fixture_only": false,
+      "full_clean_gate": "not_started"
+    },
+    "P11o": {
+      "title": "Causal chart-signal library",
+      "status": "in_progress",
+      "started_utc": "2026-11-05 03:17 UTC",
+      "branch": "codex/p11o-chart-signals",
+      "base_main": "7b9b558",
+      "review": "not_ready",
+      "fixture_only": true,
+      "full_clean_gate": "not_started"
+    },
+    "P11p": {
+      "title": "Pre-registered swing Stage3b",
+      "status": "not_started",
+      "branch": "codex/p11p-swing-stage3",
+      "dependencies": [
+        "P11m merged",
+        "P11n merged",
+        "P11o merged"
+      ],
+      "genuine_data_access": false,
+      "preregistration_gate": "main reports/reviews/P11p-prereg-review.md explicitly APPROVED",
+      "maximum_new_trials": 27,
+      "prior_stage3_trials": 216
+    },
+    "MASTER-2026-12": {
+      "title": "Owner-approved multi-day daily/weekly swing system",
+      "status": "in_progress",
+      "started_utc": "2026-11-05 03:17 UTC",
+      "master_complete": false,
+      "owner_action_required_for_current_scope": false,
+      "holding_period_hard_cap_days": 10,
+      "other_risk_changes": false
     }
   },
   "allowed_status": [
@@ -886,8 +943,8 @@
       "command": "pwsh -NoProfile -File .\\scripts\\download-news.ps1 -Sources gdelt -From 2020-10-01 -To 2026-10-21 -Resume"
     }
   ],
-  "last_updated_utc": "2026-11-04 18:58 UTC",
-  "next_phase": "No automatic next phase. Owner decides future registered research or pause; Stage4/paper/Testnet/orders/P14 remain unauthorized.",
+  "last_updated_utc": "2026-11-05 03:17 UTC",
+  "next_phase": "Implement/review/merge M N O, then P PartA and APPROVED prereg gate, then one frozen PartB. No automatic paper/orders.",
   "audits": {
     "third_party_repository_adoption": {
       "status": "done",
@@ -914,16 +971,12 @@
     }
   },
   "living_docs_draft": {
-    "branch": "codex/living-docs-master-2026-11-status",
-    "base_commit": "6848cc38dddcac1c7942338224f9eff09482a178",
+    "branch": "codex/living-docs-master-2026-12",
+    "base_main": "7b9b558",
+    "publication": "unpublished_coordination_snapshot",
+    "master_complete": false,
     "config_source_tests_changed": false,
-    "master_complete": true,
-    "formal_review": "queued",
-    "publication": "ready_for_final_documentary_review",
-    "ready_marker": "reports/reviews/queue/MASTER-2026-11.ready",
-    "committed": true,
-    "published": true,
-    "pull_request": "https://github.com/Sabih0610/trading/pull/16"
+    "consolidate_after_actual_track_merges": true
   },
   "living_docs_previous": {
     "branch": "codex/living-docs-2026-11-04",
@@ -972,10 +1025,32 @@
     "review_commit": "6848cc3",
     "review_report": "reports/reviews/MASTER-2026-11-final-living-review.md"
   },
-  "master_complete": true,
+  "master_complete": false,
   "continuation": {
-    "automation_id": "continue-trading-master-review-loop",
-    "instruction": "delete_after_final_report_publication",
-    "automatic_next_phase": false
+    "master": "MASTER-2026-12",
+    "automation_id": "continue-trading-master-2026-12-review-loop",
+    "status": "ACTIVE",
+    "delete_at_actual_completion": true
+  },
+  "prior_master_completion": {
+    "master": "MASTER-2026-11",
+    "complete": true,
+    "immutable_trials": {
+      "F": 162,
+      "G": 54
+    },
+    "continuation_automation_deleted": true
+  },
+  "living_docs_previous_master_status": {
+    "branch": "codex/living-docs-master-2026-11-status",
+    "base_commit": "6848cc38dddcac1c7942338224f9eff09482a178",
+    "config_source_tests_changed": false,
+    "master_complete": true,
+    "formal_review": "queued",
+    "publication": "ready_for_final_documentary_review",
+    "ready_marker": "reports/reviews/queue/MASTER-2026-11.ready",
+    "committed": true,
+    "published": true,
+    "pull_request": "https://github.com/Sabih0610/trading/pull/16"
   }
 }

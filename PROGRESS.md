@@ -1,3 +1,20 @@
+# MASTER 2026-12 — swing implementation in progress
+
+Started 2026-11-05 03:17 UTC from main `7b9b558` under the owner's new swing-system direction. M, N and O are running in separate credential-free worktrees. P has not started: all three prerequisites must merge first, and its pre-registration requires explicit APPROVED review on main before genuine P data access.
+
+The only authorized risk change is the owner's holding rule: a strict maximum of10calendar days, default10, optionally stricter per human config/strategy EOD rule. Other risk limits stay unchanged. No paper operations, Testnet, orders or Stage4. November's162/54trial results remain immutable and complete; this is a new registered research direction.
+
+| Track | Current state | Prompt |
+|---|---|---|
+| M | Research/implementation: holding deadlines, midnight MTM circuits and owned EOD compatibility | [P11m](prompts/P11m-multi-day-holding.md) |
+| N | Research/implementation: daily/weekly medallion and causal features, explicit session/calendar policy, private intrabar accessor | [P11n](prompts/P11n-daily-weekly-data.md) |
+| O | Research/implementation: pure causal chart signals, fixtures only | [P11o](prompts/P11o-chart-signals.md) |
+| P | Not started; requires M/N/O merges, then pre-registration review | [P11p](prompts/P11p-swing-stage3.md) |
+
+Full suites and heavy builds run one at a time; root grants test slots. No new phase is approved merely because implementation or a gate completes. [Master](prompts/MASTER-2026-12.md).
+
+## Historical progress snapshots
+
 # MASTER 2026-11 — authorized engineering complete
 
 Completed 2026-11-04 18:55 UTC after Claude approved/merged every implementation track and final living integration on main `6848cc3`. The final [MASTER status](reports/phases/MASTER-2026-11-status.md) and empty ready marker are published for final documentary review. Autonomous continuation ends after this publication.

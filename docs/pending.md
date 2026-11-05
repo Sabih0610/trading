@@ -1,3 +1,14 @@
+# Current pending work — December master
+
+M/N/O implementation and independent Claude reviews are in progress under the [new owner-approved master](../prompts/MASTER-2026-12.md). No owner action blocks the authorized engineering. P waits for all three merges and then its pre-registration approval; no genuine P access before that gate.
+
+- Root owns the serialized test/heavy-build queue and review polling.
+- N is documenting XAU session/holiday expectations before genuine derivation; closures are never inferred from missing prices. Existing private rights/expiry and original generations stay intact; no downloads.
+- The owner-approved10day holding change is M's scope. Every other risk number/guard remains unchanged.
+- Paper operations, Testnet, orders, Stage4 and P14 remain out of scope, even if P eventually passes.
+
+## Historical pending snapshots
+
 # Current pending matters — after MASTER completion
 
 Authorized MASTER engineering is complete. Every required track and final living integration is approved/merged. The [final status report](../reports/phases/MASTER-2026-11-status.md) and empty `MASTER-2026-11.ready` are queued for Claude's final documentary review; the continuation heartbeat ends after publication. No implementation is blocked on the owner.

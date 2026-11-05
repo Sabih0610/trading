@@ -1,3 +1,18 @@
+# Current Claude review queue — December master
+
+No December track is submitted yet. M/N/O are implementing in parallel; each needs actual clean gate success, a phase report, PR and empty ready marker before review. Claude reviews/merges via main files; builder never self-approves or merges.
+
+| Track | Branch | Current review gate |
+|---|---|---|
+| M | `codex/p11m-multi-day-holding` | Implementation; P11m.ready not created |
+| N | `codex/p11n-daily-weekly` | Implementation/calendar research; P11n.ready not created |
+| O | `codex/p11o-chart-signals` | Fixture implementation; P11o.ready not created |
+| P | `codex/p11p-swing-stage3` | Not started; M/N/O merges first, then P11p-prereg-review.md APPROVED before genuine access |
+
+Full suites one at a time. No final December status/ready exists or completion is claimed. [Master](../prompts/MASTER-2026-12.md).
+
+## Historical review snapshots
+
 # Current Claude review queue — final MASTER report
 
 All required implementation and final living integration PRs are approved/merged, including [PR #15](https://github.com/Sabih0610/trading/pull/15), [approved final living review](../reports/reviews/MASTER-2026-11-final-living-review.md).

@@ -1,3 +1,19 @@
+# Current handoff — December swing master started
+
+Started 2026-11-05 03:17 UTC from main `7b9b558` under the owner's new swing-system direction. M, N and O are running in separate credential-free worktrees. P has not started: all three prerequisites must merge first, and its pre-registration requires explicit APPROVED review on main before genuine P data access.
+
+Owner decision2026-11-05 supersedes only the old global flat-by-EOD rule: max holding is10calendar days, compiled ceiling/config default10, human may lower. Intraday strategies keep EOD behavior; no other risk widening. Read [December master](../prompts/MASTER-2026-12.md) and currentAGENTS. November is done and its heartbeat remains deleted; do not replay its immutable F/G batches.
+
+M=`codex/p11m-multi-day-holding`, N=`codex/p11n-daily-weekly`, O=`codex/p11o-chart-signals`, all from7b9b558. Private coordinator state is `work/MASTER-2026-12-coordination.json` and resumable handoff `work/MASTER-2026-12-handoff.md` in this credential-free coordination checkout. Each track keeps its own phase journal/work handoff. Shared seven living docs belong only to this separate branch; track phase reports provide Living-doc entries. Consolidate actual merges in a separate PR.
+
+Root grants all pytest slots, including implicit commit hooks, to avoid any focused/full-suite overlap. A full gate uses a clean credential-free checkout and original `scripts/check-offline.ps1`; failed/interrupted attempts stay non-passes. Heavy genuine N builds wait for complete tested/frozen source, current exact rights/retention admission and root's exclusive memory slot. No new downloads or2025 data. Original daily/weekly derivations use a separate namespace so prior F/G outputs/checksums remain untouched. N may build approved source data; O/M use fixtures only. P may not read genuine data before its own APPROVED pre-registration.
+
+Poll main about15minutes for realClaude reviews, apply same-branch fixes, validate and push[skip ci]--no-follow-tags, refresh empty track ready marker. Never force-push, merge main or self-approve. P starts only after all M/N/O actual merges; PartA always stops at review. After P approval, freeze/test complete PartB source/config before the one registered batch. Final MASTER-2026-12 status/ready only after M/N/O/PPartB and a living-docs PR are merged.
+
+The new December review heartbeat continues authorized work and is deleted at actual completion. Keep notifications quiet for unchanged states. No owner checkout app/private.env/secrets, holdout/sealed/P14, paper operations/Testnet/orders/Stage4/other risk changes. Preserve coworkers' unfinished work and private evidence.
+
+## Historical handoffs — November stop instructions apply to the completed November scope
+
 # Current handoff — MASTER complete; final report ready
 
 2026-11-04 18:55 UTC. All MASTER completion conditions hold on main `6848cc3`: F/G final verdicts,H/I/J1/J2,reliability,K acquisition and final living PR #15 are independently approved/merged. [Final MASTER report](../reports/phases/MASTER-2026-11-status.md) lists every verdict, exact approval/gate identities, limitations and next owner decisions. Empty `MASTER-2026-11.ready` submits the report for Claude's final documentary review.

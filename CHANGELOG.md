@@ -4,6 +4,12 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### December swing plan started — 2026-11-05 03:17 UTC
+
+- Owner-approved holding rule allows at most10calendar days; M implements that change with other ceilings/defaults preserved. N builds daily/weekly causal medallion features and private day paths from approved existing history; O implements fixture-only chart signals.
+- M/N/O started in parallel in separate credential-free worktrees; full suites and heavy builds are serialized. P remains unstarted until all three merge, then stops for pre-registration APPROVED review before genuine access.
+- No new strategy verdict, profit claim, paper trading, order or additional risk change. November registered results stay frozen.
+
 ### MASTER completion — 2026-11-04 18:55 UTC
 
 - All required tracks, reliability and final living-docs integration independently approved/merged. Published the final complete verdict/status report and empty MASTER ready marker for documentary review; stop autonomous continuation.
