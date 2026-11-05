@@ -1,0 +1,31 @@
+{
+  "status": "focused_and_static_passed_full_clean_gate_pending",
+  "baseline_main": "7b9b558",
+  "fixture_only": true,
+  "genuine_data_access": false,
+  "existing_source_config_tests_scripts_dependencies_changed": false,
+  "focused_tests": {
+    "passed": 61,
+    "seconds": 4.39
+  },
+  "prior_focused_run": {
+    "passed": 56,
+    "failed": 1,
+    "seconds": 26.21,
+    "status": "not_a_pass",
+    "reason": "new equality fixture had incoherent low; constructor correctly refused; corrected fixture without changing equality assertion or source logic"
+  },
+  "ruff": "passed",
+  "format_files": 642,
+  "strict_mypy_sources": 215,
+  "full_clean_gate": "pending_root_serial_slot",
+  "source_sha256": "366b6378c1ea2cbc6d81760f8dd5f2ab6c6fa28da97955646b958a3502d1c900",
+  "owned_test_sha256": {
+    "tests/unit/test_chart_signals.py": "1bde0e1b7d934a80843d7554438366c410efbd2aa7e7df2a85036c83402895eb",
+    "tests/property/test_chart_signals.py": "916b7292b3669f1a3430599692e97c301a242487d38c7d08271af190be373f0a"
+  },
+  "shared_living_docs_changed": false,
+  "strategy_permissions_changed": false,
+  "risk_limits_changed": false,
+  "external_orders": 0
+}
