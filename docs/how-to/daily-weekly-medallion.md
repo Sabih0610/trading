@@ -31,8 +31,10 @@ Outputs live under `data/gold/swing-v1/` with separate
 untouched. Each manifest contains source/input/policy/retention hashes, calendar
 policy hash, code identity, fixed feature definitions and private coverage counts.
 Generation `status: complete` means publication completed, not that every bar is
-complete. Weekly files are partitioned by window-open year; late-December windows
-may close in January. P must filter `bar_end_utc`/`available_at` against the frozen
+complete. Weekly files use max(window-open year, first admitted source year) for their
+partition. The initial cross-year partial week is retained in the first admitted
+year without changing its actual open or incomplete flag; no earlier source file
+is read. Other late-December windows may close in January. P must filter `bar_end_utc`/`available_at` against the frozen
 training/evaluation cutoff before materialization/use, never only by year-folder.
 First/last observed minute timestamps prove the actual source bounds; a partial
 initial week may open before admitted history but remains explicitly incomplete,

@@ -42,3 +42,24 @@
   identical. Copied only just-committed owned source/config/test bytes from clean
   checkout to task checkout; no semantic source/policy edit or genuine access.
   Next docs-only candidate will be exact HEAD for the pending N full gate.
+
+- 2026-11-05: Source-only post-freeze inspection found that the publisher selected
+  only admitted source years by window-open year, dropping XAU's initial partial
+  week whose open is2020-12-28 but first actual quote is2021+. Before any genuine
+  read, added an explicit max(window-open year, first admitted source year)
+  partition rule, retaining original timestamps/incomplete flags with no2020 source
+  access. New owned fixture proves lossless cross-year partitioning; not executed
+  while M's full gate runs. Candidate1a93499/wrapper now superseded pending repair
+  validation, static checks and a new freeze. All prior evidence remains historical.
+
+- 2026-11-05: After M actual full PASS/root execution grant, the exact new leading
+  cross-year partition fixture passed once: **1 passed in30.85s** (startup/collection
+  included), work/P11n-leading-week-focused.log. Whole Ruff lint and format649
+  files passed afterward; strict mypy is still running. The earlier17+3+2 scopes
+  and this single added case remain distinct, not a single final23-case run.
+  No genuine inputs, full N suite or publication was started.
+
+- 2026-11-05: Refreshed strict mypy completed with actual exit0,221sourcefiles,
+  after the single repaired publication fixture and Ruff/format649 PASS. No active
+  N worker remains. New source freeze replaces1a93499; root will admit the exact
+  replacement clean checkout/full wrapper before any full suite or genuine build.

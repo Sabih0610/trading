@@ -55,6 +55,14 @@ def _code_identity() -> str:
     return digest({name: sha256_file(repository / name) for name in paths})
 
 
+def _year_partition(frame: pl.DataFrame, year: int, first_source_year: int) -> pl.DataFrame:
+    """Keep the initial partial week in the first admitted year without changing its open."""
+    window_year = pl.col("timestamp_utc").dt.year()
+    return frame.filter(
+        (window_year == year) | ((year == first_source_year) & (window_year < year))
+    )
+
+
 def _publish(
     source: SwingSource,
     frames: dict[str, pl.DataFrame],
@@ -76,8 +84,7 @@ def _publish(
     manifests = []
     for year in source.scope.years:
         selected = {
-            tf: frame.filter(pl.col("timestamp_utc").dt.year() == year)
-            for tf, frame in frames.items()
+            tf: _year_partition(frame, year, source.scope.years[0]) for tf, frame in frames.items()
         }
         hashes = {tf: frame_digest(frame) for tf, frame in selected.items()}
         generation = digest(
@@ -162,6 +169,7 @@ def _publish(
             "generation": generation,
             "policy_digest": plan.digest,
             "retention": plan.retention.model_dump(mode="json"),
+            "partition_year_rule": "max(window_open_year, first_admitted_source_year)",
             "scope_start": source.scope.start.isoformat(),
             "scope_stop_exclusive": source.scope.stop.isoformat(),
             "calendar_identity": calendar_identity,

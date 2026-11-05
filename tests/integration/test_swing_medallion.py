@@ -14,7 +14,7 @@ from tb.ingest.retention import lifetime
 from tb.ingest.rights import Permission
 from tb.research.models import DatasetRights, ResearchRefused, VisionDatasetPlan
 from tb.research.registry import register_vision_plan
-from tb.silver.swing_build import build_swing
+from tb.silver.swing_build import _year_partition, build_swing
 from tb.silver.swing_source import PAXG_DATASET, SwingSource
 
 NOW = datetime(2026, 11, 5, tzinfo=UTC)
@@ -218,3 +218,29 @@ def test_current_identity_reverified_after_materialization(admitted):
     _, identity = source.manifest(2023)
     with pytest.raises(ResearchRefused, match="manifest_checksum_changed"):
         source.verify(replace(identity, manifest_sha256="0" * 64))
+
+
+def test_leading_cross_year_partial_week_is_kept_without_relabelling():
+    frame = pl.DataFrame(
+        {
+            "timestamp_utc": [
+                datetime(2020, 12, 28, tzinfo=UTC),
+                datetime(2021, 1, 4, tzinfo=UTC),
+                datetime(2022, 1, 3, tzinfo=UTC),
+            ],
+            "first_observed_minute_utc": [
+                datetime(2021, 1, 1, tzinfo=UTC),
+                datetime(2021, 1, 4, tzinfo=UTC),
+                datetime(2022, 1, 3, tzinfo=UTC),
+            ],
+            "window_within_scope": [False, True, True],
+            "complete": [False, True, True],
+        }
+    )
+    first = _year_partition(frame, 2021, 2021)
+    second = _year_partition(frame, 2022, 2021)
+    assert first.height == 2 and second.height == 1
+    assert first["timestamp_utc"][0] == datetime(2020, 12, 28, tzinfo=UTC)
+    assert first["first_observed_minute_utc"][0] == datetime(2021, 1, 1, tzinfo=UTC)
+    assert first["window_within_scope"][0] is False and first["complete"][0] is False
+    assert pl.concat([first, second]).equals(frame)
