@@ -14,7 +14,7 @@ from tb.core.instruments import ContractSpec, CurrencyConversion
 from tb.ingest.broker.models import BrokerContract, BrokerIdentity, BrokerQuote, Symbol
 from tb.ingest.venue_status import VetoDecision
 from tb.risk.account import SafetyState
-from tb.risk.config import PolicyModel
+from tb.risk.config import MAX_HOLDING_DAYS, PolicyModel
 from tb.shadow.models import ResearchDecision
 
 VERSION: Literal["owned-offline-paper-1.0.0"] = "owned-offline-paper-1.0.0"
@@ -110,8 +110,19 @@ class PaperPackage(PolicyModel):
         return digest(self.model_dump(mode="json"))
 
 
+class PaperContractRefresh(PolicyModel):
+    """Explicit independent owned metadata observation, chained to its predecessor."""
+
+    version: Literal["owned-contract-refresh-1.0.0"] = "owned-contract-refresh-1.0.0"
+    evidence: Literal["owned_fixture"] = "owned_fixture"
+    observation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    previous_digest: str = Field(pattern=r"^[a-f0-9]{64}$")
+    known_at: AwareDatetime
+    contract: PaperContract
+
+
 class PaperInput(PolicyModel):
-    kind: Literal["market", "decision", "clock", "cancel"]
+    kind: Literal["market", "decision", "clock", "cancel", "metadata"]
     provider: Literal["owned_fixture"] = "owned_fixture"
     version: Literal["owned-offline-paper-1.0.0"] = VERSION
     received_at: AwareDatetime
@@ -131,9 +142,12 @@ class PaperInput(PolicyModel):
             raise PaperRefused("owned_paper_venue_identity_clock_or_provenance_refused")
         return self
 
+    metadata_refresh: PaperContractRefresh | None = None
     decision: ResearchDecision | None = None
     stop: Decimal | None = Field(default=None, gt=0)
     target: Decimal | None = Field(default=None, gt=0)
+    flat_by_end_of_day: StrictBool = True
+    max_holding_days: int | None = Field(default=None, strict=True, ge=1, le=MAX_HOLDING_DAYS)
     requested_lots: Decimal | None = Field(default=None, gt=0)
     reason: str = Field(default="clock", min_length=1, max_length=100)
 
@@ -146,6 +160,12 @@ class PaperInput(PolicyModel):
             "ask",
         }:
             raise PaperRefused("owned_quote_fields_or_size_refused")
+        refresh = self.metadata_refresh
+        if self.kind == "metadata":
+            if refresh is None or refresh.contract.spec.symbol != self.symbol:
+                raise PaperRefused("owned_metadata_refresh_required")
+        elif refresh is not None:
+            raise PaperRefused("metadata_on_wrong_event_type")
         d = self.decision
         if self.kind == "decision":
             if (
@@ -185,6 +205,8 @@ class PaperOrder(PolicyModel):
     reserved: Decimal = Field(default=ZERO, ge=0)
     maximum_entry_price: Decimal | None = None
     planned_loss: Decimal = Field(default=ZERO, ge=0)
+    flat_by_end_of_day: StrictBool = True
+    max_holding_days: int | None = Field(default=None, strict=True, ge=1, le=MAX_HOLDING_DAYS)
 
 
 class PaperPosition(PolicyModel):
@@ -201,6 +223,8 @@ class PaperPosition(PolicyModel):
     planned_loss: Decimal
     force_exit_since: AwareDatetime | None = None
     stop_triggered_at: AwareDatetime | None = None
+    flat_by_end_of_day: StrictBool = True
+    max_holding_days: int | None = Field(default=None, strict=True, ge=1, le=MAX_HOLDING_DAYS)
 
 
 class PaperAccount(PolicyModel):
@@ -226,6 +250,9 @@ class PaperAccount(PolicyModel):
 class PaperState(PolicyModel):
     accounts: dict[str, PaperAccount]
     quotes: dict[str, BrokerQuote] = Field(default_factory=dict)
+    metadata_overrides: dict[Symbol, PaperContract] = Field(default_factory=dict)
+    metadata_observations: tuple[str, ...] = ()
+    metadata_known_at: dict[Symbol, AwareDatetime] = Field(default_factory=dict)
     last_at: AwareDatetime | None = None
     events: int = 0
 

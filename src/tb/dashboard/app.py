@@ -215,6 +215,7 @@ def _risk(bundle: PolicyBundle | None, folder: Path | None, source: EvidenceSour
                     Maximum_positions=limits.max_open_positions,
                     Gross_exposure_multiple=str(limits.max_total_exposure_multiple),
                     End_of_day_flat=limits.flat_by_end_of_day,
+                    Max_holding_days=limits.max_holding_days,
                 )
             ],
             hide_index=True,

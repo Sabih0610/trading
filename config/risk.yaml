@@ -6,5 +6,6 @@ limits:
   max_peak_drawdown_pct: "5.0"
   max_open_positions: 1
   max_trades_per_day_per_asset: 3
-  flat_by_end_of_day: true
+  flat_by_end_of_day: false
+  max_holding_days: 10
   allow_xaut_weekend_entries: false

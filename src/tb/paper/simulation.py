@@ -8,7 +8,7 @@ from itertools import pairwise
 from pathlib import Path
 from typing import Literal
 
-from pydantic import AwareDatetime, Field
+from pydantic import AwareDatetime, Field, StrictBool
 
 from tb.agents.schemas import ArenaAnswer
 from tb.backtest.validation import FINAL_TEST_START, FinalTestLockedError
@@ -23,9 +23,17 @@ from tb.core.instruments import (
 from tb.ingest.venue_status import VenueBook, VenueRefused, VetoDecision
 from tb.ledger.store import DecisionLedger, LedgerVersions
 from tb.paper.accounting import funded_flow
+from tb.paper.metadata import OwnedSpecRefresh, apply_owned_spec_refresh
 from tb.risk.account import AccountCircuitBreaker, SafetyState, equity_breach
-from tb.risk.config import PolicyBundle, PolicyModel, effective_risk_limits, load_policy_bundle
+from tb.risk.config import (
+    MAX_HOLDING_DAYS,
+    PolicyBundle,
+    PolicyModel,
+    effective_risk_limits,
+    load_policy_bundle,
+)
 from tb.risk.guards import RiskViolation
+from tb.risk.holding import holding_deadline, requires_end_of_day
 
 ZERO = Decimal("0")
 VERSIONS = LedgerVersions(
@@ -45,6 +53,8 @@ class SimulatedCandidate(PolicyModel):
     stop: Decimal = Field(gt=0)
     target: Decimal = Field(gt=0)
     requested_lots: Decimal = Field(gt=0)
+    flat_by_end_of_day: StrictBool = True
+    max_holding_days: int | None = Field(default=None, strict=True, ge=1, le=MAX_HOLDING_DAYS)
 
 
 class SimulationSizing(PolicyModel):
@@ -208,6 +218,7 @@ class LocalPaperSimulator:
         conversions: list[CurrencyConversion],
         *,
         advisory: ArenaAnswer | None = None,
+        metadata_refreshes: list[OwnedSpecRefresh] | None = None,
     ) -> SimulationResult:
         """Consume bounded quote batches; invalid marks fail closed before execution."""
         require_unsealed(quotes)
@@ -225,6 +236,14 @@ class LocalPaperSimulator:
             q.timestamp for q in quotes
         ):
             raise ValueError("Unique candidate timestamps must align with observed quotes")
+        active_spec = self.spec
+        observations = [] if metadata_refreshes is None else metadata_refreshes
+        by_refresh_time = {item.known_at: item for item in observations}
+        if len(by_refresh_time) != len(observations) or not set(by_refresh_time).issubset(
+            q.timestamp for q in quotes
+        ):
+            raise RiskViolation("Owned metadata refreshes must uniquely align with observed quotes")
+        seen_observations: set[str] = set()
         cash = self.initial_cash
         limits = effective_risk_limits(self.asset, self.bundle.risk.limits)
         circuit = AccountCircuitBreaker(
@@ -248,8 +267,8 @@ class LocalPaperSimulator:
             if position is None:
                 return
             _, sized, entered_at, decision_id = position
-            exit_price = self.spec.exit_price(quote.bid)
-            flow = funded_flow(self.spec, sized.lots, exit_price, conversion.rate, entry=False)
+            exit_price = active_spec.exit_price(quote.bid)
+            flow = funded_flow(active_spec, sized.lots, exit_price, conversion.rate, entry=False)
             notional, exit_fee = flow.gross, flow.fee
             cash += flow.cash
             trade = SimulatedTrade(
@@ -261,7 +280,7 @@ class LocalPaperSimulator:
                 exit_price=exit_price,
                 pnl=notional - exit_fee - sized.cash_required,
                 fees=exit_fee
-                + sized.cash_required * self.spec.fee_bps / (10000 + self.spec.fee_bps),
+                + sized.cash_required * active_spec.fee_bps / (10000 + active_spec.fee_bps),
                 planned_loss=sized.planned_loss,
                 exit_reason=reason,
             )
@@ -270,24 +289,30 @@ class LocalPaperSimulator:
             position = None
 
         for index, (quote, conversion) in enumerate(zip(quotes, conversions, strict=True)):
+            observation = by_refresh_time.get(quote.timestamp)
+            if observation is not None:
+                if observation.observation_id in seen_observations:
+                    raise RiskViolation("owned_metadata_observation_reused")
+                active_spec = apply_owned_spec_refresh(active_spec, observation, quote.timestamp)
+                seen_observations.add(observation.observation_id)
             if conversion.account_currency != self.account_currency:
                 raise RiskViolation("Account conversion identity mismatch")
             validate_market(
-                self.asset, self.spec, quote, conversion, quote.timestamp, is_entry=False
+                self.asset, active_spec, quote, conversion, quote.timestamp, is_entry=False
             )
             if quote.timestamp.date() != day:
                 day = quote.timestamp.date()
                 entries = 0
-            exit_price = self.spec.exit_price(quote.bid)
+            exit_price = active_spec.exit_price(quote.bid)
             marked = cash
             if position is not None:
                 marked += funded_flow(
-                    self.spec, position[1].lots, exit_price, conversion.rate, entry=False
+                    active_spec, position[1].lots, exit_price, conversion.rate, entry=False
                 ).cash
             halt = circuit.observe(quote.timestamp, marked)
             if (
                 position is not None
-                and self.spec.notional(position[1].lots, quote.bid, conversion.rate) > marked
+                and active_spec.notional(position[1].lots, quote.bid, conversion.rate) > marked
             ):
                 halt = halt or "exposure"
             if halt is not None:
@@ -300,6 +325,10 @@ class LocalPaperSimulator:
                 candidate = position[0]
                 if halt is not None:
                     close(halt, quote, conversion)
+                elif quote.timestamp >= holding_deadline(
+                    position[2], limits, candidate.max_holding_days
+                ):
+                    close("max_holding_days", quote, conversion)
                 elif quote.bid <= candidate.stop:
                     close("stop", quote, conversion)
                 elif quote.bid >= candidate.target:
@@ -310,7 +339,7 @@ class LocalPaperSimulator:
                 candidate = candidate.model_copy(update={"requested_lots": ceiling})
                 sized = size_candidate(
                     candidate,
-                    self.spec,
+                    active_spec,
                     quote,
                     conversion,
                     now=quote.timestamp,
@@ -335,7 +364,7 @@ class LocalPaperSimulator:
                         VERSIONS,
                     )
                     cash += funded_flow(
-                        self.spec, sized.lots, sized.entry_price, conversion.rate, entry=True
+                        active_spec, sized.lots, sized.entry_price, conversion.rate, entry=True
                     ).cash
                     position = (candidate, sized, quote.timestamp, decision_id)
                     entries += 1
@@ -351,7 +380,7 @@ class LocalPaperSimulator:
                 else:
                     sized = size_candidate(
                         proposed,
-                        self.spec,
+                        active_spec,
                         quote,
                         conversion,
                         now=quote.timestamp,
@@ -374,7 +403,7 @@ class LocalPaperSimulator:
                 marked = (
                     cash
                     + funded_flow(
-                        self.spec, position[1].lots, exit_price, conversion.rate, entry=False
+                        active_spec, position[1].lots, exit_price, conversion.rate, entry=False
                     ).cash
                 )
                 after_fill_halt = circuit.observe(quote.timestamp, marked)
@@ -383,12 +412,17 @@ class LocalPaperSimulator:
                     close(after_fill_halt, quote, conversion)
             last = index == len(quotes) - 1 or quotes[index + 1].timestamp.date() != day
             if last:
-                close("end_of_day", quote, conversion)
-                if pending is not None:
+                if position is not None and requires_end_of_day(
+                    limits, position[0].flat_by_end_of_day
+                ):
+                    close("end_of_day", quote, conversion)
+                if pending is not None and requires_end_of_day(
+                    limits, pending[0].flat_by_end_of_day
+                ):
                     reject("end_of_day_cancel")
                     pending = None
         return SimulationResult(
-            source=self.spec.source,
+            source=active_spec.source,
             trades=tuple(trades),
             rejections=tuple(rejections),
             ending_cash=cash,

@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "source_candidate": "169d33bac88a98a0bf24de0a61b5de8b6445697e",
+  "source_tree": "236911b2360cc42a203dc386924b11bebfeeedc5",
+  "baseline": "7b9b5581b7f8710d4db389645e416299bd419827",
+  "original_script": "scripts/check-offline.ps1",
+  "clean_credential_free_checkout": true,
+  "exit_code": 0,
+  "started_at": "2026-11-05T18:26:29.6198195+05:00",
+  "ended_at": "2026-11-05T18:46:10.2595717+05:00",
+  "pytest": {
+    "passed": 1846,
+    "skipped": 2,
+    "skip_reasons": [
+      "no root .env or not Windows",
+      "zip absent"
+    ],
+    "deselected_live": 3,
+    "xfail": 0,
+    "warnings": 23,
+    "seconds": 920.62
+  },
+  "ruff": "PASS",
+  "format_files": 644,
+  "strict_mypy_sources": 216,
+  "safety_smoke": "PASS",
+  "owned_acceptance": {
+    "studies": 14,
+    "external_orders": 0,
+    "mode": "SYNTHETIC SOFTWARE TEST ONLY"
+  },
+  "genuine_data_read": false,
+  "registered_F_G_batches_rerun": false,
+  "canonical_bytes": {
+    "scope": "sorted tracked src/config/tests/scripts/pyproject.toml/uv.lock; SHA-256 over path + NUL + file SHA-256 + LF",
+    "files": 394,
+    "sha256": "6bbc6e38b4c39ed2afb192255de431f7415203ebb3eb5435373c7d2b2630e30f",
+    "task_matches_clean": true,
+    "owned_crlf_normalization": "First metadata proof copied only ownership-checked CRLF-only mismatches from the exact passed clean checkout; later parser repair changed no runtime; canonical equality proved again. Pre-normalization names were not separately retained.",
+    "git_tree_unchanged": true
+  },
+  "notes": [
+    "Focused logs and timings remain historical working-copy evidence. Clean gate and publication source use canonical Git checkout bytes; the original raw source snapshot and pre-normalization file list were not retained.",
+    "No test assertion, skip, deadline, risk number or test input was weakened to obtain this pass. Prior failed new-fixture session attempt remains preserved as failure.",
+    "Independent Claude review pending; not self-approved; publication held by root coordination."
+  ]
+}

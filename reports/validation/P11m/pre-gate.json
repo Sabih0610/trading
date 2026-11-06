@@ -1,0 +1,50 @@
+{
+  "status": "focused_pass_full_gate_pending",
+  "baseline": "7b9b5581b7f8710d4db389645e416299bd419827",
+  "numeric_risk_yaml_unchanged_except_authorized_holding": true,
+  "original_risk_test_functions_unchanged": {
+    "tests/unit/test_risk_config.py": 7,
+    "tests/review/full_audit/test_risk_rules.py": 30
+  },
+  "original_full_audit_assertion_bodies_unchanged": true,
+  "fixture_only": true,
+  "legacy_eod_oracle_sha256": "9855bdeba148c757e1a4776ec35d13bd5fb890551c27488da68d17ad7f39288b",
+  "focused_runs": [
+    {
+      "scope": "initial_core",
+      "passed": 137,
+      "seconds": 20.4
+    },
+    {
+      "scope": "paper_and_eod_compatibility_before_final_hardening",
+      "passed": 101,
+      "seconds": 88.55
+    },
+    {
+      "scope": "failed_new_fixture_session_precondition",
+      "passed": 49,
+      "failed": 2,
+      "seconds": 20.33
+    },
+    {
+      "scope": "final_hardening_repaired_with_positive_admission_and_retained_session_refusals",
+      "passed": 53,
+      "seconds": 25.87
+    },
+    {
+      "scope": "strict_global_eod_config_and_original_risk_audit",
+      "passed": 81,
+      "seconds": 9.44
+    }
+  ],
+  "full_gate": "NOT RUN",
+  "genuine_data_read": false,
+  "registered_F_G_batches_rerun": false,
+  "other_risk_changes": false,
+  "peer_review": "Read-only O peer found no blocking defect; suggested StrictBool hardening applied. Not formal Claude approval.",
+  "static": {
+    "ruff": "PASS",
+    "format_files": 644,
+    "strict_mypy_sources": 216
+  }
+}

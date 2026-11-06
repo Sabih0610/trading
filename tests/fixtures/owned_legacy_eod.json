@@ -1,0 +1,164 @@
+{
+  "evidence": "FICTIONAL OWNED SOFTWARE FIXTURE; no genuine observations",
+  "legacy_source": "7b9b558",
+  "results": {
+    "BTCUSDT": {
+      "trades": [
+        {
+          "symbol": "BTCUSDT",
+          "entry_time": "2024-01-01T23:58:00Z",
+          "exit_time": "2024-01-01T23:59:00Z",
+          "quantity": "1",
+          "entry_price": "100.0400",
+          "exit_price": "99.9600",
+          "entry_fee": "0.10004",
+          "exit_fee": "0.09996",
+          "pnl": "-0.28000",
+          "exit_reason": "end_of_day"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "entry_time": "2024-01-02T00:01:00Z",
+          "exit_time": "2024-01-02T00:02:00Z",
+          "quantity": "1",
+          "entry_price": "100.0400",
+          "exit_price": "99.9600",
+          "entry_fee": "0.10004",
+          "exit_fee": "0.09996",
+          "pnl": "-0.28000",
+          "exit_reason": "end_of_day"
+        }
+      ],
+      "rejections": [],
+      "equity": [
+        {
+          "timestamp": "2024-01-01T23:57:00Z",
+          "cash": "10000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "10000",
+          "exposure": "0"
+        },
+        {
+          "timestamp": "2024-01-01T23:58:00Z",
+          "cash": "9899.85996",
+          "holdings": "1",
+          "close": "100",
+          "equity": "9999.72000",
+          "exposure": "100"
+        },
+        {
+          "timestamp": "2024-01-01T23:59:00Z",
+          "cash": "9999.72000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "9999.72000",
+          "exposure": "0"
+        },
+        {
+          "timestamp": "2024-01-02T00:00:00Z",
+          "cash": "9999.72000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "9999.72000",
+          "exposure": "0"
+        },
+        {
+          "timestamp": "2024-01-02T00:01:00Z",
+          "cash": "9899.57996",
+          "holdings": "1",
+          "close": "100",
+          "equity": "9999.44000",
+          "exposure": "100"
+        },
+        {
+          "timestamp": "2024-01-02T00:02:00Z",
+          "cash": "9999.44000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "9999.44000",
+          "exposure": "0"
+        }
+      ]
+    },
+    "XAUTUSDT": {
+      "trades": [
+        {
+          "symbol": "XAUTUSDT",
+          "entry_time": "2024-01-01T23:58:00Z",
+          "exit_time": "2024-01-01T23:59:00Z",
+          "quantity": "1",
+          "entry_price": "100.0900",
+          "exit_price": "99.9100",
+          "entry_fee": "0.10009",
+          "exit_fee": "0.09991",
+          "pnl": "-0.38000",
+          "exit_reason": "end_of_day"
+        },
+        {
+          "symbol": "XAUTUSDT",
+          "entry_time": "2024-01-02T00:01:00Z",
+          "exit_time": "2024-01-02T00:02:00Z",
+          "quantity": "1",
+          "entry_price": "100.0900",
+          "exit_price": "99.9100",
+          "entry_fee": "0.10009",
+          "exit_fee": "0.09991",
+          "pnl": "-0.38000",
+          "exit_reason": "end_of_day"
+        }
+      ],
+      "rejections": [],
+      "equity": [
+        {
+          "timestamp": "2024-01-01T23:57:00Z",
+          "cash": "10000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "10000",
+          "exposure": "0"
+        },
+        {
+          "timestamp": "2024-01-01T23:58:00Z",
+          "cash": "9899.80991",
+          "holdings": "1",
+          "close": "100",
+          "equity": "9999.62000",
+          "exposure": "100"
+        },
+        {
+          "timestamp": "2024-01-01T23:59:00Z",
+          "cash": "9999.62000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "9999.62000",
+          "exposure": "0"
+        },
+        {
+          "timestamp": "2024-01-02T00:00:00Z",
+          "cash": "9999.62000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "9999.62000",
+          "exposure": "0"
+        },
+        {
+          "timestamp": "2024-01-02T00:01:00Z",
+          "cash": "9899.42991",
+          "holdings": "1",
+          "close": "100",
+          "equity": "9999.24000",
+          "exposure": "100"
+        },
+        {
+          "timestamp": "2024-01-02T00:02:00Z",
+          "cash": "9999.24000",
+          "holdings": "0",
+          "close": "100",
+          "equity": "9999.24000",
+          "exposure": "0"
+        }
+      ]
+    }
+  }
+}
