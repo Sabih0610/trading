@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "baseline_main": "7b9b558",
+  "fixture_only": true,
+  "genuine_data_access": false,
+  "existing_source_config_tests_scripts_dependencies_changed": false,
+  "focused_tests": {
+    "passed": 61,
+    "seconds": 4.39
+  },
+  "prior_focused_run": {
+    "passed": 56,
+    "failed": 1,
+    "seconds": 26.21,
+    "status": "not_a_pass",
+    "reason": "new equality fixture had incoherent low; constructor correctly refused; corrected fixture without changing equality assertion or source logic"
+  },
+  "ruff": "passed",
+  "format_files": 642,
+  "strict_mypy_sources": 215,
+  "full_clean_gate": "passed",
+  "source_sha256": "75d99806a7979abc41b13dc9ea05e9c73862bec246ea8a12a2f893d67f628eda",
+  "owned_test_sha256": {
+    "tests/unit/test_chart_signals.py": "a974d1f4a048a3125abf4110c59ebdbf1dd71a451c57aaa63d62911048194588",
+    "tests/property/test_chart_signals.py": "916b7292b3669f1a3430599692e97c301a242487d38c7d08271af190be373f0a"
+  },
+  "shared_living_docs_changed": false,
+  "strategy_permissions_changed": false,
+  "risk_limits_changed": false,
+  "external_orders": 0,
+  "prefreeze_working_file_source_sha256_crlf": "366b6378c1ea2cbc6d81760f8dd5f2ab6c6fa28da97955646b958a3502d1c900",
+  "source_commit": "6018dc05996cfb16271e2675fb9515bdfc8893a7",
+  "source_tree": "6c1e060dbe1c3998611439bb8070b16301ca4a74",
+  "started_at": "2026-11-05T08:18:27.7492694+00:00",
+  "ended_at": "2026-11-05T08:36:18.9243824+00:00",
+  "pytest": {
+    "passed": 1833,
+    "skipped": 2,
+    "deselected": 3,
+    "xfailed": 0,
+    "warnings": 23,
+    "seconds": 809.9
+  },
+  "skip_reasons": [
+    "credential-free checkout has no private .env",
+    "optional development-kit ZIP absent"
+  ],
+  "safety_smoke": "passed",
+  "owned_acceptance_studies": 14,
+  "owned_acceptance_mode": "SYNTHETIC SOFTWARE TEST ONLY",
+  "gate_log_sha256": "2676b2058e2c2cbd482d337783dbd9cb3e58bb1a0529b3f3760934842978738b",
+  "gate_stderr_sha256": "6419d1edcf54102264a3a2cbe50d13045653f68c9f1dc125a53cfef13f9d7cf1",
+  "clean_task_source_and_owned_tests_raw_bytes_identical": true,
+  "task_eol_restored_to_exact_clean_gate": [
+    "src/tb/strategies/signals.py",
+    "tests/unit/test_chart_signals.py"
+  ],
+  "publication": "root_common_window_released_for_review",
+  "formal_review": "requested_pending_independent_review",
+  "authored_relative_links_checked": 13
+}
