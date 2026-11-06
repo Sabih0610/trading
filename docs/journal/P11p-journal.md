@@ -41,3 +41,7 @@
 - Regression test added (12 fixture tests pass). The rerun must reproduce the same frozen selection (trial 9); a
   mismatch would stop the batch.
 - **Implementation SHA-256 after this fix:** `9ffac2e8d23f4948235f5934b13344126c43579b34567b0d2159cd3b8e40a57d`
+
+## 2026-11-06: attempt 3 (final run)
+
+- Clean run. The frozen 2024 selection matched attempt 2 exactly (trial 9). The registered verdict is **insufficient evidence**: 0/27 training cells reached 20 trades in either development fold (maxima 13 and 15). Informational 2024 cell: 21 trades, +0.13 R, PF 1.93, max DD 0.65 percent. It beat random entry but not BTC buy-and-hold on return/DD.
