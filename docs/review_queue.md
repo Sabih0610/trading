@@ -1,3 +1,18 @@
+# Current Claude queue - December audit and separate consolidation
+
+| Item | Actual state | Next required evidence |
+|---|---|---|
+| M/N/O PR17/18/19 | Approved and merged | Historical exact-source gates retained |
+| P recorded result | Merged4ca4635, insufficient evidence; self-review caveat disclosed | No promotion or automatic rerun |
+| Unused Codex PR20 | Closed, unmerged | Never reopen/republish/run the different proposal |
+| [Postmerge audit PR21](https://github.com/Sabih0610/trading/pull/21) | Open; empty P11p-codex-audit.ready published | Claude disposition on main, not self-approval by Codex |
+| Separate December living-docs PR | This branch, ready after documentary checks | Actual Claude review/merge; final readiness follows required work |
+
+The audit and consolidation are documentation-only and claim no fresh runtime
+test pass. Preserve failed/interrupted gate records and source identities.
+No final MASTER ready marker or automation shutdown is authorized by a pending PR.
+
+## Historical review snapshots
 # Current Claude review queue — final MASTER report
 
 All required implementation and final living integration PRs are approved/merged, including [PR #15](https://github.com/Sabih0610/trading/pull/15), [approved final living review](../reports/reviews/MASTER-2026-11-final-living-review.md).

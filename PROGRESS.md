@@ -1,3 +1,25 @@
+# MASTER-2026-12 - consolidation and audit pending
+
+Updated 2026-11-06 UTC. M/N/O are approved and merged; Claude's recorded P result
+is merged as **insufficient evidence**, with no promotion. MASTER is not complete:
+[independent audit PR21](https://github.com/Sabih0610/trading/pull/21) needs disposition,
+required Swing/diagnostic work needs reconciliation, and this separate living-docs
+PR must actually merge before final readiness or heartbeat shutdown.
+
+| Track | Current evidence |
+|---|---|
+| M | [Approved review](reports/reviews/P11m-review.md); holding rule only, other risk unchanged |
+| N | [Approved review](reports/reviews/P11n-review.md); original rights/expiry and causal gaps retained |
+| O | [Approved review](reports/reviews/P11o-review.md); pure causal signals, not a strategy pass |
+| P | [Merged review](reports/reviews/P11p-review.md), registration ac690876; insufficient evidence, audit limits pending |
+| Consolidation | [Living report](reports/phases/MASTER-2026-12-living.md); separate review/merge pending |
+
+The unused Codex proposal PR20 is closed unmerged. It must not become another
+batch. No genuine rerun, retune, paper operation, orders or new research is queued.
+243 is the declared cumulative candidate-trial count; restarted computations remain
+a disclosed integrity concern, not erased by that count.
+
+## Historical progress snapshots
 # MASTER 2026-11 — authorized engineering complete
 
 Completed 2026-11-04 18:55 UTC after Claude approved/merged every implementation track and final living integration on main `6848cc3`. The final [MASTER status](reports/phases/MASTER-2026-11-status.md) and empty ready marker are published for final documentary review. Autonomous continuation ends after this publication.

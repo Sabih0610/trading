@@ -1,3 +1,15 @@
+# Current December consolidation decisions
+
+| ID | Date UTC | Decision | Reason and evidence |
+|---|---|---|---|
+| D-2026-12-CONSOLIDATION | 2026-11-06 | Treat ac690876 as the actual merged P registration and retire the unused ebedb358 proposal without running it | [P review](../../reports/reviews/P11p-review.md), PR20 closed unmerged |
+| D-2026-12-AUDIT | 2026-11-06 | Preserve insufficient-evidence result and every attempt; obtain independent disposition before interpretation/repair | [Audit PR21](https://github.com/Sabih0610/trading/pull/21); no rerun/retune/metric regeneration |
+| D-2026-12-COMPLETION | 2026-11-06 | Keep master incomplete until required output work/dispositions and separate living-docs PR actual merge | [MASTER rule](../../prompts/MASTER-2026-12.md); provisional direct status is not that PR merge |
+
+All historical decisions and phase-specific restrictions below remain recorded.
+No trading permission, data-right renewal or risk-default change is made.
+
+## Historical decision log
 # Decision log
 
 This log records project decisions when they are made so later phases can understand the tradeoffs without reconstructing them from code.

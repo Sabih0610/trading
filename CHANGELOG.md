@@ -1,3 +1,16 @@
+# Current December integration status
+
+2026-11-06: M/N/O approvals and merges are recorded. P's merged Stage3b record is
+insufficient evidence, with builder/self-review caveat and three starts disclosed.
+A separate independent static audit requests disposition of data barriers,
+accounting/resume/comparison limitations and missing presentation/diagnostics.
+
+This separate living-docs consolidation corrects premature completion wording,
+preserves historical records, and keeps MASTER incomplete pending actual required
+reviews/work and integration merge. No strategy/data/config/runtime change, new
+genuine batch, retune or permission is included. [Living report](reports/phases/MASTER-2026-12-living.md).
+
+## Historical changelog
 # Changelog
 
 All notable project changes are documented here. The project follows Keep a Changelog style and phase-based versioning during initial development.

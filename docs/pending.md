@@ -1,3 +1,21 @@
+# Current pending work - December audit and integration
+
+- Claude disposition of [audit PR21](https://github.com/Sabih0610/trading/pull/21),
+  preserving the merged insufficient-evidence record and all technical attempts.
+- Reconcile the requested Swing view, holding/win-rate/break-even/cost diagnostics
+  and concrete gate evidence. These are completion items, not permission for a new
+  strategy run. Missing values may be explicitly unavailable; no guessed metrics.
+- Actual review/merge of the separate [living consolidation](../reports/phases/MASTER-2026-12-living.md).
+  A direct status commit on main does not establish this required separate PR merge.
+- Future research direction is a later owner decision. No lower cost hurdle,
+  extra position, shorter filter, new source/history, rerun or retune is authorized.
+- Existing operator/rights matters remain separate. Do not delete environments,
+  change services, access secrets or unseal data to finish this documentary task.
+
+No current owner login/token or repeated publication permission is needed.
+Review work remains with Claude. MASTER-2026-12.ready is not published by this PR.
+
+## Historical pending snapshots
 # Current pending matters — after MASTER-2026-12 (2026-11-06)
 
 - **Owner research decision:** higher-frequency swing registration vs low-frequency/longer history vs pause. No new trials until decided (DSR count is now 243).

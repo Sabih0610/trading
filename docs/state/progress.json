@@ -1,5 +1,5 @@
 {
-  "current_phase": "MASTER-2026-11",
+  "current_phase": "MASTER-2026-12",
   "phases": {
     "P00": {
       "title": "Bootstrap",
@@ -858,6 +858,30 @@
       "completion_conditions_review_commit": "6848cc3",
       "final_ready_marker": "reports/reviews/queue/MASTER-2026-11.ready",
       "final_report_pull_request": "https://github.com/Sabih0610/trading/pull/16"
+    },
+    "P11m": {
+      "status": "approved_merged",
+      "commit": "1544af3",
+      "report": "reports/phases/P11m.md",
+      "review": "reports/reviews/P11m-review.md"
+    },
+    "P11n": {
+      "status": "approved_merged",
+      "commit": "37e94da",
+      "report": "reports/phases/P11n.md",
+      "review": "reports/reviews/P11n-review.md"
+    },
+    "P11o": {
+      "status": "approved_merged",
+      "commit": "301ed5e",
+      "report": "reports/phases/P11o.md",
+      "review": "reports/reviews/P11o-review.md"
+    },
+    "P11p": {
+      "status": "merged_recorded_result_audit_pending",
+      "commit": "4ca4635",
+      "report": "reports/phases/P11p.md",
+      "review": "reports/reviews/P11p-review.md"
     }
   },
   "allowed_status": [
@@ -977,5 +1001,26 @@
     "automation_id": "continue-trading-master-review-loop",
     "instruction": "delete_after_final_report_publication",
     "automatic_next_phase": false
+  },
+  "master_2026_12": {
+    "status": "audit_and_separate_living_review_pending",
+    "complete": false,
+    "base_main": "11b075d4a9115a118f838d257e2c9ae3fe108346",
+    "tracks_merged": [
+      "P11m",
+      "P11n",
+      "P11o",
+      "P11p"
+    ],
+    "P11p_verdict": "insufficient evidence",
+    "actual_P11p_registration_sha256": "ac6908761fd9c2590bd789c205a2e7db1a8fb1c18816b7c6acd3dc1e91f3d181",
+    "unused_PR20": "closed_unmerged_never_run",
+    "audit_pr": "https://github.com/Sabih0610/trading/pull/21",
+    "audit_status": "pending_Claude_disposition",
+    "living_status": "separate_PR_review_merge_required",
+    "required_outputs": "Swing/diagnostics/gate-evidence reconciliation pending",
+    "new_genuine_batch_authorized": false,
+    "final_ready_published_by_this_PR": false,
+    "report": "reports/phases/MASTER-2026-12-living.md"
   }
 }

@@ -1,3 +1,30 @@
+# Current handoff - MASTER-2026-12 remains open
+
+M/N/O and the recorded P result are merged. P is **insufficient evidence** under
+Claude's ac690876 registration. [Audit PR21](https://github.com/Sabih0610/trading/pull/21)
+identifies expected-open gap handling, terminal accounting, changed-source restarts,
+benchmark qualification and missing Swing/diagnostic output. Read that review before
+relying on the reported 2024 figures. This is not a validated strategy or a cause
+attribution proving low frequency is the only flaw.
+
+Next: Claude disposes of PR21 through a file on main and reviews this separate
+[living-docs consolidation](../reports/phases/MASTER-2026-12-living.md). Apply genuine
+requests without genuine data replay. Owned display/hardening needs an exclusive
+resource slot and appropriate exact-source gate. Preserve every attempt and
+private rights/retention. Missing diagnostics must be explicitly unavailable;
+do not invent values or recompute observed outcomes automatically.
+
+Only after required work/dispositions and the separate living PR actually merge
+may final status/empty MASTER-2026-12.ready be finalized and the current December
+automation deleted. A provisional status file already reached main before that
+condition; its historical completion wording below is superseded here.
+
+PR20 is closed unmerged, a different unused registration; never reopen it or run
+that proposal. No 2025+/sealed/P14, providers, paper/Testnet/orders, Stage4, risk
+default change or extra acquisition is authorized. November remains complete and
+its old automation remains deleted; never revive F/G batches.
+
+## Historical handoff snapshots
 # Current handoff — MASTER-2026-12 complete (2026-11-06)
 
 M/N/O merged; P11p swing Stage 3b merged with the registered verdict **insufficient evidence** (0/27 cells reached 20 training trades; informational 2024: 21 trades, +0.13R, PF 1.93). See [status](../reports/phases/MASTER-2026-12-status.md). The next research direction is the owner's decision; do not start new trials. 243 trials are now counted for any future DSR.
