@@ -1,0 +1,27 @@
+{
+  "phase": "P11p",
+  "verdict": "insufficient evidence",
+  "reason": "no development fold had a training cell with >= 20 completed trades (registered selector)",
+  "trials": 27,
+  "dsr_trials": 243,
+  "registration_sha256": "ac6908761fd9c2590bd789c205a2e7db1a8fb1c18816b7c6acd3dc1e91f3d181",
+  "frozen_2024_trial": 9,
+  "training_max_trades": {
+    "2022": 13,
+    "2023": 15
+  },
+  "training_cells_with_20_trades": {
+    "2022": 0,
+    "2023": 0
+  },
+  "informational_2024_frozen_cell_not_a_verdict": {
+    "trade_count": 21,
+    "expectancy_r": 0.1327,
+    "profit_factor": 1.928,
+    "max_dd_pct": 0.654,
+    "trades_per_month": 1.75,
+    "circuit_trips": 0,
+    "beats_random_p95": true,
+    "beats_btc_return_over_dd": false
+  }
+}
