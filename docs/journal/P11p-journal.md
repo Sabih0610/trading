@@ -27,3 +27,12 @@ honestly in phase report. Complete PartB source/config/ownedtests, original clea
 check-offline gate and publication remain mandatory after prereg approval, BEFORE
 genuine data access. Do not reuse old F/G batches or launch old M/N wrappers.
 Registration exact UTF8/LF SHA256: ebedb35802a4c19bf49a998f6767c6faa20f0ec0cb5f1b0f0691b720412d0ddd
+
+Publication: first diff-check caught an extra blank line at journal EOF; corrected
+before commit, no source/test/assertion change. Exact registration digest unchanged.
+Docs-only commit9621fec published by guarded helper; fresh main/reviews/actual merged
+PRs/source boundary/history/digest/closed-duplicate checks passed. PR20 actualOPEN
+UNMERGED, API-verified exact9621fec. No credentials printed/stored; GitHub service
+helper used only in memory. No genuine inputs or application imports executed.
+Ready marker now published after PR creation; final head is a docs/marker-only
+follow-up. STOP for main P11p-prereg-review.md explicitAPPROVED, not a self-verdict.
