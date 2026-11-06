@@ -1,3 +1,8 @@
+# Current pending matters — after MASTER-2026-12 (2026-11-06)
+
+- **Owner research decision:** higher-frequency swing registration vs low-frequency/longer history vs pause. No new trials until decided (DSR count is now 243).
+- Paper/Testnet/orders not authorized. Operator items: `.env` ACL, collector boot recovery (admin), P14 rights, leftover `E:\trading-p11n\.venv`.
+
 # Current pending matters — after MASTER completion
 
 Authorized MASTER engineering is complete. Every required track and final living integration is approved/merged. The [final status report](../reports/phases/MASTER-2026-11-status.md) and empty `MASTER-2026-11.ready` are queued for Claude's final documentary review; the continuation heartbeat ends after publication. No implementation is blocked on the owner.

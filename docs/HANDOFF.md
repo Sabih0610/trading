@@ -1,3 +1,7 @@
+# Current handoff — MASTER-2026-12 complete (2026-11-06)
+
+M/N/O merged; P11p swing Stage 3b merged with the registered verdict **insufficient evidence** (0/27 cells reached 20 training trades; informational 2024: 21 trades, +0.13R, PF 1.93). See [status](../reports/phases/MASTER-2026-12-status.md). The next research direction is the owner's decision; do not start new trials. 243 trials are now counted for any future DSR.
+
 # Current handoff — MASTER complete; final report ready
 
 2026-11-04 18:55 UTC. All MASTER completion conditions hold on main `6848cc3`: F/G final verdicts,H/I/J1/J2,reliability,K acquisition and final living PR #15 are independently approved/merged. [Final MASTER report](../reports/phases/MASTER-2026-11-status.md) lists every verdict, exact approval/gate identities, limitations and next owner decisions. Empty `MASTER-2026-11.ready` submits the report for Claude's final documentary review.

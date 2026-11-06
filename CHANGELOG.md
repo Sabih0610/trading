@@ -4,6 +4,10 @@ All notable project changes are documented here. The project follows Keep a Chan
 
 ## Unreleased
 
+### MASTER-2026-12 — 2026-11-06
+
+- Multi-day holding (≤ 10-day ceiling), causal daily/weekly bars, one-sided chart signals, and the P11p swing rotation test (insufficient evidence).
+
 ### MASTER completion — 2026-11-04 18:55 UTC
 
 - All required tracks, reliability and final living-docs integration independently approved/merged. Published the final complete verdict/status report and empty MASTER ready marker for documentary review; stop autonomous continuation.
