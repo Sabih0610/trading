@@ -116,6 +116,9 @@ def data_health_view(root: Path) -> None:
     from tb.dashboard.yields import treasury_health_view
 
     treasury_health_view(root)
+    from tb.dashboard.swing_health import swing_health_view
+
+    swing_health_view(root)
     st.caption("Manifest and quality metadata only · Historical scope ends 2024-12-31 UTC")
     st.write("Sealed XAUT collector health", collector_health(root))
     from tb.dashboard.venue_status import venue_health_view
