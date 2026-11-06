@@ -17,3 +17,14 @@
 - **Pre-registration SHA-256:** `ac6908761fd9c2590bd789c205a2e7db1a8fb1c18816b7c6acd3dc1e91f3d181`
 - **Implementation SHA-256** (concatenation of the four source modules): `6f301b91eaf9eed18a6550577de52027f384213c55370b5063d2ca8de6f32a4c`
 - No genuine registry, manifest or price file has been opened for P11p.
+
+## 2026-11-06: technical defect during data loading (no outcome observed)
+
+- The first Part B start crashed while **loading** XAUUSD development bars (`decimal.InvalidOperation`): P11n keeps
+  market-closed calendar rows (weekends, holidays) with null OHLC. No simulation had run, no selection was written and
+  no result exists (the output directory was empty).
+- Fix: `swing_data._bars` skips rows with null OHLC. A closed day has no tradable bar, consistent with the registered
+  "never filled" rule. The registration is **unchanged** (SHA-256 still `ac690876…`). Only the reader changed, so the
+  implementation hash is re-recorded below before the single real run.
+- **Implementation SHA-256 after the loader fix:** `0e92c3e41103c89c5958d3f58d40febf72c6ae03c25ae513230e6e2f3b1b4bdd`
+- A load-only check (development data through 2023 only, no simulation) succeeded: crypto 1,187 daily / 170 weekly bars each; gold 771 complete days, with ATR available on 502 of them.

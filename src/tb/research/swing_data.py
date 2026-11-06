@@ -53,6 +53,10 @@ def _d(value: object) -> Decimal:
 def _bars(frame: pl.DataFrame, timeframe: str, label: str) -> tuple[CompletedBar, ...]:
     out = []
     for row in frame.iter_rows(named=True):
+        # Market-closed calendar rows (weekends, holidays) carry no prices: there is no
+        # bar to trade or to signal on, so they are skipped, never filled.
+        if any(row[k] is None for k in ("open", "high", "low", "close")):
+            continue
         out.append(
             CompletedBar(
                 symbol=label,
