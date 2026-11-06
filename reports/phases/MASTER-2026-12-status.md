@@ -1,3 +1,22 @@
+# MASTER-2026-12 - provisional status, not complete
+
+Updated2026-11-06 UTC. The earlier direct status snapshot is preserved below but
+its completion claim is superseded. M/N/O and P's recorded result are merged.
+Independent [audit PR21](https://github.com/Sabih0610/trading/pull/21), required
+Swing/diagnostic reconciliation and an actual separate living-docs PR merge remain.
+No empty MASTER-2026-12.ready is published by this consolidation.
+
+P's recorded verdict is insufficient evidence; its actual registration is ac690876.
+Reported2024 metrics remain informational and subject to accounting/benchmark
+qualification. Low frequency is an observed report, not proof that all other
+requirements or mechanics are correct. Three starts used changed source; repeated
+selected parameters do not establish exact-identity resume integrity.
+No new genuine run, retune, metric regeneration, paper operation or risk change
+is authorized. Future research scope is an owner decision after this work.
+
+See [the consolidation report](MASTER-2026-12-living.md) for current completion gates.
+
+## Historical direct-to-main snapshot (superseded where inconsistent)
 # MASTER 2026-12: final status (swing plan)
 
 Completed 2026-11-06. Built and reviewed by Codex (M, N, O) and Claude (review and merge of M, N and O; build,
