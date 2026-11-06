@@ -280,3 +280,21 @@ def test_runner_refuses_rerun(tmp_path: Path) -> None:
     (tmp_path / "results.json").write_text("{}", encoding="utf-8")
     with pytest.raises(ResearchRefused):
         run(tmp_path, tmp_path)
+
+
+def test_swing_low_above_price_cancels_entry_instead_of_crashing() -> None:
+    from tb.strategies.signals import ConfirmedSwingLow
+
+    s = _series("BTCUSDT", [100.0] * 40)
+    high_low = ConfirmedSwingLow("BTCUSDT", Decimal("500"), START, START + timedelta(days=2))
+    s = replace(s, swing_lows=(high_low,))
+    table = _forced(s, START + timedelta(days=10))
+    res = simulate(
+        SwingTrial(0, "breakout", "20", Decimal("1.5")),
+        {"BTCUSDT": _inputs(s, table)},
+        _risk(),
+        start=START,
+        stop=START + timedelta(days=40),
+        embargo=False,
+    )
+    assert res.evidence.trades == ()

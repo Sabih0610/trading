@@ -286,15 +286,20 @@ def simulate(
                 a = assets[label]
                 sig = a.signals[day_close]
                 assert sig.atr14 is not None
-                plan = initial_exit_plan(
-                    symbol=label,
-                    entry=sig.close,
-                    atr14=sig.atr14,
-                    as_of=day_close,
-                    swing_lows=a.swing_lows,
-                    stop_atr_multiple=k,
-                    target_r=None,
-                )
+                try:
+                    plan = initial_exit_plan(
+                        symbol=label,
+                        entry=sig.close,
+                        atr14=sig.atr14,
+                        as_of=day_close,
+                        swing_lows=a.swing_lows,
+                        stop_atr_multiple=k,
+                        target_r=None,
+                    )
+                except ValueError:
+                    # A stop at or above the decision price is not a valid long trade:
+                    # cancelled, like a fill at or below the stop (registered rule).
+                    plan = None
                 cost = round_trip_cost(
                     entry=sig.close,
                     fee_bps=a.costs.fee_bps,
@@ -302,7 +307,9 @@ def simulate(
                     slippage_bps=a.costs.slippage_bps,
                     multiplier=a.costs.stress_multiplier,
                 )
-                if passes_cost_filter(entry=sig.close, atr14=sig.atr14, round_trip=cost):
+                if plan is not None and passes_cost_filter(
+                    entry=sig.close, atr14=sig.atr14, round_trip=cost
+                ):
                     pending = (label, plan.stop)
         day = day_close
     # flatten at the end of the window

@@ -28,3 +28,16 @@
   implementation hash is re-recorded below before the single real run.
 - **Implementation SHA-256 after the loader fix:** `0e92c3e41103c89c5958d3f58d40febf72c6ae03c25ae513230e6e2f3b1b4bdd`
 - A load-only check (development data through 2023 only, no simulation) succeeded: crypto 1,187 daily / 170 weekly bars each; gold 771 complete days, with ATR available on 502 of them.
+
+## 2026-11-06: second technical defect (random benchmark only; no outcome observed)
+
+- Attempt 2 completed every development computation and wrote `frozen-2024-selection.json` (selected trial **9**),
+  then crashed in the 2024 **random-entry benchmark**. A random entry after price had fallen below the latest confirmed
+  swing low gave a stop above the decision price, and `ExitPlan` correctly refused it. No `results.json` exists, and no
+  metric was printed or read.
+- All 27 training cells and both development folds ran without hitting this case, so the fix cannot change any
+  candidate result. The fix: such an entry is cancelled (`plan = None`), the same as the registered "fill at or below
+  the stop is cancelled" rule. The random draw happens before the plan, so seeded sequences are unchanged.
+- Regression test added (12 fixture tests pass). The rerun must reproduce the same frozen selection (trial 9); a
+  mismatch would stop the batch.
+- **Implementation SHA-256 after this fix:** `9ffac2e8d23f4948235f5934b13344126c43579b34567b0d2159cd3b8e40a57d`
