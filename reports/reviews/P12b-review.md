@@ -36,6 +36,8 @@ breadth (thousands of screened names instead of four), not cost. Consequences fo
 - AGENTS.md caps holding at 10 days. Momentum and trend positions in stocks typically last weeks to months, so a
   10-day cap forces extra round trips. **Owner decision needed** before S4 registration, the same open
   question as crypto candidate 1.
+  **Resolved 2026-11-08:** the owner kept the 10-day cap for stocks. S4 is drafted inside it
+  (`prompts/P12d-us-stock-strategies-draft.md`).
 
 ## Minor
 
