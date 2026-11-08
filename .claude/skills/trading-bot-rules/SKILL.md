@@ -1,6 +1,6 @@
 ---
 name: trading-bot-rules
-description: Project rules for the Shariah-compliant XAUT/BTC/ETH/SOL spot trading system in "E:\trading bot". Use this skill for ANY work in this repository — writing or reviewing code, strategies, backtests, ML models, data pipelines, agents, dashboards, or trading logic — and whenever another skill (Binance, backtesting, quant, news) is used here, so its suggestions are filtered through these rules. Trigger even if the user does not mention the rules explicitly.
+description: Project rules for the Shariah-compliant XAUT/BTC/ETH/SOL spot and AAOIFI-screened US stock trading system in "E:\trading bot". Use this skill for ANY work in this repository — writing or reviewing code, strategies, backtests, ML models, data pipelines, agents, dashboards, or trading logic — and whenever another skill (Binance, backtesting, quant, news) is used here, so its suggestions are filtered through these rules. Trigger even if the user does not mention the rules explicitly.
 ---
 
 # Trading bot project rules
@@ -14,7 +14,13 @@ short checklist to apply on every change.
 2. Long-only: buy, then sell what is owned. Bearish signals mean "exit" or "do not enter".
 3. Tradable: assets in `config/assets.yaml` with `shariah_status: approved` (XAUT first, then BTC,
    ETH, SOL). USDT is the quote currency only. XAUUSD, FX, oil, yields are data only.
-4. Risk: ≤1% risk per trade, ≤1.0× equity exposure, daily loss limit, flat by end of day, no XAUT
+3a. US stocks (owner approval 2026-11-08): real shares on Interactive Brokers, **cash account only**,
+   settled cash only (T+1). A stock is tradable only while it passes AAOIFI Std 21 on point-in-time data;
+   backtests use the screen as known on each date, never today's list. Purify dividends. No margin, CFDs
+   (on any platform, including MT5 swap-free accounts), options, shorting, securities lending or interest.
+   Accounts, paid data and orders each need separate owner approval.
+4. Risk: ≤1% risk per trade, ≤1.0× equity exposure, daily loss limit, holding period ≤ 10 calendar
+   days (owner decision 2026-11-05; intraday strategies may still require flat by end of day), no XAUT
    entries on weekends. The deterministic risk manager always has the final say.
 5. AI (LLMs, Jev, local models) may classify, score, veto, or reduce size — never create or enlarge
    trades, never move stops away, never access keys.

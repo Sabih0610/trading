@@ -20,13 +20,33 @@ hypothetical local cash, positions, fills and P&L under the existing funded risk
 provider inputs and external orders remain disabled. Preserve the unfinished P11b.1a checkout;
 P11b.2b genuine integration requires separate authorization and verified rights/metadata/clocks.
 
+US halal stocks owner direction (2026-11-08, approves `reports/reviews/us-halal-stocks-plan-2026-11-08.md`
+§1–§6; reopens O-6): **US-listed common shares that pass the AAOIFI Std 21 screen** are a second
+approved asset class for research and, later, paper trading. This approves the asset class and venue
+only. Accounts, paid data, external orders and real money each still need separate owner approval;
+nothing here authorizes any order.
+
 ## 2. Non-negotiable trading rules (enforce in code AND tests)
-- Venue for execution: Binance **spot only**. No futures, perpetuals, options, margin, borrowing,
-  lending, Simple Earn, staking, VIP loans, or leverage of any kind. The code must not even contain
-  calls to those endpoints.
+- Venue for execution: Binance **spot only** for crypto and XAUT. No futures, perpetuals, options,
+  margin, borrowing, lending, Simple Earn, staking, VIP loans, or leverage of any kind. The code must
+  not even contain calls to those endpoints.
+- Venue for US stocks: **Interactive Brokers, cash account only**, real shares owned outright.
+  No margin account, CFDs, options, short selling, securities lending (stock yield programmes), or
+  interest income (opt out, or purify any interest received). The code must not contain calls to
+  margin, lending, options, CFD or short-sale endpoints. **No CFD is allowed on any platform** (AAOIFI
+  Std 57: no ownership/possession); that includes MT5 "Islamic" or swap-free CFD accounts. A fallback
+  real-share venue (XM "Shares" account, unleveraged) is listed in the plan but needs a separate owner
+  approval before any code targets it.
+- US stocks Shariah rules: a stock is tradable only while it passes AAOIFI Std 21 on **point-in-time**
+  data (permissible core business; interest-bearing debt < 30% of market cap; interest-bearing
+  deposits < 30%; non-compliant income < 5%), re-screened at least quarterly. A failing holding is
+  sold. Dividends are purified by the non-compliant-income share and recorded. Backtests must use the
+  screen as it was known on each date, never today's list (no survivorship or lookahead).
+  Trades use **settled cash only** (T+1); no buying with unsettled proceeds.
 - **Long-only.** The system may only buy an asset and later sell what it owns. No short selling.
 - Tradable assets: listed in `config/assets.yaml` with `shariah_status: approved`. Initial list:
   XAUT/USDT (phase 1), then BTC/USDT, ETH/USDT, SOL/USDT. USDT is a quote currency only.
+  US stocks enter `config/assets.yaml` only through the point-in-time AAOIFI screen above.
 - Data-only instruments (never traded): XAUUSD, FX pairs for synthetic DXY, oil, US yields.
 - Risk hard ceilings: risk per trade ≤ 1% of equity, daily loss ≤ 3%, exposure ≤ 1.0× equity,
   and at most 3 trades per day per asset. Configured research/paper defaults are tighter:
