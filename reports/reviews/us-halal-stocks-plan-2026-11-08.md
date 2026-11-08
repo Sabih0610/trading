@@ -71,6 +71,9 @@ US large caps trade at about 0.01–0.03% spread, but IBKR Pro charges about **U
 | USD 500 | 0.07% | ~0.16% |
 | USD 1,000 | 0.035% | ~0.09% |
 
+**Correction (P12b, 2026-11-08):** with pessimistic spread and slippage (0.06% per fill) the modelled round trip is
+0.36% at USD 250, 0.27% at USD 500, 0.20% at USD 1,000 (see `reports/reviews/P12b-review.md`); the table above is optimistic.
+
 With USD 1,000, the cheap-cost advantage appears only with **one or two positions at a time**, so breadth in
 *selection* (many stocks screened) is high but breadth in *holdings* is low. The cost model will include the
 minimum commission; this is the main reason a USD 1,000 account cannot run a 20-stock portfolio profitably.
