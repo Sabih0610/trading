@@ -20,6 +20,9 @@ under Para 13, and the IBKR application itself. Claude never opens accounts or e
 
 ### Fallback broker: XM "Shares" account (owner decision 2026-11-08: list it as the fallback)
 
+**Owner decision 2026-11-08 (later):** the owner will not deposit the USD 10,000 XM minimum until a strategy
+has been tested successfully on a real account. XM is therefore **deferred**; the build targets IBKR only.
+
 If IBKR refuses the application, the fallback is XM's **Shares** account, not any MT5 CFD account.
 
 | Point | XM Shares account | XM swap-free (Islamic) CFD accounts |
@@ -110,7 +113,7 @@ Real money stays prohibited until a strategy passes and the owner separately aut
 1. Approve US AAOIFI-screened stocks as a new asset class/venue (IBKR, cash account)?
 2. Will you confirm with your bank that a Para 13 outward remittance (≤ USD 25,000/yr) is available to you?
 3. Data: pay for a daily price source now, or wait until the IBKR account exists?
-4. The contact text for EDGAR requests.
+4. ~~The contact text for EDGAR requests.~~ Answered 2026-11-08 (kept in the private root, not in the repository).
 5. Earlier open items still stand: candidate 1 rules, XAUT recorder task fix.
 
 ## Gaps
