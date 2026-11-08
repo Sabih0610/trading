@@ -43,7 +43,9 @@ def digest(value: Any) -> str:
 class DatasetRights(PolicyModel):
     provider: str = Field(min_length=1, max_length=80)
     dataset_id: str = Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")
-    instruments: tuple[Symbol | SpotHistorySymbol | Literal["UST_PAR_YIELD"], ...]
+    instruments: tuple[
+        Symbol | SpotHistorySymbol | Literal["UST_PAR_YIELD"] | Literal["SEC_FSDS"], ...
+    ]
     reviewed_at: AwareDatetime
     reviewer: str | None = None
     owner_approved: StrictBool = False
@@ -165,6 +167,58 @@ class TreasuryDatasetPlan(PolicyModel):
             )
         ):
             raise ResearchRefused("treasury_plan_scope_or_evidence_invalid")
+        return self
+
+
+class SecFsdsDatasetPlan(PolicyModel):
+    """SEC DERA Financial Statement Data Sets: data-only fundamentals, never an execution permission."""
+
+    schema_version: Literal[1] = 1
+    dataset_id: Literal["sec-fsds-2019q3-2024q4"] = "sec-fsds-2019q3-2024q4"
+    source_class: Literal["licensed_historical"] = "licensed_historical"
+    provider: Literal["sec_dera"] = "sec_dera"
+    instruments: tuple[Literal["SEC_FSDS"], ...] = ("SEC_FSDS",)
+    source: Literal["https://www.sec.gov/files/dera/data/financial-statement-data-sets"] = (
+        "https://www.sec.gov/files/dera/data/financial-statement-data-sets"
+    )
+    terms_version: str = Field(min_length=10, max_length=120)
+    coverage_start: AwareDatetime = datetime(2019, 7, 1, tzinfo=UTC)
+    coverage_end: AwareDatetime = datetime(2024, 12, 31, 23, 59, 59, tzinfo=UTC)
+    acquired_at: AwareDatetime
+    rights: DatasetRights
+    retention: EvidenceLifetime
+
+    @property
+    def digest(self) -> str:
+        return digest(self.model_dump(mode="json"))
+
+    @model_validator(mode="after")
+    def coherent(self) -> Self:
+        permissions = (
+            self.rights.personal_research,
+            self.rights.research_reports,
+            *self.rights.permissions.values(),
+        )
+        if (
+            self.instruments != ("SEC_FSDS",)
+            or self.rights.provider != self.provider
+            or self.rights.dataset_id != self.dataset_id
+            or self.rights.instruments != self.instruments
+            or self.coverage_start != datetime(2019, 7, 1, tzinfo=UTC)
+            or self.coverage_end != datetime(2024, 12, 31, 23, 59, 59, tzinfo=UTC)
+            or self.coverage_end >= HOLDOUT
+            or self.acquired_at <= self.coverage_end
+            or self.retention.acquired_at != self.acquired_at
+            or self.retention.rights_digest != self.rights.digest
+            or len({p.evidence_artifact for p in permissions}) < 2
+            or any(
+                p.evidence_kind != "provider_terms"
+                or not p.evidence_artifact
+                or not p.evidence_artifact.startswith("work/rights/sec-")
+                for p in permissions
+            )
+        ):
+            raise ResearchRefused("sec_fsds_plan_scope_or_evidence_invalid")
         return self
 
 
