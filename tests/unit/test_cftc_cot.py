@@ -119,6 +119,29 @@ def test_parse_joins_reports_keeps_gold_only_and_drops_late_known(tmp_path: Path
     assert frame.height == len(tuesdays(2024)) - 1
 
 
+def test_holiday_shifted_report_day_accepted_and_weekend_refused(tmp_path: Path) -> None:
+    def shifted(report: str, new_day: date) -> bytes:
+        fields = LEGACY_FIELDS if report == "legacy" else DISAGG_FIELDS
+        member = "annual.txt" if report == "legacy" else "f_year.txt"
+        with zipfile.ZipFile(io.BytesIO(archive(report, 2017))) as z:
+            text = z.read(member).decode().replace("2017-07-04", new_day.isoformat())
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as z:
+            z.writestr(member, text)
+        assert fields
+        return buf.getvalue()
+
+    leg = write(tmp_path, "l.zip", shifted("legacy", date(2017, 7, 3)))
+    dis = write(tmp_path, "d.zip", shifted("disaggregated", date(2017, 7, 3)))
+    frame = parse_year(leg, dis, 2017)
+    assert date(2017, 7, 3) in frame["report_date"].to_list()
+    assert known_at(date(2017, 7, 3)) > datetime(2017, 7, 9, 23, tzinfo=UTC)  # after Friday release
+    leg2 = write(tmp_path, "l2.zip", shifted("legacy", date(2017, 7, 1)))
+    dis2 = write(tmp_path, "d2.zip", shifted("disaggregated", date(2017, 7, 1)))
+    with pytest.raises(ResearchRefused, match="report_day_invalid"):
+        parse_year(leg2, dis2, 2017)
+
+
 def test_parse_refuses_disagreeing_open_interest(tmp_path: Path) -> None:
     leg = write(tmp_path, "l.zip", archive("legacy", 2022))
     dis = write(tmp_path, "d.zip", archive("disaggregated", 2022, oi_shift=1))

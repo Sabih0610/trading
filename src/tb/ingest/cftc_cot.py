@@ -116,8 +116,8 @@ def _rows(path: Path, report: Report, year: int) -> list[dict[str, Any]]:
         day = date.fromisoformat(raw[index["date"]].strip())
         if day.year != year:
             raise ResearchRefused("cftc_cot_report_outside_file_year")
-        if day.weekday() != 1:
-            raise ResearchRefused("cftc_cot_report_not_tuesday")
+        if day.weekday() not in (0, 1, 2):  # Tuesday; Monday/Wednesday in holiday weeks
+            raise ResearchRefused("cftc_cot_report_day_invalid")
         if day in seen:
             raise ResearchRefused("cftc_cot_duplicate_report")
         seen.add(day)

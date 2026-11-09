@@ -19,3 +19,10 @@ Minor: the CFTC re-publishes corrected files, so a re-download could differ from
 release. Bronze hashes freeze what we used. A 2018–19-style government shutdown delay would exceed the
 3-day slack, but no such delay occurred in 2020–2024. The 2019 shutdown only affects lookback history,
 which was public long before 2020.
+
+## Genuine-build finding (fixed)
+
+The first genuine build stopped on 2017-07-03, a **Monday** report date (the 4 July holiday week). The guard
+now accepts Monday–Wednesday report days and still refuses weekends. The "+6 days" clock stays conservative
+for shifted weeks. A regression test was added. A dry parse of all 18 real files found 469 weekly gold reports
+for 2016–2024 with no other anomaly.
