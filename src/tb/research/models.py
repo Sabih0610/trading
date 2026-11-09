@@ -44,7 +44,12 @@ class DatasetRights(PolicyModel):
     provider: str = Field(min_length=1, max_length=80)
     dataset_id: str = Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")
     instruments: tuple[
-        Symbol | SpotHistorySymbol | Literal["UST_PAR_YIELD"] | Literal["SEC_FSDS"], ...
+        Symbol
+        | SpotHistorySymbol
+        | Literal["UST_PAR_YIELD"]
+        | Literal["SEC_FSDS"]
+        | Literal["CFTC_COT_GOLD"],
+        ...,
     ]
     reviewed_at: AwareDatetime
     reviewer: str | None = None
@@ -219,6 +224,57 @@ class SecFsdsDatasetPlan(PolicyModel):
             )
         ):
             raise ResearchRefused("sec_fsds_plan_scope_or_evidence_invalid")
+        return self
+
+
+class CftcCotDatasetPlan(PolicyModel):
+    """CFTC Commitments of Traders, COMEX gold only: data-only positioning, never an execution permission."""
+
+    schema_version: Literal[1] = 1
+    dataset_id: Literal["cftc-cot-gold-2016-2024"] = "cftc-cot-gold-2016-2024"
+    source_class: Literal["licensed_historical"] = "licensed_historical"
+    provider: Literal["cftc"] = "cftc"
+    instruments: tuple[Literal["CFTC_COT_GOLD"], ...] = ("CFTC_COT_GOLD",)
+    source: Literal["https://www.cftc.gov/files/dea/history"] = (
+        "https://www.cftc.gov/files/dea/history"
+    )
+    terms_version: str = Field(min_length=10, max_length=120)
+    coverage_start: AwareDatetime = datetime(2016, 1, 1, tzinfo=UTC)
+    coverage_end: AwareDatetime = datetime(2024, 12, 31, 23, 59, 59, tzinfo=UTC)
+    acquired_at: AwareDatetime
+    rights: DatasetRights
+    retention: EvidenceLifetime
+
+    @property
+    def digest(self) -> str:
+        return digest(self.model_dump(mode="json"))
+
+    @model_validator(mode="after")
+    def coherent(self) -> Self:
+        permissions = (
+            self.rights.personal_research,
+            self.rights.research_reports,
+            *self.rights.permissions.values(),
+        )
+        if (
+            self.instruments != ("CFTC_COT_GOLD",)
+            or self.rights.provider != self.provider
+            or self.rights.dataset_id != self.dataset_id
+            or self.rights.instruments != self.instruments
+            or self.coverage_start != datetime(2016, 1, 1, tzinfo=UTC)
+            or self.coverage_end != datetime(2024, 12, 31, 23, 59, 59, tzinfo=UTC)
+            or self.coverage_end >= HOLDOUT
+            or self.acquired_at <= self.coverage_end
+            or self.retention.acquired_at != self.acquired_at
+            or self.retention.rights_digest != self.rights.digest
+            or any(
+                p.evidence_kind != "provider_terms"
+                or not p.evidence_artifact
+                or not p.evidence_artifact.startswith("work/rights/cftc-")
+                for p in permissions
+            )
+        ):
+            raise ResearchRefused("cftc_cot_plan_scope_or_evidence_invalid")
         return self
 
 

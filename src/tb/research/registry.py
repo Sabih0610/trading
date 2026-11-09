@@ -15,6 +15,7 @@ from tb.ingest.retention import require_lifetime
 from tb.ingest.rights import Usage
 from tb.research.models import (
     STORAGE_USES,
+    CftcCotDatasetPlan,
     DatasetPolicy,
     ForexDatasetPlan,
     ResearchRefused,
@@ -72,7 +73,8 @@ def authorize(
     | VisionDatasetPlan
     | ForexDatasetPlan
     | TreasuryDatasetPlan
-    | SecFsdsDatasetPlan,
+    | SecFsdsDatasetPlan
+    | CftcCotDatasetPlan,
     now: datetime,
     *,
     display: bool = False,
@@ -307,7 +309,8 @@ def declare_artifact(
     | VisionDatasetPlan
     | ForexDatasetPlan
     | TreasuryDatasetPlan
-    | SecFsdsDatasetPlan,
+    | SecFsdsDatasetPlan
+    | CftcCotDatasetPlan,
     path: Path,
     kinds: list[str],
     dependencies: list[str],
@@ -330,6 +333,7 @@ def declare_artifact(
             **({"registry_kind": "forex"} if isinstance(policy, ForexDatasetPlan) else {}),
             **({"registry_kind": "treasury"} if isinstance(policy, TreasuryDatasetPlan) else {}),
             **({"registry_kind": "sec_fsds"} if isinstance(policy, SecFsdsDatasetPlan) else {}),
+            **({"registry_kind": "cftc_cot"} if isinstance(policy, CftcCotDatasetPlan) else {}),
             "policy_digest": policy.digest,
             "path": relative,
             "sha256": None,
@@ -370,6 +374,10 @@ def inventory(root: Path, now: datetime) -> dict[str, Any]:
                 from tb.research.sec_registry import load_sec_plan
 
                 load_sec_plan(root, now)
+            elif item.get("registry_kind") == "cftc_cot":
+                from tb.research.cftc_registry import load_cftc_plan
+
+                load_cftc_plan(root, now)
             else:
                 load(root, item["dataset_id"], now)
             allowed = True
